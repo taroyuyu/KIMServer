@@ -1,0 +1,477 @@
+syntax = "proto2";
+package kakaIM.Node;
+
+//请求会话ID消息
+message RequestSessionIDMessage{
+
+}
+
+
+
+//响应会话ID消息
+message ResponseSessionIDMessage{
+    required string sessionID = 1;//会话ID
+    enum Status{
+        Success = 1;
+        ServerInterlnalError = 2;//服务器内部错误
+    }
+    required Status status = 2;//状态码
+}
+
+//登录消息
+message LoginMessage{
+    required string sessionID = 1;//会话ID
+    required string userAccount = 2;//账户
+    required string userPassword = 3;//密码
+}
+
+//响应登录消息
+message ResponseLoginMessage{
+    enum LoginState{
+        Success = 1;//登录成功
+        Failed = 2;//登录失败
+    }
+
+    enum FailureError{
+        WrongAccountOrPassword = 1;//帐号或密码错误
+        ServerInternalError = 2;//服务器内部错误
+    }
+
+    required string sessionID = 1;//会话ID
+    required LoginState loginState = 2;//登录状态
+    optional FailureError failureError = 3;//错误原因
+}
+
+//注册消息
+message RegisterMessage {
+    required string sessionID = 1; //会话ID
+    required string userAccount = 2; //账户
+    required string userPassword = 3; //密码
+    optional string userNickName = 4; //昵称
+
+    enum UserSex {
+        male = 1; //男生
+        female = 2; //女生
+        Unkown = 3; //未知
+    }
+
+    optional UserSex sex = 5 [default = Unkown]; //用户性别
+
+}
+
+//响应注册消息
+message ResponseRegisterMessage{
+    enum RegisterState{
+        Success = 1;//登录成功
+        Failed = 2;//登录失败
+    }
+
+    enum FailureError{
+        AccountAlreadyExists = 1;//帐号已经存在
+        ServerInternalError = 2;//服务器内部错误
+    }
+
+    required string sessionID = 1;//会话ID
+    required RegisterState registerState = 2;//注册状态
+    optional FailureError failureError = 3;//错误原因
+}
+
+//心跳包
+message HeartBeatMessage{
+    required string sessionID = 1;//会话ID
+    required string timestamp = 2;//时间戳
+}
+
+//响应心跳包
+message ResponseHeartBeatMessage{
+    required string sessionID = 1;//会话ID
+    required string timestamp = 2;//时间戳
+}
+
+//离线消息
+message LogoutMessage{
+    required string sessionID = 1;//会话ID
+    enum OfflineMailState{
+        Open = 1;//开启
+        Close = 2;//关闭
+    }
+    optional OfflineMailState offlineMaileState  = 2 [default = Open];//离线邮箱状态
+}
+
+//响应离线消息
+message ResponseLogoutMessage{
+    required string sessionID = 1;//会话ID
+
+    enum OfflineMailState{
+        Open = 1;//开启
+        Close = 2;//关闭
+    }
+
+    optional OfflineMailState offlineMaileState  = 2 [default = Open];//离线邮箱状态
+}
+
+//建立好友关系请求消息
+
+message BuildingRelationshipRequestMessage{
+    required string sessionID = 1;//会话ID
+    optional uint64 applicant_id = 2;//申请ID
+    required string sponsorAccount = 3;//发起者ID
+    required string targetAccount = 4;//目标用户ID
+    required string introduction = 5;//自我介绍
+    optional uint64 messageID = 6;//消息ID
+}
+
+//建立好友关系回复消息
+
+message BuildingRelationshipAnswerMessage{
+    required string sessionID = 1;//会话ID
+    required uint64 applicant_id = 2;//申请ID
+    required string targetAccount = 3;//用户ID
+    required string sponsorAccount = 4;//发起者ID
+
+    enum BuildingRelationshipAnswer{
+        Accept = 1;//接受
+        Reject = 2;//拒绝
+    }
+
+    required BuildingRelationshipAnswer answer = 5;//回复
+    optional uint64 messageID = 6;//消息ID
+}
+
+
+
+//拆除好友关系消息
+
+message DestroyingRelationshipRequestMessage{
+    required string sessionID = 1;//会话ID
+    required string sponsorAccount = 2;//发起者ID
+    required string targetAccount = 3;//用户ID
+}
+
+//拆除好友关系回复消息
+message DestoryingRelationshipResponseMessage{
+    required string sessionID = 1;//会话ID
+    required string sponsorAccount = 2;//发起者ID
+    required string targetAccount = 3;//用户ID
+
+    enum DestoryingRelationshipResponse{
+        Success = 1;//拆除成功
+        ServerInteralError = 2;//服务器内部错误
+        IllegalOperation = 3;//非法操作，对方并不是该用户的好友
+    }
+    required DestoryingRelationshipResponse response = 4;//响应
+}
+
+
+//请求好友列表消息
+message FriendListRequestMessage{
+    required string sessionID = 1;//会话ID
+
+}
+
+message FriendListItem{
+    required string friendAccount = 1;//好友ID
+}
+
+//响应好友列表请求消息
+message FriendListResponseMessage{
+    required string sessionID = 1;//会话ID
+    repeated FriendListItem friend = 2;//好友列表
+}
+
+//在线消息
+message OnlineStateMessage{
+    required string sessionID = 1;//会话ID
+    required string userAccount = 2;//用户ID
+    enum OnlineState{
+        Online = 1;//在线
+        Offline = 2;//离线
+        Invisible = 3;//隐身
+    }
+    required OnlineState userState = 3;//用户状态
+}
+
+//聊天消息
+message ChatMessage{
+    required string sessionID = 1;//会话ID
+    required string senderAccount = 2;//发送者
+    required string receiverAccount = 3;//接受者ID
+    required string content = 4;//消息内容
+    required string timestamp = 5;//时间戳
+    optional uint64 messageID = 6;//消息ID
+}
+
+//通知消息
+
+message NotificationMessage{
+    enum NotificationMessageType{
+        SystemNotificationMessageType = 1;//系统通知
+    }
+
+    required NotificationMessageType type = 1;//通知类型
+    optional uint64 messageID = 2;//消息ID
+}
+
+//拉取聊天消息
+
+message PullChatMessage{
+    required string sessionID = 1;//会话ID
+    //拉取在messageID之后的消息
+    required uint64 messageID = 2;//消息ID
+}
+
+//获取用户电子名片消息
+
+message FetchUserVCardMessage
+{
+    required string sessionID = 1;//会话ID
+    required string userID = 2;//用户ID
+}
+
+enum UserGenderType
+{
+    Male =1;//男
+    Female = 2;//女
+    Unkown = 3;//未知
+}
+
+message UserVCardResponseMessage
+{
+    required string sessionID = 1;//会话ID
+    required string userID = 2;//用户ID
+    required string nickname = 3;//昵称
+
+    required UserGenderType gender = 4;//性别
+    optional string mood = 5;//心情
+    optional bytes avator = 6;//头像
+}
+
+message UpdateUserVCardMessage
+{
+    required string sessionID = 1;//会话ID
+    optional string nickname = 2;//昵称
+    optional UserGenderType gender = 3;//性别
+    optional string mood = 4;//心情
+    optional bytes avator = 5;//头像
+}
+
+message UpdateUserVCardMessageResponse
+{
+    required string sessionID = 1;//会话ID
+
+    enum UpdateUserVCardStateType
+    {
+        Success = 1;//更新成功
+        Failure = 2;//更新失败
+    }
+
+    required UpdateUserVCardStateType state = 2;//更新操作执行结果
+}
+
+//创建聊天群
+
+message ChatGroupCreateRequest
+{
+    required string sessionID = 1;//会话ID
+    required string groupName  = 2;//群组名称
+    required string groupDescrption  = 3;//群组描述
+}
+
+message ChatGroupCreateResponse
+{
+
+    required string sessionID = 1;//会话ID
+    enum ChatGroupCreateResponseResult
+    {
+        Success = 1;//创建成功
+        Failed = 2;//创建失败
+    }
+    required ChatGroupCreateResponseResult result  = 2;//响应结果
+    optional string groupId  = 3;//群组Id
+}
+
+//解散聊天群
+
+message ChatGroupDisbandRequest
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  =2;//群组Id
+    required string operatorId  = 3;//操作员
+}
+
+message ChatGroupDisbandResponse
+{
+    required string sessionID = 1;//会话ID
+    enum ChatGroupDisbandResponseResult
+    {
+        Success = 1;//解散成功
+        Failed = 2;//解散失败
+    }
+    required string operatorId  = 2;//操作员
+    required ChatGroupDisbandResponseResult result  = 3;//响应结果
+}
+
+//加入聊天群
+message ChatGroupJoinRequest
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;//群组id
+    required string userAccount  = 3;//用户ID
+    optional string operatorId  = 4;//操作员
+    optional string introduction = 5;//自我介绍
+    optional uint64 applicant_id = 6;//申请ID
+}
+
+message ChatGroupJoinResponse
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;//群组id
+    required string userAccount  = 3;//用户ID
+    enum ChatGroupJoinResponseResult
+    {
+        Allow = 1;//成功加入聊天群
+        Reject = 2;//拒绝加入聊天群
+        ServerInternalError = 3;//服务器内部错误
+        InfomationNotMatch = 4;//信息不匹配
+        AuthorizationNotMath = 5;//权限不匹配
+    }
+    required ChatGroupJoinResponseResult result  = 4;//响应结果
+    optional uint64 applicant_id = 5;//申请ID
+    optional string operatorId  = 6;//操作员
+}
+
+//退出群组
+
+message ChatGroupQuitRequest
+{
+    required string sessionID = 1;//会话ID
+    required string userAccount  = 2;//待退出的用户
+    required string groupId  = 3;//群组id
+    optional string operatorId  = 4;//操作员
+}
+
+message ChatGroupQuitResponse
+{
+    required string sessionID = 1;//会话ID
+    required string userAccount  = 2;//用户Id
+    required string groupId  = 3;//群组id
+    enum ChatGroupQuitResponseResult
+    {
+        Success = 1;//退出群组成功
+        Failed = 2;//退出群组失败
+    }
+    required ChatGroupQuitResponseResult result = 4;//退出操作处理结果
+    optional string operatorId = 5 ;//操作员
+}
+
+//更新群信息
+
+message UpdateChatGroupInfoRequest
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;
+    required string groupName  =3;
+    required string groupDescrption  = 4;
+}
+
+message UpdateChatGroupInfoResponse
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;
+    enum UpdateChatGroupInfoResponseResult
+    {
+        Success = 1;
+        Failed = 2;
+        ServerInternalError = 3;//服务器内部错误
+        InfomationNotMatch = 4;//信息不匹配
+        AuthorizationNotMath = 5;//权限不匹配
+    }
+    required UpdateChatGroupInfoResponseResult result  = 4;
+    optional string operator  = 3;
+}
+
+//获取群信息
+
+message FetchChatGroupInfoRequest
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;//群组Id
+}
+
+message FetchChatGroupInfoResponse
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;
+    enum FetchChatGroupInfoResponseResult
+    {
+        Success = 1;
+        Failed = 2;
+    }
+    required FetchChatGroupInfoResponseResult result  = 3;
+    optional string groupName  =4;
+    optional string groupDescrption  = 5;
+    optional string groupMaster = 6;
+}
+
+//获取群成员列表
+
+message FetchChatGroupMemberListRequest
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;//群Id
+}
+
+message FetchChatGroupMemberListResponse
+{
+    required string sessionID = 1;//会话ID
+    required string groupId  = 2;
+    enum FetchChatGroupMemberListResponseResult
+    {
+        Success = 1;
+        Failed = 2;
+    }
+    required FetchChatGroupMemberListResponseResult result  = 3;
+    message ChatGroupMemberInfo
+    {
+        required string userAccount  = 1;
+        optional string groupNickName  = 2;
+    }
+    repeated ChatGroupMemberInfo groupMember  = 4;
+}
+
+//获取用户所加入的群组
+
+message FetchChatGroupListRequest
+{
+    required string sessionID = 1;//会话ID
+}
+message FetchChatGroupListResponse
+{
+    required string sessionID = 1;//会话ID
+    message GroupInfo
+    {
+        required string groupId  = 1;
+        required string groupName  = 2;
+    }
+    repeated GroupInfo group  = 2;
+}
+
+
+//群消息
+message GroupChatMessage
+{
+    required string sessionID = 1;//会话ID
+    required string sender  = 2;//发送者账号
+    required string groupId  = 3;//群ID
+    required string content  = 4;//消息内容
+    optional uint64 msgId = 5;//消息Id
+}
+
+//拉取群消息
+message PullGroupChatMessage
+{
+    required string sessionID = 1;//会话ID
+    required string groupID = 2;//群ID
+    //拉取在messageID之后的消息
+    required uint64 messageID = 3;//消息ID
+}

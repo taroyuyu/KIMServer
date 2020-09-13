@@ -1,0 +1,81 @@
+syntax = "proto2";
+package kakaIM.president;
+
+//请求加入集群消息
+message RequestJoinClusterMessage {
+    required string serverID = 1; //服务器ID
+    required string invitationCode = 2; //邀请码，防止第三方服务器加入集群
+    required float Longitude = 3;//经度
+    required float latitude = 4;//纬度
+}
+
+//响应加入集群消息
+message ResponseJoinClusterMessage {
+    enum JoinResult {
+        Success = 1; //加入集群成功
+        Failure = 2; //加入集群失败
+    }
+    required JoinResult result = 1;
+}
+
+//心跳包
+message HeartBeatMessage {
+    required string serverID = 1; //服务器ID
+    required string timestamp = 2; //时间戳
+}
+
+//响应心跳包
+message ResponseHeartBeatMessage {
+    required string timestamp = 2; //时间戳
+}
+
+//节点脱离消息
+message NodeSecessionMessage{
+    required string serverID = 1;
+}
+
+//用户在线状态信息
+message UserOnlineStateMessage {
+    required string serverID = 1;
+    required string userAccount = 2; //用户ID
+    enum OnlineState {
+        Online = 1;//在线
+        Offline = 2; //离线
+        Invisible = 3; //隐身
+    }
+    required OnlineState userState = 3; //用户状态
+}
+
+//更新用户在线状态信息
+message UpdateUserOnlineStateMessage {
+    repeated UserOnlineStateMessage userOnlineState = 1; //用户在线状态
+}
+
+//服务器之间的通用消息
+message ServerMessage {
+    required string serverID = 1; //服务器ID
+    required string messageType = 2; //消息类型
+    required bytes content = 3; //消息内容
+    required string targetUser = 4;//目标用户
+}
+
+//获取messageID请求
+message RequestMessageIDMessage {
+    required string userAccount = 1;//用户账号
+    required string serverID = 2;//服务器ID
+    required bytes requestID = 3;//请求ID
+}
+
+//messageID请求的想要
+message ResponseMessageIDMessage{
+    required string userAccount = 1;//用户账号
+    required uint64 messageID = 2;//消息ID
+    required bytes requestID = 3;//请求ID
+}
+
+//节点负载信息
+message NodeLoadInfoMessage{
+    required uint64 connectionCount = 1;//当前连接数
+    required float cpuUsage = 2;//CPU利用率
+    required float memUsage = 3;//内存使用率
+}

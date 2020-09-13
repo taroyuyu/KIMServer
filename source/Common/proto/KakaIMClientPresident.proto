@@ -1,0 +1,26 @@
+syntax = "proto2";
+package kakaIM.president;
+
+//请求登陆Node
+message RequestNodeMessage{
+    required string userAccount = 1;
+    required float Longitude = 2;//经度
+    required float latitude = 3;//纬度
+}
+
+
+message NodeInfo{
+    required string ip_addr = 1;//IP地址
+    optional int32 port = 2;//端口号
+}
+
+//响应登陆Node
+message ResponseNodeMessage{
+    repeated NodeInfo node = 1;
+    enum Error{
+        ServerInternalError = 1;// 服务器内部错误
+    }
+    optional Error errorType = 2;
+}
+
+
