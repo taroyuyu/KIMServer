@@ -11,6 +11,7 @@
 #include <list>
 #include <mutex>
 #include <memory>
+#include <functional>
 #include "../../KIMModule.h"
 #include "../Buffer/CircleBuffer.h"
 #include "../TCPSocket/TCPServerSocket.h"
