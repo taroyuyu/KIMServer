@@ -245,6 +245,19 @@ namespace kakaIM {
             }
         }
 
+        void ClusterManagerModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            if (RequestJoinClusterMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (HeartBeatMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
+
         void ClusterManagerModule::addRequestJoinClusterMessage(std::unique_ptr<RequestJoinClusterMessage> message,
                                                                 const std::string connectionIdentifier) {
             if (!message) {
