@@ -89,15 +89,6 @@ namespace kakaIM {
             }
         }
 
-        void MessageIDGenerateModule::addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message,
-                                                                 const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
         void MessageIDGenerateModule::handleRequestMessageIDMessage(const RequestMessageIDMessage &message,
                                                                     const std::string connectionIdentifier) {
 

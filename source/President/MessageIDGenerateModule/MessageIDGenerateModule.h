@@ -31,9 +31,6 @@ namespace kakaIM {
 
             void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
 
-            void
-            addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message, const std::string connectionIdentifier);
-
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
