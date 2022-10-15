@@ -55,12 +55,12 @@ namespace kakaIM {
                     needSleep = false;
                 }
 
-                if (auto event = this->mEventQueue.try_pop()){
+                if (auto event = this->mEventQueue.try_pop()) {
                     this->dispatchClusterEvent(*event);
                     needSleep = false;
                 }
 
-                if (needSleep){
+                if (needSleep) {
                     std::this_thread::yield();
                 }
             }
@@ -73,11 +73,12 @@ namespace kakaIM {
             }
         }
 
-        void UserStateManagerModule::shouldStop(){
+        void UserStateManagerModule::shouldStop() {
             this->m_needStop = true;
         }
 
-        void UserStateManagerModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+        void UserStateManagerModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             std::string messageType = task.first->GetTypeName();
             if (messageType == UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
                 this->handleUpdateUserOnlineStateMessage(
@@ -92,7 +93,7 @@ namespace kakaIM {
             }
         }
 
-        void UserStateManagerModule::dispatchClusterEvent(ClusterEvent & event){
+        void UserStateManagerModule::dispatchClusterEvent(ClusterEvent &event) {
             switch (event.getEventType()) {
                 case ClusterEvent::NewNodeJoinedCluster: {
                     this->handleNewNodeJoinedClusterEvent(event);
@@ -149,16 +150,19 @@ namespace kakaIM {
                     }
                 }
             } else {
-                LOG4CXX_ERROR(this->logger, __FUNCTION__ << " 无法将用户在线状态推送到Server,由于缺少connectionOperationService");
+                LOG4CXX_ERROR(this->logger,
+                              __FUNCTION__ << " 无法将用户在线状态推送到Server,由于缺少connectionOperationService");
             }
         }
 
         void UserStateManagerModule::handleNewNodeJoinedClusterEvent(const ClusterEvent &event) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             //向新节点推送当前集群的用户在线状态
             UpdateUserOnlineStateMessage updateUserOnlineStateMessage;
-            for(auto loginSetIt = this->mUserOnlineStateDB.begin(); loginSetIt != this->mUserOnlineStateDB.end();++loginSetIt){
-                for (auto loginNodeIt = loginSetIt->second.begin(); loginNodeIt != loginSetIt->second.end();++loginNodeIt){
+            for (auto loginSetIt = this->mUserOnlineStateDB.begin();
+                 loginSetIt != this->mUserOnlineStateDB.end(); ++loginSetIt) {
+                for (auto loginNodeIt = loginSetIt->second.begin();
+                     loginNodeIt != loginSetIt->second.end(); ++loginNodeIt) {
                     auto userOnlineState = updateUserOnlineStateMessage.add_useronlinestate();
                     userOnlineState->set_useraccount(loginSetIt->first);
                     userOnlineState->set_serverid(loginNodeIt->first);
@@ -167,15 +171,17 @@ namespace kakaIM {
             }
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto serverManagerService = this->mServerManageServicePtr.lock();
-            if(!serverManagerService || !connectionOperationService){
-                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 无法向新节点:"<<event.getTargetServerID()<<" 推送用户在线状态,由于缺少connectionOperationService或serverManagerService");
+            if (!serverManagerService || !connectionOperationService) {
+                LOG4CXX_ERROR(this->logger, __FUNCTION__ << " 无法向新节点:" << event.getTargetServerID()
+                                                         << " 推送用户在线状态,由于缺少connectionOperationService或serverManagerService");
                 return;
             }
 
             try {
                 auto node = serverManagerService->getNode(event.getTargetServerID());
-                connectionOperationService->sendMessageThroughConnection(node.getServerConnectionIdentifier(),updateUserOnlineStateMessage);
-            }catch (ServerManageService::NodeNotExitException & exception){
+                connectionOperationService->sendMessageThroughConnection(node.getServerConnectionIdentifier(),
+                                                                         updateUserOnlineStateMessage);
+            } catch (ServerManageService::NodeNotExitException &exception) {
 
             }
 
@@ -191,32 +197,23 @@ namespace kakaIM {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
-        void UserStateManagerModule::addUpdateUserOnlineStateMessage(std::unique_ptr<UpdateUserOnlineStateMessage>message,
-                                                                     const std::string connectionIdentifier) {
-        if (!message){
-            return;
-        }
-        //添加到队列中
-        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-        this->messageQueue.emplace(std::move(message), connectionIdentifier);
-        uint64_t count = 1;
-        //增加信号量
-        ::write(this->messageEventfd, &count, sizeof(count));
-
+        void
+        UserStateManagerModule::addUpdateUserOnlineStateMessage(std::unique_ptr<UpdateUserOnlineStateMessage> message,
+                                                                const std::string connectionIdentifier) {
+            if (!message) {
+                return;
+            }
+            //添加到队列中
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier)));
         }
 
         void UserStateManagerModule::addUserOnlineStateMessage(std::unique_ptr<UserOnlineStateMessage> message,
                                                                const std::string connectionIdentifier) {
-        if (!message){
-            return;
-        }
-        //添加到队列中
-        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-        this->messageQueue.emplace(std::move(message), connectionIdentifier);
-        uint64_t count = 1;
-        //增加信号量
-        ::write(this->messageEventfd, &count, sizeof(count));
-
+            if (!message) {
+                return;
+            }
+            //添加到队列中
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier)));
         }
 
         void UserStateManagerModule::addEvent(ClusterEvent event) {
@@ -234,53 +231,57 @@ namespace kakaIM {
         std::list<std::string> UserStateManagerModule::queryUserLoginServer(std::string userAccount) {
             std::list<std::string> loginServerList;
             auto userLoginSetIt = this->mUserOnlineStateDB.find(userAccount);
-            if(userLoginSetIt != this->mUserOnlineStateDB.end()){
-                for (auto itemIt = userLoginSetIt->second.begin();itemIt != userLoginSetIt->second.end(); ++itemIt) {
+            if (userLoginSetIt != this->mUserOnlineStateDB.end()) {
+                for (auto itemIt = userLoginSetIt->second.begin(); itemIt != userLoginSetIt->second.end(); ++itemIt) {
                     loginServerList.emplace_back(itemIt->first);
                 }
             }
             return loginServerList;
         }
 
-        void UserStateManagerModule::removeServer(const std::string serverID){
-            for(auto loginSetIt = this->mUserOnlineStateDB.begin();loginSetIt != this->mUserOnlineStateDB.end();++loginSetIt){
-                auto recordIt = std::find_if(loginSetIt->second.begin(),loginSetIt->second.end(),[serverID](const std::set<std::pair<std::string,UserOnlineStateMessage_OnlineState>>::value_type & item)-> bool{
+        void UserStateManagerModule::removeServer(const std::string serverID) {
+            for (auto loginSetIt = this->mUserOnlineStateDB.begin();
+                 loginSetIt != this->mUserOnlineStateDB.end(); ++loginSetIt) {
+                auto recordIt = std::find_if(loginSetIt->second.begin(), loginSetIt->second.end(), [serverID](
+                        const std::set<std::pair<std::string, UserOnlineStateMessage_OnlineState>>::value_type &item) -> bool {
                     return item.first == serverID;
                 });
 
-                if(recordIt != loginSetIt->second.end()){
+                if (recordIt != loginSetIt->second.end()) {
                     loginSetIt->second.erase(recordIt);
                 }
             }
         }
 
-        void UserStateManagerModule::updateUserOnlineState(std::string userAccount,std::string serverID,UserOnlineStateMessage_OnlineState onlineState){
+        void UserStateManagerModule::updateUserOnlineState(std::string userAccount, std::string serverID,
+                                                           UserOnlineStateMessage_OnlineState onlineState) {
             auto userLoginSetIt = this->mUserOnlineStateDB.find(userAccount);
-            if(userLoginSetIt != this->mUserOnlineStateDB.end()){
-                auto itemIt = std::find_if(userLoginSetIt->second.begin(),userLoginSetIt->second.end(),[userAccount](const std::set<std::pair<std::string,UserOnlineStateMessage_OnlineState>>::value_type & item)->bool {
-                    if(item.first == userAccount){
+            if (userLoginSetIt != this->mUserOnlineStateDB.end()) {
+                auto itemIt = std::find_if(userLoginSetIt->second.begin(), userLoginSetIt->second.end(), [userAccount](
+                        const std::set<std::pair<std::string, UserOnlineStateMessage_OnlineState>>::value_type &item) -> bool {
+                    if (item.first == userAccount) {
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
                 });
 
-                if(itemIt != userLoginSetIt->second.end()){
+                if (itemIt != userLoginSetIt->second.end()) {
 
-                    if(UserOnlineStateMessage_OnlineState_Offline == onlineState){//userAccount在serverID上的所有登陆设备全部下线
+                    if (UserOnlineStateMessage_OnlineState_Offline == onlineState) {//userAccount在serverID上的所有登陆设备全部下线
                         userLoginSetIt->second.erase(itemIt);
-                    }else{
+                    } else {
                         //更新userAccount在serverID上的所有登陆设备的状态
                         userLoginSetIt->second.erase(itemIt);
-                        userLoginSetIt->second.emplace(serverID,onlineState);
+                        userLoginSetIt->second.emplace(serverID, onlineState);
                     }
-                }else{
-                    userLoginSetIt->second.emplace(serverID,onlineState);
+                } else {
+                    userLoginSetIt->second.emplace(serverID, onlineState);
                 }
-            }else{
-                std::set<std::pair<std::string,UserOnlineStateMessage_OnlineState>> userLoginSet;
-                userLoginSet.emplace(serverID,onlineState);
-                this->mUserOnlineStateDB.emplace(userAccount,userLoginSet);
+            } else {
+                std::set<std::pair<std::string, UserOnlineStateMessage_OnlineState>> userLoginSet;
+                userLoginSet.emplace(serverID, onlineState);
+                this->mUserOnlineStateDB.emplace(userAccount, userLoginSet);
 
             }
         }
