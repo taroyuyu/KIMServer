@@ -72,7 +72,7 @@ namespace kakaIM {
                 this->m_statusCV.notify_all();
             }
 
-            while (this->m_isStarted) {
+            while (not this->m_needStop) {
                 int const kHandleEventMaxCountPerLoop = 2;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
 
