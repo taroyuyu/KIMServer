@@ -136,11 +136,7 @@ namespace kakaIM {
             std::unique_ptr<::google::protobuf::Message> messageDuplicate(message.New());
             messageDuplicate->CopyFrom(message);
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->mMessageQueueMutex);
-            this->mMessageQueue.emplace(std::make_pair(userAccount, std::move(messageDuplicate)));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(userAccount,std::move(messageDuplicate))));
         }
 
         void

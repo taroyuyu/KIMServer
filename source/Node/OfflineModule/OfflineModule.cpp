@@ -147,14 +147,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            const uint64_t count = 1;
-            //增加信号量
-            if (8 != ::write(this->messageEventfd, &count, sizeof(count))) {
-                LOG4CXX_WARN(this->logger,
-                             typeid(this).name() << "" << __FUNCTION__ << " 增加信号量失败，errno =" << errno);
-            }
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
         }
 
         void OfflineModule::addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
@@ -163,11 +156,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
         }
 
 

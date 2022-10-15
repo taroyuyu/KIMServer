@@ -264,7 +264,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
         }
 
         void GroupChatModule::handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,
