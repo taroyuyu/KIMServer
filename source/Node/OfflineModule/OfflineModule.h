@@ -37,11 +37,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
 
-            void addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message, const std::string connectionIdentifier);
-
-            void addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
-                                         const std::string connectionIdentifier);
-
             /**
              * 将消息持久化
              * @param message 待持久化的消息

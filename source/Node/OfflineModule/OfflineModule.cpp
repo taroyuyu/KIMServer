@@ -153,24 +153,6 @@ namespace kakaIM {
                 this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
             }
         }
-        void OfflineModule::addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message,
-                                               const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void OfflineModule::addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
-                                                    const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
 
         void OfflineModule::persistChatMessage(std::string userAccount, const kakaIM::Node::ChatMessage &message,
                                                const uint64_t messageID) {
