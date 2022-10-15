@@ -67,26 +67,10 @@ namespace kakaIM {
             }
 
             while (not this->m_needStop) {
-                uint64_t count;
-                if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                    while (count-- && false == this->messageQueue.empty()) {
-                        this->messageQueueMutex.lock();
-                        auto pairIt = std::move(this->messageQueue.front());
-                        this->messageQueue.pop();
-                        this->messageQueueMutex.unlock();
-
-                        auto messageType = pairIt.first->GetTypeName();
-                        if (messageType == kakaIM::Node::LoginMessage::default_instance().GetTypeName()) {
-                            handleLoginMessage(*(kakaIM::Node::LoginMessage *) pairIt.first.get(), pairIt.second);
-                        } else if (messageType == kakaIM::Node::RegisterMessage::default_instance().GetTypeName()) {
-                            handleRegisterMessage(*(kakaIM::Node::RegisterMessage *) pairIt.first.get(), pairIt.second);
-                        }
-                    }
-
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
                 } else {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << "read(messageEventfd)操作出错，errno ="
-                                                     << errno);
+                    std::this_thread::yield();
                 }
             }
             this->m_needStop = false;
@@ -99,6 +83,15 @@ namespace kakaIM {
 
         void AuthenticationModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void AuthenticationModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+            auto messageType = task.first->GetTypeName();
+            if (messageType == kakaIM::Node::LoginMessage::default_instance().GetTypeName()) {
+                handleLoginMessage(*(kakaIM::Node::LoginMessage *) task.first.get(), task.second);
+            } else if (messageType == kakaIM::Node::RegisterMessage::default_instance().GetTypeName()) {
+                handleRegisterMessage(*(kakaIM::Node::RegisterMessage *) task.first.get(), task.second);
+            }
         }
 
         void AuthenticationModule::authenticationRPCListenerWork() {
