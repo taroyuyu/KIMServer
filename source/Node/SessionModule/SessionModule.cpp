@@ -120,6 +120,19 @@ namespace kakaIM {
             }
         }
 
+        void SessionModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message){
+                return;
+            }
+            if (kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::LogoutMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
+
         void SessionModule::addSessionIDRequesMessage(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> message,
                                                       const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
