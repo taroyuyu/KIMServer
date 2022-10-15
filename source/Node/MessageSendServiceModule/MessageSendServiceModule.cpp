@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/26.
+// Created by Kakawater on 2018/1/26.
 //
 
 #include <zconf.h>
@@ -7,6 +7,7 @@
 #include <sys/epoll.h>
 #include "MessageSendServiceModule.h"
 #include "../Log/log.h"
+#include "../../Common/proto/MessageCluster.pb.h"
 
 namespace kakaIM {
     namespace node {
@@ -101,7 +102,13 @@ namespace kakaIM {
                                     this->mMessageQueue.pop();
                                     this->mMessageQueueMutex.unlock();
 
-                                    this->handleMessageForSend(pairIt.first, *pairIt.second.get());
+				    auto messageType = (*pairIt.second).GetTypeName();
+
+                                    if (messageType == kakaIM::president::SessionMessage::default_instance().GetTypeName()){
+                                        this->handleSessionMessage(*((kakaIM::president::SessionMessage*)pairIt.second.get()));
+                                    }else{
+                                        this->handleMessageForSend(pairIt.first, *pairIt.second.get());
+                                    }
                                 }
 
                             } else {
@@ -139,6 +146,20 @@ namespace kakaIM {
             ::write(this->messageEventfd, &count, sizeof(count));
         }
 
+	void
+        MessageSendServiceModule::sendMessageToSession(const std::string &serverID,const std::string & sessionID, const ::google::protobuf::Message &message){
+            kakaIM::president::SessionMessage * sessionMessage = new kakaIM::president::SessionMessage();
+            sessionMessage->set_targetserverid(serverID);
+            sessionMessage->set_targetsessionid(sessionID);
+            sessionMessage->set_messagetype(message.GetTypeName());
+            sessionMessage->set_content(message.SerializeAsString());
+            //添加到队列中
+            std::lock_guard<std::mutex> lock(this->mMessageQueueMutex);
+            this->mMessageQueue.emplace(std::make_pair(serverID, sessionMessage));
+            uint64_t count = 1;
+            //增加信号量
+            ::write(this->messageEventfd, &count, sizeof(count));
+        }
         void MessageSendServiceModule::didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage){
             std::lock_guard<std::mutex> lock(this->mServerMessageQueueMutex);
             this->mServerMessageQueue.emplace(new kakaIM::president::ServerMessage(serverMessage));
@@ -199,6 +220,35 @@ namespace kakaIM {
             }
         }
 
+	void MessageSendServiceModule::handleSessionMessage(kakaIM::president::SessionMessage & sessionMessage){
+            auto clusterService = this->mClusterServicePtr.lock();
+            auto connectionOperationService = this->connectionOperationServicePtr.lock();
+            auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
+            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService)) {
+                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 无法工作，由于缺少connectionOperationService或者clusterService、queryConnectionWithSessionService")
+                return;
+            }
+
+            if (sessionMessage.targetserverid() == clusterService->getServerID()){
+                auto descriptor = ::google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(sessionMessage.GetTypeName());
+                if(nullptr == descriptor){//不存在此消息类型
+                    return;
+                }
+                ::google::protobuf::Message * message = ::google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor)->New();
+                message->ParseFromString(sessionMessage.content());
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(sessionMessage.targetsessionid());
+                if (!deviceConnectionIdentifier.empty()) {
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,*message);
+                }
+            }else{
+                kakaIM::president::ServerMessage serverMessage;
+                serverMessage.set_messagetype(sessionMessage.GetTypeName());
+                serverMessage.set_content(sessionMessage.SerializeAsString());
+                serverMessage.set_targetuser(sessionMessage.targetserverid());
+                clusterService->sendServerMessage(serverMessage);
+            }
+        }
+/*8
         void MessageSendServiceModule::handleServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage){
             //1.根据messageType创建消息，并进行反序列化
             const std::string messageType = serverMessage.messagetype();
@@ -250,5 +300,90 @@ namespace kakaIM {
                 }
             }
         }
+*/
+        void MessageSendServiceModule::handleServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage) {
+            auto clusterService = this->mClusterServicePtr.lock();
+            auto connectionOperationService = this->connectionOperationServicePtr.lock();
+            auto loginDeviceQueryService = this->mLoginDeviceQueryServicePtr.lock();
+            auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
+            if (!(clusterService && connectionOperationService && loginDeviceQueryService &&
+                  queryConnectionWithSessionService)) {
+                LOG4CXX_ERROR(this->logger, __FUNCTION__
+                        << " 无法工作，由于缺少clusterService、connectionOperationService、loginDeviceQueryService、或者、ueryConnectionWithSessionService")
+                return;
+            }
+            //1.根据messageType创建消息，并进行反序列化
+            const std::string messageType = serverMessage.messagetype();
+            auto descriptor = ::google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(messageType);
+            if (nullptr == descriptor) {//不存在此消息类型
+                LOG4CXX_ERROR(this->logger, __FUNCTION__ << " 无法对" << messageType << "类型的消息进行反序列化");
+                return;
+            }
+
+            if (messageType == kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
+                kakaIM::president::SessionMessage sessionMessage;
+                sessionMessage.ParseFromString(serverMessage.content());
+                if (sessionMessage.targetserverid() != clusterService->getServerID()) {
+                    return;
+                }
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        sessionMessage.targetsessionid());
+                if (!deviceConnectionIdentifier.empty()) {
+                    auto descriptor = ::google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(
+                            sessionMessage.messagetype());
+                    std::unique_ptr<::google::protobuf::Message> message(
+                            ::google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor)->New());
+                    message->ParseFromString(sessionMessage.content());
+                    message->GetReflection()->SetString(message.get(), message->GetDescriptor()->FindFieldByName("sessionID"),
+                                                       sessionMessage.targetsessionid());
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,*message.get());
+                }
+            } else {
+
+                std::unique_ptr<::google::protobuf::Message> message(
+                        ::google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor)->New());
+                message->ParseFromString(serverMessage.content());
+                if (!message->IsInitialized()) {
+                    LOG4CXX_ERROR(this->logger, __FUNCTION__ << " " << messageType << "消息 未初始化完成");
+                    return;
+                }
+
+                //2.根据targetUser,将消息发送给位于当前Node上的用户
+                const std::string targetUser = serverMessage.targetuser();
+                if (!loginDeviceQueryService || !queryConnectionWithSessionService) {
+                    LOG4CXX_ERROR(this->logger, __FUNCTION__
+                            << " 无法工作，由于缺少loginDeviceQueryService或者queryConnectionWithSessionService")
+                    return;
+                }
+
+                auto itPair = loginDeviceQueryService->queryLoginDeviceSetWithUserAccount(targetUser);
+
+                if (itPair.first != itPair.second) {
+
+                    for (auto loginDeviceIt = itPair.first; loginDeviceIt != itPair.second; ++loginDeviceIt) {
+                        //1.发送消息
+                        if (kakaIM::Node::OnlineStateMessage_OnlineState_Online == loginDeviceIt->second ||
+                            kakaIM::Node::OnlineStateMessage_OnlineState_Invisible || loginDeviceIt->second) {
+                            if (loginDeviceIt->first.first ==
+                                LoginDeviceQueryService::IDType_SessionID) {//设备是在此Server上登陆的
+
+                                const std::string sessionID = loginDeviceIt->first.second;
+                                auto fieldPtr = message->GetDescriptor()->FindFieldByName("sessionID");
+                                if (fieldPtr) {
+                                    message->GetReflection()->SetString(message.get(), fieldPtr, sessionID);
+                                }
+                                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                                        sessionID);
+                                if (!deviceConnectionIdentifier.empty()) {
+                                        connectionOperationService->sendMessageThroughConnection(
+                                                deviceConnectionIdentifier, *message.get());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

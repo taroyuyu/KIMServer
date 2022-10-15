@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/17.
+// Created by Kakawater on 2018/1/17.
 //
 
 #include <zconf.h>
@@ -98,7 +98,7 @@ namespace kakaIM {
                 return false;
             } else
                 //若是请求SessionID则直接放行通过
-            if (message.GetTypeName() == kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
+            if (message.GetTypeName() == kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName() || message.GetTypeName() == kakaIM::Node::RegisterMessage::default_instance().GetTypeName()) {
                 return true;
             } else {//其余消息
                 //1.获取sessionID
@@ -135,28 +135,31 @@ namespace kakaIM {
             }
         }
 
-        void SessionModule::addSessionIDRequesMessage(const kakaIM::Node::RequestSessionIDMessage &message,
+        void SessionModule::addSessionIDRequesMessage(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> message,
                                                       const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> requestSessionIDMessage(
-                    new kakaIM::Node::RequestSessionIDMessage(message));
+            if (!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
             this->messageQueue.emplace(
-                    std::move(requestSessionIDMessage), connectionIdentifier);
+                    std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
         }
 
-        void SessionModule::addLogoutMessage(const kakaIM::Node::LogoutMessage &message,
+        void SessionModule::addLogoutMessage(std::unique_ptr<kakaIM::Node::LogoutMessage> message,
                                              const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            std::unique_ptr<kakaIM::Node::LogoutMessage> logoutMessage(new kakaIM::Node::LogoutMessage(message));
+            if (!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
             this->messageQueue.emplace(
-                    std::move(logoutMessage), connectionIdentifier);
+                    std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));

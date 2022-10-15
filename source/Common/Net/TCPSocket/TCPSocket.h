@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/3.
+// Created by Kakawater on 2018/1/3.
 //
 
 #ifndef KAKAIMCLUSTER_TCPSOCKET_H

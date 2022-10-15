@@ -1,25 +1,24 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #include <zconf.h>
 #include "AuthenticationModule.h"
 #include <sys/eventfd.h>
+#include "../../Common/proto/KakaIMRPC.pb.h"
 #include "../../Common/EventBus/EventBus.h"
 #include "../Log/log.h"
-
 namespace kakaIM {
     namespace node {
-        AuthenticationModule::AuthenticationModule() : messageEventfd(-1), m_dbConnection(nullptr) {
+        AuthenticationModule::AuthenticationModule() : messageEventfd(-1) {
             this->logger = log4cxx::Logger::getLogger(AuthenticationModuleLogger);
         }
 
         AuthenticationModule::~AuthenticationModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
-            if (this->m_dbConnection && this->m_dbConnection->is_open()) {
-                this->m_dbConnection->disconnect();
+            while (this->mDBConnectionPool.size()){
+                auto dbConnection = std::move(this->mDBConnectionPool.front());
+                this->mDBConnectionPool.pop();
+                dbConnection->disconnect();
             }
         }
 
@@ -29,6 +28,9 @@ namespace kakaIM {
             if (this->messageEventfd < 0) {
                 return false;
             }
+
+            //创建AMQP信道
+            this->mAmqpChannel = AmqpClient::Channel::Create("111.230.5.199",5672,"kakaIM-node","kakaIM-node_aixocm","KakaIM");
             return true;
         }
 
@@ -39,6 +41,20 @@ namespace kakaIM {
         void AuthenticationModule::setConnectionOperationService(
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
+        }
+
+	void AuthenticationModule::start() {
+            if (false == this->m_isStarted){
+                this->m_isStarted = true;
+                this->m_workThread = std::move(std::thread([this](){
+                    this->execute();
+                    this->m_isStarted = false;
+                }));
+                this->mAuthenticationRPCWorkThread = std::move(std::thread([this](){
+		    this->authenticationRPCListenerWork();
+                    this->m_isStarted = false;
+                }));
+            }
         }
 
         void AuthenticationModule::execute() {
@@ -67,52 +83,90 @@ namespace kakaIM {
             }
         }
 
+        void AuthenticationModule::authenticationRPCListenerWork(){
+            //配置AMQP信道
+            this->mAmqpChannel->DeclareExchange("KakaIMRPC");
+	    this->mAmqpChannel->DeclareQueue("KakaIMUserAuthentication",false,false,false,true);
+            this->mAmqpChannel->BindQueue("KakaIMUserAuthentication","KakaIMRPC","KakaIMUserAuthentication");
+            std::string consumer_tag = this->mAmqpChannel->BasicConsume("KakaIMUserAuthentication","",true,false,false,1);
+            while (this->m_isStarted){
+                AmqpClient::Envelope::ptr_t envelope = this->mAmqpChannel->BasicConsumeMessage(consumer_tag);
+		LOG4CXX_DEBUG(this->logger,typeid(this).name() << "" << __FUNCTION__ );
+                rpc::AuthenticationRequest authenticationRequest;
+                authenticationRequest.ParseFromString(envelope->Message()->Body());
+                rpc::AuthenticationResponse authenticationResponse;
+                authenticationResponse.set_useraccount(authenticationRequest.useraccount());
+                if(authenticationRequest.IsInitialized()){
+		    LOG4CXX_DEBUG(this->logger,typeid(this).name() << "" << __FUNCTION__<<" 消息格式正确" );
+                    this->mAmqpChannel->BasicAck(envelope);
+                    switch (this->verifyUser(authenticationRequest.useraccount(),authenticationRequest.userpassword())){
+                        case VerifyUserResult_DBConnectionNotExit:
+                        case VerifyUserResult_InteralError:{
+                            authenticationResponse.set_status(kakaIM::rpc::AuthenticationResponse::Failed);
+                            authenticationResponse.set_failureerror(kakaIM::rpc::AuthenticationResponse_FailureType_ServerInternalError);
+                        }
+                            break;
+                        case VerifyUserResult_True:{
+                            authenticationResponse.set_status(kakaIM::rpc::AuthenticationResponse::Success);
+                        }
+                            break;
+                        case VerifyUserResult_False:{
+                            authenticationResponse.set_status(kakaIM::rpc::AuthenticationResponse::Failed);
+                            authenticationResponse.set_failureerror(kakaIM::rpc::AuthenticationResponse_FailureType_WrongAccountOrPassword);
+                        }
+                            break;
+                    }
+                    AmqpClient::BasicMessage::ptr_t answerMessage = AmqpClient::BasicMessage::Create(authenticationResponse.SerializeAsString());
+                    answerMessage->ReplyTo(envelope->Message()->ReplyTo());
+                    answerMessage->CorrelationId(envelope->Message()->CorrelationId());
+                    this->mAmqpChannel->BasicPublish("KakaIMRPC",envelope->Message()->ReplyTo(),answerMessage);
+                }else{
+		    LOG4CXX_DEBUG(this->logger,typeid(this).name() << "" << __FUNCTION__<<" 消息格式不正确" );
+                    this->mAmqpChannel->BasicReject(envelope,false);
+                }
+            }
+        }
+
         void
-        AuthenticationModule::addLoginMessage(const kakaIM::Node::LoginMessage &message,
+        AuthenticationModule::addLoginMessage(std::unique_ptr<kakaIM::Node::LoginMessage> message,
                                               const std::string connectionIdentifier) {
-            std::unique_ptr<kakaIM::Node::LoginMessage> loginMessage(new kakaIM::Node::LoginMessage(message));
+            if(!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(loginMessage), connectionIdentifier);
+            this->messageQueue.emplace(std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
         }
 
-        void AuthenticationModule::addRegisterMessage(const kakaIM::Node::RegisterMessage &message,
+        void AuthenticationModule::addRegisterMessage(std::unique_ptr<kakaIM::Node::RegisterMessage> message,
                                                       const std::string connectionIdentifier) {
-            std::unique_ptr<kakaIM::Node::RegisterMessage> registerMessage(new kakaIM::Node::RegisterMessage(message));
+            if (!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(registerMessage), connectionIdentifier);
+            this->messageQueue.emplace(std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
         }
 
-        void AuthenticationModule::handleLoginMessage(const kakaIM::Node::LoginMessage &loginMessage,
-                                                      const std::string connectionIdentifier) {
+        AuthenticationModule::VerifyUserResult AuthenticationModule::verifyUser(const std::string userAccount,const std::string userPassword){
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            kakaIM::Node::ResponseLoginMessage responseLoginMessage;
 
-            responseLoginMessage.set_sessionid(loginMessage.sessionid());
-
-            auto dbConnection = this->getDBConnection();
+            auto dbConnection = std::move(this->getDBConnection());
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger,__FUNCTION__ << "获取数据库连接失败");
-                responseLoginMessage.set_loginstate(Node::ResponseLoginMessage_LoginState_Failed);
-                responseLoginMessage.set_failureerror(Node::ResponseLoginMessage_FailureError_ServerInternalError);
-                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
-                    connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseLoginMessage);
-                }else{
-                    LOG4CXX_ERROR(this->logger,__FUNCTION__ << " connectionOperationService不存在");
-                }
-                return;;
+                return VerifyUserResult_DBConnectionNotExit;
             }
 
             const std::string CheckUserSQLStatement = "CheckUserSQL";
             const std::string checkUserSQL = "SELECT account FROM \"user\" WHERE account = $1 AND password = $2 ;";
 
+            VerifyUserResult verifyResult = VerifyUserResult_InteralError;
             try {
                 //开启事务
                 pqxx::work dbWork(*dbConnection);
@@ -124,13 +178,43 @@ namespace kakaIM {
                 }
 
                 //执行
-                pqxx::result result = invocation(loginMessage.useraccount())(loginMessage.userpassword()).exec();
+                pqxx::result result = invocation(userAccount)(userPassword).exec();
+
+
+                //提交
+                dbWork.commit();
 
                 if (1 != result.size()) {//登录失败
-                    responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Failed);
-                    responseLoginMessage.set_failureerror(
-                            kakaIM::Node::ResponseLoginMessage_FailureError_WrongAccountOrPassword);
+                    verifyResult = VerifyUserResult_False;
                 } else {//登录成功
+                    verifyResult = VerifyUserResult_True;
+                }
+
+
+            } catch (const std::exception &e) {
+                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" "<<e.what());
+                verifyResult = VerifyUserResult_InteralError;
+            }
+
+            this->releaseDBConnection(std::move(dbConnection));
+            return verifyResult;
+        }
+
+        void AuthenticationModule::handleLoginMessage(const kakaIM::Node::LoginMessage &loginMessage,
+                                                      const std::string connectionIdentifier) {
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
+            kakaIM::Node::ResponseLoginMessage responseLoginMessage;
+
+            responseLoginMessage.set_sessionid(loginMessage.sessionid());
+
+            switch (this->verifyUser(loginMessage.useraccount(),loginMessage.userpassword())){
+                case VerifyUserResult_DBConnectionNotExit:
+                case VerifyUserResult_InteralError:{
+                    responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Failed);
+                    responseLoginMessage.set_failureerror(kakaIM::Node::ResponseLoginMessage_FailureError_ServerInternalError);
+                }
+                    break;
+                case VerifyUserResult_True:{
                     responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Success);
                     std::lock_guard<std::mutex> lock(this->sessionMapMutex);
                     auto expireRecordIt = this->expireSessionMap.find(loginMessage.sessionid());
@@ -139,23 +223,18 @@ namespace kakaIM {
                     }
                     //注册此Session
                     this->sessionMap.emplace(loginMessage.sessionid(),
-                                                           std::make_pair(loginMessage.useraccount(),
-                                                                          connectionIdentifier));
-
+                                             std::make_pair(loginMessage.useraccount(),
+                                                            connectionIdentifier));
                 }
-
-                //提交
-                dbWork.commit();
-
-
-            } catch (const std::exception &e) {
-                std::cerr << e.what() << std::endl;
-                responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Failed);
-                //服务器内部错误
-                responseLoginMessage.set_failureerror(kakaIM::Node::ResponseLoginMessage_FailureError_ServerInternalError);
+                    break;
+                case VerifyUserResult_False:{
+                    responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Failed);
+                    responseLoginMessage.set_failureerror(
+                            kakaIM::Node::ResponseLoginMessage_FailureError_WrongAccountOrPassword);
+                }
+                    break;
             }
 
-            //发送Response消息
             if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                 connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseLoginMessage);
             }else{
@@ -167,9 +246,7 @@ namespace kakaIM {
                                                          const std::string connectionIdentifier) {
             kakaIM::Node::ResponseRegisterMessage responseRegisterMessage;
 
-            responseRegisterMessage.set_sessionid(registerMessage.sessionid());
-
-            auto dbConnection = this->getDBConnection();
+            auto dbConnection = std::move(this->getDBConnection());
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接失败");
                 responseRegisterMessage.set_registerstate(kakaIM::Node::ResponseRegisterMessage::Failed);
@@ -181,6 +258,7 @@ namespace kakaIM {
                 }else{
                     LOG4CXX_ERROR(this->logger,__FUNCTION__ << " connectionOperationService不存在");
                 }
+                this->releaseDBConnection(std::move(dbConnection));
                 return;;
             }
 
@@ -226,6 +304,8 @@ namespace kakaIM {
                         kakaIM::Node::ResponseRegisterMessage_FailureError_ServerInternalError);
             }
             //发送Response消息
+
+            this->releaseDBConnection(std::move(dbConnection));
 
             if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                 connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseRegisterMessage);
@@ -315,34 +395,45 @@ namespace kakaIM {
             }
         }
 
-        std::shared_ptr<pqxx::connection> AuthenticationModule::getDBConnection() {
+        std::unique_ptr<pqxx::connection> AuthenticationModule::getDBConnection() {
 
-            if (this->m_dbConnection) {
-                return this->m_dbConnection;
-            }
+            std::lock_guard<std::mutex> lock(this->mDBConnectionPoolMutex);
+            if (!this->mDBConnectionPool.size()){
+                const std::string postgrelConnectionUrl =
+                        "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
+                        this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
+                        std::to_string(this->dbConfig.getPort());
 
-            const std::string postgrelConnectionUrl =
-                    "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
-                    this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                    std::to_string(this->dbConfig.getPort());
+                std::unique_ptr<pqxx::connection> dbConnection;
+                try {
 
-            try {
+                    dbConnection.reset(new pqxx::connection(postgrelConnectionUrl));
 
-                this->m_dbConnection = std::make_shared<pqxx::connection>(postgrelConnectionUrl);
+                    if (!dbConnection->is_open()) {
+                        LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
+                    }
 
-                if (!this->m_dbConnection->is_open()) {
-                    LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
+                } catch (const std::exception &exception) {
+                    LOG4CXX_FATAL(this->logger,
+                                  typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败," << exception.what());
                 }
 
-
-            } catch (const std::exception &exception) {
-
-                LOG4CXX_FATAL(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败," << exception.what());
+                return std::move(dbConnection);
+            }else{
+                auto dbConnection = std::move(this->mDBConnectionPool.front());
+                this->mDBConnectionPool.pop();
+                if (!dbConnection->is_open()){
+                    LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
+                }
+                return dbConnection;
             }
+        }
 
-            return this->m_dbConnection;
-
+        void AuthenticationModule::releaseDBConnection(std::unique_ptr<pqxx::connection> dbConnection){
+            if(dbConnection){
+                std::lock_guard<std::mutex> lock(this->mDBConnectionPoolMutex);
+                this->mDBConnectionPool.push(std::move(dbConnection));
+            }
         }
     }
 }

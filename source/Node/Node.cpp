@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #include <iostream>
@@ -32,6 +32,7 @@ namespace kakaIM {
         bool Node::init(int argc, char *argv[]) {
             std::string listen_address;
             uint16_t listen_port = 1220;
+	    std::string external_address;
             std::string database_address;
             uint16_t database_port = 0;
             std::string database_dbname;
@@ -94,6 +95,20 @@ namespace kakaIM {
                         listen_port = config["network"]["listen_port"].as<uint16_t>();
                     } catch (std::exception &exception) {
                         std::cerr << "The format of listen_port was incorrect." << std::endl;
+                        return false;
+                    }
+                }
+
+		if (config["network"]["external_address"].IsDefined()) {
+                    try {
+                        external_address = config["network"]["external_address"].as<std::string>();
+                    } catch (std::exception &exception) {
+                        std::cerr << "The format of external_address was incorrect." << std::endl;
+                        return false;
+                    }
+
+                    if (INADDR_NONE == inet_addr(external_address.c_str())) {
+                        std::cerr << "The format of external_address was incorrect." << std::endl;
                         return false;
                     }
                 }
@@ -279,9 +294,13 @@ namespace kakaIM {
             common::KIMDBConfig dbConfig(database_address, database_port, database_dbname, database_user,
                                          database_password);
 
+	    std::string serviceAddr = listen_address;
+            if (external_address.length()){
+                serviceAddr = external_address;
+            }
             //1.初始化组件
             this->mClusterModulePtr = std::make_shared<ClusterModule>(president_address, president_port, node_server_id,
-                                                                      node_invitation_code, lngLatPair);
+                                                                      node_invitation_code, lngLatPair,serviceAddr,listen_port);
             this->mMessageCenterModulePtr = std::make_shared<MessageCenterModule>(listen_address, listen_port,
                                                                                   std::make_shared<common::KakaIMMessageAdapter>(),6);
             this->mSessionModulePtr = std::make_shared<SessionModule>();
@@ -316,6 +335,7 @@ namespace kakaIM {
 
             //4.配置OnlineStateModule
             this->mOnlineStateModulePtr->setQueryUserAccountWithSessionService(mAuthenticationModulePtr);
+            this->mOnlineStateModulePtr->setUserRelationService(mRosterModulePtr);
             this->mOnlineStateModulePtr->setClusterService(mClusterModulePtr);
 
             //5.配置RosterModule
@@ -337,6 +357,7 @@ namespace kakaIM {
             this->mSingleChatModulePtr->setQueryUserAccountWithSessionService(this->mAuthenticationModulePtr);
             this->mSingleChatModulePtr->setMessagePersistenceService(this->mOfflineModulePtr);
             this->mSingleChatModulePtr->setUserRelationService(this->mRosterModulePtr);
+            this->mSingleChatModulePtr->setDBConfig(dbConfig);
 
             //8.配置OfflineModule
             this->mOfflineModulePtr->setQueryUserAccountWithSessionService(this->mAuthenticationModulePtr);
@@ -356,26 +377,25 @@ namespace kakaIM {
             //请求会话ID消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::RequestSessionIDMessage &requestSessionIDMessage = *((kakaIM::Node::RequestSessionIDMessage *) &message);
-                        this->mSessionModulePtr->addSessionIDRequesMessage(requestSessionIDMessage,
-                                                                           connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSessionModulePtr->addSessionIDRequesMessage(std::move(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage>((kakaIM::Node::RequestSessionIDMessage*)message.get())),connectionIdentifier);
+    			message.release();
                     });
 
             //登陆消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::LoginMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::LoginMessage &loginMessage = *((kakaIM::Node::LoginMessage *) &message);
-                        this->mAuthenticationModulePtr->addLoginMessage(loginMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mAuthenticationModulePtr->addLoginMessage(std::move(std::unique_ptr<kakaIM::Node::LoginMessage>((kakaIM::Node::LoginMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //注册消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::RegisterMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::RegisterMessage &registerMessage = *((kakaIM::Node::RegisterMessage *) &message);
-                        this->mAuthenticationModulePtr->addRegisterMessage(registerMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mAuthenticationModulePtr->addRegisterMessage(std::move(std::unique_ptr<kakaIM::Node::RegisterMessage>((kakaIM::Node::RegisterMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
             //离线消息
             //this->mMessageCenterModulePtr->setMessageHandler(kakaIM::Node::LogoutMessage::default_instance().GetTypeName(),[this](const ::google::protobuf::Message & message,connectionIdentifier * connectionIdentifier){
@@ -387,165 +407,232 @@ namespace kakaIM {
             //好友关系请求消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::BuildingRelationshipRequestMessage &buildingRelationshipRequestMessage = *((kakaIM::Node::BuildingRelationshipRequestMessage *) &message);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
                         this->mRosterModulePtr->addBuildingRelationshipRequestMessage(
-                                buildingRelationshipRequestMessage, connectionIdentifier);
+                                std::move(std::unique_ptr<kakaIM::Node::BuildingRelationshipRequestMessage>((kakaIM::Node::BuildingRelationshipRequestMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //建立好友关系回复消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::BuildingRelationshipAnswerMessage &buildingRelationshipAnswerMessage = *((kakaIM::Node::BuildingRelationshipAnswerMessage *) &message);
-                        this->mRosterModulePtr->addBuildingRelationshipAnswerMessage(buildingRelationshipAnswerMessage,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mRosterModulePtr->addBuildingRelationshipAnswerMessage(std::move(std::unique_ptr<kakaIM::Node::BuildingRelationshipAnswerMessage>((kakaIM::Node::BuildingRelationshipAnswerMessage*)message.get())),
                                                                                      connectionIdentifier);
+			message.release();
                     });
 
             //拆除好友关系消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::DestroyingRelationshipRequestMessage &destroyingRelationshipRequestMessage = *((kakaIM::Node::DestroyingRelationshipRequestMessage *) &message);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
                         this->mRosterModulePtr->addDestroyingRelationshipRequestMessage(
-                                destroyingRelationshipRequestMessage, connectionIdentifier);
+                                std::move(std::unique_ptr<kakaIM::Node::DestroyingRelationshipRequestMessage>((kakaIM::Node::DestroyingRelationshipRequestMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //请求好友列表消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::FriendListRequestMessage &friendListRequestMessage = *((kakaIM::Node::FriendListRequestMessage *) &message);
-                        this->mRosterModulePtr->addFriendListRequestMessage(friendListRequestMessage,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mRosterModulePtr->addFriendListRequestMessage(std::move(std::unique_ptr<kakaIM::Node::FriendListRequestMessage>((kakaIM::Node::FriendListRequestMessage*)message.get())),
                                                                             connectionIdentifier);
+			message.release();
                     });
 
             //在线消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::OnlineStateMessage &onlineStateMessage = *((kakaIM::Node::OnlineStateMessage *) &message);;
-                        this->mOnlineStateModulePtr->addOnlineStateMessage(onlineStateMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mOnlineStateModulePtr->addOnlineStateMessage(std::move(std::unique_ptr<kakaIM::Node::OnlineStateMessage>((kakaIM::Node::OnlineStateMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
             //聊天消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::ChatMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::ChatMessage &chatMessage = *((kakaIM::Node::ChatMessage *) &message);
-                        this->mSingleChatModulePtr->addChatMessage(chatMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addChatMessage(std::move(std::unique_ptr<kakaIM::Node::ChatMessage>((kakaIM::Node::ChatMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
+
+	    //视频通话请求消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatRequestMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatRequestMessage>((kakaIM::Node::VideoChatRequestMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+
+	    //视频通话请求取消消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatRequestCancelMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatRequestCancelMessage>((kakaIM::Node::VideoChatRequestCancelMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+            //视频通话回复消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatReplyMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatReplyMessage>((kakaIM::Node::VideoChatReplyMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+
+            //拉取好友状态消息
+            this->mMessageCenterModulePtr->setMessageHandler(kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName(),[this](std::unique_ptr<::google::protobuf::Message> message,const std::string connectionIdentifier){
+                this->mOnlineStateModulePtr->addPullFriendOnlineStateMessage(std::move(std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage>((kakaIM::Node::PullFriendOnlineStateMessage*)message.get())),connectionIdentifier);
+		message.release();
+            });
+
+            //视频聊天提议消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatOfferMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatOfferMessage>((kakaIM::Node::VideoChatOfferMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });            
+            //视频聊天应答消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatAnswerMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatAnswerMessage>((kakaIM::Node::VideoChatAnswerMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+	    //视频聊天协商响应消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatNegotiationResultMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatNegotiationResultMessage>((kakaIM::Node::VideoChatNegotiationResultMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+            //候选项消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatCandidateAddressMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatCandidateAddressMessage>((kakaIM::Node::VideoChatCandidateAddressMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+            //视频聊天结束消息
+            this->mMessageCenterModulePtr->setMessageHandler(
+                    kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName(),
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mSingleChatModulePtr->addVideoChatByeMessage(std::move(std::unique_ptr<kakaIM::Node::VideoChatByeMessage>((kakaIM::Node::VideoChatByeMessage*)message.get())), connectionIdentifier);
+                        message.release();
+                    });
+
 
             //拉取离线消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::PullChatMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::PullChatMessage &pullChatMessage = *((kakaIM::Node::PullChatMessage *) &message);
-                        this->mOfflineModulePtr->addPullChatMessage(pullChatMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mOfflineModulePtr->addPullChatMessage(std::move(std::unique_ptr<kakaIM::Node::PullChatMessage>((kakaIM::Node::PullChatMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //获取用户电子名片消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::FetchUserVCardMessage &fetchUserVCardMessage = *((kakaIM::Node::FetchUserVCardMessage *) &message);
-                        this->mRosterModulePtr->addFetchUserVCardMessage(fetchUserVCardMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mRosterModulePtr->addFetchUserVCardMessage(std::move(std::unique_ptr<kakaIM::Node::FetchUserVCardMessage>((kakaIM::Node::FetchUserVCardMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //更新用户电子名片消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::UpdateUserVCardMessage &updateUserVCardMessage = *((kakaIM::Node::UpdateUserVCardMessage *) &message);
-                        this->mRosterModulePtr->addUpdateUserVCardMessage(updateUserVCardMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mRosterModulePtr->addUpdateUserVCardMessage(std::move(std::unique_ptr<kakaIM::Node::UpdateUserVCardMessage>((kakaIM::Node::UpdateUserVCardMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //创建聊天群消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::ChatGroupCreateRequest &chatGroupCreateRequest = *((kakaIM::Node::ChatGroupCreateRequest *) &message);
-                        this->mGroupChatModulePtr->addChatGroupCreateRequestMessage(chatGroupCreateRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addChatGroupCreateRequestMessage(std::move(std::unique_ptr<kakaIM::Node::ChatGroupCreateRequest>((kakaIM::Node::ChatGroupCreateRequest*)message.get())),
                                                                                     connectionIdentifier);
+			message.release();
                     });
 
             //解散聊天群消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::ChatGroupDisbandRequest &chatGroupDisbandRequest = *((kakaIM::Node::ChatGroupDisbandRequest *) &message);
-                        this->mGroupChatModulePtr->addChatGroupDisbandRequestMessage(chatGroupDisbandRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addChatGroupDisbandRequestMessage(std::move(std::unique_ptr<kakaIM::Node::ChatGroupDisbandRequest>((kakaIM::Node::ChatGroupDisbandRequest*)message.get())),
                                                                                      connectionIdentifier);
+			message.release();
                     });
 
             //加入聊天群消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::ChatGroupJoinRequest &chatGroupJoinRequest = *((kakaIM::Node::ChatGroupJoinRequest *) &message);
-                        this->mGroupChatModulePtr->addChatGroupJoinRequestMessage(chatGroupJoinRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+			std::cout<<"收到一条加入聊天群申请"<<std::endl;
+                        this->mGroupChatModulePtr->addChatGroupJoinRequestMessage(std::move(std::unique_ptr<kakaIM::Node::ChatGroupJoinRequest>((kakaIM::Node::ChatGroupJoinRequest*)message.get())),
                                                                                   connectionIdentifier);
+			message.release();
                     });
 
             //聊天群申请响应消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::ChatGroupJoinResponse &chatGroupJoinResponse = *((kakaIM::Node::ChatGroupJoinResponse *) &message);
-                        this->mGroupChatModulePtr->addChatGroupJoinResponseMessage(chatGroupJoinResponse,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addChatGroupJoinResponseMessage(std::move(std::unique_ptr<kakaIM::Node::ChatGroupJoinResponse>((kakaIM::Node::ChatGroupJoinResponse*)message.get())),
                                                                                    connectionIdentifier);
+			message.release();
                     });
 
             //退出群组消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::ChatGroupQuitRequest &chatGroupQuitRequest = *((kakaIM::Node::ChatGroupQuitRequest *) &message);
-                        this->mGroupChatModulePtr->addChatGroupQuitRequestMessage(chatGroupQuitRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addChatGroupQuitRequestMessage(std::move(std::unique_ptr<kakaIM::Node::ChatGroupQuitRequest>((kakaIM::Node::ChatGroupQuitRequest*)message.get())),
                                                                                   connectionIdentifier);
+			message.release();
                     });
 
             //更新群信息消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::UpdateChatGroupInfoRequest &updateChatGroupInfoRequest = *((kakaIM::Node::UpdateChatGroupInfoRequest *) &message);
-                        this->mGroupChatModulePtr->addUpdateChatGroupInfoRequestMessage(updateChatGroupInfoRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addUpdateChatGroupInfoRequestMessage(std::move(std::unique_ptr<kakaIM::Node::UpdateChatGroupInfoRequest>((kakaIM::Node::UpdateChatGroupInfoRequest*)message.get())),
                                                                                         connectionIdentifier);
+			message.release();
                     });
 
             //获取群信息消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::FetchChatGroupInfoRequest &fetchChatGroupInfoRequest = *((kakaIM::Node::FetchChatGroupInfoRequest *) &message);
-                        this->mGroupChatModulePtr->addFetchChatGroupInfoRequestMessage(fetchChatGroupInfoRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addFetchChatGroupInfoRequestMessage(std::move(std::unique_ptr<kakaIM::Node::FetchChatGroupInfoRequest>((kakaIM::Node::FetchChatGroupInfoRequest*)message.get())),
                                                                                        connectionIdentifier);
+			message.release();
                     });
 
             //获取群成员列表消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::FetchChatGroupMemberListRequest &fetchChatGroupMemberListRequest = *((kakaIM::Node::FetchChatGroupMemberListRequest *) &message);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
                         this->mGroupChatModulePtr->addFetchChatGroupMemberListRequestMessage(
-                                fetchChatGroupMemberListRequest, connectionIdentifier);
+                                std::move(std::unique_ptr<kakaIM::Node::FetchChatGroupMemberListRequest>((kakaIM::Node::FetchChatGroupMemberListRequest*)message.get())), connectionIdentifier);
+			message.release();
                     });
 
             //获取用户所加入的群组消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::FetchChatGroupListRequest &fetchChatGroupListRequest = *((kakaIM::Node::FetchChatGroupListRequest *) &message);
-                        this->mGroupChatModulePtr->addFetchChatGroupListRequestMessage(fetchChatGroupListRequest,
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addFetchChatGroupListRequestMessage(std::move(std::unique_ptr<kakaIM::Node::FetchChatGroupListRequest>((kakaIM::Node::FetchChatGroupListRequest*)message.get())),
                                                                                        connectionIdentifier);
+			message.release();
                     });
 
             //群消息
             this->mMessageCenterModulePtr->setMessageHandler(
                     kakaIM::Node::GroupChatMessage::default_instance().GetTypeName(),
-                    [this](const ::google::protobuf::Message &message, const std::string connectionIdentifier) {
-                        kakaIM::Node::GroupChatMessage &groupChatMessage = *((kakaIM::Node::GroupChatMessage *) &message);
-                        this->mGroupChatModulePtr->addGroupChatMessage(groupChatMessage, connectionIdentifier);
+                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
+                        this->mGroupChatModulePtr->addGroupChatMessage(std::move(std::unique_ptr<kakaIM::Node::GroupChatMessage>((kakaIM::Node::GroupChatMessage*)message.get())), connectionIdentifier);
+			message.release();
                     });
             if (!this->mClusterModulePtr->init()) {
                 std::cout << "Node::" << __FUNCTION__ << "集群模块初始化失败" << std::endl;

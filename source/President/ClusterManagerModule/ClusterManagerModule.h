@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/1.
+// Created by Kakawater on 2018/1/1.
 //
 
 #ifndef KAKAIMCLUSTER_CLUSTERMANAGERMODULE_H
@@ -30,7 +30,7 @@ namespace kakaIM {
                   public net::ConnectionDelegate,
                   public ServerManageService {
         public:
-            ClusterManagerModule();
+            ClusterManagerModule(const std::string invitation_code);
 
             ~ClusterManagerModule();
 
@@ -53,10 +53,11 @@ namespace kakaIM {
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
 
-            void addRequestJoinClusterMessage(const RequestJoinClusterMessage &message, const std::string connectionIdentifier);
+            void addRequestJoinClusterMessage(std::unique_ptr<RequestJoinClusterMessage> message, const std::string connectionIdentifier);
 
-            void addHeartBeatMessage(const HeartBeatMessage &message, const std::string connectionIdentifier);
+            void addHeartBeatMessage(std::unique_ptr<HeartBeatMessage> message, const std::string connectionIdentifier);
         private:
+            const std::string invitation_code;
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
 
             int messageEventfd;

@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #ifndef KAKAIMCLUSTER_MESSAGECENTERMODULE_H
@@ -33,7 +33,7 @@ namespace kakaIM {
             virtual bool init() override;
 
             void setMessageHandler(const std::string &messageType,
-                                   std::function<void(const ::google::protobuf::Message &,
+                                   std::function<void(std::unique_ptr<::google::protobuf::Message>,
                                                       const std::string)> messageHandler);
 
             void addMessageFilster(MessageFilter *filter);
@@ -54,7 +54,7 @@ namespace kakaIM {
             std::shared_ptr<MessageCenterAdapter> mAdapater;
             std::list<MessageFilter *> messageFilterList;
             std::list<ConnectionDelegate *> connectionDelegateList;
-            std::map<const std::string, std::function<void(const ::google::protobuf::Message &,
+            std::map<const std::string, std::function<void(std::unique_ptr<::google::protobuf::Message>,
                                                            const std::string)>> messageHandler;
             net::TCPServerSocket m_serverSocket;
             int mEpollInstance;
@@ -79,7 +79,7 @@ namespace kakaIM {
 
             void readConnectionData(uint32_t connectionFD);
 
-            void dispatchMessage(int socketfd, ::google::protobuf::Message &message);
+            void dispatchMessage(int socketfd,std::unique_ptr<::google::protobuf::Message> message);
 
             void sendMessage(int socketfd, const ::google::protobuf::Message &message);
 

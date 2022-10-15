@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/11.
+// Created by Kakawater on 2018/1/11.
 //
 
 #include <fcntl.h>
@@ -105,8 +105,7 @@ namespace kakaIM {
 
         void ServerRelayModule::handleServerMessage(const ServerMessage &message, const std::string connectionIdentifier) {
             LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 正在处理"<<message.messagetype());
-            //1.根据targetUser确定所在的服务器
-            const std::string targetUser = message.targetuser();
+
             auto userStateManagerService = this->mUserStateManagerServicePtr.lock();
             auto serverManageService = this->mServerManageServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
@@ -114,8 +113,26 @@ namespace kakaIM {
             if(!userStateManagerService || !serverManageService || !connectionOperationService){
                 LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 无法处理"<<message.messagetype()<<" 由于缺少userStateManagerService、serverManageService或者 connectionOperationService");
             }
-            auto loginList = userStateManagerService->queryUserLoginServer(targetUser);
+
             ServerMessage serverMessage(message);
+
+            if (message.GetTypeName() == SessionMessage::default_instance().GetTypeName()){
+                SessionMessage sessionMessage;
+                sessionMessage.ParseFromString(message.content());
+                //1.根据targetServerID确定服务器
+                try {
+                    auto node = serverManageService->getNode(sessionMessage.targetserverid());
+                    serverMessage.set_serverid(sessionMessage.targetserverid());
+                    connectionOperationService->sendMessageThroughConnection(node.getServerConnectionIdentifier(),serverMessage);
+                }catch (ServerManageService::NodeNotExitException & exception){
+                    LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" serverID="<<sessionMessage.targetserverid()<<"不存在");
+                }
+            }else{
+
+            //1.根据targetUser确定所在的服务器
+            const std::string targetUser = message.targetuser();
+
+            auto loginList = userStateManagerService->queryUserLoginServer(targetUser);
             if(loginList.size()){//用户已经登陆了某台节点
                 for(auto loginNode : loginList){
                     if(loginNode == message.serverid()){
@@ -132,6 +149,7 @@ namespace kakaIM {
             }else{
                 LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 用户:"<<targetUser<<"当前并未登陆任何节点");
             }
+	}
         }
 
         void ServerRelayModule::handleNewNodeJoinedClusterEvent(const ClusterEvent &event) {
@@ -154,13 +172,17 @@ namespace kakaIM {
             this->mServerManageServicePtr = serverManageServicePtr;
         }
 
-        void ServerRelayModule::addServerMessage(const ServerMessage &message, const std::string connectionIdentifier) {
-            std::unique_ptr<ServerMessage> serverMessage(new ServerMessage(message));
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(serverMessage), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+        void ServerRelayModule::addServerMessage(std::unique_ptr<ServerMessage>message, const std::string connectionIdentifier) {
+        if (!message){
+            return;
+        }
+        //添加到队列中
+        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
+        this->messageQueue.emplace(std::move(message), connectionIdentifier);
+        uint64_t count = 1;
+        //增加信号量
+        ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
         void ServerRelayModule::addEvent(ClusterEvent event) {

@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/1.
+// Created by Kakawater on 2018/1/1.
 //
 
 
@@ -201,25 +201,32 @@ namespace kakaIM {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
-        void UserStateManagerModule::addUpdateUserOnlineStateMessage(const UpdateUserOnlineStateMessage &message,
+        void UserStateManagerModule::addUpdateUserOnlineStateMessage(std::unique_ptr<UpdateUserOnlineStateMessage>message,
                                                                      const std::string connectionIdentifier) {
-            std::unique_ptr<UpdateUserOnlineStateMessage> updateUserOnlineStateMessage(
-                    new UpdateUserOnlineStateMessage(message));
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(updateUserOnlineStateMessage), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+        if (!message){
+            return;
+        }
+        //添加到队列中
+        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
+        this->messageQueue.emplace(std::move(message), connectionIdentifier);
+        uint64_t count = 1;
+        //增加信号量
+        ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
-        void UserStateManagerModule::addUserOnlineStateMessage(const UserOnlineStateMessage &message,
+        void UserStateManagerModule::addUserOnlineStateMessage(std::unique_ptr<UserOnlineStateMessage> message,
                                                                const std::string connectionIdentifier) {
-            std::unique_ptr<UserOnlineStateMessage> userOnlineStateMessage(new UserOnlineStateMessage(message));
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(userOnlineStateMessage), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+        if (!message){
+            return;
+        }
+        //添加到队列中
+        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
+        this->messageQueue.emplace(std::move(message), connectionIdentifier);
+        uint64_t count = 1;
+        //增加信号量
+        ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
         void UserStateManagerModule::addEvent(ClusterEvent event) {

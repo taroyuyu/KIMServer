@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/11.
+// Created by Kakawater on 2018/1/11.
 //
 
 #ifndef KAKAIMCLUSTER_SERVERRELAYMODULE_H
@@ -32,7 +32,7 @@ namespace kakaIM {
 
             void setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr);
 
-            void addServerMessage(const ServerMessage &message, const std::string connectionIdentifier);
+            void addServerMessage(std::unique_ptr<ServerMessage> message, const std::string connectionIdentifier);
 
             void addEvent(ClusterEvent event);
 

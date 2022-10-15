@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #ifndef KAKAIMCLUSTER_ONLINESTATEMODULE_H
@@ -18,6 +18,7 @@
 #include "../Events/NodeSecessionEvent.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/LoginDeviceQueryService.h"
+#include "../Service/UserRelationService.h"
 #include "../Service/ClusterService.h"
 #include "../Service/ConnectionOperationService.h"
 
@@ -39,8 +40,13 @@ namespace kakaIM {
              * @description 添加在线状态消息
              * @param message
              */
-            void addOnlineStateMessage(const kakaIM::Node::OnlineStateMessage &message,
+            void addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
                                        const std::string connectionIdentifier);
+            /**
+              * @description 添加拉取好友在线状态消息
+              * @param message
+              */
+            void addPullFriendOnlineStateMessage(std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage> message,const std::string connectionIdentifier);
 
             /**
              * @description 获取用户状态
@@ -52,6 +58,8 @@ namespace kakaIM {
             virtual void onEvent(std::shared_ptr<const Event> event) override;
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
+
+            void setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr);
 
             void setClusterService(std::weak_ptr<ClusterService> clusterServicePtr);
 
@@ -70,6 +78,7 @@ namespace kakaIM {
         private:
             int mEpollInstance;
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
+            std::weak_ptr<UserRelationService> userRelationServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             int messageEventfd;
@@ -83,6 +92,8 @@ namespace kakaIM {
                                      const std::string connectionIdentifier);
 
             void handleOnlineMessage(const kakaIM::president::UserOnlineStateMessage &onlineStateMessage);
+
+            void handlePullFriendOnlineStateMessage(const kakaIM::Node::PullFriendOnlineStateMessage & pullFriendOnlineStateMessage,const std::string connectionIdentifier);
 
             void updateUserOnlineStateInThisNode(const std::string userAccount);
 

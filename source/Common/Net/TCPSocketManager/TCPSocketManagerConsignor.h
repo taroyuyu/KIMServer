@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/10.
+// Created by Kakawater on 2018/1/10.
 //
 
 #ifndef KAKAIMCLUSTER_TCPSOCKETMANAGERCONSIGNOR_H

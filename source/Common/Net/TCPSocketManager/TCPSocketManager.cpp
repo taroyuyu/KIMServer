@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/10.
+// Created by Kakawater on 2018/1/10.
 //
 
 #include "TCPSocketManager.h"
@@ -239,6 +239,8 @@ namespace kakaIM {
 
         void TCPSocketManager::addSocket(int socketfd, TCPSocketManagerConsignor *consignor,
                                          TCPSocketManaerAdapter *adapter) {
+            int value = 1;
+            setsockopt(socketfd, SOL_SOCKET,MSG_NOSIGNAL, &value, sizeof(value));
             if (consignor == nullptr || adapter == nullptr) {
                 std::cout << "TCPSocketManager::" << __FUNCTION__ << "consignor或adapter为nullptr" << std::endl;
                 return;

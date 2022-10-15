@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/3.
+// Created by Kakawater on 2018/1/3.
 //
 
 #include <sys/socket.h>
@@ -19,7 +19,6 @@ namespace kakaIM
             this->m_addr = addr;
             this->m_port = port;
             this->m_socketfd = socket(AF_INET, SOCK_STREAM,IPPROTO_TCP);
-
             //配置socket
             char tcpNoDelayState = 1;
             if (Off == tcpNoDelay){

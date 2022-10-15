@@ -7,6 +7,8 @@ message RequestJoinClusterMessage {
     required string invitationCode = 2; //邀请码，防止第三方服务器加入集群
     required float Longitude = 3;//经度
     required float latitude = 4;//纬度
+    required string serviceAddr = 5;//服务地址
+    required int32 servicePort = 6;//服务端口
 }
 
 //响应加入集群消息
@@ -57,6 +59,15 @@ message ServerMessage {
     required string messageType = 2; //消息类型
     required bytes content = 3; //消息内容
     required string targetUser = 4;//目标用户
+}
+
+//会话消息
+message SessionMessage{
+    required string serverID = 1; //服务器ID
+    required string targetServerID = 2;//目标服务器
+    required string targetSessionID = 3;//会话ID
+    required string messageType = 4; //消息类型
+    required bytes content = 5; //消息内容
 }
 
 //获取messageID请求

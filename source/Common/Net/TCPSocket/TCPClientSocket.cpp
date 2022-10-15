@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/3.
+// Created by Kakawater on 2018/1/3.
 //
 
 #include <netinet/in.h>
@@ -14,6 +14,8 @@ namespace kakaIM{
         TCPClientSocket::TCPClientSocket(const std::string & localAddr,const int localPort)
         {
             this->m_socketfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+            int value = 1;
+            setsockopt(this->m_socketfd, SOL_SOCKET,MSG_NOSIGNAL, &value, sizeof(value));
             if (localAddr != "" && localPort > 0){
                 sockaddr_in localAddr_in;
                 memset(&localAddr_in,0, sizeof(localAddr_in));
@@ -37,6 +39,8 @@ namespace kakaIM{
         TCPClientSocket::TCPClientSocket(const TCPClientSocket & clientSocket)
         {
             this->m_socketfd = clientSocket.m_socketfd;
+            int value = 1;
+            setsockopt(this->m_socketfd, SOL_SOCKET,MSG_NOSIGNAL, &value, sizeof(value));
         }
         TCPClientSocket::TCPClientSocket(int socketfd)
         {

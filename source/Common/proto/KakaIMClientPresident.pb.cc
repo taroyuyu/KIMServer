@@ -286,6 +286,13 @@ const RequestNodeMessage& RequestNodeMessage::default_instance() {
   return *internal_default_instance();
 }
 
+RequestNodeMessage* RequestNodeMessage::New(::google::protobuf::Arena* arena) const {
+  RequestNodeMessage* n = new RequestNodeMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RequestNodeMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.RequestNodeMessage)
@@ -296,7 +303,7 @@ void RequestNodeMessage::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    useraccount_.UnsafeMutablePointer()->clear();
+    (*useraccount_.UnsafeRawStringPointer())->clear();
   }
   if (cached_has_bits & 6u) {
     ::memset(&longitude_, 0, static_cast<size_t>(
@@ -644,6 +651,13 @@ const NodeInfo& NodeInfo::default_instance() {
   return *internal_default_instance();
 }
 
+NodeInfo* NodeInfo::New(::google::protobuf::Arena* arena) const {
+  NodeInfo* n = new NodeInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void NodeInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.NodeInfo)
@@ -654,7 +668,7 @@ void NodeInfo::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!ip_addr_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    ip_addr_.UnsafeMutablePointer()->clear();
+    (*ip_addr_.UnsafeRawStringPointer())->clear();
   }
   port_ = 0;
   _has_bits_.Clear();
@@ -940,6 +954,13 @@ const ResponseNodeMessage& ResponseNodeMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseNodeMessage* ResponseNodeMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseNodeMessage* n = new ResponseNodeMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseNodeMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.ResponseNodeMessage)
@@ -967,8 +988,7 @@ bool ResponseNodeMessage::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_node()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_node()));
         } else {
           goto handle_unusual;
         }
@@ -1025,9 +1045,7 @@ void ResponseNodeMessage::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->node_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->node(static_cast<int>(i)),
-      output);
+      1, this->node(static_cast<int>(i)), output);
   }
 
   cached_has_bits = _has_bits_[0];
@@ -1160,7 +1178,7 @@ void ResponseNodeMessage::Swap(ResponseNodeMessage* other) {
 }
 void ResponseNodeMessage::InternalSwap(ResponseNodeMessage* other) {
   using std::swap;
-  CastToBase(&node_)->InternalSwap(CastToBase(&other->node_));
+  node_.InternalSwap(&other->node_);
   swap(errortype_, other->errortype_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -1176,18 +1194,5 @@ void ResponseNodeMessage::InternalSwap(ResponseNodeMessage* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace president
 }  // namespace kakaIM
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::RequestNodeMessage* Arena::Create< ::kakaIM::president::RequestNodeMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::RequestNodeMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::NodeInfo* Arena::Create< ::kakaIM::president::NodeInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::NodeInfo >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::ResponseNodeMessage* Arena::Create< ::kakaIM::president::ResponseNodeMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::ResponseNodeMessage >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)

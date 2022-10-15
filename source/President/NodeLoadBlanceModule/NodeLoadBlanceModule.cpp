@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/3/16.
+// Created by Kakawater on 2018/3/16.
 //
 
 
@@ -61,22 +61,30 @@ namespace kakaIM {
             this->mUserStateManagerServicePtr = userStateManagerServicePtr;
         }
 
-	void NodeLoadBlanceModule::addNodeLoadInfoMessage(const NodeLoadInfoMessage & message,const std::string connectionIdentifier){
-            std::unique_ptr<NodeLoadInfoMessage> nodeLoadInfoMessage(new NodeLoadInfoMessage(message));
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(nodeLoadInfoMessage), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+	void NodeLoadBlanceModule::addNodeLoadInfoMessage(std::unique_ptr<NodeLoadInfoMessage> message,const std::string connectionIdentifier){
+        if (!message){
+            return;
+        }
+        //添加到队列中
+        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
+        this->messageQueue.emplace(std::move(message), connectionIdentifier);
+        uint64_t count = 1;
+        //增加信号量
+        ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
-        void NodeLoadBlanceModule::addRequestNodeMessage(const RequestNodeMessage & message,const std::string connectionIdentifier){
-            std::unique_ptr<RequestNodeMessage> requestNodeMessage(new RequestNodeMessage(message));
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(requestNodeMessage), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+        void NodeLoadBlanceModule::addRequestNodeMessage(std::unique_ptr<RequestNodeMessage> message,const std::string connectionIdentifier){
+        if (!message){
+            return;
+        }
+        //添加到队列中
+        std::lock_guard<std::mutex> lock(this->messageQueueMutex);
+        this->messageQueue.emplace(std::move(message), connectionIdentifier);
+        uint64_t count = 1;
+        //增加信号量
+        ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
         void NodeLoadBlanceModule::addEvent(ClusterEvent event){
@@ -221,23 +229,25 @@ namespace kakaIM {
                     connectionOperationService->sendMessageThroughConnection(connectionIdentifier,responseNodeMessage);
                     return;
                 }
-                Node loginNode = serverManageService->getNode(loginList.front());
 
-                auto node = responseNodeMessage.add_node();
-                node->set_ip_addr(loginNode.getServerIpAddress());
-                node->set_port(loginNode.getServerPort());
+                bool getNodeInfoSuccess = false;
+                try {
+                    Node loginNode = serverManageService->getNode(loginList.front());
+                    auto node = responseNodeMessage.add_node();
+                    node->set_ip_addr(loginNode.getServiceIpAddress());
+                    node->set_port(loginNode.getServicePort());
+                    getNodeInfoSuccess = true;
+                }catch (ServerManageService::NodeNotExitException & exception){
+                    getNodeInfoSuccess = false;
+                }
+                
+                if (!getNodeInfoSuccess){
+                    goto unlogin;
+                }
 
             }else{//用户当前并未登陆任何设备
-                //1.获取客户端的IP地址
-                auto pair = connectionOperationService->queryConnectionAddress(connectionIdentifier);
-
-                if(!pair.first){
-                    responseNodeMessage.set_errortype(ResponseNodeMessage_Error_ServerInternalError);
-                    connectionOperationService->sendMessageThroughConnection(connectionIdentifier,responseNodeMessage);
-                    return;
-                }
-                const std::string clientIpAddress = pair.second.first;
-                //2.获取集群中所有的节点
+unlogin:
+                //1.获取集群中所有的节点
                 auto serverManageService = this->mServerManageServicePtr.lock();
                 if(!serverManageService){
                     responseNodeMessage.set_errortype(ResponseNodeMessage_Error_ServerInternalError);
@@ -245,17 +255,18 @@ namespace kakaIM {
                     return;
                 }
                 auto nodeSet = serverManageService->getAllNodes();
-                //3、根据服务器的负载情况,筛选出正常的服务器
+                //2、根据服务器的负载情况,筛选出正常的服务器
 		for(auto nodeIt = nodeSet.begin();nodeIt != nodeSet.end();++nodeIt){
+		    std::cout<<"nodeIt->getServiceIpAddress()="<<nodeIt->getServiceIpAddress()<<std::endl;
                     auto nodeLoadInfoIt = this->nodeLoadInfoSet.find(*nodeIt);
                     if(nodeLoadInfoIt == this->nodeLoadInfoSet.end()){
                         nodeSet.erase(nodeIt);
                     }else{
                         if (nodeLoadInfoIt->second.cpuUsage > 0.9 || nodeLoadInfoIt->second.memUsage > 0.9){
                             nodeSet.erase(nodeIt);
-                        }                    }
+                        }                    
+		    }
                 }
-
                 //4、根据服务器与客户端的距离，挑选出离客户端最近的节点
                 std::list<std::pair<Node,int >> nodeList;
                     //4.1计算每个可用节点与客户端之间的距离
@@ -273,8 +284,8 @@ namespace kakaIM {
                 int i = 0;
                 for (auto it = nodeList.begin();i < 5 && it != nodeList.end();++it,++i) {
                     auto node = responseNodeMessage.add_node();
-                    node->set_ip_addr(it->first.getServerIpAddress());
-                    node->set_port(it->first.getServerPort());
+                    node->set_ip_addr(it->first.getServiceIpAddress());
+                    node->set_port(it->first.getServicePort());
                 }
             }
 

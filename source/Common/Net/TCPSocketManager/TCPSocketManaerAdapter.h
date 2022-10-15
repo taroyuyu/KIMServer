@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/31.
+// Created by Kakawater on 2018/1/31.
 //
 
 #ifndef KAKAIMCLUSTER_TCPSOCKETMANAERADAPTER_H

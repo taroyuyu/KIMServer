@@ -41,6 +41,11 @@ class ResponseHeartBeatMessageDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<ResponseHeartBeatMessage>
       _instance;
 } _ResponseHeartBeatMessage_default_instance_;
+class NodeSecessionMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<NodeSecessionMessage>
+      _instance;
+} _NodeSecessionMessage_default_instance_;
 class UserOnlineStateMessageDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<UserOnlineStateMessage>
@@ -51,16 +56,16 @@ class UpdateUserOnlineStateMessageDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<UpdateUserOnlineStateMessage>
       _instance;
 } _UpdateUserOnlineStateMessage_default_instance_;
-class NodeSecessionMessageDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<NodeSecessionMessage>
-      _instance;
-} _NodeSecessionMessage_default_instance_;
 class ServerMessageDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<ServerMessage>
       _instance;
 } _ServerMessage_default_instance_;
+class SessionMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<SessionMessage>
+      _instance;
+} _SessionMessage_default_instance_;
 class RequestMessageIDMessageDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<RequestMessageIDMessage>
@@ -163,6 +168,27 @@ void InitDefaultsResponseHeartBeatMessage() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsResponseHeartBeatMessageImpl);
 }
 
+void InitDefaultsNodeSecessionMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::president::_NodeSecessionMessage_default_instance_;
+    new (ptr) ::kakaIM::president::NodeSecessionMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::president::NodeSecessionMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsNodeSecessionMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsNodeSecessionMessageImpl);
+}
+
 void InitDefaultsUserOnlineStateMessageImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -206,27 +232,6 @@ void InitDefaultsUpdateUserOnlineStateMessage() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsUpdateUserOnlineStateMessageImpl);
 }
 
-void InitDefaultsNodeSecessionMessageImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  {
-    void* ptr = &::kakaIM::president::_NodeSecessionMessage_default_instance_;
-    new (ptr) ::kakaIM::president::NodeSecessionMessage();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::kakaIM::president::NodeSecessionMessage::InitAsDefaultInstance();
-}
-
-void InitDefaultsNodeSecessionMessage() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsNodeSecessionMessageImpl);
-}
-
 void InitDefaultsServerMessageImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -246,6 +251,27 @@ void InitDefaultsServerMessageImpl() {
 void InitDefaultsServerMessage() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsServerMessageImpl);
+}
+
+void InitDefaultsSessionMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::president::_SessionMessage_default_instance_;
+    new (ptr) ::kakaIM::president::SessionMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::president::SessionMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsSessionMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsSessionMessageImpl);
 }
 
 void InitDefaultsRequestMessageIDMessageImpl() {
@@ -311,7 +337,7 @@ void InitDefaultsNodeLoadInfoMessage() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsNodeLoadInfoMessageImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[11];
+::google::protobuf::Metadata file_level_metadata[12];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -324,10 +350,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestJoinClusterMessage, invitationcode_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestJoinClusterMessage, longitude_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestJoinClusterMessage, latitude_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestJoinClusterMessage, serviceaddr_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestJoinClusterMessage, serviceport_),
   0,
   1,
-  2,
   3,
+  4,
+  2,
+  5,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::ResponseJoinClusterMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::ResponseJoinClusterMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -351,6 +381,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::ResponseHeartBeatMessage, timestamp_),
   0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::NodeSecessionMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::NodeSecessionMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::NodeSecessionMessage, serverid_),
+  0,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::UserOnlineStateMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::UserOnlineStateMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -369,13 +406,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::UpdateUserOnlineStateMessage, useronlinestate_),
   ~0u,
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::NodeSecessionMessage, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::NodeSecessionMessage, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::NodeSecessionMessage, serverid_),
-  0,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::ServerMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::ServerMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -389,6 +419,21 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   1,
   2,
   3,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, serverid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, targetserverid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, targetsessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, messagetype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::SessionMessage, content_),
+  0,
+  1,
+  2,
+  3,
+  4,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestMessageIDMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::president::RequestMessageIDMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -424,17 +469,18 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   2,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 9, sizeof(::kakaIM::president::RequestJoinClusterMessage)},
-  { 13, 19, sizeof(::kakaIM::president::ResponseJoinClusterMessage)},
-  { 20, 27, sizeof(::kakaIM::president::HeartBeatMessage)},
-  { 29, 35, sizeof(::kakaIM::president::ResponseHeartBeatMessage)},
-  { 36, 44, sizeof(::kakaIM::president::UserOnlineStateMessage)},
-  { 47, 53, sizeof(::kakaIM::president::UpdateUserOnlineStateMessage)},
-  { 54, 60, sizeof(::kakaIM::president::NodeSecessionMessage)},
-  { 61, 70, sizeof(::kakaIM::president::ServerMessage)},
-  { 74, 82, sizeof(::kakaIM::president::RequestMessageIDMessage)},
-  { 85, 93, sizeof(::kakaIM::president::ResponseMessageIDMessage)},
-  { 96, 104, sizeof(::kakaIM::president::NodeLoadInfoMessage)},
+  { 0, 11, sizeof(::kakaIM::president::RequestJoinClusterMessage)},
+  { 17, 23, sizeof(::kakaIM::president::ResponseJoinClusterMessage)},
+  { 24, 31, sizeof(::kakaIM::president::HeartBeatMessage)},
+  { 33, 39, sizeof(::kakaIM::president::ResponseHeartBeatMessage)},
+  { 40, 46, sizeof(::kakaIM::president::NodeSecessionMessage)},
+  { 47, 55, sizeof(::kakaIM::president::UserOnlineStateMessage)},
+  { 58, 64, sizeof(::kakaIM::president::UpdateUserOnlineStateMessage)},
+  { 65, 74, sizeof(::kakaIM::president::ServerMessage)},
+  { 78, 88, sizeof(::kakaIM::president::SessionMessage)},
+  { 93, 101, sizeof(::kakaIM::president::RequestMessageIDMessage)},
+  { 104, 112, sizeof(::kakaIM::president::ResponseMessageIDMessage)},
+  { 115, 123, sizeof(::kakaIM::president::NodeLoadInfoMessage)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -442,10 +488,11 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_ResponseJoinClusterMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_HeartBeatMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_ResponseHeartBeatMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_NodeSecessionMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_UserOnlineStateMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_UpdateUserOnlineStateMessage_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_NodeSecessionMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_ServerMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_SessionMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_RequestMessageIDMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_ResponseMessageIDMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::president::_NodeLoadInfoMessage_default_instance_),
@@ -467,42 +514,47 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 11);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 12);
 }
 
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\024MessageCluster.proto\022\020kakaIM.president"
-      "\"j\n\031RequestJoinClusterMessage\022\020\n\010serverI"
-      "D\030\001 \002(\t\022\026\n\016invitationCode\030\002 \002(\t\022\021\n\tLongi"
-      "tude\030\003 \002(\002\022\020\n\010latitude\030\004 \002(\002\"\215\001\n\032Respons"
-      "eJoinClusterMessage\022G\n\006result\030\001 \002(\01627.ka"
-      "kaIM.president.ResponseJoinClusterMessag"
-      "e.JoinResult\"&\n\nJoinResult\022\013\n\007Success\020\001\022"
-      "\013\n\007Failure\020\002\"7\n\020HeartBeatMessage\022\020\n\010serv"
-      "erID\030\001 \002(\t\022\021\n\ttimestamp\030\002 \002(\t\"-\n\030Respons"
-      "eHeartBeatMessage\022\021\n\ttimestamp\030\002 \002(\t\"\277\001\n"
-      "\026UserOnlineStateMessage\022\020\n\010serverID\030\001 \002("
-      "\t\022\023\n\013userAccount\030\002 \002(\t\022G\n\tuserState\030\003 \002("
-      "\01624.kakaIM.president.UserOnlineStateMess"
-      "age.OnlineState\"5\n\013OnlineState\022\n\n\006Online"
-      "\020\001\022\013\n\007Offline\020\002\022\r\n\tInvisible\020\003\"a\n\034Update"
-      "UserOnlineStateMessage\022A\n\017userOnlineStat"
-      "e\030\001 \003(\0132(.kakaIM.president.UserOnlineSta"
-      "teMessage\"(\n\024NodeSecessionMessage\022\020\n\010ser"
-      "verID\030\001 \002(\t\"[\n\rServerMessage\022\020\n\010serverID"
-      "\030\001 \002(\t\022\023\n\013messageType\030\002 \002(\t\022\017\n\007content\030\003"
-      " \002(\014\022\022\n\ntargetUser\030\004 \002(\t\"S\n\027RequestMessa"
-      "geIDMessage\022\023\n\013userAccount\030\001 \002(\t\022\020\n\010serv"
-      "erID\030\002 \002(\t\022\021\n\trequestID\030\003 \002(\014\"U\n\030Respons"
-      "eMessageIDMessage\022\023\n\013userAccount\030\001 \002(\t\022\021"
-      "\n\tmessageID\030\002 \002(\004\022\021\n\trequestID\030\003 \002(\014\"R\n\023"
-      "NodeLoadInfoMessage\022\027\n\017connectionCount\030\001"
-      " \002(\004\022\020\n\010cpuUsage\030\002 \002(\002\022\020\n\010memUsage\030\003 \002(\002"
+      "\"\224\001\n\031RequestJoinClusterMessage\022\020\n\010server"
+      "ID\030\001 \002(\t\022\026\n\016invitationCode\030\002 \002(\t\022\021\n\tLong"
+      "itude\030\003 \002(\002\022\020\n\010latitude\030\004 \002(\002\022\023\n\013service"
+      "Addr\030\005 \002(\t\022\023\n\013servicePort\030\006 \002(\005\"\215\001\n\032Resp"
+      "onseJoinClusterMessage\022G\n\006result\030\001 \002(\01627"
+      ".kakaIM.president.ResponseJoinClusterMes"
+      "sage.JoinResult\"&\n\nJoinResult\022\013\n\007Success"
+      "\020\001\022\013\n\007Failure\020\002\"7\n\020HeartBeatMessage\022\020\n\010s"
+      "erverID\030\001 \002(\t\022\021\n\ttimestamp\030\002 \002(\t\"-\n\030Resp"
+      "onseHeartBeatMessage\022\021\n\ttimestamp\030\002 \002(\t\""
+      "(\n\024NodeSecessionMessage\022\020\n\010serverID\030\001 \002("
+      "\t\"\277\001\n\026UserOnlineStateMessage\022\020\n\010serverID"
+      "\030\001 \002(\t\022\023\n\013userAccount\030\002 \002(\t\022G\n\tuserState"
+      "\030\003 \002(\01624.kakaIM.president.UserOnlineStat"
+      "eMessage.OnlineState\"5\n\013OnlineState\022\n\n\006O"
+      "nline\020\001\022\013\n\007Offline\020\002\022\r\n\tInvisible\020\003\"a\n\034U"
+      "pdateUserOnlineStateMessage\022A\n\017userOnlin"
+      "eState\030\001 \003(\0132(.kakaIM.president.UserOnli"
+      "neStateMessage\"[\n\rServerMessage\022\020\n\010serve"
+      "rID\030\001 \002(\t\022\023\n\013messageType\030\002 \002(\t\022\017\n\007conten"
+      "t\030\003 \002(\014\022\022\n\ntargetUser\030\004 \002(\t\"y\n\016SessionMe"
+      "ssage\022\020\n\010serverID\030\001 \002(\t\022\026\n\016targetServerI"
+      "D\030\002 \002(\t\022\027\n\017targetSessionID\030\003 \002(\t\022\023\n\013mess"
+      "ageType\030\004 \002(\t\022\017\n\007content\030\005 \002(\014\"S\n\027Reques"
+      "tMessageIDMessage\022\023\n\013userAccount\030\001 \002(\t\022\020"
+      "\n\010serverID\030\002 \002(\t\022\021\n\trequestID\030\003 \002(\014\"U\n\030R"
+      "esponseMessageIDMessage\022\023\n\013userAccount\030\001"
+      " \002(\t\022\021\n\tmessageID\030\002 \002(\004\022\021\n\trequestID\030\003 \002"
+      "(\014\"R\n\023NodeLoadInfoMessage\022\027\n\017connectionC"
+      "ount\030\001 \002(\004\022\020\n\010cpuUsage\030\002 \002(\002\022\020\n\010memUsage"
+      "\030\003 \002(\002"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1080);
+      descriptor, 1246);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "MessageCluster.proto", &protobuf_RegisterTypes);
 }
@@ -574,6 +626,8 @@ const int RequestJoinClusterMessage::kServerIDFieldNumber;
 const int RequestJoinClusterMessage::kInvitationCodeFieldNumber;
 const int RequestJoinClusterMessage::kLongitudeFieldNumber;
 const int RequestJoinClusterMessage::kLatitudeFieldNumber;
+const int RequestJoinClusterMessage::kServiceAddrFieldNumber;
+const int RequestJoinClusterMessage::kServicePortFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RequestJoinClusterMessage::RequestJoinClusterMessage()
@@ -598,9 +652,13 @@ RequestJoinClusterMessage::RequestJoinClusterMessage(const RequestJoinClusterMes
   if (from.has_invitationcode()) {
     invitationcode_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.invitationcode_);
   }
+  serviceaddr_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_serviceaddr()) {
+    serviceaddr_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serviceaddr_);
+  }
   ::memcpy(&longitude_, &from.longitude_,
-    static_cast<size_t>(reinterpret_cast<char*>(&latitude_) -
-    reinterpret_cast<char*>(&longitude_)) + sizeof(latitude_));
+    static_cast<size_t>(reinterpret_cast<char*>(&serviceport_) -
+    reinterpret_cast<char*>(&longitude_)) + sizeof(serviceport_));
   // @@protoc_insertion_point(copy_constructor:kakaIM.president.RequestJoinClusterMessage)
 }
 
@@ -608,9 +666,10 @@ void RequestJoinClusterMessage::SharedCtor() {
   _cached_size_ = 0;
   serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   invitationcode_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  serviceaddr_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&longitude_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&latitude_) -
-      reinterpret_cast<char*>(&longitude_)) + sizeof(latitude_));
+      reinterpret_cast<char*>(&serviceport_) -
+      reinterpret_cast<char*>(&longitude_)) + sizeof(serviceport_));
 }
 
 RequestJoinClusterMessage::~RequestJoinClusterMessage() {
@@ -621,6 +680,7 @@ RequestJoinClusterMessage::~RequestJoinClusterMessage() {
 void RequestJoinClusterMessage::SharedDtor() {
   serverid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   invitationcode_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  serviceaddr_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void RequestJoinClusterMessage::SetCachedSize(int size) const {
@@ -638,6 +698,13 @@ const RequestJoinClusterMessage& RequestJoinClusterMessage::default_instance() {
   return *internal_default_instance();
 }
 
+RequestJoinClusterMessage* RequestJoinClusterMessage::New(::google::protobuf::Arena* arena) const {
+  RequestJoinClusterMessage* n = new RequestJoinClusterMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RequestJoinClusterMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.RequestJoinClusterMessage)
@@ -646,20 +713,24 @@ void RequestJoinClusterMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      serverid_.UnsafeMutablePointer()->clear();
+      (*serverid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!invitationcode_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      invitationcode_.UnsafeMutablePointer()->clear();
+      (*invitationcode_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!serviceaddr_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*serviceaddr_.UnsafeRawStringPointer())->clear();
     }
   }
-  if (cached_has_bits & 12u) {
+  if (cached_has_bits & 56u) {
     ::memset(&longitude_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&latitude_) -
-        reinterpret_cast<char*>(&longitude_)) + sizeof(latitude_));
+        reinterpret_cast<char*>(&serviceport_) -
+        reinterpret_cast<char*>(&longitude_)) + sizeof(serviceport_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -735,6 +806,36 @@ bool RequestJoinClusterMessage::MergePartialFromCodedStream(
         break;
       }
 
+      // required string serviceAddr = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_serviceaddr()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->serviceaddr().data(), static_cast<int>(this->serviceaddr().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.president.RequestJoinClusterMessage.serviceAddr");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required int32 servicePort = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+          set_has_serviceport();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &serviceport_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -783,13 +884,28 @@ void RequestJoinClusterMessage::SerializeWithCachedSizes(
   }
 
   // required float Longitude = 3;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->longitude(), output);
   }
 
   // required float latitude = 4;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->latitude(), output);
+  }
+
+  // required string serviceAddr = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->serviceaddr().data(), static_cast<int>(this->serviceaddr().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.RequestJoinClusterMessage.serviceAddr");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->serviceaddr(), output);
+  }
+
+  // required int32 servicePort = 6;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->serviceport(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -830,13 +946,29 @@ void RequestJoinClusterMessage::SerializeWithCachedSizes(
   }
 
   // required float Longitude = 3;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->longitude(), target);
   }
 
   // required float latitude = 4;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->latitude(), target);
+  }
+
+  // required string serviceAddr = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->serviceaddr().data(), static_cast<int>(this->serviceaddr().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.RequestJoinClusterMessage.serviceAddr");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->serviceaddr(), target);
+  }
+
+  // required int32 servicePort = 6;
+  if (cached_has_bits & 0x00000020u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->serviceport(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -865,6 +997,13 @@ size_t RequestJoinClusterMessage::RequiredFieldsByteSizeFallback() const {
         this->invitationcode());
   }
 
+  if (has_serviceaddr()) {
+    // required string serviceAddr = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->serviceaddr());
+  }
+
   if (has_longitude()) {
     // required float Longitude = 3;
     total_size += 1 + 4;
@@ -873,6 +1012,13 @@ size_t RequestJoinClusterMessage::RequiredFieldsByteSizeFallback() const {
   if (has_latitude()) {
     // required float latitude = 4;
     total_size += 1 + 4;
+  }
+
+  if (has_serviceport()) {
+    // required int32 servicePort = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->serviceport());
   }
 
   return total_size;
@@ -886,7 +1032,7 @@ size_t RequestJoinClusterMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x0000003f) ^ 0x0000003f) == 0) {  // All required fields are present.
     // required string serverID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -897,11 +1043,21 @@ size_t RequestJoinClusterMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->invitationcode());
 
+    // required string serviceAddr = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->serviceaddr());
+
     // required float Longitude = 3;
     total_size += 1 + 4;
 
     // required float latitude = 4;
     total_size += 1 + 4;
+
+    // required int32 servicePort = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->serviceport());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -936,7 +1092,7 @@ void RequestJoinClusterMessage::MergeFrom(const RequestJoinClusterMessage& from)
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_serverid();
       serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
@@ -946,10 +1102,17 @@ void RequestJoinClusterMessage::MergeFrom(const RequestJoinClusterMessage& from)
       invitationcode_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.invitationcode_);
     }
     if (cached_has_bits & 0x00000004u) {
-      longitude_ = from.longitude_;
+      set_has_serviceaddr();
+      serviceaddr_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serviceaddr_);
     }
     if (cached_has_bits & 0x00000008u) {
+      longitude_ = from.longitude_;
+    }
+    if (cached_has_bits & 0x00000010u) {
       latitude_ = from.latitude_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      serviceport_ = from.serviceport_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -970,7 +1133,7 @@ void RequestJoinClusterMessage::CopyFrom(const RequestJoinClusterMessage& from) 
 }
 
 bool RequestJoinClusterMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
   return true;
 }
 
@@ -982,8 +1145,10 @@ void RequestJoinClusterMessage::InternalSwap(RequestJoinClusterMessage* other) {
   using std::swap;
   serverid_.Swap(&other->serverid_);
   invitationcode_.Swap(&other->invitationcode_);
+  serviceaddr_.Swap(&other->serviceaddr_);
   swap(longitude_, other->longitude_);
   swap(latitude_, other->latitude_);
+  swap(serviceport_, other->serviceport_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -1049,6 +1214,13 @@ const ResponseJoinClusterMessage& ResponseJoinClusterMessage::default_instance()
   return *internal_default_instance();
 }
 
+ResponseJoinClusterMessage* ResponseJoinClusterMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseJoinClusterMessage* n = new ResponseJoinClusterMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseJoinClusterMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.ResponseJoinClusterMessage)
@@ -1303,6 +1475,13 @@ const HeartBeatMessage& HeartBeatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+HeartBeatMessage* HeartBeatMessage::New(::google::protobuf::Arena* arena) const {
+  HeartBeatMessage* n = new HeartBeatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void HeartBeatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.HeartBeatMessage)
@@ -1314,11 +1493,11 @@ void HeartBeatMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      serverid_.UnsafeMutablePointer()->clear();
+      (*serverid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      timestamp_.UnsafeMutablePointer()->clear();
+      (*timestamp_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -1640,6 +1819,13 @@ const ResponseHeartBeatMessage& ResponseHeartBeatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseHeartBeatMessage* ResponseHeartBeatMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseHeartBeatMessage* n = new ResponseHeartBeatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseHeartBeatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.ResponseHeartBeatMessage)
@@ -1650,7 +1836,7 @@ void ResponseHeartBeatMessage::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    timestamp_.UnsafeMutablePointer()->clear();
+    (*timestamp_.UnsafeRawStringPointer())->clear();
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -1842,6 +2028,271 @@ void ResponseHeartBeatMessage::InternalSwap(ResponseHeartBeatMessage* other) {
 
 // ===================================================================
 
+void NodeSecessionMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int NodeSecessionMessage::kServerIDFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+NodeSecessionMessage::NodeSecessionMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_MessageCluster_2eproto::InitDefaultsNodeSecessionMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.president.NodeSecessionMessage)
+}
+NodeSecessionMessage::NodeSecessionMessage(const NodeSecessionMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_serverid()) {
+    serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
+  }
+  // @@protoc_insertion_point(copy_constructor:kakaIM.president.NodeSecessionMessage)
+}
+
+void NodeSecessionMessage::SharedCtor() {
+  _cached_size_ = 0;
+  serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+NodeSecessionMessage::~NodeSecessionMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.president.NodeSecessionMessage)
+  SharedDtor();
+}
+
+void NodeSecessionMessage::SharedDtor() {
+  serverid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void NodeSecessionMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* NodeSecessionMessage::descriptor() {
+  ::protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const NodeSecessionMessage& NodeSecessionMessage::default_instance() {
+  ::protobuf_MessageCluster_2eproto::InitDefaultsNodeSecessionMessage();
+  return *internal_default_instance();
+}
+
+NodeSecessionMessage* NodeSecessionMessage::New(::google::protobuf::Arena* arena) const {
+  NodeSecessionMessage* n = new NodeSecessionMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void NodeSecessionMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.president.NodeSecessionMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*serverid_.UnsafeRawStringPointer())->clear();
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool NodeSecessionMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.president.NodeSecessionMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string serverID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_serverid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->serverid().data(), static_cast<int>(this->serverid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.president.NodeSecessionMessage.serverID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.president.NodeSecessionMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.president.NodeSecessionMessage)
+  return false;
+#undef DO_
+}
+
+void NodeSecessionMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.president.NodeSecessionMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string serverID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->serverid().data(), static_cast<int>(this->serverid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.NodeSecessionMessage.serverID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->serverid(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.president.NodeSecessionMessage)
+}
+
+::google::protobuf::uint8* NodeSecessionMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.president.NodeSecessionMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string serverID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->serverid().data(), static_cast<int>(this->serverid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.NodeSecessionMessage.serverID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->serverid(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.president.NodeSecessionMessage)
+  return target;
+}
+
+size_t NodeSecessionMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.president.NodeSecessionMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // required string serverID = 1;
+  if (has_serverid()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->serverid());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void NodeSecessionMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.president.NodeSecessionMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const NodeSecessionMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const NodeSecessionMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.president.NodeSecessionMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.president.NodeSecessionMessage)
+    MergeFrom(*source);
+  }
+}
+
+void NodeSecessionMessage::MergeFrom(const NodeSecessionMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.president.NodeSecessionMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_serverid()) {
+    set_has_serverid();
+    serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
+  }
+}
+
+void NodeSecessionMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.president.NodeSecessionMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void NodeSecessionMessage::CopyFrom(const NodeSecessionMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.president.NodeSecessionMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool NodeSecessionMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  return true;
+}
+
+void NodeSecessionMessage::Swap(NodeSecessionMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void NodeSecessionMessage::InternalSwap(NodeSecessionMessage* other) {
+  using std::swap;
+  serverid_.Swap(&other->serverid_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata NodeSecessionMessage::GetMetadata() const {
+  protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void UserOnlineStateMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -1908,6 +2359,13 @@ const UserOnlineStateMessage& UserOnlineStateMessage::default_instance() {
   return *internal_default_instance();
 }
 
+UserOnlineStateMessage* UserOnlineStateMessage::New(::google::protobuf::Arena* arena) const {
+  UserOnlineStateMessage* n = new UserOnlineStateMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UserOnlineStateMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.UserOnlineStateMessage)
@@ -1919,11 +2377,11 @@ void UserOnlineStateMessage::Clear() {
   if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      serverid_.UnsafeMutablePointer()->clear();
+      (*serverid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     userstate_ = 1;
   }
@@ -2288,6 +2746,13 @@ const UpdateUserOnlineStateMessage& UpdateUserOnlineStateMessage::default_instan
   return *internal_default_instance();
 }
 
+UpdateUserOnlineStateMessage* UpdateUserOnlineStateMessage::New(::google::protobuf::Arena* arena) const {
+  UpdateUserOnlineStateMessage* n = new UpdateUserOnlineStateMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UpdateUserOnlineStateMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.UpdateUserOnlineStateMessage)
@@ -2314,8 +2779,7 @@ bool UpdateUserOnlineStateMessage::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_useronlinestate()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_useronlinestate()));
         } else {
           goto handle_unusual;
         }
@@ -2352,9 +2816,7 @@ void UpdateUserOnlineStateMessage::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->useronlinestate_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->useronlinestate(static_cast<int>(i)),
-      output);
+      1, this->useronlinestate(static_cast<int>(i)), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -2464,271 +2926,13 @@ void UpdateUserOnlineStateMessage::Swap(UpdateUserOnlineStateMessage* other) {
 }
 void UpdateUserOnlineStateMessage::InternalSwap(UpdateUserOnlineStateMessage* other) {
   using std::swap;
-  CastToBase(&useronlinestate_)->InternalSwap(CastToBase(&other->useronlinestate_));
+  useronlinestate_.InternalSwap(&other->useronlinestate_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata UpdateUserOnlineStateMessage::GetMetadata() const {
-  protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-
-// ===================================================================
-
-void NodeSecessionMessage::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int NodeSecessionMessage::kServerIDFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-NodeSecessionMessage::NodeSecessionMessage()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_MessageCluster_2eproto::InitDefaultsNodeSecessionMessage();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:kakaIM.president.NodeSecessionMessage)
-}
-NodeSecessionMessage::NodeSecessionMessage(const NodeSecessionMessage& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.has_serverid()) {
-    serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
-  }
-  // @@protoc_insertion_point(copy_constructor:kakaIM.president.NodeSecessionMessage)
-}
-
-void NodeSecessionMessage::SharedCtor() {
-  _cached_size_ = 0;
-  serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-NodeSecessionMessage::~NodeSecessionMessage() {
-  // @@protoc_insertion_point(destructor:kakaIM.president.NodeSecessionMessage)
-  SharedDtor();
-}
-
-void NodeSecessionMessage::SharedDtor() {
-  serverid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-void NodeSecessionMessage::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* NodeSecessionMessage::descriptor() {
-  ::protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const NodeSecessionMessage& NodeSecessionMessage::default_instance() {
-  ::protobuf_MessageCluster_2eproto::InitDefaultsNodeSecessionMessage();
-  return *internal_default_instance();
-}
-
-
-void NodeSecessionMessage::Clear() {
-// @@protoc_insertion_point(message_clear_start:kakaIM.president.NodeSecessionMessage)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    serverid_.UnsafeMutablePointer()->clear();
-  }
-  _has_bits_.Clear();
-  _internal_metadata_.Clear();
-}
-
-bool NodeSecessionMessage::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:kakaIM.president.NodeSecessionMessage)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required string serverID = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_serverid()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->serverid().data(), static_cast<int>(this->serverid().length()),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "kakaIM.president.NodeSecessionMessage.serverID");
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:kakaIM.president.NodeSecessionMessage)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:kakaIM.president.NodeSecessionMessage)
-  return false;
-#undef DO_
-}
-
-void NodeSecessionMessage::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:kakaIM.president.NodeSecessionMessage)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required string serverID = 1;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->serverid().data(), static_cast<int>(this->serverid().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "kakaIM.president.NodeSecessionMessage.serverID");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->serverid(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:kakaIM.president.NodeSecessionMessage)
-}
-
-::google::protobuf::uint8* NodeSecessionMessage::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.president.NodeSecessionMessage)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required string serverID = 1;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->serverid().data(), static_cast<int>(this->serverid().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "kakaIM.president.NodeSecessionMessage.serverID");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->serverid(), target);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.president.NodeSecessionMessage)
-  return target;
-}
-
-size_t NodeSecessionMessage::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:kakaIM.president.NodeSecessionMessage)
-  size_t total_size = 0;
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
-  // required string serverID = 1;
-  if (has_serverid()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->serverid());
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void NodeSecessionMessage::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.president.NodeSecessionMessage)
-  GOOGLE_DCHECK_NE(&from, this);
-  const NodeSecessionMessage* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const NodeSecessionMessage>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.president.NodeSecessionMessage)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.president.NodeSecessionMessage)
-    MergeFrom(*source);
-  }
-}
-
-void NodeSecessionMessage::MergeFrom(const NodeSecessionMessage& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.president.NodeSecessionMessage)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.has_serverid()) {
-    set_has_serverid();
-    serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
-  }
-}
-
-void NodeSecessionMessage::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.president.NodeSecessionMessage)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void NodeSecessionMessage::CopyFrom(const NodeSecessionMessage& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.president.NodeSecessionMessage)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool NodeSecessionMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
-  return true;
-}
-
-void NodeSecessionMessage::Swap(NodeSecessionMessage* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void NodeSecessionMessage::InternalSwap(NodeSecessionMessage* other) {
-  using std::swap;
-  serverid_.Swap(&other->serverid_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata NodeSecessionMessage::GetMetadata() const {
   protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -2813,6 +3017,13 @@ const ServerMessage& ServerMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ServerMessage* ServerMessage::New(::google::protobuf::Arena* arena) const {
+  ServerMessage* n = new ServerMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ServerMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.ServerMessage)
@@ -2824,19 +3035,19 @@ void ServerMessage::Clear() {
   if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      serverid_.UnsafeMutablePointer()->clear();
+      (*serverid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!messagetype_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      messagetype_.UnsafeMutablePointer()->clear();
+      (*messagetype_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!content_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      content_.UnsafeMutablePointer()->clear();
+      (*content_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!targetuser_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      targetuser_.UnsafeMutablePointer()->clear();
+      (*targetuser_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -3198,6 +3409,540 @@ void ServerMessage::InternalSwap(ServerMessage* other) {
 
 // ===================================================================
 
+void SessionMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int SessionMessage::kServerIDFieldNumber;
+const int SessionMessage::kTargetServerIDFieldNumber;
+const int SessionMessage::kTargetSessionIDFieldNumber;
+const int SessionMessage::kMessageTypeFieldNumber;
+const int SessionMessage::kContentFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+SessionMessage::SessionMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_MessageCluster_2eproto::InitDefaultsSessionMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.president.SessionMessage)
+}
+SessionMessage::SessionMessage(const SessionMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_serverid()) {
+    serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
+  }
+  targetserverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_targetserverid()) {
+    targetserverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetserverid_);
+  }
+  targetsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_targetsessionid()) {
+    targetsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetsessionid_);
+  }
+  messagetype_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_messagetype()) {
+    messagetype_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.messagetype_);
+  }
+  content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_content()) {
+    content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
+  }
+  // @@protoc_insertion_point(copy_constructor:kakaIM.president.SessionMessage)
+}
+
+void SessionMessage::SharedCtor() {
+  _cached_size_ = 0;
+  serverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetserverid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  messagetype_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+SessionMessage::~SessionMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.president.SessionMessage)
+  SharedDtor();
+}
+
+void SessionMessage::SharedDtor() {
+  serverid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetserverid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetsessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  messagetype_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void SessionMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* SessionMessage::descriptor() {
+  ::protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const SessionMessage& SessionMessage::default_instance() {
+  ::protobuf_MessageCluster_2eproto::InitDefaultsSessionMessage();
+  return *internal_default_instance();
+}
+
+SessionMessage* SessionMessage::New(::google::protobuf::Arena* arena) const {
+  SessionMessage* n = new SessionMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void SessionMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.president.SessionMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 31u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*serverid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!targetserverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*targetserverid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!targetsessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*targetsessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!messagetype_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*messagetype_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!content_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*content_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool SessionMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.president.SessionMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string serverID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_serverid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->serverid().data(), static_cast<int>(this->serverid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.president.SessionMessage.serverID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string targetServerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_targetserverid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->targetserverid().data(), static_cast<int>(this->targetserverid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.president.SessionMessage.targetServerID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string targetSessionID = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_targetsessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->targetsessionid().data(), static_cast<int>(this->targetsessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.president.SessionMessage.targetSessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string messageType = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_messagetype()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->messagetype().data(), static_cast<int>(this->messagetype().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.president.SessionMessage.messageType");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required bytes content = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_content()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.president.SessionMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.president.SessionMessage)
+  return false;
+#undef DO_
+}
+
+void SessionMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.president.SessionMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string serverID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->serverid().data(), static_cast<int>(this->serverid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.serverID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->serverid(), output);
+  }
+
+  // required string targetServerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetserverid().data(), static_cast<int>(this->targetserverid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.targetServerID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->targetserverid(), output);
+  }
+
+  // required string targetSessionID = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetsessionid().data(), static_cast<int>(this->targetsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.targetSessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->targetsessionid(), output);
+  }
+
+  // required string messageType = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->messagetype().data(), static_cast<int>(this->messagetype().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.messageType");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->messagetype(), output);
+  }
+
+  // required bytes content = 5;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      5, this->content(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.president.SessionMessage)
+}
+
+::google::protobuf::uint8* SessionMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.president.SessionMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string serverID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->serverid().data(), static_cast<int>(this->serverid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.serverID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->serverid(), target);
+  }
+
+  // required string targetServerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetserverid().data(), static_cast<int>(this->targetserverid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.targetServerID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->targetserverid(), target);
+  }
+
+  // required string targetSessionID = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetsessionid().data(), static_cast<int>(this->targetsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.targetSessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->targetsessionid(), target);
+  }
+
+  // required string messageType = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->messagetype().data(), static_cast<int>(this->messagetype().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.president.SessionMessage.messageType");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->messagetype(), target);
+  }
+
+  // required bytes content = 5;
+  if (cached_has_bits & 0x00000010u) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        5, this->content(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.president.SessionMessage)
+  return target;
+}
+
+size_t SessionMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.president.SessionMessage)
+  size_t total_size = 0;
+
+  if (has_serverid()) {
+    // required string serverID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->serverid());
+  }
+
+  if (has_targetserverid()) {
+    // required string targetServerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetserverid());
+  }
+
+  if (has_targetsessionid()) {
+    // required string targetSessionID = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetsessionid());
+  }
+
+  if (has_messagetype()) {
+    // required string messageType = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->messagetype());
+  }
+
+  if (has_content()) {
+    // required bytes content = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->content());
+  }
+
+  return total_size;
+}
+size_t SessionMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.president.SessionMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required string serverID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->serverid());
+
+    // required string targetServerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetserverid());
+
+    // required string targetSessionID = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetsessionid());
+
+    // required string messageType = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->messagetype());
+
+    // required bytes content = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->content());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void SessionMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.president.SessionMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SessionMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SessionMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.president.SessionMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.president.SessionMessage)
+    MergeFrom(*source);
+  }
+}
+
+void SessionMessage::MergeFrom(const SessionMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.president.SessionMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 31u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_serverid();
+      serverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.serverid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_targetserverid();
+      targetserverid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetserverid_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_targetsessionid();
+      targetsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetsessionid_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_messagetype();
+      messagetype_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.messagetype_);
+    }
+    if (cached_has_bits & 0x00000010u) {
+      set_has_content();
+      content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
+    }
+  }
+}
+
+void SessionMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.president.SessionMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SessionMessage::CopyFrom(const SessionMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.president.SessionMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SessionMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
+  return true;
+}
+
+void SessionMessage::Swap(SessionMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SessionMessage::InternalSwap(SessionMessage* other) {
+  using std::swap;
+  serverid_.Swap(&other->serverid_);
+  targetserverid_.Swap(&other->targetserverid_);
+  targetsessionid_.Swap(&other->targetsessionid_);
+  messagetype_.Swap(&other->messagetype_);
+  content_.Swap(&other->content_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata SessionMessage::GetMetadata() const {
+  protobuf_MessageCluster_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_MessageCluster_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void RequestMessageIDMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -3268,6 +4013,13 @@ const RequestMessageIDMessage& RequestMessageIDMessage::default_instance() {
   return *internal_default_instance();
 }
 
+RequestMessageIDMessage* RequestMessageIDMessage::New(::google::protobuf::Arena* arena) const {
+  RequestMessageIDMessage* n = new RequestMessageIDMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RequestMessageIDMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.RequestMessageIDMessage)
@@ -3279,15 +4031,15 @@ void RequestMessageIDMessage::Clear() {
   if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!serverid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      serverid_.UnsafeMutablePointer()->clear();
+      (*serverid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!requestid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      requestid_.UnsafeMutablePointer()->clear();
+      (*requestid_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -3661,6 +4413,13 @@ const ResponseMessageIDMessage& ResponseMessageIDMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseMessageIDMessage* ResponseMessageIDMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseMessageIDMessage* n = new ResponseMessageIDMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseMessageIDMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.ResponseMessageIDMessage)
@@ -3672,11 +4431,11 @@ void ResponseMessageIDMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!requestid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      requestid_.UnsafeMutablePointer()->clear();
+      (*requestid_.UnsafeRawStringPointer())->clear();
     }
   }
   messageid_ = GOOGLE_ULONGLONG(0);
@@ -4030,6 +4789,13 @@ const NodeLoadInfoMessage& NodeLoadInfoMessage::default_instance() {
   return *internal_default_instance();
 }
 
+NodeLoadInfoMessage* NodeLoadInfoMessage::New(::google::protobuf::Arena* arena) const {
+  NodeLoadInfoMessage* n = new NodeLoadInfoMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void NodeLoadInfoMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.president.NodeLoadInfoMessage)
@@ -4312,42 +5078,5 @@ void NodeLoadInfoMessage::InternalSwap(NodeLoadInfoMessage* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace president
 }  // namespace kakaIM
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::RequestJoinClusterMessage* Arena::Create< ::kakaIM::president::RequestJoinClusterMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::RequestJoinClusterMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::ResponseJoinClusterMessage* Arena::Create< ::kakaIM::president::ResponseJoinClusterMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::ResponseJoinClusterMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::HeartBeatMessage* Arena::Create< ::kakaIM::president::HeartBeatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::HeartBeatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::ResponseHeartBeatMessage* Arena::Create< ::kakaIM::president::ResponseHeartBeatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::ResponseHeartBeatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::UserOnlineStateMessage* Arena::Create< ::kakaIM::president::UserOnlineStateMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::UserOnlineStateMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::UpdateUserOnlineStateMessage* Arena::Create< ::kakaIM::president::UpdateUserOnlineStateMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::UpdateUserOnlineStateMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::NodeSecessionMessage* Arena::Create< ::kakaIM::president::NodeSecessionMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::NodeSecessionMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::ServerMessage* Arena::Create< ::kakaIM::president::ServerMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::ServerMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::RequestMessageIDMessage* Arena::Create< ::kakaIM::president::RequestMessageIDMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::RequestMessageIDMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::ResponseMessageIDMessage* Arena::Create< ::kakaIM::president::ResponseMessageIDMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::ResponseMessageIDMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::president::NodeLoadInfoMessage* Arena::Create< ::kakaIM::president::NodeLoadInfoMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::president::NodeLoadInfoMessage >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)

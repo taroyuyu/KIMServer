@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #ifndef KAKAIMCLUSTER_CLUSTERMODULE_H
@@ -39,10 +39,13 @@ namespace kakaIM {
              * @param presidentPort president监听的端口号
              * @param serverID Node的serverID
              * @param invitationCode 邀请码
-	         * @param lngLatPair 经纬度(经度，纬度)
+	     * @param lngLatPair 经纬度(经度，纬度)
+             * @param serviceAddr 本实例提供服务所监听的IP地址
+             * @param servicePort 本实例提供服务所监听的端口
              */
             ClusterModule(std::string presidentAddr, int presidentPort, std::string serverID,
-                          std::string invitationCode, std::pair<float, float> lngLatPair);
+                          std::string invitationCode, std::pair<float, float> lngLatPair,std::string serviceAddr,
+                          uint16_t servicePort);
 
             ~ClusterModule();
 
@@ -130,6 +133,8 @@ namespace kakaIM {
             std::string mServerID;
             std::string mInvitationCode;
             std::pair<float, float> mlngLatPair;
+            std::string serviceAddr;
+            uint16_t servicePort;
             int mHeartBeatTimerfd;//心跳定时器
             int mMessageEventfd;//消息事件
             std::map<std::string, std::function<void(

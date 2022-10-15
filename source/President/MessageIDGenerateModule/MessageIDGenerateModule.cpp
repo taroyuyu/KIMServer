@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/28.
+// Created by Kakawater on 2018/1/28.
 //
 
 #include <zconf.h>
@@ -63,11 +63,14 @@ namespace kakaIM {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
-        void MessageIDGenerateModule::addRequestMessageIDMessage(const RequestMessageIDMessage &message,
+        void MessageIDGenerateModule::addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message,
                                                                  const std::string connectionIdentifier) {
-            std::unique_ptr<RequestMessageIDMessage> userOnlineStateMessage(new RequestMessageIDMessage(message));
+            if (!message){
+                return;
+            }
+            //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(userOnlineStateMessage), connectionIdentifier);
+            this->messageQueue.emplace(std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));

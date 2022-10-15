@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #ifndef KAKAIMCLUSTER_OFFLINEMODULE_H
@@ -34,9 +34,9 @@ namespace kakaIM {
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
 
-            void addPullChatMessage(kakaIM::Node::PullChatMessage &message, const std::string connectionIdentifier);
+            void addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message, const std::string connectionIdentifier);
 
-            void addPullGroupChatMessage(kakaIM::Node::PullGroupChatMessage &message,
+            void addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
                                          const std::string connectionIdentifier);
 
             /**

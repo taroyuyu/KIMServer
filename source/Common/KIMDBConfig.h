@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/3/12.
+// Created by Kakawater on 2018/3/12.
 //
 
 #ifndef KAKAIMCLUSTER_KIMDBCONFIG_H

@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/25.
+// Created by Kakawater on 2018/1/25.
 //
 
 #ifndef KAKAIMCLUSTER_MESSAGESENDSERVICE_H
@@ -19,6 +19,15 @@ namespace kakaIM {
              */
             virtual void
             sendMessageToUser(const std::string &userAccount, const ::google::protobuf::Message &message) = 0;
+
+            /**
+             * 发送消息给指定的会话
+             * @param serverID
+             * @param sessionID
+             * @param message
+             */
+            virtual void
+            sendMessageToSession(const std::string &serverID,const std::string & sessionID, const ::google::protobuf::Message &message) = 0;
         };
 
     }

@@ -1,0 +1,49 @@
+syntax = "proto2";
+package kakaIM.rpc;
+
+message AuthenticationRequest{
+    required string userAccount = 1;
+    required string userPassword = 2;
+}
+
+message AuthenticationResponse{
+    required string userAccount = 1;
+    enum Status{
+        Success = 1;
+        Failed = 2;
+    }
+    required Status status = 2;
+    enum FailureType{
+        WrongAccountOrPassword = 1;//帐号或密码错误
+        ServerInternalError = 2;//服务器内部错误
+    }
+    optional FailureType failureError = 3;//错误原因
+}
+
+//好友列表请求消息
+message FriendListRequestMessage{
+    required string userAccount = 1;
+    required uint64 currentVersion = 2;//当前使用的此用户的好友列表的版本，服务器端根据此值来判断是否返回好友列表信息，0表示请求最新的好友饿列表
+}
+
+message FriendListItem{
+    required string friendAccount = 1;//好友ID
+}
+
+//响应好友列表请求消息
+message FriendListResponseMessage{
+    required string userAccount = 1;
+    enum Status{
+        Success = 1;
+        SuccessButNoNewChange = 2;//查询成功，但是并没有新的记录
+        Failed = 3;
+    }
+    required Status status = 2;
+    enum FailureType{
+        ServerInternalError = 1;//服务器内部错误
+        RecordNotExist = 2;//服务器内部不存在此用户的好友列表记录
+    }
+    optional FailureType failureError = 3;//错误原因
+    optional uint64 currentVersion = 4;//服务器端维护的此用户的好友列表的当前版本
+    repeated FriendListItem friend = 5;//好友列表
+}

@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/26.
+// Created by Kakawater on 2018/1/26.
 //
 
 #ifndef KAKAIMCLUSTER_CLUSTERSERVICE_H
@@ -12,6 +12,11 @@ namespace kakaIM {
     namespace node {
         class ClusterService {
         public:
+	    /**
+             * 获取服务器Id
+             * @return 
+             */
+            virtual std::string getServerID()const  = 0;
             /**
              * 向集群更新用户在线状态
              * @param userOnlineStateMessage

@@ -1,11 +1,12 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #include <zconf.h>
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include "OfflineModule.h"
+#include "../../Common/util/Date.h"
 #include "../Log/log.h"
 
 namespace kakaIM {
@@ -146,13 +147,14 @@ namespace kakaIM {
             this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
         }
 
-        void OfflineModule::addPullChatMessage(kakaIM::Node::PullChatMessage &message,
+        void OfflineModule::addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message,
                                                const std::string connectionIdentifier) {
-            std::unique_ptr<kakaIM::Node::PullChatMessage> pullOfflineMessage(
-                    new kakaIM::Node::PullChatMessage(message));
+            if (!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(pullOfflineMessage), connectionIdentifier));
+            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
             const uint64_t count = 1;
             //增加信号量
             if (8 != ::write(this->messageEventfd, &count, sizeof(count))) {
@@ -160,13 +162,14 @@ namespace kakaIM {
             }
         }
 
-        void OfflineModule::addPullGroupChatMessage(kakaIM::Node::PullGroupChatMessage &message,
+        void OfflineModule::addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
                                                     const std::string connectionIdentifier) {
-            std::unique_ptr<kakaIM::Node::PullGroupChatMessage> pullOfflineMessage(
-                    new kakaIM::Node::PullGroupChatMessage(message));
+            if (!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(pullOfflineMessage), connectionIdentifier));
+            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
@@ -318,7 +321,8 @@ namespace kakaIM {
                     chatMessage.set_senderaccount(row[1].as<std::string>());
                     chatMessage.set_receiveraccount(row[2].as<std::string>());
                     chatMessage.set_content(row[3].as<std::string>());
-                    chatMessage.set_timestamp(row[4].as<std::string>());
+                    chatMessage.set_timestamp(kaka::Date(row[4].as<std::string>()).toString());
+		    chatMessage.set_sign("");
                     chatMessageList.emplace_back(std::move(chatMessage));
                 }
 

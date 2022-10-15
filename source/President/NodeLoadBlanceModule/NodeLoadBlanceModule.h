@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/3/16.
+// Created by Kakawater on 2018/3/16.
 //
 
 #ifndef KAKAIMCLUSTER_NODELOADBLANCEMODULE_H
@@ -33,9 +33,9 @@ namespace kakaIM {
 
             void setUserStateManagerService(std::weak_ptr<UserStateManagerService> userStateManagerServicePtr);
 
-            void addNodeLoadInfoMessage(const NodeLoadInfoMessage &message, const std::string connectionIdentifier);
+            void addNodeLoadInfoMessage(std::unique_ptr<NodeLoadInfoMessage> message, const std::string connectionIdentifier);
 
-            void addRequestNodeMessage(const RequestNodeMessage &message, const std::string connectionIdentifier);
+            void addRequestNodeMessage(std::unique_ptr<RequestNodeMessage> message, const std::string connectionIdentifier);
 
             void addEvent(ClusterEvent event);
 

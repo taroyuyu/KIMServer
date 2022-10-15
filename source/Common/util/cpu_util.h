@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/3/16.
+// Created by Kakawater on 2018/3/16.
 //
 
 #ifndef KAKAIMCLUSTER_CPU_UTIL_H
@@ -8,9 +8,11 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <regex>
 
 namespace kaka {
 
+    bool isNumber(std::string x);
     class CpuUsage {
     public:
         CpuUsage() : user(0), nice(0), system(0), idle(0), iowait(0), irq(0), softirq(0), stealstolen(0), guest(0),
@@ -29,9 +31,9 @@ namespace kaka {
             std::stringstream recordStream(record);
             int i = 0;
             for (std::string line; std::getline(recordStream, line, ' ');) {
-                if (!line.empty() && i++) {
+                if (isNumber(line)) {
                     cpuUsage.total += std::stoull(line);
-                    switch (i) {
+                    switch (++i) {
                         case 1: {
                             cpuUsage.user = std::stoull(line);
                         }
@@ -94,7 +96,12 @@ namespace kaka {
         unsigned long long work;//work = total - idle
     };
 
-
+    bool isNumber(std::string x){
+        std::regex e ("^-?\\d+");
+        if (std::regex_match (x,e))
+	     return true;
+        else return false;
+    }
 }
 #endif //KAKAIMCLUSTER_CPU_UTIL_H
 

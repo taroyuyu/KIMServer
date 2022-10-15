@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/24.
+// Created by Kakawater on 2018/1/24.
 //
 
 #ifndef KAKAIMCLUSTER_GROUPCHATMODULE_H
@@ -50,35 +50,35 @@ namespace kakaIM {
 
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
 
-            void addChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,
+            void addChatGroupCreateRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupCreateRequest> message,
                                                   const std::string connectionIdentifier);
 
-            void addChatGroupDisbandRequestMessage(const kakaIM::Node::ChatGroupDisbandRequest &message,
+            void addChatGroupDisbandRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupDisbandRequest> message,
                                                    const std::string connectionIdentifier);
 
-            void addChatGroupJoinRequestMessage(const kakaIM::Node::ChatGroupJoinRequest &message,
+            void addChatGroupJoinRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupJoinRequest> message,
                                                 const std::string connectionIdentifier);
 
-            void addChatGroupJoinResponseMessage(const kakaIM::Node::ChatGroupJoinResponse &message,
+            void addChatGroupJoinResponseMessage(std::unique_ptr<kakaIM::Node::ChatGroupJoinResponse> message,
                                                  const std::string connectionIdentifier);
 
-            void addChatGroupQuitRequestMessage(const kakaIM::Node::ChatGroupQuitRequest &message,
+            void addChatGroupQuitRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupQuitRequest> message,
                                                 const std::string connectionIdentifier);
 
-            void addUpdateChatGroupInfoRequestMessage(const kakaIM::Node::UpdateChatGroupInfoRequest &message,
+            void addUpdateChatGroupInfoRequestMessage(std::unique_ptr<kakaIM::Node::UpdateChatGroupInfoRequest> message,
                                                       const std::string connectionIdentifier);
 
-            void addFetchChatGroupInfoRequestMessage(const kakaIM::Node::FetchChatGroupInfoRequest &message,
+            void addFetchChatGroupInfoRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupInfoRequest> message,
                                                      const std::string connectionIdentifier);
 
-            void addFetchChatGroupMemberListRequestMessage(const kakaIM::Node::FetchChatGroupMemberListRequest &message,
+            void addFetchChatGroupMemberListRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupMemberListRequest> message,
                                                            const std::string connectionIdentifier);
 
-            void addFetchChatGroupListRequestMessage(const kakaIM::Node::FetchChatGroupListRequest &message,
+            void addFetchChatGroupListRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupListRequest> message,
                                                      const std::string connectionIdentifier);
 
             void
-            addGroupChatMessage(const kakaIM::Node::GroupChatMessage &message, const std::string connectionIdentifier);
+            addGroupChatMessage(std::unique_ptr<kakaIM::Node::GroupChatMessage> message, const std::string connectionIdentifier);
         protected:
             virtual void execute() override;
 
@@ -99,7 +99,7 @@ namespace kakaIM {
 
             std::pair<bool, uint64_t>
             persistChatGroupJoinApplication(const std::string applicant, const std::string group_id,
-                                            const std::string introduction);
+                                            const std::string introduction,std::string & submissionTime);
 
             /**
                  * 查询聊天群的管理员列表

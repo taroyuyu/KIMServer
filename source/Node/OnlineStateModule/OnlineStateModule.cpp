@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #include <zconf.h>
@@ -116,6 +116,8 @@ namespace kakaIM {
                                                kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
                                         handleOnlineMessage(
                                                 *(kakaIM::president::UserOnlineStateMessage *) pairIt.first.get());
+                                    }else if(messageType == kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName()){
+                                        handlePullFriendOnlineStateMessage(*(kakaIM::Node::PullFriendOnlineStateMessage*)pairIt.first.get(),pairIt.second);
                                     }
                                 }
 
@@ -136,18 +138,32 @@ namespace kakaIM {
             }
         }
 
-        void OnlineStateModule::addOnlineStateMessage(const kakaIM::Node::OnlineStateMessage &message,
+        void OnlineStateModule::addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
                                                       const std::string connectionIdentifier) {
-            std::unique_ptr<kakaIM::Node::OnlineStateMessage> onlineStateMessage(
-                    new kakaIM::Node::OnlineStateMessage(message));
+            if(!message){
+                return;
+            }
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
             this->messageQueue.emplace(
-                    std::move(onlineStateMessage), connectionIdentifier);
+                    std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
 
+        }
+
+        void OnlineStateModule::addPullFriendOnlineStateMessage(std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage> message,const std::string connectionIdentifier) {
+            if(!message){
+                return;
+            }
+            //添加到队列中
+            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
+            this->messageQueue.emplace(
+                    std::move(message), connectionIdentifier);
+            uint64_t count = 1;
+            //增加信号量
+            ::write(this->messageEventfd, &count, sizeof(count));
         }
 
         void OnlineStateModule::didReceivedUserOnlineStateFromCluster(
@@ -312,6 +328,64 @@ namespace kakaIM {
             }
         }
 
+        void OnlineStateModule::handlePullFriendOnlineStateMessage(const kakaIM::Node::PullFriendOnlineStateMessage & pullFriendOnlineStateMessage,const std::string connectionIdentifier)
+        {
+
+            //1.获取用户账号
+
+            auto queryUserAccountWithSessionService = this->mQueryUserAccountWithSessionServicePtr.lock();
+
+            if (!queryUserAccountWithSessionService){
+                return;
+            }
+
+            std::string userAccount = queryUserAccountWithSessionService->queryUserAccountWithSession(pullFriendOnlineStateMessage.sessionid());
+
+            if (userAccount.empty()){
+                return;;
+            }
+
+            //2.查询用户的好友列表
+            auto userRelationService = this->userRelationServicePtr.lock();
+
+            if (!userRelationService){
+                return;
+            }
+
+            std::list<std::string> friendList = userRelationService->retriveUserFriendList(userAccount);
+            
+            for (auto friendAccount : friendList){
+                //3.查询此好友的在线状态
+                kakaIM::Node::OnlineStateMessage onlineStateMessage;
+                onlineStateMessage.set_sessionid(pullFriendOnlineStateMessage.sessionid());
+                onlineStateMessage.set_useraccount(friendAccount);
+                switch (this->getUserOnlineState(friendAccount)){
+                    case kakaIM::Node::OnlineStateMessage_OnlineState_Online:{
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Online);
+                    }
+                        break;
+                    case kakaIM::Node::OnlineStateMessage_OnlineState_Invisible:{
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Invisible);                        
+                    }
+                        break;
+                    case kakaIM::Node::OnlineStateMessage_OnlineState_Offline:{
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Offline);                        
+                    }
+                        break;
+                    default:{
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Offline);                        
+                    }
+                        break;
+                }
+
+                //4.发送
+                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()){
+                    connectionOperationService->sendMessageThroughConnection(connectionIdentifier,onlineStateMessage);
+                }
+            }
+
+        }
+
         kakaIM::Node::OnlineStateMessage_OnlineState OnlineStateModule::getUserOnlineState(std::string userAccount) {
             auto setPairIt = this->mUserStateDB.find(userAccount);
             if (setPairIt != this->mUserStateDB.end()) {
@@ -334,7 +408,7 @@ namespace kakaIM {
                 } else if (OnlineStateMessage_OnlineState_Invisible_flag) {
                     return kakaIM::Node::OnlineStateMessage_OnlineState_Invisible;
                 } else {
-                    return kakaIM::Node::OnlineStateMessage_OnlineState_Online;
+                    return kakaIM::Node::OnlineStateMessage_OnlineState_Offline;
                 }
             } else {
                 return kakaIM::Node::OnlineStateMessage_OnlineState_Offline;
@@ -400,6 +474,10 @@ namespace kakaIM {
         void OnlineStateModule::setConnectionOperationService(
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
+        }
+
+        void OnlineStateModule::setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr){
+            this->userRelationServicePtr = userRelationServicePtr;
         }
 
         void OnlineStateModule::setClusterService(std::weak_ptr<ClusterService> clusterServicePtr) {

@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/1.
+// Created by Kakawater on 2018/1/1.
 //
 #include <sys/eventfd.h>
 #include <functional>
@@ -98,7 +98,7 @@ namespace kakaIM {
             }
             this->nodeConnection.emplace(serverId, Node(serverId, connectionIdentifier, pair.second.first,
                                                                       pair.second.second, std::make_pair(
-                            requestJoinClusterMessage.longitude(), requestJoinClusterMessage.latitude())));
+                            requestJoinClusterMessage.longitude(), requestJoinClusterMessage.latitude()),requestJoinClusterMessage.serviceaddr(),requestJoinClusterMessage.serviceport()));
             ResponseJoinClusterMessage response;
             response.set_result(ResponseJoinClusterMessage_JoinResult::ResponseJoinClusterMessage_JoinResult_Success);
             if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
@@ -120,7 +120,7 @@ namespace kakaIM {
         }
 
         bool ClusterManagerModule::validateInvitationCode(std::string invitationCode) {
-            if (invitationCode == "com.kakawater.kakaim") {
+            if (invitationCode == this->invitation_code) {
                 return true;
             } else {
                 return false;
@@ -139,7 +139,7 @@ namespace kakaIM {
         bool ClusterManagerModule::doFilter(const ::google::protobuf::Message &message,
                                             const std::string connectionIdentifier) {
             std::string messageType = message.GetTypeName();
-            if (messageType == RequestJoinClusterMessage::default_instance().GetTypeName()) {
+            if (messageType == RequestJoinClusterMessage::default_instance().GetTypeName() || messageType == RequestNodeMessage::default_instance().GetTypeName()) {
                 return true;
             }
 
@@ -222,27 +222,32 @@ namespace kakaIM {
             }
         }
 
-        void ClusterManagerModule::addRequestJoinClusterMessage(const RequestJoinClusterMessage &message,
+        void ClusterManagerModule::addRequestJoinClusterMessage(std::unique_ptr<RequestJoinClusterMessage> message,
                                                                 const std::string connectionIdentifier) {
-            std::unique_ptr<RequestJoinClusterMessage> requestJoinClusterMessage(
-                    new RequestJoinClusterMessage(message));
-            //添加到消息队列
+            if (!message){
+                return;
+            }
+            //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(requestJoinClusterMessage), connectionIdentifier);
+            this->messageQueue.emplace(std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
-        void ClusterManagerModule::addHeartBeatMessage(const HeartBeatMessage &message,
+        void ClusterManagerModule::addHeartBeatMessage(std::unique_ptr<HeartBeatMessage> message,
                                                        const std::string connectionIdentifier) {
-            std::unique_ptr<HeartBeatMessage> heartBeatMessage(new HeartBeatMessage(message));
-            //添加到消息队列
+            if (!message){
+                return;
+            }
+            //添加到队列中
             std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(heartBeatMessage), connectionIdentifier);
+            this->messageQueue.emplace(std::move(message), connectionIdentifier);
             uint64_t count = 1;
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
+
         }
 
         void ClusterManagerModule::triggerEvent(ClusterEvent event) {
@@ -253,7 +258,7 @@ namespace kakaIM {
             }
         }
 
-        ClusterManagerModule::ClusterManagerModule() : messageEventfd(-1) {
+        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : invitation_code(invitation_code),messageEventfd(-1) {
             this->logger = log4cxx::Logger::getLogger(ClusterManagerModuleLogger);
         }
 

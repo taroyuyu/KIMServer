@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #include <zconf.h>
@@ -19,10 +19,11 @@
 namespace kakaIM {
     namespace node {
         ClusterModule::ClusterModule(std::string presidentAddr, int presidentPort, std::string serverID,
-                                     std::string invitationCode, std::pair<float, float> lngLatPair) :
+                                     std::string invitationCode, std::pair<float, float> lngLatPair,std::string serviceAddr,
+                          uint16_t servicePort) :
                 mKakaIMMessageAdapter(nullptr), mPresidentAddr(presidentAddr), mPresidentPort(presidentPort),
                 mServerID(serverID),
-                mInvitationCode(invitationCode), mlngLatPair(lngLatPair), mHeartBeatTimerfd(-1), mMessageEventfd(-1) {
+                mInvitationCode(invitationCode), mlngLatPair(lngLatPair),serviceAddr(serviceAddr),servicePort(servicePort), mHeartBeatTimerfd(-1), mMessageEventfd(-1) {
             this->mKakaIMMessageAdapter = new common::KakaIMMessageAdapter();
             this->logger = log4cxx::Logger::getLogger(ClusterModuleLogger);
         }
@@ -87,6 +88,8 @@ namespace kakaIM {
             message->set_invitationcode(this->mInvitationCode);
             message->set_longitude(this->mlngLatPair.first);
             message->set_latitude(this->mlngLatPair.second);
+            message->set_serviceaddr(this->serviceAddr);
+            message->set_serviceport(this->servicePort);
             this->mSocketManager.sendMessage(mPresidentSocket, *(const ::google::protobuf::Message *) message);
 
             LOG4CXX_INFO(this->logger, typeid(this).name() << __FUNCTION__ << "发送加入集群的请求");

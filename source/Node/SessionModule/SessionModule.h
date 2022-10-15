@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/17.
+// Created by Kakawater on 2018/1/17.
 //
 
 #ifndef KAKAIMCLUSTER_SESSIONMODULE_H
@@ -35,10 +35,10 @@ namespace kakaIM {
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
 
-            void addSessionIDRequesMessage(const kakaIM::Node::RequestSessionIDMessage &message,
+            void addSessionIDRequesMessage(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> message,
                                            const std::string connectionIdentifier);
 
-            void addLogoutMessage(const kakaIM::Node::LogoutMessage &message, const std::string connectionIdentifier);
+            void addLogoutMessage(std::unique_ptr<kakaIM::Node::LogoutMessage> message, const std::string connectionIdentifier);
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 

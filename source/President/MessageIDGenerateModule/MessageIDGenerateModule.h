@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/28.
+// Created by Kakawater on 2018/1/28.
 //
 
 #ifndef KAKAIMCLUSTER_MESSAGEIDGENERATEMODULE_H
@@ -30,7 +30,7 @@ namespace kakaIM {
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void
-            addRequestMessageIDMessage(const RequestMessageIDMessage &message, const std::string connectionIdentifier);
+            addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message, const std::string connectionIdentifier);
 
         private:
             int messageEventfd;

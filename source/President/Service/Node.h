@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/2/25.
+// Created by Kakawater on 2018/2/25.
 //
 
 #ifndef KAKAIMCLUSTER_NODE_H
@@ -11,9 +11,9 @@ namespace kakaIM {
     namespace president {
         class Node {
         public:
-            Node(const std::string serverID, const std::string serverConnectionIdentifier, std::string serverIpAddress,uint16_t serverPort,std::pair<float,float> serverLngLatPair)
+            Node(const std::string serverID, const std::string serverConnectionIdentifier, std::string serverIpAddress,uint16_t serverPort,std::pair<float,float> serverLngLatPair,std::string serviceAddr,uint16_t servicePort)
                     : serverID(serverID),
-                      serverConnectionIdentifier(serverConnectionIdentifier), serverIpAddress(serverIpAddress),serverPort(serverPort),serverLngLatPair(serverLngLatPair){
+                      serverConnectionIdentifier(serverConnectionIdentifier), serverIpAddress(serverIpAddress),serverPort(serverPort),serverLngLatPair(serverLngLatPair),serviceIpAddress(serviceAddr),servicePort(servicePort){
             }
 
             bool operator<(const Node &node) const {
@@ -39,12 +39,20 @@ namespace kakaIM {
             std::pair<float,float> getServerLngLatPair()const{
                 return this->serverLngLatPair;
             };
+	    std::string getServiceIpAddress()const{
+                return this->serviceIpAddress;
+            }
+            uint16_t getServicePort()const{
+                return this->servicePort;
+            }
         private:
             std::string serverID;
             std::string serverConnectionIdentifier;
             std::string serverIpAddress;
             uint16_t serverPort;
             std::pair<float,float> serverLngLatPair;
+            std::string serviceIpAddress;
+            uint16_t servicePort;
         };
     }
 }

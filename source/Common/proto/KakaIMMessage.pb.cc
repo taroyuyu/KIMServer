@@ -111,11 +111,56 @@ class OnlineStateMessageDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<OnlineStateMessage>
       _instance;
 } _OnlineStateMessage_default_instance_;
+class PullFriendOnlineStateMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<PullFriendOnlineStateMessage>
+      _instance;
+} _PullFriendOnlineStateMessage_default_instance_;
 class ChatMessageDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<ChatMessage>
       _instance;
 } _ChatMessage_default_instance_;
+class VideoChatRequestMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatRequestMessage>
+      _instance;
+} _VideoChatRequestMessage_default_instance_;
+class VideoChatRequestCancelMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatRequestCancelMessage>
+      _instance;
+} _VideoChatRequestCancelMessage_default_instance_;
+class VideoChatReplyMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatReplyMessage>
+      _instance;
+} _VideoChatReplyMessage_default_instance_;
+class VideoChatOfferMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatOfferMessage>
+      _instance;
+} _VideoChatOfferMessage_default_instance_;
+class VideoChatAnswerMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatAnswerMessage>
+      _instance;
+} _VideoChatAnswerMessage_default_instance_;
+class VideoChatNegotiationResultMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatNegotiationResultMessage>
+      _instance;
+} _VideoChatNegotiationResultMessage_default_instance_;
+class VideoChatCandidateAddressMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatCandidateAddressMessage>
+      _instance;
+} _VideoChatCandidateAddressMessage_default_instance_;
+class VideoChatByeMessageDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<VideoChatByeMessage>
+      _instance;
+} _VideoChatByeMessage_default_instance_;
 class NotificationMessageDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<NotificationMessage>
@@ -628,6 +673,27 @@ void InitDefaultsOnlineStateMessage() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsOnlineStateMessageImpl);
 }
 
+void InitDefaultsPullFriendOnlineStateMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_PullFriendOnlineStateMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::PullFriendOnlineStateMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::PullFriendOnlineStateMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsPullFriendOnlineStateMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsPullFriendOnlineStateMessageImpl);
+}
+
 void InitDefaultsChatMessageImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -647,6 +713,174 @@ void InitDefaultsChatMessageImpl() {
 void InitDefaultsChatMessage() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsChatMessageImpl);
+}
+
+void InitDefaultsVideoChatRequestMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatRequestMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatRequestMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatRequestMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatRequestMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatRequestMessageImpl);
+}
+
+void InitDefaultsVideoChatRequestCancelMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatRequestCancelMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatRequestCancelMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatRequestCancelMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatRequestCancelMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatRequestCancelMessageImpl);
+}
+
+void InitDefaultsVideoChatReplyMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatReplyMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatReplyMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatReplyMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatReplyMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatReplyMessageImpl);
+}
+
+void InitDefaultsVideoChatOfferMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatOfferMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatOfferMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatOfferMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatOfferMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatOfferMessageImpl);
+}
+
+void InitDefaultsVideoChatAnswerMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatAnswerMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatAnswerMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatAnswerMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatAnswerMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatAnswerMessageImpl);
+}
+
+void InitDefaultsVideoChatNegotiationResultMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatNegotiationResultMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatNegotiationResultMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatNegotiationResultMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatNegotiationResultMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatNegotiationResultMessageImpl);
+}
+
+void InitDefaultsVideoChatCandidateAddressMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatCandidateAddressMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatCandidateAddressMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatCandidateAddressMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatCandidateAddressMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatCandidateAddressMessageImpl);
+}
+
+void InitDefaultsVideoChatByeMessageImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::kakaIM::Node::_VideoChatByeMessage_default_instance_;
+    new (ptr) ::kakaIM::Node::VideoChatByeMessage();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::kakaIM::Node::VideoChatByeMessage::InitAsDefaultInstance();
+}
+
+void InitDefaultsVideoChatByeMessage() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsVideoChatByeMessageImpl);
 }
 
 void InitDefaultsNotificationMessageImpl() {
@@ -1197,8 +1431,8 @@ void InitDefaultsPullGroupChatMessage() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsPullGroupChatMessageImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[45];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[21];
+::google::protobuf::Metadata file_level_metadata[54];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[24];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::RequestSessionIDMessage, _has_bits_),
@@ -1242,7 +1476,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::RegisterMessage, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::RegisterMessage, useraccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::RegisterMessage, userpassword_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::RegisterMessage, usernickname_),
@@ -1251,18 +1484,15 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   1,
   2,
   3,
-  4,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ResponseRegisterMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ResponseRegisterMessage, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ResponseRegisterMessage, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ResponseRegisterMessage, registerstate_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ResponseRegisterMessage, failureerror_),
   0,
   1,
-  2,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::HeartBeatMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::HeartBeatMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1309,12 +1539,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipRequestMessage, sponsoraccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipRequestMessage, targetaccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipRequestMessage, introduction_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipRequestMessage, messageid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipRequestMessage, sign_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipRequestMessage, submissiontime_),
   0,
-  4,
+  6,
   1,
   2,
   3,
+  4,
   5,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, _internal_metadata_),
@@ -1326,13 +1558,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, targetaccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, sponsoraccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, answer_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, messageid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::BuildingRelationshipAnswerMessage, handletime_),
   0,
-  3,
+  4,
   1,
   2,
   5,
-  4,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestroyingRelationshipRequestMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestroyingRelationshipRequestMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1341,9 +1573,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestroyingRelationshipRequestMessage, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestroyingRelationshipRequestMessage, sponsoraccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestroyingRelationshipRequestMessage, targetaccount_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestroyingRelationshipRequestMessage, sign_),
   0,
   1,
   2,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestoryingRelationshipResponseMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestoryingRelationshipResponseMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1353,9 +1587,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestoryingRelationshipResponseMessage, sponsoraccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestoryingRelationshipResponseMessage, targetaccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestoryingRelationshipResponseMessage, response_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::DestoryingRelationshipResponseMessage, sign_),
   0,
   1,
   2,
+  4,
   3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListRequestMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListRequestMessage, _internal_metadata_),
@@ -1363,7 +1599,9 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListRequestMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListRequestMessage, currentversion_),
   0,
+  1,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListItem, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListItem, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1378,8 +1616,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListResponseMessage, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListResponseMessage, friend__),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FriendListResponseMessage, currentversion_),
   0,
   ~0u,
+  1,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::OnlineStateMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::OnlineStateMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1391,6 +1631,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   0,
   1,
   2,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::PullFriendOnlineStateMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::PullFriendOnlineStateMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::PullFriendOnlineStateMessage, sessionid_),
+  0,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1402,12 +1649,126 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatMessage, content_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatMessage, timestamp_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatMessage, messageid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatMessage, sign_),
   0,
   1,
   2,
   3,
   4,
+  6,
   5,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, chattype_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, offerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, sponsoraccount_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, targetaccount_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, sponsorsessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, timestamp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestMessage, sign_),
+  0,
+  7,
+  6,
+  1,
+  2,
+  3,
+  4,
+  5,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestCancelMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestCancelMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestCancelMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatRequestCancelMessage, offerid_),
+  0,
+  1,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, offerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, sponsoraccount_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, targetaccount_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, sponsorsessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, answersessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, reply_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, timestamp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatReplyMessage, sign_),
+  0,
+  7,
+  1,
+  2,
+  3,
+  4,
+  8,
+  5,
+  6,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatOfferMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatOfferMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatOfferMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatOfferMessage, offerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatOfferMessage, sessiondescription_),
+  0,
+  2,
+  1,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatAnswerMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatAnswerMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatAnswerMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatAnswerMessage, offerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatAnswerMessage, sessiondescription_),
+  0,
+  2,
+  1,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatNegotiationResultMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatNegotiationResultMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatNegotiationResultMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatNegotiationResultMessage, offerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatNegotiationResultMessage, result_),
+  0,
+  1,
+  2,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, offerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, fromsessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, sdpmid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, sdpmlineindex_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatCandidateAddressMessage, sdp_ized_description_),
+  0,
+  4,
+  1,
+  2,
+  5,
+  3,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatByeMessage, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatByeMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatByeMessage, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::VideoChatByeMessage, offerid_),
+  0,
+  1,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::NotificationMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::NotificationMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1433,8 +1794,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchUserVCardMessage, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchUserVCardMessage, userid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchUserVCardMessage, currentversion_),
   0,
   1,
+  2,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UserVCardResponseMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UserVCardResponseMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1446,12 +1809,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UserVCardResponseMessage, gender_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UserVCardResponseMessage, mood_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UserVCardResponseMessage, avator_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UserVCardResponseMessage, currentversion_),
   0,
   1,
   2,
-  5,
+  6,
   3,
   4,
+  5,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateUserVCardMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateUserVCardMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1484,9 +1849,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateRequest, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateRequest, groupname_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateRequest, groupdescrption_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateRequest, sign_),
   0,
   1,
   2,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateResponse, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1495,9 +1862,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateResponse, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateResponse, result_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateResponse, groupid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupCreateResponse, sign_),
   0,
-  2,
+  3,
   1,
+  2,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandRequest, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1506,20 +1875,26 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandRequest, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandRequest, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandRequest, operatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandRequest, sign_),
   0,
   1,
   2,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, sessionid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, operatorid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, result_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupDisbandResponse, sign_),
   0,
   1,
   2,
+  4,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1531,12 +1906,16 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, operatorid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, introduction_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, applicant_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, sign_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinRequest, submissiontime_),
   0,
   1,
   2,
   3,
   4,
+  7,
   5,
+  6,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinResponse, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupJoinResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1563,10 +1942,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitRequest, useraccount_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitRequest, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitRequest, operatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitRequest, sign_),
   0,
   1,
   2,
   3,
+  4,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitResponse, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1577,11 +1958,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitResponse, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitResponse, result_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitResponse, operatorid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::ChatGroupQuitResponse, sign_),
   0,
   1,
   2,
-  4,
+  5,
   3,
+  4,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoRequest, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1591,10 +1974,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoRequest, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoRequest, groupname_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoRequest, groupdescrption_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoRequest, sign_),
   0,
   1,
   2,
   3,
+  4,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoResponse, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1604,10 +1989,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoResponse, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoResponse, result_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoResponse, operator__),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::UpdateChatGroupInfoResponse, sign_),
   0,
   1,
-  3,
+  4,
   2,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupInfoRequest, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupInfoRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1641,8 +2028,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListRequest, sessionid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListRequest, groupid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListRequest, sign_),
   0,
   1,
+  2,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1661,10 +2050,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListResponse, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListResponse, result_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListResponse, groupmember_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupMemberListResponse, sign_),
   0,
   1,
-  2,
+  3,
   ~0u,
+  2,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupListRequest, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::FetchChatGroupListRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1700,11 +2091,15 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::GroupChatMessage, groupid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::GroupChatMessage, content_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::GroupChatMessage, msgid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::GroupChatMessage, timestamp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::GroupChatMessage, sign_),
   0,
   1,
   2,
   3,
+  6,
   4,
+  5,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::PullGroupChatMessage, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::kakaIM::Node::PullGroupChatMessage, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1722,47 +2117,56 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 5, 12, sizeof(::kakaIM::Node::ResponseSessionIDMessage)},
   { 14, 22, sizeof(::kakaIM::Node::LoginMessage)},
   { 25, 33, sizeof(::kakaIM::Node::ResponseLoginMessage)},
-  { 36, 46, sizeof(::kakaIM::Node::RegisterMessage)},
-  { 51, 59, sizeof(::kakaIM::Node::ResponseRegisterMessage)},
-  { 62, 69, sizeof(::kakaIM::Node::HeartBeatMessage)},
-  { 71, 78, sizeof(::kakaIM::Node::ResponseHeartBeatMessage)},
-  { 80, 87, sizeof(::kakaIM::Node::LogoutMessage)},
-  { 89, 96, sizeof(::kakaIM::Node::ResponseLogoutMessage)},
-  { 98, 109, sizeof(::kakaIM::Node::BuildingRelationshipRequestMessage)},
-  { 115, 126, sizeof(::kakaIM::Node::BuildingRelationshipAnswerMessage)},
-  { 132, 140, sizeof(::kakaIM::Node::DestroyingRelationshipRequestMessage)},
-  { 143, 152, sizeof(::kakaIM::Node::DestoryingRelationshipResponseMessage)},
-  { 156, 162, sizeof(::kakaIM::Node::FriendListRequestMessage)},
-  { 163, 169, sizeof(::kakaIM::Node::FriendListItem)},
-  { 170, 177, sizeof(::kakaIM::Node::FriendListResponseMessage)},
-  { 179, 187, sizeof(::kakaIM::Node::OnlineStateMessage)},
-  { 190, 201, sizeof(::kakaIM::Node::ChatMessage)},
-  { 207, 214, sizeof(::kakaIM::Node::NotificationMessage)},
-  { 216, 223, sizeof(::kakaIM::Node::PullChatMessage)},
-  { 225, 232, sizeof(::kakaIM::Node::FetchUserVCardMessage)},
-  { 234, 245, sizeof(::kakaIM::Node::UserVCardResponseMessage)},
-  { 251, 261, sizeof(::kakaIM::Node::UpdateUserVCardMessage)},
-  { 266, 273, sizeof(::kakaIM::Node::UpdateUserVCardMessageResponse)},
-  { 275, 283, sizeof(::kakaIM::Node::ChatGroupCreateRequest)},
-  { 286, 294, sizeof(::kakaIM::Node::ChatGroupCreateResponse)},
-  { 297, 305, sizeof(::kakaIM::Node::ChatGroupDisbandRequest)},
-  { 308, 316, sizeof(::kakaIM::Node::ChatGroupDisbandResponse)},
-  { 319, 330, sizeof(::kakaIM::Node::ChatGroupJoinRequest)},
-  { 336, 347, sizeof(::kakaIM::Node::ChatGroupJoinResponse)},
-  { 353, 362, sizeof(::kakaIM::Node::ChatGroupQuitRequest)},
-  { 366, 376, sizeof(::kakaIM::Node::ChatGroupQuitResponse)},
-  { 381, 390, sizeof(::kakaIM::Node::UpdateChatGroupInfoRequest)},
-  { 394, 403, sizeof(::kakaIM::Node::UpdateChatGroupInfoResponse)},
-  { 407, 414, sizeof(::kakaIM::Node::FetchChatGroupInfoRequest)},
-  { 416, 427, sizeof(::kakaIM::Node::FetchChatGroupInfoResponse)},
-  { 433, 440, sizeof(::kakaIM::Node::FetchChatGroupMemberListRequest)},
-  { 442, 449, sizeof(::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo)},
-  { 451, 460, sizeof(::kakaIM::Node::FetchChatGroupMemberListResponse)},
-  { 464, 470, sizeof(::kakaIM::Node::FetchChatGroupListRequest)},
-  { 471, 478, sizeof(::kakaIM::Node::FetchChatGroupListResponse_GroupInfo)},
-  { 480, 487, sizeof(::kakaIM::Node::FetchChatGroupListResponse)},
-  { 489, 499, sizeof(::kakaIM::Node::GroupChatMessage)},
-  { 504, 512, sizeof(::kakaIM::Node::PullGroupChatMessage)},
+  { 36, 45, sizeof(::kakaIM::Node::RegisterMessage)},
+  { 49, 56, sizeof(::kakaIM::Node::ResponseRegisterMessage)},
+  { 58, 65, sizeof(::kakaIM::Node::HeartBeatMessage)},
+  { 67, 74, sizeof(::kakaIM::Node::ResponseHeartBeatMessage)},
+  { 76, 83, sizeof(::kakaIM::Node::LogoutMessage)},
+  { 85, 92, sizeof(::kakaIM::Node::ResponseLogoutMessage)},
+  { 94, 106, sizeof(::kakaIM::Node::BuildingRelationshipRequestMessage)},
+  { 113, 124, sizeof(::kakaIM::Node::BuildingRelationshipAnswerMessage)},
+  { 130, 139, sizeof(::kakaIM::Node::DestroyingRelationshipRequestMessage)},
+  { 143, 153, sizeof(::kakaIM::Node::DestoryingRelationshipResponseMessage)},
+  { 158, 165, sizeof(::kakaIM::Node::FriendListRequestMessage)},
+  { 167, 173, sizeof(::kakaIM::Node::FriendListItem)},
+  { 174, 182, sizeof(::kakaIM::Node::FriendListResponseMessage)},
+  { 185, 193, sizeof(::kakaIM::Node::OnlineStateMessage)},
+  { 196, 202, sizeof(::kakaIM::Node::PullFriendOnlineStateMessage)},
+  { 203, 215, sizeof(::kakaIM::Node::ChatMessage)},
+  { 222, 235, sizeof(::kakaIM::Node::VideoChatRequestMessage)},
+  { 243, 250, sizeof(::kakaIM::Node::VideoChatRequestCancelMessage)},
+  { 252, 266, sizeof(::kakaIM::Node::VideoChatReplyMessage)},
+  { 275, 283, sizeof(::kakaIM::Node::VideoChatOfferMessage)},
+  { 286, 294, sizeof(::kakaIM::Node::VideoChatAnswerMessage)},
+  { 297, 305, sizeof(::kakaIM::Node::VideoChatNegotiationResultMessage)},
+  { 308, 319, sizeof(::kakaIM::Node::VideoChatCandidateAddressMessage)},
+  { 325, 332, sizeof(::kakaIM::Node::VideoChatByeMessage)},
+  { 334, 341, sizeof(::kakaIM::Node::NotificationMessage)},
+  { 343, 350, sizeof(::kakaIM::Node::PullChatMessage)},
+  { 352, 360, sizeof(::kakaIM::Node::FetchUserVCardMessage)},
+  { 363, 375, sizeof(::kakaIM::Node::UserVCardResponseMessage)},
+  { 382, 392, sizeof(::kakaIM::Node::UpdateUserVCardMessage)},
+  { 397, 404, sizeof(::kakaIM::Node::UpdateUserVCardMessageResponse)},
+  { 406, 415, sizeof(::kakaIM::Node::ChatGroupCreateRequest)},
+  { 419, 428, sizeof(::kakaIM::Node::ChatGroupCreateResponse)},
+  { 432, 441, sizeof(::kakaIM::Node::ChatGroupDisbandRequest)},
+  { 445, 455, sizeof(::kakaIM::Node::ChatGroupDisbandResponse)},
+  { 460, 473, sizeof(::kakaIM::Node::ChatGroupJoinRequest)},
+  { 481, 492, sizeof(::kakaIM::Node::ChatGroupJoinResponse)},
+  { 498, 508, sizeof(::kakaIM::Node::ChatGroupQuitRequest)},
+  { 513, 524, sizeof(::kakaIM::Node::ChatGroupQuitResponse)},
+  { 530, 540, sizeof(::kakaIM::Node::UpdateChatGroupInfoRequest)},
+  { 545, 555, sizeof(::kakaIM::Node::UpdateChatGroupInfoResponse)},
+  { 560, 567, sizeof(::kakaIM::Node::FetchChatGroupInfoRequest)},
+  { 569, 580, sizeof(::kakaIM::Node::FetchChatGroupInfoResponse)},
+  { 586, 594, sizeof(::kakaIM::Node::FetchChatGroupMemberListRequest)},
+  { 597, 604, sizeof(::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo)},
+  { 606, 616, sizeof(::kakaIM::Node::FetchChatGroupMemberListResponse)},
+  { 621, 627, sizeof(::kakaIM::Node::FetchChatGroupListRequest)},
+  { 628, 635, sizeof(::kakaIM::Node::FetchChatGroupListResponse_GroupInfo)},
+  { 637, 644, sizeof(::kakaIM::Node::FetchChatGroupListResponse)},
+  { 646, 658, sizeof(::kakaIM::Node::GroupChatMessage)},
+  { 665, 673, sizeof(::kakaIM::Node::PullGroupChatMessage)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -1784,7 +2188,16 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_FriendListItem_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_FriendListResponseMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_OnlineStateMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_PullFriendOnlineStateMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_ChatMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatRequestMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatRequestCancelMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatReplyMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatOfferMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatAnswerMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatNegotiationResultMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatCandidateAddressMessage_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_VideoChatByeMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_NotificationMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_PullChatMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::kakaIM::Node::_FetchUserVCardMessage_default_instance_),
@@ -1829,7 +2242,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 45);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 54);
 }
 
 void AddDescriptorsImpl() {
@@ -1849,166 +2262,209 @@ void AddDescriptorsImpl() {
       "Node.ResponseLoginMessage.FailureError\"%"
       "\n\nLoginState\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\"C\n"
       "\014FailureError\022\032\n\026WrongAccountOrPassword\020"
-      "\001\022\027\n\023ServerInternalError\020\002\"\315\001\n\017RegisterM"
-      "essage\022\021\n\tsessionID\030\001 \002(\t\022\023\n\013userAccount"
-      "\030\002 \002(\t\022\024\n\014userPassword\030\003 \002(\t\022\024\n\014userNick"
-      "Name\030\004 \001(\t\0229\n\003sex\030\005 \001(\0162$.kakaIM.Node.Re"
-      "gisterMessage.UserSex:\006Unkown\"+\n\007UserSex"
-      "\022\010\n\004male\020\001\022\n\n\006female\020\002\022\n\n\006Unkown\020\003\"\255\002\n\027R"
-      "esponseRegisterMessage\022\021\n\tsessionID\030\001 \002("
-      "\t\022I\n\rregisterState\030\002 \002(\01622.kakaIM.Node.R"
-      "esponseRegisterMessage.RegisterState\022G\n\014"
-      "failureError\030\003 \001(\01621.kakaIM.Node.Respons"
-      "eRegisterMessage.FailureError\"(\n\rRegiste"
-      "rState\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\"A\n\014Failu"
-      "reError\022\030\n\024AccountAlreadyExists\020\001\022\027\n\023Ser"
-      "verInternalError\020\002\"8\n\020HeartBeatMessage\022\021"
-      "\n\tsessionID\030\001 \002(\t\022\021\n\ttimestamp\030\002 \002(\t\"@\n\030"
-      "ResponseHeartBeatMessage\022\021\n\tsessionID\030\001 "
-      "\002(\t\022\021\n\ttimestamp\030\002 \002(\t\"\231\001\n\rLogoutMessage"
-      "\022\021\n\tsessionID\030\001 \002(\t\022L\n\021offlineMaileState"
-      "\030\002 \001(\0162+.kakaIM.Node.LogoutMessage.Offli"
-      "neMailState:\004Open\"\'\n\020OfflineMailState\022\010\n"
-      "\004Open\020\001\022\t\n\005Close\020\002\"\251\001\n\025ResponseLogoutMes"
-      "sage\022\021\n\tsessionID\030\001 \002(\t\022T\n\021offlineMaileS"
-      "tate\030\002 \001(\01623.kakaIM.Node.ResponseLogoutM"
-      "essage.OfflineMailState:\004Open\"\'\n\020Offline"
-      "MailState\022\010\n\004Open\020\001\022\t\n\005Close\020\002\"\245\001\n\"Build"
-      "ingRelationshipRequestMessage\022\021\n\tsession"
-      "ID\030\001 \002(\t\022\024\n\014applicant_id\030\002 \001(\004\022\026\n\016sponso"
-      "rAccount\030\003 \002(\t\022\025\n\rtargetAccount\030\004 \002(\t\022\024\n"
-      "\014introduction\030\005 \002(\t\022\021\n\tmessageID\030\006 \001(\004\"\237"
-      "\002\n!BuildingRelationshipAnswerMessage\022\021\n\t"
-      "sessionID\030\001 \002(\t\022\024\n\014applicant_id\030\002 \002(\004\022\025\n"
-      "\rtargetAccount\030\003 \002(\t\022\026\n\016sponsorAccount\030\004"
-      " \002(\t\022Y\n\006answer\030\005 \002(\0162I.kakaIM.Node.Build"
-      "ingRelationshipAnswerMessage.BuildingRel"
-      "ationshipAnswer\022\021\n\tmessageID\030\006 \001(\004\"4\n\032Bu"
-      "ildingRelationshipAnswer\022\n\n\006Accept\020\001\022\n\n\006"
-      "Reject\020\002\"h\n$DestroyingRelationshipReques"
-      "tMessage\022\021\n\tsessionID\030\001 \002(\t\022\026\n\016sponsorAc"
-      "count\030\002 \002(\t\022\025\n\rtargetAccount\030\003 \002(\t\"\253\002\n%D"
-      "estoryingRelationshipResponseMessage\022\021\n\t"
-      "sessionID\030\001 \002(\t\022\026\n\016sponsorAccount\030\002 \002(\t\022"
-      "\025\n\rtargetAccount\030\003 \002(\t\022c\n\010response\030\004 \002(\016"
-      "2Q.kakaIM.Node.DestoryingRelationshipRes"
-      "ponseMessage.DestoryingRelationshipRespo"
-      "nse\"[\n\036DestoryingRelationshipResponse\022\013\n"
-      "\007Success\020\001\022\026\n\022ServerInteralError\020\002\022\024\n\020Il"
-      "legalOperation\020\003\"-\n\030FriendListRequestMes"
-      "sage\022\021\n\tsessionID\030\001 \002(\t\"\'\n\016FriendListIte"
-      "m\022\025\n\rfriendAccount\030\001 \002(\t\"[\n\031FriendListRe"
-      "sponseMessage\022\021\n\tsessionID\030\001 \002(\t\022+\n\006frie"
-      "nd\030\002 \003(\0132\033.kakaIM.Node.FriendListItem\"\263\001"
-      "\n\022OnlineStateMessage\022\021\n\tsessionID\030\001 \002(\t\022"
-      "\023\n\013userAccount\030\002 \002(\t\022>\n\tuserState\030\003 \002(\0162"
-      "+.kakaIM.Node.OnlineStateMessage.OnlineS"
-      "tate\"5\n\013OnlineState\022\n\n\006Online\020\001\022\013\n\007Offli"
-      "ne\020\002\022\r\n\tInvisible\020\003\"\207\001\n\013ChatMessage\022\021\n\ts"
-      "essionID\030\001 \002(\t\022\025\n\rsenderAccount\030\002 \002(\t\022\027\n"
-      "\017receiverAccount\030\003 \002(\t\022\017\n\007content\030\004 \002(\t\022"
-      "\021\n\ttimestamp\030\005 \002(\t\022\021\n\tmessageID\030\006 \001(\004\"\256\001"
-      "\n\023NotificationMessage\022F\n\004type\030\001 \002(\01628.ka"
-      "kaIM.Node.NotificationMessage.Notificati"
-      "onMessageType\022\021\n\tmessageID\030\002 \001(\004\"<\n\027Noti"
-      "ficationMessageType\022!\n\035SystemNotificatio"
-      "nMessageType\020\001\"7\n\017PullChatMessage\022\021\n\tses"
-      "sionID\030\001 \002(\t\022\021\n\tmessageID\030\002 \002(\004\":\n\025Fetch"
-      "UserVCardMessage\022\021\n\tsessionID\030\001 \002(\t\022\016\n\006u"
-      "serID\030\002 \002(\t\"\232\001\n\030UserVCardResponseMessage"
-      "\022\021\n\tsessionID\030\001 \002(\t\022\016\n\006userID\030\002 \002(\t\022\020\n\010n"
-      "ickname\030\003 \002(\t\022+\n\006gender\030\004 \002(\0162\033.kakaIM.N"
-      "ode.UserGenderType\022\014\n\004mood\030\005 \001(\t\022\016\n\006avat"
-      "or\030\006 \001(\014\"\210\001\n\026UpdateUserVCardMessage\022\021\n\ts"
-      "essionID\030\001 \002(\t\022\020\n\010nickname\030\002 \001(\t\022+\n\006gend"
-      "er\030\003 \001(\0162\033.kakaIM.Node.UserGenderType\022\014\n"
-      "\004mood\030\004 \001(\t\022\016\n\006avator\030\005 \001(\014\"\276\001\n\036UpdateUs"
-      "erVCardMessageResponse\022\021\n\tsessionID\030\001 \002("
-      "\t\022S\n\005state\030\002 \002(\0162D.kakaIM.Node.UpdateUse"
-      "rVCardMessageResponse.UpdateUserVCardSta"
-      "teType\"4\n\030UpdateUserVCardStateType\022\013\n\007Su"
-      "ccess\020\001\022\013\n\007Failure\020\002\"W\n\026ChatGroupCreateR"
-      "equest\022\021\n\tsessionID\030\001 \002(\t\022\021\n\tgroupName\030\002"
-      " \002(\t\022\027\n\017groupDescrption\030\003 \002(\t\"\313\001\n\027ChatGr"
-      "oupCreateResponse\022\021\n\tsessionID\030\001 \002(\t\022R\n\006"
-      "result\030\002 \002(\0162B.kakaIM.Node.ChatGroupCrea"
-      "teResponse.ChatGroupCreateResponseResult"
-      "\022\017\n\007groupId\030\003 \001(\t\"8\n\035ChatGroupCreateResp"
-      "onseResult\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\"Q\n\027C"
-      "hatGroupDisbandRequest\022\021\n\tsessionID\030\001 \002("
-      "\t\022\017\n\007groupId\030\002 \002(\t\022\022\n\noperatorId\030\003 \002(\t\"\322"
-      "\001\n\030ChatGroupDisbandResponse\022\021\n\tsessionID"
-      "\030\001 \002(\t\022\022\n\noperatorId\030\002 \002(\t\022T\n\006result\030\003 \002"
-      "(\0162D.kakaIM.Node.ChatGroupDisbandRespons"
-      "e.ChatGroupDisbandResponseResult\"9\n\036Chat"
-      "GroupDisbandResponseResult\022\013\n\007Success\020\001\022"
-      "\n\n\006Failed\020\002\"\217\001\n\024ChatGroupJoinRequest\022\021\n\t"
-      "sessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022\023\n\013user"
-      "Account\030\003 \002(\t\022\022\n\noperatorId\030\004 \001(\t\022\024\n\014int"
-      "roduction\030\005 \001(\t\022\024\n\014applicant_id\030\006 \001(\004\"\313\002"
-      "\n\025ChatGroupJoinResponse\022\021\n\tsessionID\030\001 \002"
-      "(\t\022\017\n\007groupId\030\002 \002(\t\022\023\n\013userAccount\030\003 \002(\t"
-      "\022N\n\006result\030\004 \002(\0162>.kakaIM.Node.ChatGroup"
-      "JoinResponse.ChatGroupJoinResponseResult"
-      "\022\024\n\014applicant_id\030\005 \001(\004\022\022\n\noperatorId\030\006 \001"
-      "(\t\"\177\n\033ChatGroupJoinResponseResult\022\t\n\005All"
-      "ow\020\001\022\n\n\006Reject\020\002\022\027\n\023ServerInternalError\020"
-      "\003\022\026\n\022InfomationNotMatch\020\004\022\030\n\024Authorizati"
-      "onNotMath\020\005\"c\n\024ChatGroupQuitRequest\022\021\n\ts"
-      "essionID\030\001 \002(\t\022\023\n\013userAccount\030\002 \002(\t\022\017\n\007g"
-      "roupId\030\003 \002(\t\022\022\n\noperatorId\030\004 \001(\t\"\354\001\n\025Cha"
-      "tGroupQuitResponse\022\021\n\tsessionID\030\001 \002(\t\022\023\n"
-      "\013userAccount\030\002 \002(\t\022\017\n\007groupId\030\003 \002(\t\022N\n\006r"
-      "esult\030\004 \002(\0162>.kakaIM.Node.ChatGroupQuitR"
-      "esponse.ChatGroupQuitResponseResult\022\022\n\no"
-      "peratorId\030\005 \001(\t\"6\n\033ChatGroupQuitResponse"
-      "Result\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\"l\n\032Updat"
-      "eChatGroupInfoRequest\022\021\n\tsessionID\030\001 \002(\t"
-      "\022\017\n\007groupId\030\002 \002(\t\022\021\n\tgroupName\030\003 \002(\t\022\027\n\017"
-      "groupDescrption\030\004 \002(\t\"\271\002\n\033UpdateChatGrou"
-      "pInfoResponse\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007grou"
-      "pId\030\002 \002(\t\022Z\n\006result\030\004 \002(\0162J.kakaIM.Node."
-      "UpdateChatGroupInfoResponse.UpdateChatGr"
-      "oupInfoResponseResult\022\020\n\010operator\030\003 \001(\t\""
-      "\207\001\n!UpdateChatGroupInfoResponseResult\022\013\n"
-      "\007Success\020\001\022\n\n\006Failed\020\002\022\027\n\023ServerInternal"
-      "Error\020\003\022\026\n\022InfomationNotMatch\020\004\022\030\n\024Autho"
-      "rizationNotMath\020\005\"\?\n\031FetchChatGroupInfoR"
-      "equest\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002"
-      "(\t\"\230\002\n\032FetchChatGroupInfoResponse\022\021\n\tses"
-      "sionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022X\n\006result\030"
-      "\003 \002(\0162H.kakaIM.Node.FetchChatGroupInfoRe"
-      "sponse.FetchChatGroupInfoResponseResult\022"
-      "\021\n\tgroupName\030\004 \001(\t\022\027\n\017groupDescrption\030\005 "
-      "\001(\t\022\023\n\013groupMaster\030\006 \001(\t\";\n FetchChatGro"
-      "upInfoResponseResult\022\013\n\007Success\020\001\022\n\n\006Fai"
-      "led\020\002\"E\n\037FetchChatGroupMemberListRequest"
-      "\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\"\212\003\n"
-      " FetchChatGroupMemberListResponse\022\021\n\tses"
-      "sionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022d\n\006result\030"
-      "\003 \002(\0162T.kakaIM.Node.FetchChatGroupMember"
-      "ListResponse.FetchChatGroupMemberListRes"
-      "ponseResult\022V\n\013groupMember\030\004 \003(\0132A.kakaI"
-      "M.Node.FetchChatGroupMemberListResponse."
-      "ChatGroupMemberInfo\032A\n\023ChatGroupMemberIn"
-      "fo\022\023\n\013userAccount\030\001 \002(\t\022\025\n\rgroupNickName"
-      "\030\002 \001(\t\"A\n&FetchChatGroupMemberListRespon"
-      "seResult\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\".\n\031Fet"
-      "chChatGroupListRequest\022\021\n\tsessionID\030\001 \002("
-      "\t\"\242\001\n\032FetchChatGroupListResponse\022\021\n\tsess"
-      "ionID\030\001 \002(\t\022@\n\005group\030\002 \003(\01321.kakaIM.Node"
-      ".FetchChatGroupListResponse.GroupInfo\032/\n"
-      "\tGroupInfo\022\017\n\007groupId\030\001 \002(\t\022\021\n\tgroupName"
-      "\030\002 \002(\t\"f\n\020GroupChatMessage\022\021\n\tsessionID\030"
-      "\001 \002(\t\022\016\n\006sender\030\002 \002(\t\022\017\n\007groupId\030\003 \002(\t\022\017"
-      "\n\007content\030\004 \002(\t\022\r\n\005msgId\030\005 \001(\004\"M\n\024PullGr"
-      "oupChatMessage\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007gro"
-      "upID\030\002 \002(\t\022\021\n\tmessageID\030\003 \002(\004*2\n\016UserGen"
-      "derType\022\010\n\004Male\020\001\022\n\n\006Female\020\002\022\n\n\006Unkown\020"
-      "\003"
+      "\001\022\027\n\023ServerInternalError\020\002\"\272\001\n\017RegisterM"
+      "essage\022\023\n\013userAccount\030\001 \002(\t\022\024\n\014userPassw"
+      "ord\030\002 \002(\t\022\024\n\014userNickName\030\003 \001(\t\0229\n\003sex\030\004"
+      " \001(\0162$.kakaIM.Node.RegisterMessage.UserS"
+      "ex:\006Unkown\"+\n\007UserSex\022\010\n\004male\020\001\022\n\n\006femal"
+      "e\020\002\022\n\n\006Unkown\020\003\"\232\002\n\027ResponseRegisterMess"
+      "age\022I\n\rregisterState\030\001 \002(\01622.kakaIM.Node"
+      ".ResponseRegisterMessage.RegisterState\022G"
+      "\n\014failureError\030\002 \001(\01621.kakaIM.Node.Respo"
+      "nseRegisterMessage.FailureError\"(\n\rRegis"
+      "terState\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\"A\n\014Fai"
+      "lureError\022\030\n\024AccountAlreadyExists\020\001\022\027\n\023S"
+      "erverInternalError\020\002\"8\n\020HeartBeatMessage"
+      "\022\021\n\tsessionID\030\001 \002(\t\022\021\n\ttimestamp\030\002 \002(\t\"@"
+      "\n\030ResponseHeartBeatMessage\022\021\n\tsessionID\030"
+      "\001 \002(\t\022\021\n\ttimestamp\030\002 \002(\t\"\231\001\n\rLogoutMessa"
+      "ge\022\021\n\tsessionID\030\001 \002(\t\022L\n\021offlineMaileSta"
+      "te\030\002 \001(\0162+.kakaIM.Node.LogoutMessage.Off"
+      "lineMailState:\004Open\"\'\n\020OfflineMailState\022"
+      "\010\n\004Open\020\001\022\t\n\005Close\020\002\"\251\001\n\025ResponseLogoutM"
+      "essage\022\021\n\tsessionID\030\001 \002(\t\022T\n\021offlineMail"
+      "eState\030\002 \001(\01623.kakaIM.Node.ResponseLogou"
+      "tMessage.OfflineMailState:\004Open\"\'\n\020Offli"
+      "neMailState\022\010\n\004Open\020\001\022\t\n\005Close\020\002\"\270\001\n\"Bui"
+      "ldingRelationshipRequestMessage\022\021\n\tsessi"
+      "onID\030\001 \002(\t\022\024\n\014applicant_id\030\002 \001(\004\022\026\n\016spon"
+      "sorAccount\030\003 \002(\t\022\025\n\rtargetAccount\030\004 \002(\t\022"
+      "\024\n\014introduction\030\005 \002(\t\022\014\n\004sign\030\006 \002(\t\022\026\n\016s"
+      "ubmissionTime\030\007 \001(\t\"\240\002\n!BuildingRelation"
+      "shipAnswerMessage\022\021\n\tsessionID\030\001 \002(\t\022\024\n\014"
+      "applicant_id\030\002 \002(\004\022\025\n\rtargetAccount\030\003 \002("
+      "\t\022\026\n\016sponsorAccount\030\004 \002(\t\022Y\n\006answer\030\005 \002("
+      "\0162I.kakaIM.Node.BuildingRelationshipAnsw"
+      "erMessage.BuildingRelationshipAnswer\022\022\n\n"
+      "handleTime\030\006 \001(\t\"4\n\032BuildingRelationship"
+      "Answer\022\n\n\006Accept\020\001\022\n\n\006Reject\020\002\"v\n$Destro"
+      "yingRelationshipRequestMessage\022\021\n\tsessio"
+      "nID\030\001 \002(\t\022\026\n\016sponsorAccount\030\002 \002(\t\022\025\n\rtar"
+      "getAccount\030\003 \002(\t\022\014\n\004sign\030\004 \001(\t\"\271\002\n%Desto"
+      "ryingRelationshipResponseMessage\022\021\n\tsess"
+      "ionID\030\001 \002(\t\022\026\n\016sponsorAccount\030\002 \002(\t\022\025\n\rt"
+      "argetAccount\030\003 \002(\t\022c\n\010response\030\004 \002(\0162Q.k"
+      "akaIM.Node.DestoryingRelationshipRespons"
+      "eMessage.DestoryingRelationshipResponse\022"
+      "\014\n\004sign\030\005 \001(\t\"[\n\036DestoryingRelationshipR"
+      "esponse\022\013\n\007Success\020\001\022\026\n\022ServerInteralErr"
+      "or\020\002\022\024\n\020IllegalOperation\020\003\"E\n\030FriendList"
+      "RequestMessage\022\021\n\tsessionID\030\001 \002(\t\022\026\n\016cur"
+      "rentVersion\030\002 \001(\004\"\'\n\016FriendListItem\022\025\n\rf"
+      "riendAccount\030\001 \002(\t\"s\n\031FriendListResponse"
+      "Message\022\021\n\tsessionID\030\001 \002(\t\022+\n\006friend\030\002 \003"
+      "(\0132\033.kakaIM.Node.FriendListItem\022\026\n\016curre"
+      "ntVersion\030\003 \001(\004\"\263\001\n\022OnlineStateMessage\022\021"
+      "\n\tsessionID\030\001 \002(\t\022\023\n\013userAccount\030\002 \002(\t\022>"
+      "\n\tuserState\030\003 \002(\0162+.kakaIM.Node.OnlineSt"
+      "ateMessage.OnlineState\"5\n\013OnlineState\022\n\n"
+      "\006Online\020\001\022\013\n\007Offline\020\002\022\r\n\tInvisible\020\003\"1\n"
+      "\034PullFriendOnlineStateMessage\022\021\n\tsession"
+      "ID\030\001 \002(\t\"\225\001\n\013ChatMessage\022\021\n\tsessionID\030\001 "
+      "\002(\t\022\025\n\rsenderAccount\030\002 \002(\t\022\027\n\017receiverAc"
+      "count\030\003 \002(\t\022\017\n\007content\030\004 \002(\t\022\021\n\ttimestam"
+      "p\030\005 \001(\t\022\021\n\tmessageID\030\006 \001(\004\022\014\n\004sign\030\007 \002(\t"
+      "\"\212\002\n\027VideoChatRequestMessage\022\021\n\tsessionI"
+      "D\030\001 \002(\t\022\?\n\010chatType\030\002 \002(\0162-.kakaIM.Node."
+      "VideoChatRequestMessage.ChatType\022\017\n\007offe"
+      "rID\030\003 \001(\004\022\026\n\016sponsorAccount\030\004 \001(\t\022\025\n\rtar"
+      "getAccount\030\005 \002(\t\022\030\n\020sponsorSessionId\030\006 \001"
+      "(\t\022\021\n\ttimestamp\030\007 \001(\t\022\014\n\004sign\030\010 \002(\t\" \n\010C"
+      "hatType\022\t\n\005Voice\020\001\022\t\n\005Video\020\002\"C\n\035VideoCh"
+      "atRequestCancelMessage\022\021\n\tsessionID\030\001 \002("
+      "\t\022\017\n\007offerID\030\002 \002(\004\"\344\002\n\025VideoChatReplyMes"
+      "sage\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007offerID\030\002 \002(\004"
+      "\022\026\n\016sponsorAccount\030\003 \001(\t\022\025\n\rtargetAccoun"
+      "t\030\004 \001(\t\022\030\n\020sponsorSessionId\030\005 \001(\t\022\027\n\017ans"
+      "werSessionId\030\006 \001(\t\022@\n\005reply\030\007 \002(\01621.kaka"
+      "IM.Node.VideoChatReplyMessage.VideoChatR"
+      "eply\022\021\n\ttimestamp\030\010 \001(\t\022\014\n\004sign\030\t \002(\t\"b\n"
+      "\016VideoChatReply\022\030\n\024VideoChatReply_Allow\020"
+      "\001\022\031\n\025VideoChatReply_Reject\020\002\022\033\n\027VideoCha"
+      "tReply_NoAnswer\020\003\"W\n\025VideoChatOfferMessa"
+      "ge\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007offerID\030\002 \002(\004\022\032"
+      "\n\022sessionDescription\030\003 \002(\t\"X\n\026VideoChatA"
+      "nswerMessage\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007offer"
+      "ID\030\002 \002(\004\022\032\n\022sessionDescription\030\003 \002(\t\"\353\001\n"
+      "!VideoChatNegotiationResultMessage\022\021\n\tse"
+      "ssionID\030\001 \002(\t\022\017\n\007offerID\030\002 \002(\004\022P\n\006result"
+      "\030\003 \002(\0162@.kakaIM.Node.VideoChatNegotiatio"
+      "nResultMessage.NegotiationResult\"P\n\021Nego"
+      "tiationResult\022\035\n\031NegotiationResult_Succe"
+      "ss\020\001\022\034\n\030NegotiationResult_Failed\020\002\"\242\001\n V"
+      "ideoChatCandidateAddressMessage\022\021\n\tsessi"
+      "onID\030\001 \002(\t\022\017\n\007offerID\030\002 \002(\004\022\025\n\rfromSessi"
+      "onId\030\003 \002(\t\022\016\n\006sdpMid\030\004 \002(\t\022\025\n\rsdpMLineIn"
+      "dex\030\005 \002(\003\022\034\n\024SDP_ized_description\030\006 \002(\t\""
+      "9\n\023VideoChatByeMessage\022\021\n\tsessionID\030\001 \002("
+      "\t\022\017\n\007offerID\030\002 \002(\004\"\256\001\n\023NotificationMessa"
+      "ge\022F\n\004type\030\001 \002(\01628.kakaIM.Node.Notificat"
+      "ionMessage.NotificationMessageType\022\021\n\tme"
+      "ssageID\030\002 \001(\004\"<\n\027NotificationMessageType"
+      "\022!\n\035SystemNotificationMessageType\020\001\"7\n\017P"
+      "ullChatMessage\022\021\n\tsessionID\030\001 \002(\t\022\021\n\tmes"
+      "sageID\030\002 \002(\004\"R\n\025FetchUserVCardMessage\022\021\n"
+      "\tsessionID\030\001 \002(\t\022\016\n\006userID\030\002 \002(\t\022\026\n\016curr"
+      "entVersion\030\003 \001(\t\"\262\001\n\030UserVCardResponseMe"
+      "ssage\022\021\n\tsessionID\030\001 \002(\t\022\016\n\006userID\030\002 \002(\t"
+      "\022\020\n\010nickname\030\003 \001(\t\022+\n\006gender\030\004 \001(\0162\033.kak"
+      "aIM.Node.UserGenderType\022\014\n\004mood\030\005 \001(\t\022\016\n"
+      "\006avator\030\006 \001(\014\022\026\n\016currentVersion\030\007 \001(\t\"\210\001"
+      "\n\026UpdateUserVCardMessage\022\021\n\tsessionID\030\001 "
+      "\002(\t\022\020\n\010nickname\030\002 \001(\t\022+\n\006gender\030\003 \001(\0162\033."
+      "kakaIM.Node.UserGenderType\022\014\n\004mood\030\004 \001(\t"
+      "\022\016\n\006avator\030\005 \001(\014\"\276\001\n\036UpdateUserVCardMess"
+      "ageResponse\022\021\n\tsessionID\030\001 \002(\t\022S\n\005state\030"
+      "\002 \002(\0162D.kakaIM.Node.UpdateUserVCardMessa"
+      "geResponse.UpdateUserVCardStateType\"4\n\030U"
+      "pdateUserVCardStateType\022\013\n\007Success\020\001\022\013\n\007"
+      "Failure\020\002\"e\n\026ChatGroupCreateRequest\022\021\n\ts"
+      "essionID\030\001 \002(\t\022\021\n\tgroupName\030\002 \002(\t\022\027\n\017gro"
+      "upDescrption\030\003 \002(\t\022\014\n\004sign\030\004 \001(\t\"\331\001\n\027Cha"
+      "tGroupCreateResponse\022\021\n\tsessionID\030\001 \002(\t\022"
+      "R\n\006result\030\002 \002(\0162B.kakaIM.Node.ChatGroupC"
+      "reateResponse.ChatGroupCreateResponseRes"
+      "ult\022\017\n\007groupId\030\003 \001(\t\022\014\n\004sign\030\004 \001(\t\"8\n\035Ch"
+      "atGroupCreateResponseResult\022\013\n\007Success\020\001"
+      "\022\n\n\006Failed\020\002\"_\n\027ChatGroupDisbandRequest\022"
+      "\021\n\tsessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022\022\n\no"
+      "peratorId\030\003 \002(\t\022\014\n\004sign\030\004 \001(\t\"\361\001\n\030ChatGr"
+      "oupDisbandResponse\022\021\n\tsessionID\030\001 \002(\t\022\017\n"
+      "\007groupId\030\002 \002(\t\022\022\n\noperatorId\030\003 \002(\t\022T\n\006re"
+      "sult\030\004 \002(\0162D.kakaIM.Node.ChatGroupDisban"
+      "dResponse.ChatGroupDisbandResponseResult"
+      "\022\014\n\004sign\030\005 \001(\t\"9\n\036ChatGroupDisbandRespon"
+      "seResult\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\"\265\001\n\024Ch"
+      "atGroupJoinRequest\022\021\n\tsessionID\030\001 \002(\t\022\017\n"
+      "\007groupId\030\002 \002(\t\022\023\n\013userAccount\030\003 \002(\t\022\022\n\no"
+      "peratorId\030\004 \001(\t\022\024\n\014introduction\030\005 \001(\t\022\024\n"
+      "\014applicant_id\030\006 \001(\004\022\014\n\004sign\030\007 \002(\t\022\026\n\016sub"
+      "missionTime\030\010 \001(\t\"\313\002\n\025ChatGroupJoinRespo"
+      "nse\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022"
+      "\023\n\013userAccount\030\003 \002(\t\022N\n\006result\030\004 \002(\0162>.k"
+      "akaIM.Node.ChatGroupJoinResponse.ChatGro"
+      "upJoinResponseResult\022\024\n\014applicant_id\030\005 \001"
+      "(\004\022\022\n\noperatorId\030\006 \001(\t\"\177\n\033ChatGroupJoinR"
+      "esponseResult\022\t\n\005Allow\020\001\022\n\n\006Reject\020\002\022\027\n\023"
+      "ServerInternalError\020\003\022\026\n\022InfomationNotMa"
+      "tch\020\004\022\030\n\024AuthorizationNotMath\020\005\"q\n\024ChatG"
+      "roupQuitRequest\022\021\n\tsessionID\030\001 \002(\t\022\023\n\013us"
+      "erAccount\030\002 \002(\t\022\017\n\007groupId\030\003 \002(\t\022\022\n\noper"
+      "atorId\030\004 \001(\t\022\014\n\004sign\030\005 \001(\t\"\372\001\n\025ChatGroup"
+      "QuitResponse\022\021\n\tsessionID\030\001 \002(\t\022\023\n\013userA"
+      "ccount\030\002 \002(\t\022\017\n\007groupId\030\003 \002(\t\022N\n\006result\030"
+      "\004 \002(\0162>.kakaIM.Node.ChatGroupQuitRespons"
+      "e.ChatGroupQuitResponseResult\022\022\n\noperato"
+      "rId\030\005 \001(\t\022\014\n\004sign\030\006 \001(\t\"6\n\033ChatGroupQuit"
+      "ResponseResult\022\013\n\007Success\020\001\022\n\n\006Failed\020\002\""
+      "z\n\032UpdateChatGroupInfoRequest\022\021\n\tsession"
+      "ID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022\021\n\tgroupName\030\003"
+      " \002(\t\022\027\n\017groupDescrption\030\004 \002(\t\022\014\n\004sign\030\005 "
+      "\001(\t\"\307\002\n\033UpdateChatGroupInfoResponse\022\021\n\ts"
+      "essionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022Z\n\006resul"
+      "t\030\004 \002(\0162J.kakaIM.Node.UpdateChatGroupInf"
+      "oResponse.UpdateChatGroupInfoResponseRes"
+      "ult\022\020\n\010operator\030\003 \001(\t\022\014\n\004sign\030\005 \001(\t\"\207\001\n!"
+      "UpdateChatGroupInfoResponseResult\022\013\n\007Suc"
+      "cess\020\001\022\n\n\006Failed\020\002\022\027\n\023ServerInternalErro"
+      "r\020\003\022\026\n\022InfomationNotMatch\020\004\022\030\n\024Authoriza"
+      "tionNotMath\020\005\"\?\n\031FetchChatGroupInfoReque"
+      "st\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\"\230"
+      "\002\n\032FetchChatGroupInfoResponse\022\021\n\tsession"
+      "ID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022X\n\006result\030\003 \002("
+      "\0162H.kakaIM.Node.FetchChatGroupInfoRespon"
+      "se.FetchChatGroupInfoResponseResult\022\021\n\tg"
+      "roupName\030\004 \001(\t\022\027\n\017groupDescrption\030\005 \001(\t\022"
+      "\023\n\013groupMaster\030\006 \001(\t\";\n FetchChatGroupIn"
+      "foResponseResult\022\013\n\007Success\020\001\022\n\n\006Failed\020"
+      "\002\"S\n\037FetchChatGroupMemberListRequest\022\021\n\t"
+      "sessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022\014\n\004sign"
+      "\030\003 \001(\t\"\230\003\n FetchChatGroupMemberListRespo"
+      "nse\022\021\n\tsessionID\030\001 \002(\t\022\017\n\007groupId\030\002 \002(\t\022"
+      "d\n\006result\030\003 \002(\0162T.kakaIM.Node.FetchChatG"
+      "roupMemberListResponse.FetchChatGroupMem"
+      "berListResponseResult\022V\n\013groupMember\030\004 \003"
+      "(\0132A.kakaIM.Node.FetchChatGroupMemberLis"
+      "tResponse.ChatGroupMemberInfo\022\014\n\004sign\030\005 "
+      "\001(\t\032A\n\023ChatGroupMemberInfo\022\023\n\013userAccoun"
+      "t\030\001 \002(\t\022\025\n\rgroupNickName\030\002 \001(\t\"A\n&FetchC"
+      "hatGroupMemberListResponseResult\022\013\n\007Succ"
+      "ess\020\001\022\n\n\006Failed\020\002\".\n\031FetchChatGroupListR"
+      "equest\022\021\n\tsessionID\030\001 \002(\t\"\242\001\n\032FetchChatG"
+      "roupListResponse\022\021\n\tsessionID\030\001 \002(\t\022@\n\005g"
+      "roup\030\002 \003(\01321.kakaIM.Node.FetchChatGroupL"
+      "istResponse.GroupInfo\032/\n\tGroupInfo\022\017\n\007gr"
+      "oupId\030\001 \002(\t\022\021\n\tgroupName\030\002 \002(\t\"\207\001\n\020Group"
+      "ChatMessage\022\021\n\tsessionID\030\001 \002(\t\022\016\n\006sender"
+      "\030\002 \002(\t\022\017\n\007groupId\030\003 \002(\t\022\017\n\007content\030\004 \002(\t"
+      "\022\r\n\005msgId\030\005 \001(\004\022\021\n\ttimestamp\030\006 \001(\t\022\014\n\004si"
+      "gn\030\007 \002(\t\"M\n\024PullGroupChatMessage\022\021\n\tsess"
+      "ionID\030\001 \002(\t\022\017\n\007groupID\030\002 \002(\t\022\021\n\tmessageI"
+      "D\030\003 \002(\004*2\n\016UserGenderType\022\010\n\004Male\020\001\022\n\n\006F"
+      "emale\020\002\022\n\n\006Unkown\020\003"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 6801);
+      descriptor, 8539);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "KakaIMMessage.proto", &protobuf_RegisterTypes);
 }
@@ -2263,9 +2719,74 @@ const OnlineStateMessage_OnlineState OnlineStateMessage::OnlineState_MIN;
 const OnlineStateMessage_OnlineState OnlineStateMessage::OnlineState_MAX;
 const int OnlineStateMessage::OnlineState_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-const ::google::protobuf::EnumDescriptor* NotificationMessage_NotificationMessageType_descriptor() {
+const ::google::protobuf::EnumDescriptor* VideoChatRequestMessage_ChatType_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[11];
+}
+bool VideoChatRequestMessage_ChatType_IsValid(int value) {
+  switch (value) {
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const VideoChatRequestMessage_ChatType VideoChatRequestMessage::Voice;
+const VideoChatRequestMessage_ChatType VideoChatRequestMessage::Video;
+const VideoChatRequestMessage_ChatType VideoChatRequestMessage::ChatType_MIN;
+const VideoChatRequestMessage_ChatType VideoChatRequestMessage::ChatType_MAX;
+const int VideoChatRequestMessage::ChatType_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* VideoChatReplyMessage_VideoChatReply_descriptor() {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[12];
+}
+bool VideoChatReplyMessage_VideoChatReply_IsValid(int value) {
+  switch (value) {
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const VideoChatReplyMessage_VideoChatReply VideoChatReplyMessage::VideoChatReply_Allow;
+const VideoChatReplyMessage_VideoChatReply VideoChatReplyMessage::VideoChatReply_Reject;
+const VideoChatReplyMessage_VideoChatReply VideoChatReplyMessage::VideoChatReply_NoAnswer;
+const VideoChatReplyMessage_VideoChatReply VideoChatReplyMessage::VideoChatReply_MIN;
+const VideoChatReplyMessage_VideoChatReply VideoChatReplyMessage::VideoChatReply_MAX;
+const int VideoChatReplyMessage::VideoChatReply_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* VideoChatNegotiationResultMessage_NegotiationResult_descriptor() {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[13];
+}
+bool VideoChatNegotiationResultMessage_NegotiationResult_IsValid(int value) {
+  switch (value) {
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const VideoChatNegotiationResultMessage_NegotiationResult VideoChatNegotiationResultMessage::NegotiationResult_Success;
+const VideoChatNegotiationResultMessage_NegotiationResult VideoChatNegotiationResultMessage::NegotiationResult_Failed;
+const VideoChatNegotiationResultMessage_NegotiationResult VideoChatNegotiationResultMessage::NegotiationResult_MIN;
+const VideoChatNegotiationResultMessage_NegotiationResult VideoChatNegotiationResultMessage::NegotiationResult_MAX;
+const int VideoChatNegotiationResultMessage::NegotiationResult_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+const ::google::protobuf::EnumDescriptor* NotificationMessage_NotificationMessageType_descriptor() {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[14];
 }
 bool NotificationMessage_NotificationMessageType_IsValid(int value) {
   switch (value) {
@@ -2284,7 +2805,7 @@ const int NotificationMessage::NotificationMessageType_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* UpdateUserVCardMessageResponse_UpdateUserVCardStateType_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[12];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[15];
 }
 bool UpdateUserVCardMessageResponse_UpdateUserVCardStateType_IsValid(int value) {
   switch (value) {
@@ -2305,7 +2826,7 @@ const int UpdateUserVCardMessageResponse::UpdateUserVCardStateType_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* ChatGroupCreateResponse_ChatGroupCreateResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[13];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[16];
 }
 bool ChatGroupCreateResponse_ChatGroupCreateResponseResult_IsValid(int value) {
   switch (value) {
@@ -2326,7 +2847,7 @@ const int ChatGroupCreateResponse::ChatGroupCreateResponseResult_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* ChatGroupDisbandResponse_ChatGroupDisbandResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[14];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[17];
 }
 bool ChatGroupDisbandResponse_ChatGroupDisbandResponseResult_IsValid(int value) {
   switch (value) {
@@ -2347,7 +2868,7 @@ const int ChatGroupDisbandResponse::ChatGroupDisbandResponseResult_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* ChatGroupJoinResponse_ChatGroupJoinResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[15];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[18];
 }
 bool ChatGroupJoinResponse_ChatGroupJoinResponseResult_IsValid(int value) {
   switch (value) {
@@ -2374,7 +2895,7 @@ const int ChatGroupJoinResponse::ChatGroupJoinResponseResult_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* ChatGroupQuitResponse_ChatGroupQuitResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[16];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[19];
 }
 bool ChatGroupQuitResponse_ChatGroupQuitResponseResult_IsValid(int value) {
   switch (value) {
@@ -2395,7 +2916,7 @@ const int ChatGroupQuitResponse::ChatGroupQuitResponseResult_ARRAYSIZE;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* UpdateChatGroupInfoResponse_UpdateChatGroupInfoResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[17];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[20];
 }
 bool UpdateChatGroupInfoResponse_UpdateChatGroupInfoResponseResult_IsValid(int value) {
   switch (value) {
@@ -2422,7 +2943,7 @@ const int UpdateChatGroupInfoResponse::UpdateChatGroupInfoResponseResult_ARRAYSI
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* FetchChatGroupInfoResponse_FetchChatGroupInfoResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[18];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[21];
 }
 bool FetchChatGroupInfoResponse_FetchChatGroupInfoResponseResult_IsValid(int value) {
   switch (value) {
@@ -2443,7 +2964,7 @@ const int FetchChatGroupInfoResponse::FetchChatGroupInfoResponseResult_ARRAYSIZE
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* FetchChatGroupMemberListResponse_FetchChatGroupMemberListResponseResult_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[19];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[22];
 }
 bool FetchChatGroupMemberListResponse_FetchChatGroupMemberListResponseResult_IsValid(int value) {
   switch (value) {
@@ -2464,7 +2985,7 @@ const int FetchChatGroupMemberListResponse::FetchChatGroupMemberListResponseResu
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* UserGenderType_descriptor() {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[20];
+  return protobuf_KakaIMMessage_2eproto::file_level_enum_descriptors[23];
 }
 bool UserGenderType_IsValid(int value) {
   switch (value) {
@@ -2529,6 +3050,13 @@ const RequestSessionIDMessage& RequestSessionIDMessage::default_instance() {
   return *internal_default_instance();
 }
 
+RequestSessionIDMessage* RequestSessionIDMessage::New(::google::protobuf::Arena* arena) const {
+  RequestSessionIDMessage* n = new RequestSessionIDMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RequestSessionIDMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.RequestSessionIDMessage)
@@ -2729,6 +3257,13 @@ const ResponseSessionIDMessage& ResponseSessionIDMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseSessionIDMessage* ResponseSessionIDMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseSessionIDMessage* n = new ResponseSessionIDMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseSessionIDMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ResponseSessionIDMessage)
@@ -2740,7 +3275,7 @@ void ResponseSessionIDMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     status_ = 1;
   }
@@ -3070,6 +3605,13 @@ const LoginMessage& LoginMessage::default_instance() {
   return *internal_default_instance();
 }
 
+LoginMessage* LoginMessage::New(::google::protobuf::Arena* arena) const {
+  LoginMessage* n = new LoginMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void LoginMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.LoginMessage)
@@ -3081,15 +3623,15 @@ void LoginMessage::Clear() {
   if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!userpassword_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      userpassword_.UnsafeMutablePointer()->clear();
+      (*userpassword_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -3472,6 +4014,13 @@ const ResponseLoginMessage& ResponseLoginMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseLoginMessage* ResponseLoginMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseLoginMessage* n = new ResponseLoginMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseLoginMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ResponseLoginMessage)
@@ -3483,7 +4032,7 @@ void ResponseLoginMessage::Clear() {
   if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     loginstate_ = 1;
     failureerror_ = 1;
@@ -3789,7 +4338,6 @@ void ResponseLoginMessage::InternalSwap(ResponseLoginMessage* other) {
 void RegisterMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int RegisterMessage::kSessionIDFieldNumber;
 const int RegisterMessage::kUserAccountFieldNumber;
 const int RegisterMessage::kUserPasswordFieldNumber;
 const int RegisterMessage::kUserNickNameFieldNumber;
@@ -3810,10 +4358,6 @@ RegisterMessage::RegisterMessage(const RegisterMessage& from)
       _has_bits_(from._has_bits_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.has_sessionid()) {
-    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
-  }
   useraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.has_useraccount()) {
     useraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.useraccount_);
@@ -3832,7 +4376,6 @@ RegisterMessage::RegisterMessage(const RegisterMessage& from)
 
 void RegisterMessage::SharedCtor() {
   _cached_size_ = 0;
-  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   useraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   userpassword_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   usernickname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -3845,7 +4388,6 @@ RegisterMessage::~RegisterMessage() {
 }
 
 void RegisterMessage::SharedDtor() {
-  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   useraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   userpassword_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   usernickname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -3866,6 +4408,13 @@ const RegisterMessage& RegisterMessage::default_instance() {
   return *internal_default_instance();
 }
 
+RegisterMessage* RegisterMessage::New(::google::protobuf::Arena* arena) const {
+  RegisterMessage* n = new RegisterMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RegisterMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.RegisterMessage)
@@ -3874,22 +4423,18 @@ void RegisterMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
-      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
-      GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      GOOGLE_DCHECK(!userpassword_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*userpassword_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
-      GOOGLE_DCHECK(!userpassword_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      userpassword_.UnsafeMutablePointer()->clear();
-    }
-    if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!usernickname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      usernickname_.UnsafeMutablePointer()->clear();
+      (*usernickname_.UnsafeRawStringPointer())->clear();
     }
     sex_ = 3;
   }
@@ -3907,26 +4452,10 @@ bool RegisterMessage::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required string sessionID = 1;
+      // required string userAccount = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_sessionid()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "kakaIM.Node.RegisterMessage.sessionID");
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // required string userAccount = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_useraccount()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -3939,10 +4468,10 @@ bool RegisterMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // required string userPassword = 3;
-      case 3: {
+      // required string userPassword = 2;
+      case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_userpassword()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -3955,10 +4484,10 @@ bool RegisterMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional string userNickName = 4;
-      case 4: {
+      // optional string userNickName = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_usernickname()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -3971,10 +4500,10 @@ bool RegisterMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .kakaIM.Node.RegisterMessage.UserSex sex = 5 [default = Unkown];
-      case 5: {
+      // optional .kakaIM.Node.RegisterMessage.UserSex sex = 4 [default = Unkown];
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -3983,7 +4512,7 @@ bool RegisterMessage::MergePartialFromCodedStream(
             set_sex(static_cast< ::kakaIM::Node::RegisterMessage_UserSex >(value));
           } else {
             mutable_unknown_fields()->AddVarint(
-                5, static_cast< ::google::protobuf::uint64>(value));
+                4, static_cast< ::google::protobuf::uint64>(value));
           }
         } else {
           goto handle_unusual;
@@ -4018,50 +4547,40 @@ void RegisterMessage::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required string sessionID = 1;
+  // required string userAccount = 1;
   if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "kakaIM.Node.RegisterMessage.sessionID");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->sessionid(), output);
-  }
-
-  // required string userAccount = 2;
-  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->useraccount().data(), static_cast<int>(this->useraccount().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.RegisterMessage.userAccount");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->useraccount(), output);
+      1, this->useraccount(), output);
   }
 
-  // required string userPassword = 3;
-  if (cached_has_bits & 0x00000004u) {
+  // required string userPassword = 2;
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->userpassword().data(), static_cast<int>(this->userpassword().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.RegisterMessage.userPassword");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->userpassword(), output);
+      2, this->userpassword(), output);
   }
 
-  // optional string userNickName = 4;
-  if (cached_has_bits & 0x00000008u) {
+  // optional string userNickName = 3;
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->usernickname().data(), static_cast<int>(this->usernickname().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.RegisterMessage.userNickName");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      4, this->usernickname(), output);
+      3, this->usernickname(), output);
   }
 
-  // optional .kakaIM.Node.RegisterMessage.UserSex sex = 5 [default = Unkown];
-  if (cached_has_bits & 0x00000010u) {
+  // optional .kakaIM.Node.RegisterMessage.UserSex sex = 4 [default = Unkown];
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      5, this->sex(), output);
+      4, this->sex(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4079,54 +4598,43 @@ void RegisterMessage::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required string sessionID = 1;
+  // required string userAccount = 1;
   if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "kakaIM.Node.RegisterMessage.sessionID");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->sessionid(), target);
-  }
-
-  // required string userAccount = 2;
-  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->useraccount().data(), static_cast<int>(this->useraccount().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.RegisterMessage.userAccount");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->useraccount(), target);
+        1, this->useraccount(), target);
   }
 
-  // required string userPassword = 3;
-  if (cached_has_bits & 0x00000004u) {
+  // required string userPassword = 2;
+  if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->userpassword().data(), static_cast<int>(this->userpassword().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.RegisterMessage.userPassword");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->userpassword(), target);
+        2, this->userpassword(), target);
   }
 
-  // optional string userNickName = 4;
-  if (cached_has_bits & 0x00000008u) {
+  // optional string userNickName = 3;
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->usernickname().data(), static_cast<int>(this->usernickname().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.RegisterMessage.userNickName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        4, this->usernickname(), target);
+        3, this->usernickname(), target);
   }
 
-  // optional .kakaIM.Node.RegisterMessage.UserSex sex = 5 [default = Unkown];
-  if (cached_has_bits & 0x00000010u) {
+  // optional .kakaIM.Node.RegisterMessage.UserSex sex = 4 [default = Unkown];
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      5, this->sex(), target);
+      4, this->sex(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4141,22 +4649,15 @@ size_t RegisterMessage::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.RegisterMessage)
   size_t total_size = 0;
 
-  if (has_sessionid()) {
-    // required string sessionID = 1;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->sessionid());
-  }
-
   if (has_useraccount()) {
-    // required string userAccount = 2;
+    // required string userAccount = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->useraccount());
   }
 
   if (has_userpassword()) {
-    // required string userPassword = 3;
+    // required string userPassword = 2;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->userpassword());
@@ -4173,18 +4674,13 @@ size_t RegisterMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
-    // required string sessionID = 1;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->sessionid());
-
-    // required string userAccount = 2;
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required string userAccount = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->useraccount());
 
-    // required string userPassword = 3;
+    // required string userPassword = 2;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->userpassword());
@@ -4192,15 +4688,15 @@ size_t RegisterMessage::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  if (_has_bits_[0 / 32] & 24u) {
-    // optional string userNickName = 4;
+  if (_has_bits_[0 / 32] & 12u) {
+    // optional string userNickName = 3;
     if (has_usernickname()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
           this->usernickname());
     }
 
-    // optional .kakaIM.Node.RegisterMessage.UserSex sex = 5 [default = Unkown];
+    // optional .kakaIM.Node.RegisterMessage.UserSex sex = 4 [default = Unkown];
     if (has_sex()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->sex());
@@ -4237,24 +4733,20 @@ void RegisterMessage::MergeFrom(const RegisterMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
-      set_has_sessionid();
-      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
-    }
-    if (cached_has_bits & 0x00000002u) {
       set_has_useraccount();
       useraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.useraccount_);
     }
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000002u) {
       set_has_userpassword();
       userpassword_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.userpassword_);
     }
-    if (cached_has_bits & 0x00000008u) {
+    if (cached_has_bits & 0x00000004u) {
       set_has_usernickname();
       usernickname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.usernickname_);
     }
-    if (cached_has_bits & 0x00000010u) {
+    if (cached_has_bits & 0x00000008u) {
       sex_ = from.sex_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -4276,7 +4768,7 @@ void RegisterMessage::CopyFrom(const RegisterMessage& from) {
 }
 
 bool RegisterMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
   return true;
 }
 
@@ -4286,7 +4778,6 @@ void RegisterMessage::Swap(RegisterMessage* other) {
 }
 void RegisterMessage::InternalSwap(RegisterMessage* other) {
   using std::swap;
-  sessionid_.Swap(&other->sessionid_);
   useraccount_.Swap(&other->useraccount_);
   userpassword_.Swap(&other->userpassword_);
   usernickname_.Swap(&other->usernickname_);
@@ -4307,7 +4798,6 @@ void RegisterMessage::InternalSwap(RegisterMessage* other) {
 void ResponseRegisterMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ResponseRegisterMessage::kSessionIDFieldNumber;
 const int ResponseRegisterMessage::kRegisterStateFieldNumber;
 const int ResponseRegisterMessage::kFailureErrorFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -4326,10 +4816,6 @@ ResponseRegisterMessage::ResponseRegisterMessage(const ResponseRegisterMessage& 
       _has_bits_(from._has_bits_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.has_sessionid()) {
-    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
-  }
   ::memcpy(&registerstate_, &from.registerstate_,
     static_cast<size_t>(reinterpret_cast<char*>(&failureerror_) -
     reinterpret_cast<char*>(&registerstate_)) + sizeof(failureerror_));
@@ -4338,7 +4824,6 @@ ResponseRegisterMessage::ResponseRegisterMessage(const ResponseRegisterMessage& 
 
 void ResponseRegisterMessage::SharedCtor() {
   _cached_size_ = 0;
-  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   registerstate_ = 1;
   failureerror_ = 1;
 }
@@ -4349,7 +4834,6 @@ ResponseRegisterMessage::~ResponseRegisterMessage() {
 }
 
 void ResponseRegisterMessage::SharedDtor() {
-  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ResponseRegisterMessage::SetCachedSize(int size) const {
@@ -4367,6 +4851,13 @@ const ResponseRegisterMessage& ResponseRegisterMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseRegisterMessage* ResponseRegisterMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseRegisterMessage* n = new ResponseRegisterMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseRegisterMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ResponseRegisterMessage)
@@ -4375,11 +4866,7 @@ void ResponseRegisterMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
-    if (cached_has_bits & 0x00000001u) {
-      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
-    }
+  if (cached_has_bits & 3u) {
     registerstate_ = 1;
     failureerror_ = 1;
   }
@@ -4397,26 +4884,10 @@ bool ResponseRegisterMessage::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required string sessionID = 1;
+      // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_sessionid()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "kakaIM.Node.ResponseRegisterMessage.sessionID");
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -4425,7 +4896,7 @@ bool ResponseRegisterMessage::MergePartialFromCodedStream(
             set_registerstate(static_cast< ::kakaIM::Node::ResponseRegisterMessage_RegisterState >(value));
           } else {
             mutable_unknown_fields()->AddVarint(
-                2, static_cast< ::google::protobuf::uint64>(value));
+                1, static_cast< ::google::protobuf::uint64>(value));
           }
         } else {
           goto handle_unusual;
@@ -4433,10 +4904,10 @@ bool ResponseRegisterMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 3;
-      case 3: {
+      // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 2;
+      case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -4445,7 +4916,7 @@ bool ResponseRegisterMessage::MergePartialFromCodedStream(
             set_failureerror(static_cast< ::kakaIM::Node::ResponseRegisterMessage_FailureError >(value));
           } else {
             mutable_unknown_fields()->AddVarint(
-                3, static_cast< ::google::protobuf::uint64>(value));
+                2, static_cast< ::google::protobuf::uint64>(value));
           }
         } else {
           goto handle_unusual;
@@ -4480,26 +4951,16 @@ void ResponseRegisterMessage::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required string sessionID = 1;
+  // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 1;
   if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "kakaIM.Node.ResponseRegisterMessage.sessionID");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->sessionid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->registerstate(), output);
   }
 
-  // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 2;
+  // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 2;
   if (cached_has_bits & 0x00000002u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      2, this->registerstate(), output);
-  }
-
-  // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 3;
-  if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->failureerror(), output);
+      2, this->failureerror(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4517,27 +4978,16 @@ void ResponseRegisterMessage::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required string sessionID = 1;
+  // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 1;
   if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "kakaIM.Node.ResponseRegisterMessage.sessionID");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->sessionid(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->registerstate(), target);
   }
 
-  // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 2;
+  // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 2;
   if (cached_has_bits & 0x00000002u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      2, this->registerstate(), target);
-  }
-
-  // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 3;
-  if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->failureerror(), target);
+      2, this->failureerror(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -4548,25 +4998,6 @@ void ResponseRegisterMessage::SerializeWithCachedSizes(
   return target;
 }
 
-size_t ResponseRegisterMessage::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.ResponseRegisterMessage)
-  size_t total_size = 0;
-
-  if (has_sessionid()) {
-    // required string sessionID = 1;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->sessionid());
-  }
-
-  if (has_registerstate()) {
-    // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 2;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->registerstate());
-  }
-
-  return total_size;
-}
 size_t ResponseRegisterMessage::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.ResponseRegisterMessage)
   size_t total_size = 0;
@@ -4576,20 +5007,12 @@ size_t ResponseRegisterMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required string sessionID = 1;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->sessionid());
-
-    // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 2;
+  // required .kakaIM.Node.ResponseRegisterMessage.RegisterState registerState = 1;
+  if (has_registerstate()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->registerstate());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
   }
-  // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 3;
+  // optional .kakaIM.Node.ResponseRegisterMessage.FailureError failureError = 2;
   if (has_failureerror()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->failureerror());
@@ -4625,15 +5048,11 @@ void ResponseRegisterMessage::MergeFrom(const ResponseRegisterMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
-      set_has_sessionid();
-      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
-    }
-    if (cached_has_bits & 0x00000002u) {
       registerstate_ = from.registerstate_;
     }
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000002u) {
       failureerror_ = from.failureerror_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -4655,7 +5074,7 @@ void ResponseRegisterMessage::CopyFrom(const ResponseRegisterMessage& from) {
 }
 
 bool ResponseRegisterMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
   return true;
 }
 
@@ -4665,7 +5084,6 @@ void ResponseRegisterMessage::Swap(ResponseRegisterMessage* other) {
 }
 void ResponseRegisterMessage::InternalSwap(ResponseRegisterMessage* other) {
   using std::swap;
-  sessionid_.Swap(&other->sessionid_);
   swap(registerstate_, other->registerstate_);
   swap(failureerror_, other->failureerror_);
   swap(_has_bits_[0], other->_has_bits_[0]);
@@ -4744,6 +5162,13 @@ const HeartBeatMessage& HeartBeatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+HeartBeatMessage* HeartBeatMessage::New(::google::protobuf::Arena* arena) const {
+  HeartBeatMessage* n = new HeartBeatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void HeartBeatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.HeartBeatMessage)
@@ -4755,11 +5180,11 @@ void HeartBeatMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      timestamp_.UnsafeMutablePointer()->clear();
+      (*timestamp_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -5088,6 +5513,13 @@ const ResponseHeartBeatMessage& ResponseHeartBeatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseHeartBeatMessage* ResponseHeartBeatMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseHeartBeatMessage* n = new ResponseHeartBeatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseHeartBeatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ResponseHeartBeatMessage)
@@ -5099,11 +5531,11 @@ void ResponseHeartBeatMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      timestamp_.UnsafeMutablePointer()->clear();
+      (*timestamp_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -5428,6 +5860,13 @@ const LogoutMessage& LogoutMessage::default_instance() {
   return *internal_default_instance();
 }
 
+LogoutMessage* LogoutMessage::New(::google::protobuf::Arena* arena) const {
+  LogoutMessage* n = new LogoutMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void LogoutMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.LogoutMessage)
@@ -5439,7 +5878,7 @@ void LogoutMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     offlinemailestate_ = 1;
   }
@@ -5738,6 +6177,13 @@ const ResponseLogoutMessage& ResponseLogoutMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ResponseLogoutMessage* ResponseLogoutMessage::New(::google::protobuf::Arena* arena) const {
+  ResponseLogoutMessage* n = new ResponseLogoutMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ResponseLogoutMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ResponseLogoutMessage)
@@ -5749,7 +6195,7 @@ void ResponseLogoutMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     offlinemailestate_ = 1;
   }
@@ -5997,7 +6443,8 @@ const int BuildingRelationshipRequestMessage::kApplicantIdFieldNumber;
 const int BuildingRelationshipRequestMessage::kSponsorAccountFieldNumber;
 const int BuildingRelationshipRequestMessage::kTargetAccountFieldNumber;
 const int BuildingRelationshipRequestMessage::kIntroductionFieldNumber;
-const int BuildingRelationshipRequestMessage::kMessageIDFieldNumber;
+const int BuildingRelationshipRequestMessage::kSignFieldNumber;
+const int BuildingRelationshipRequestMessage::kSubmissionTimeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 BuildingRelationshipRequestMessage::BuildingRelationshipRequestMessage()
@@ -6030,9 +6477,15 @@ BuildingRelationshipRequestMessage::BuildingRelationshipRequestMessage(const Bui
   if (from.has_introduction()) {
     introduction_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.introduction_);
   }
-  ::memcpy(&applicant_id_, &from.applicant_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&messageid_) -
-    reinterpret_cast<char*>(&applicant_id_)) + sizeof(messageid_));
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
+  submissiontime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_submissiontime()) {
+    submissiontime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.submissiontime_);
+  }
+  applicant_id_ = from.applicant_id_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.BuildingRelationshipRequestMessage)
 }
 
@@ -6042,9 +6495,9 @@ void BuildingRelationshipRequestMessage::SharedCtor() {
   sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   introduction_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&applicant_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&messageid_) -
-      reinterpret_cast<char*>(&applicant_id_)) + sizeof(messageid_));
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  submissiontime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  applicant_id_ = GOOGLE_ULONGLONG(0);
 }
 
 BuildingRelationshipRequestMessage::~BuildingRelationshipRequestMessage() {
@@ -6057,6 +6510,8 @@ void BuildingRelationshipRequestMessage::SharedDtor() {
   sponsoraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   introduction_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  submissiontime_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void BuildingRelationshipRequestMessage::SetCachedSize(int size) const {
@@ -6074,6 +6529,13 @@ const BuildingRelationshipRequestMessage& BuildingRelationshipRequestMessage::de
   return *internal_default_instance();
 }
 
+BuildingRelationshipRequestMessage* BuildingRelationshipRequestMessage::New(::google::protobuf::Arena* arena) const {
+  BuildingRelationshipRequestMessage* n = new BuildingRelationshipRequestMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void BuildingRelationshipRequestMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.BuildingRelationshipRequestMessage)
@@ -6082,29 +6544,33 @@ void BuildingRelationshipRequestMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!sponsoraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sponsoraccount_.UnsafeMutablePointer()->clear();
+      (*sponsoraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!targetaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      targetaccount_.UnsafeMutablePointer()->clear();
+      (*targetaccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!introduction_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      introduction_.UnsafeMutablePointer()->clear();
+      (*introduction_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!submissiontime_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*submissiontime_.UnsafeRawStringPointer())->clear();
     }
   }
-  if (cached_has_bits & 48u) {
-    ::memset(&applicant_id_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&messageid_) -
-        reinterpret_cast<char*>(&applicant_id_)) + sizeof(messageid_));
-  }
+  applicant_id_ = GOOGLE_ULONGLONG(0);
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -6197,14 +6663,32 @@ bool BuildingRelationshipRequestMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional uint64 messageID = 6;
+      // required string sign = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-          set_has_messageid();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &messageid_)));
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.BuildingRelationshipRequestMessage.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string submissionTime = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_submissiontime()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->submissiontime().data(), static_cast<int>(this->submissiontime().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.BuildingRelationshipRequestMessage.submissionTime");
         } else {
           goto handle_unusual;
         }
@@ -6249,7 +6733,7 @@ void BuildingRelationshipRequestMessage::SerializeWithCachedSizes(
   }
 
   // optional uint64 applicant_id = 2;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000040u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->applicant_id(), output);
   }
 
@@ -6283,9 +6767,24 @@ void BuildingRelationshipRequestMessage::SerializeWithCachedSizes(
       5, this->introduction(), output);
   }
 
-  // optional uint64 messageID = 6;
+  // required string sign = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.BuildingRelationshipRequestMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->sign(), output);
+  }
+
+  // optional string submissionTime = 7;
   if (cached_has_bits & 0x00000020u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(6, this->messageid(), output);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->submissiontime().data(), static_cast<int>(this->submissiontime().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.BuildingRelationshipRequestMessage.submissionTime");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->submissiontime(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -6315,7 +6814,7 @@ void BuildingRelationshipRequestMessage::SerializeWithCachedSizes(
   }
 
   // optional uint64 applicant_id = 2;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000040u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->applicant_id(), target);
   }
 
@@ -6352,9 +6851,26 @@ void BuildingRelationshipRequestMessage::SerializeWithCachedSizes(
         5, this->introduction(), target);
   }
 
-  // optional uint64 messageID = 6;
+  // required string sign = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.BuildingRelationshipRequestMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->sign(), target);
+  }
+
+  // optional string submissionTime = 7;
   if (cached_has_bits & 0x00000020u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(6, this->messageid(), target);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->submissiontime().data(), static_cast<int>(this->submissiontime().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.BuildingRelationshipRequestMessage.submissionTime");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->submissiontime(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -6397,6 +6913,13 @@ size_t BuildingRelationshipRequestMessage::RequiredFieldsByteSizeFallback() cons
         this->introduction());
   }
 
+  if (has_sign()) {
+    // required string sign = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   return total_size;
 }
 size_t BuildingRelationshipRequestMessage::ByteSizeLong() const {
@@ -6408,7 +6931,7 @@ size_t BuildingRelationshipRequestMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -6429,22 +6952,27 @@ size_t BuildingRelationshipRequestMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->introduction());
 
+    // required string sign = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  if (_has_bits_[0 / 32] & 48u) {
+  if (_has_bits_[0 / 32] & 96u) {
+    // optional string submissionTime = 7;
+    if (has_submissiontime()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->submissiontime());
+    }
+
     // optional uint64 applicant_id = 2;
     if (has_applicant_id()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt64Size(
           this->applicant_id());
-    }
-
-    // optional uint64 messageID = 6;
-    if (has_messageid()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt64Size(
-          this->messageid());
     }
 
   }
@@ -6478,7 +7006,7 @@ void BuildingRelationshipRequestMessage::MergeFrom(const BuildingRelationshipReq
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 63u) {
+  if (cached_has_bits & 127u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -6496,10 +7024,15 @@ void BuildingRelationshipRequestMessage::MergeFrom(const BuildingRelationshipReq
       introduction_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.introduction_);
     }
     if (cached_has_bits & 0x00000010u) {
-      applicant_id_ = from.applicant_id_;
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
     if (cached_has_bits & 0x00000020u) {
-      messageid_ = from.messageid_;
+      set_has_submissiontime();
+      submissiontime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.submissiontime_);
+    }
+    if (cached_has_bits & 0x00000040u) {
+      applicant_id_ = from.applicant_id_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -6520,7 +7053,7 @@ void BuildingRelationshipRequestMessage::CopyFrom(const BuildingRelationshipRequ
 }
 
 bool BuildingRelationshipRequestMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
   return true;
 }
 
@@ -6534,8 +7067,9 @@ void BuildingRelationshipRequestMessage::InternalSwap(BuildingRelationshipReques
   sponsoraccount_.Swap(&other->sponsoraccount_);
   targetaccount_.Swap(&other->targetaccount_);
   introduction_.Swap(&other->introduction_);
+  sign_.Swap(&other->sign_);
+  submissiontime_.Swap(&other->submissiontime_);
   swap(applicant_id_, other->applicant_id_);
-  swap(messageid_, other->messageid_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -6557,7 +7091,7 @@ const int BuildingRelationshipAnswerMessage::kApplicantIdFieldNumber;
 const int BuildingRelationshipAnswerMessage::kTargetAccountFieldNumber;
 const int BuildingRelationshipAnswerMessage::kSponsorAccountFieldNumber;
 const int BuildingRelationshipAnswerMessage::kAnswerFieldNumber;
-const int BuildingRelationshipAnswerMessage::kMessageIDFieldNumber;
+const int BuildingRelationshipAnswerMessage::kHandleTimeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 BuildingRelationshipAnswerMessage::BuildingRelationshipAnswerMessage()
@@ -6586,6 +7120,10 @@ BuildingRelationshipAnswerMessage::BuildingRelationshipAnswerMessage(const Build
   if (from.has_sponsoraccount()) {
     sponsoraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsoraccount_);
   }
+  handletime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_handletime()) {
+    handletime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.handletime_);
+  }
   ::memcpy(&applicant_id_, &from.applicant_id_,
     static_cast<size_t>(reinterpret_cast<char*>(&answer_) -
     reinterpret_cast<char*>(&applicant_id_)) + sizeof(answer_));
@@ -6597,9 +7135,8 @@ void BuildingRelationshipAnswerMessage::SharedCtor() {
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&applicant_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&messageid_) -
-      reinterpret_cast<char*>(&applicant_id_)) + sizeof(messageid_));
+  handletime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  applicant_id_ = GOOGLE_ULONGLONG(0);
   answer_ = 1;
 }
 
@@ -6612,6 +7149,7 @@ void BuildingRelationshipAnswerMessage::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   sponsoraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  handletime_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void BuildingRelationshipAnswerMessage::SetCachedSize(int size) const {
@@ -6629,6 +7167,13 @@ const BuildingRelationshipAnswerMessage& BuildingRelationshipAnswerMessage::defa
   return *internal_default_instance();
 }
 
+BuildingRelationshipAnswerMessage* BuildingRelationshipAnswerMessage::New(::google::protobuf::Arena* arena) const {
+  BuildingRelationshipAnswerMessage* n = new BuildingRelationshipAnswerMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void BuildingRelationshipAnswerMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.BuildingRelationshipAnswerMessage)
@@ -6637,24 +7182,26 @@ void BuildingRelationshipAnswerMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!targetaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      targetaccount_.UnsafeMutablePointer()->clear();
+      (*targetaccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!sponsoraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sponsoraccount_.UnsafeMutablePointer()->clear();
+      (*sponsoraccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!handletime_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*handletime_.UnsafeRawStringPointer())->clear();
     }
   }
-  if (cached_has_bits & 56u) {
-    ::memset(&applicant_id_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&messageid_) -
-        reinterpret_cast<char*>(&applicant_id_)) + sizeof(messageid_));
+  if (cached_has_bits & 48u) {
+    applicant_id_ = GOOGLE_ULONGLONG(0);
     answer_ = 1;
   }
   _has_bits_.Clear();
@@ -6753,14 +7300,16 @@ bool BuildingRelationshipAnswerMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional uint64 messageID = 6;
+      // optional string handleTime = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-          set_has_messageid();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &messageid_)));
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_handletime()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->handletime().data(), static_cast<int>(this->handletime().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.BuildingRelationshipAnswerMessage.handleTime");
         } else {
           goto handle_unusual;
         }
@@ -6805,7 +7354,7 @@ void BuildingRelationshipAnswerMessage::SerializeWithCachedSizes(
   }
 
   // required uint64 applicant_id = 2;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->applicant_id(), output);
   }
 
@@ -6835,9 +7384,14 @@ void BuildingRelationshipAnswerMessage::SerializeWithCachedSizes(
       5, this->answer(), output);
   }
 
-  // optional uint64 messageID = 6;
-  if (cached_has_bits & 0x00000010u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(6, this->messageid(), output);
+  // optional string handleTime = 6;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->handletime().data(), static_cast<int>(this->handletime().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.BuildingRelationshipAnswerMessage.handleTime");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->handletime(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -6867,7 +7421,7 @@ void BuildingRelationshipAnswerMessage::SerializeWithCachedSizes(
   }
 
   // required uint64 applicant_id = 2;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->applicant_id(), target);
   }
 
@@ -6899,9 +7453,15 @@ void BuildingRelationshipAnswerMessage::SerializeWithCachedSizes(
       5, this->answer(), target);
   }
 
-  // optional uint64 messageID = 6;
-  if (cached_has_bits & 0x00000010u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(6, this->messageid(), target);
+  // optional string handleTime = 6;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->handletime().data(), static_cast<int>(this->handletime().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.BuildingRelationshipAnswerMessage.handleTime");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->handletime(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -6961,7 +7521,7 @@ size_t BuildingRelationshipAnswerMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000002f) ^ 0x0000002f) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000037) ^ 0x00000037) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -6989,11 +7549,11 @@ size_t BuildingRelationshipAnswerMessage::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  // optional uint64 messageID = 6;
-  if (has_messageid()) {
+  // optional string handleTime = 6;
+  if (has_handletime()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->messageid());
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->handletime());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -7040,10 +7600,11 @@ void BuildingRelationshipAnswerMessage::MergeFrom(const BuildingRelationshipAnsw
       sponsoraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsoraccount_);
     }
     if (cached_has_bits & 0x00000008u) {
-      applicant_id_ = from.applicant_id_;
+      set_has_handletime();
+      handletime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.handletime_);
     }
     if (cached_has_bits & 0x00000010u) {
-      messageid_ = from.messageid_;
+      applicant_id_ = from.applicant_id_;
     }
     if (cached_has_bits & 0x00000020u) {
       answer_ = from.answer_;
@@ -7067,7 +7628,7 @@ void BuildingRelationshipAnswerMessage::CopyFrom(const BuildingRelationshipAnswe
 }
 
 bool BuildingRelationshipAnswerMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000002f) != 0x0000002f) return false;
+  if ((_has_bits_[0] & 0x00000037) != 0x00000037) return false;
   return true;
 }
 
@@ -7080,8 +7641,8 @@ void BuildingRelationshipAnswerMessage::InternalSwap(BuildingRelationshipAnswerM
   sessionid_.Swap(&other->sessionid_);
   targetaccount_.Swap(&other->targetaccount_);
   sponsoraccount_.Swap(&other->sponsoraccount_);
+  handletime_.Swap(&other->handletime_);
   swap(applicant_id_, other->applicant_id_);
-  swap(messageid_, other->messageid_);
   swap(answer_, other->answer_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -7102,6 +7663,7 @@ void DestroyingRelationshipRequestMessage::InitAsDefaultInstance() {
 const int DestroyingRelationshipRequestMessage::kSessionIDFieldNumber;
 const int DestroyingRelationshipRequestMessage::kSponsorAccountFieldNumber;
 const int DestroyingRelationshipRequestMessage::kTargetAccountFieldNumber;
+const int DestroyingRelationshipRequestMessage::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DestroyingRelationshipRequestMessage::DestroyingRelationshipRequestMessage()
@@ -7130,6 +7692,10 @@ DestroyingRelationshipRequestMessage::DestroyingRelationshipRequestMessage(const
   if (from.has_targetaccount()) {
     targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.DestroyingRelationshipRequestMessage)
 }
 
@@ -7138,6 +7704,7 @@ void DestroyingRelationshipRequestMessage::SharedCtor() {
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 DestroyingRelationshipRequestMessage::~DestroyingRelationshipRequestMessage() {
@@ -7149,6 +7716,7 @@ void DestroyingRelationshipRequestMessage::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   sponsoraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void DestroyingRelationshipRequestMessage::SetCachedSize(int size) const {
@@ -7166,6 +7734,13 @@ const DestroyingRelationshipRequestMessage& DestroyingRelationshipRequestMessage
   return *internal_default_instance();
 }
 
+DestroyingRelationshipRequestMessage* DestroyingRelationshipRequestMessage::New(::google::protobuf::Arena* arena) const {
+  DestroyingRelationshipRequestMessage* n = new DestroyingRelationshipRequestMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void DestroyingRelationshipRequestMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.DestroyingRelationshipRequestMessage)
@@ -7174,18 +7749,22 @@ void DestroyingRelationshipRequestMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!sponsoraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sponsoraccount_.UnsafeMutablePointer()->clear();
+      (*sponsoraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!targetaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      targetaccount_.UnsafeMutablePointer()->clear();
+      (*targetaccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -7250,6 +7829,22 @@ bool DestroyingRelationshipRequestMessage::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.DestroyingRelationshipRequestMessage.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -7307,6 +7902,16 @@ void DestroyingRelationshipRequestMessage::SerializeWithCachedSizes(
       3, this->targetaccount(), output);
   }
 
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.DestroyingRelationshipRequestMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->sign(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -7353,6 +7958,17 @@ void DestroyingRelationshipRequestMessage::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->targetaccount(), target);
+  }
+
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.DestroyingRelationshipRequestMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -7418,6 +8034,13 @@ size_t DestroyingRelationshipRequestMessage::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 4;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -7448,7 +8071,7 @@ void DestroyingRelationshipRequestMessage::MergeFrom(const DestroyingRelationshi
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -7460,6 +8083,10 @@ void DestroyingRelationshipRequestMessage::MergeFrom(const DestroyingRelationshi
     if (cached_has_bits & 0x00000004u) {
       set_has_targetaccount();
       targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
   }
 }
@@ -7492,6 +8119,7 @@ void DestroyingRelationshipRequestMessage::InternalSwap(DestroyingRelationshipRe
   sessionid_.Swap(&other->sessionid_);
   sponsoraccount_.Swap(&other->sponsoraccount_);
   targetaccount_.Swap(&other->targetaccount_);
+  sign_.Swap(&other->sign_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -7512,6 +8140,7 @@ const int DestoryingRelationshipResponseMessage::kSessionIDFieldNumber;
 const int DestoryingRelationshipResponseMessage::kSponsorAccountFieldNumber;
 const int DestoryingRelationshipResponseMessage::kTargetAccountFieldNumber;
 const int DestoryingRelationshipResponseMessage::kResponseFieldNumber;
+const int DestoryingRelationshipResponseMessage::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DestoryingRelationshipResponseMessage::DestoryingRelationshipResponseMessage()
@@ -7540,6 +8169,10 @@ DestoryingRelationshipResponseMessage::DestoryingRelationshipResponseMessage(con
   if (from.has_targetaccount()) {
     targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   response_ = from.response_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.DestoryingRelationshipResponseMessage)
 }
@@ -7549,6 +8182,7 @@ void DestoryingRelationshipResponseMessage::SharedCtor() {
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   response_ = 1;
 }
 
@@ -7561,6 +8195,7 @@ void DestoryingRelationshipResponseMessage::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   sponsoraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targetaccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void DestoryingRelationshipResponseMessage::SetCachedSize(int size) const {
@@ -7578,6 +8213,13 @@ const DestoryingRelationshipResponseMessage& DestoryingRelationshipResponseMessa
   return *internal_default_instance();
 }
 
+DestoryingRelationshipResponseMessage* DestoryingRelationshipResponseMessage::New(::google::protobuf::Arena* arena) const {
+  DestoryingRelationshipResponseMessage* n = new DestoryingRelationshipResponseMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void DestoryingRelationshipResponseMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.DestoryingRelationshipResponseMessage)
@@ -7586,18 +8228,22 @@ void DestoryingRelationshipResponseMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!sponsoraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sponsoraccount_.UnsafeMutablePointer()->clear();
+      (*sponsoraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!targetaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      targetaccount_.UnsafeMutablePointer()->clear();
+      (*targetaccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
     response_ = 1;
   }
@@ -7683,6 +8329,22 @@ bool DestoryingRelationshipResponseMessage::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.DestoryingRelationshipResponseMessage.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -7741,9 +8403,19 @@ void DestoryingRelationshipResponseMessage::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.DestoryingRelationshipResponseMessage.DestoryingRelationshipResponse response = 4;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->response(), output);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.DestoryingRelationshipResponseMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -7795,9 +8467,20 @@ void DestoryingRelationshipResponseMessage::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.DestoryingRelationshipResponseMessage.DestoryingRelationshipResponse response = 4;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->response(), target);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.DestoryingRelationshipResponseMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -7850,7 +8533,7 @@ size_t DestoryingRelationshipResponseMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000017) ^ 0x00000017) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -7873,6 +8556,13 @@ size_t DestoryingRelationshipResponseMessage::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 5;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -7903,7 +8593,7 @@ void DestoryingRelationshipResponseMessage::MergeFrom(const DestoryingRelationsh
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -7917,6 +8607,10 @@ void DestoryingRelationshipResponseMessage::MergeFrom(const DestoryingRelationsh
       targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
     }
     if (cached_has_bits & 0x00000008u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000010u) {
       response_ = from.response_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -7938,7 +8632,7 @@ void DestoryingRelationshipResponseMessage::CopyFrom(const DestoryingRelationshi
 }
 
 bool DestoryingRelationshipResponseMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x00000017) != 0x00000017) return false;
   return true;
 }
 
@@ -7951,6 +8645,7 @@ void DestoryingRelationshipResponseMessage::InternalSwap(DestoryingRelationshipR
   sessionid_.Swap(&other->sessionid_);
   sponsoraccount_.Swap(&other->sponsoraccount_);
   targetaccount_.Swap(&other->targetaccount_);
+  sign_.Swap(&other->sign_);
   swap(response_, other->response_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -7969,6 +8664,7 @@ void FriendListRequestMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int FriendListRequestMessage::kSessionIDFieldNumber;
+const int FriendListRequestMessage::kCurrentVersionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FriendListRequestMessage::FriendListRequestMessage()
@@ -7989,12 +8685,14 @@ FriendListRequestMessage::FriendListRequestMessage(const FriendListRequestMessag
   if (from.has_sessionid()) {
     sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
   }
+  currentversion_ = from.currentversion_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.FriendListRequestMessage)
 }
 
 void FriendListRequestMessage::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  currentversion_ = GOOGLE_ULONGLONG(0);
 }
 
 FriendListRequestMessage::~FriendListRequestMessage() {
@@ -8021,6 +8719,13 @@ const FriendListRequestMessage& FriendListRequestMessage::default_instance() {
   return *internal_default_instance();
 }
 
+FriendListRequestMessage* FriendListRequestMessage::New(::google::protobuf::Arena* arena) const {
+  FriendListRequestMessage* n = new FriendListRequestMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FriendListRequestMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FriendListRequestMessage)
@@ -8031,8 +8736,9 @@ void FriendListRequestMessage::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    sessionid_.UnsafeMutablePointer()->clear();
+    (*sessionid_.UnsafeRawStringPointer())->clear();
   }
+  currentversion_ = GOOGLE_ULONGLONG(0);
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -8057,6 +8763,20 @@ bool FriendListRequestMessage::MergePartialFromCodedStream(
             this->sessionid().data(), static_cast<int>(this->sessionid().length()),
             ::google::protobuf::internal::WireFormat::PARSE,
             "kakaIM.Node.FriendListRequestMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint64 currentVersion = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_currentversion();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &currentversion_)));
         } else {
           goto handle_unusual;
         }
@@ -8100,6 +8820,11 @@ void FriendListRequestMessage::SerializeWithCachedSizes(
       1, this->sessionid(), output);
   }
 
+  // optional uint64 currentVersion = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->currentversion(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -8126,6 +8851,11 @@ void FriendListRequestMessage::SerializeWithCachedSizes(
         1, this->sessionid(), target);
   }
 
+  // optional uint64 currentVersion = 2;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->currentversion(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -8149,6 +8879,13 @@ size_t FriendListRequestMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->sessionid());
   }
+  // optional uint64 currentVersion = 2;
+  if (has_currentversion()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->currentversion());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -8178,9 +8915,16 @@ void FriendListRequestMessage::MergeFrom(const FriendListRequestMessage& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_sessionid()) {
-    set_has_sessionid();
-    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      currentversion_ = from.currentversion_;
+    }
+    _has_bits_[0] |= cached_has_bits;
   }
 }
 
@@ -8210,6 +8954,7 @@ void FriendListRequestMessage::Swap(FriendListRequestMessage* other) {
 void FriendListRequestMessage::InternalSwap(FriendListRequestMessage* other) {
   using std::swap;
   sessionid_.Swap(&other->sessionid_);
+  swap(currentversion_, other->currentversion_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -8279,6 +9024,13 @@ const FriendListItem& FriendListItem::default_instance() {
   return *internal_default_instance();
 }
 
+FriendListItem* FriendListItem::New(::google::protobuf::Arena* arena) const {
+  FriendListItem* n = new FriendListItem;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FriendListItem::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FriendListItem)
@@ -8289,7 +9041,7 @@ void FriendListItem::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!friendaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    friendaccount_.UnsafeMutablePointer()->clear();
+    (*friendaccount_.UnsafeRawStringPointer())->clear();
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -8486,6 +9238,7 @@ void FriendListResponseMessage::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int FriendListResponseMessage::kSessionIDFieldNumber;
 const int FriendListResponseMessage::kFriendFieldNumber;
+const int FriendListResponseMessage::kCurrentVersionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FriendListResponseMessage::FriendListResponseMessage()
@@ -8507,12 +9260,14 @@ FriendListResponseMessage::FriendListResponseMessage(const FriendListResponseMes
   if (from.has_sessionid()) {
     sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
   }
+  currentversion_ = from.currentversion_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.FriendListResponseMessage)
 }
 
 void FriendListResponseMessage::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  currentversion_ = GOOGLE_ULONGLONG(0);
 }
 
 FriendListResponseMessage::~FriendListResponseMessage() {
@@ -8539,6 +9294,13 @@ const FriendListResponseMessage& FriendListResponseMessage::default_instance() {
   return *internal_default_instance();
 }
 
+FriendListResponseMessage* FriendListResponseMessage::New(::google::protobuf::Arena* arena) const {
+  FriendListResponseMessage* n = new FriendListResponseMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FriendListResponseMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FriendListResponseMessage)
@@ -8550,8 +9312,9 @@ void FriendListResponseMessage::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    sessionid_.UnsafeMutablePointer()->clear();
+    (*sessionid_.UnsafeRawStringPointer())->clear();
   }
+  currentversion_ = GOOGLE_ULONGLONG(0);
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -8586,8 +9349,21 @@ bool FriendListResponseMessage::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_friend_()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_friend_()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint64 currentVersion = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          set_has_currentversion();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &currentversion_)));
         } else {
           goto handle_unusual;
         }
@@ -8635,9 +9411,12 @@ void FriendListResponseMessage::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->friend__size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->friend_(static_cast<int>(i)),
-      output);
+      2, this->friend_(static_cast<int>(i)), output);
+  }
+
+  // optional uint64 currentVersion = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(3, this->currentversion(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -8674,6 +9453,11 @@ void FriendListResponseMessage::SerializeWithCachedSizes(
         2, this->friend_(static_cast<int>(i)), deterministic, target);
   }
 
+  // optional uint64 currentVersion = 3;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(3, this->currentversion(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -8708,6 +9492,13 @@ size_t FriendListResponseMessage::ByteSizeLong() const {
     }
   }
 
+  // optional uint64 currentVersion = 3;
+  if (has_currentversion()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->currentversion());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -8738,9 +9529,16 @@ void FriendListResponseMessage::MergeFrom(const FriendListResponseMessage& from)
   (void) cached_has_bits;
 
   friend__.MergeFrom(from.friend__);
-  if (from.has_sessionid()) {
-    set_has_sessionid();
-    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      currentversion_ = from.currentversion_;
+    }
+    _has_bits_[0] |= cached_has_bits;
   }
 }
 
@@ -8770,8 +9568,9 @@ void FriendListResponseMessage::Swap(FriendListResponseMessage* other) {
 }
 void FriendListResponseMessage::InternalSwap(FriendListResponseMessage* other) {
   using std::swap;
-  CastToBase(&friend__)->InternalSwap(CastToBase(&other->friend__));
+  friend__.InternalSwap(&other->friend__);
   sessionid_.Swap(&other->sessionid_);
+  swap(currentversion_, other->currentversion_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -8851,6 +9650,13 @@ const OnlineStateMessage& OnlineStateMessage::default_instance() {
   return *internal_default_instance();
 }
 
+OnlineStateMessage* OnlineStateMessage::New(::google::protobuf::Arena* arena) const {
+  OnlineStateMessage* n = new OnlineStateMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void OnlineStateMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.OnlineStateMessage)
@@ -8862,11 +9668,11 @@ void OnlineStateMessage::Clear() {
   if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     userstate_ = 1;
   }
@@ -9180,6 +9986,271 @@ void OnlineStateMessage::InternalSwap(OnlineStateMessage* other) {
 
 // ===================================================================
 
+void PullFriendOnlineStateMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int PullFriendOnlineStateMessage::kSessionIDFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+PullFriendOnlineStateMessage::PullFriendOnlineStateMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsPullFriendOnlineStateMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.PullFriendOnlineStateMessage)
+}
+PullFriendOnlineStateMessage::PullFriendOnlineStateMessage(const PullFriendOnlineStateMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.PullFriendOnlineStateMessage)
+}
+
+void PullFriendOnlineStateMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+PullFriendOnlineStateMessage::~PullFriendOnlineStateMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.PullFriendOnlineStateMessage)
+  SharedDtor();
+}
+
+void PullFriendOnlineStateMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void PullFriendOnlineStateMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* PullFriendOnlineStateMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const PullFriendOnlineStateMessage& PullFriendOnlineStateMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsPullFriendOnlineStateMessage();
+  return *internal_default_instance();
+}
+
+PullFriendOnlineStateMessage* PullFriendOnlineStateMessage::New(::google::protobuf::Arena* arena) const {
+  PullFriendOnlineStateMessage* n = new PullFriendOnlineStateMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void PullFriendOnlineStateMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*sessionid_.UnsafeRawStringPointer())->clear();
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool PullFriendOnlineStateMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.PullFriendOnlineStateMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.PullFriendOnlineStateMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.PullFriendOnlineStateMessage)
+  return false;
+#undef DO_
+}
+
+void PullFriendOnlineStateMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.PullFriendOnlineStateMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.PullFriendOnlineStateMessage)
+}
+
+::google::protobuf::uint8* PullFriendOnlineStateMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.PullFriendOnlineStateMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.PullFriendOnlineStateMessage)
+  return target;
+}
+
+size_t PullFriendOnlineStateMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // required string sessionID = 1;
+  if (has_sessionid()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PullFriendOnlineStateMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PullFriendOnlineStateMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const PullFriendOnlineStateMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.PullFriendOnlineStateMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.PullFriendOnlineStateMessage)
+    MergeFrom(*source);
+  }
+}
+
+void PullFriendOnlineStateMessage::MergeFrom(const PullFriendOnlineStateMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_sessionid()) {
+    set_has_sessionid();
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+}
+
+void PullFriendOnlineStateMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PullFriendOnlineStateMessage::CopyFrom(const PullFriendOnlineStateMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.PullFriendOnlineStateMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PullFriendOnlineStateMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  return true;
+}
+
+void PullFriendOnlineStateMessage::Swap(PullFriendOnlineStateMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void PullFriendOnlineStateMessage::InternalSwap(PullFriendOnlineStateMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata PullFriendOnlineStateMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
 void ChatMessage::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -9189,6 +10260,7 @@ const int ChatMessage::kReceiverAccountFieldNumber;
 const int ChatMessage::kContentFieldNumber;
 const int ChatMessage::kTimestampFieldNumber;
 const int ChatMessage::kMessageIDFieldNumber;
+const int ChatMessage::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatMessage::ChatMessage()
@@ -9225,6 +10297,10 @@ ChatMessage::ChatMessage(const ChatMessage& from)
   if (from.has_timestamp()) {
     timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   messageid_ = from.messageid_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatMessage)
 }
@@ -9236,6 +10312,7 @@ void ChatMessage::SharedCtor() {
   receiveraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   messageid_ = GOOGLE_ULONGLONG(0);
 }
 
@@ -9250,6 +10327,7 @@ void ChatMessage::SharedDtor() {
   receiveraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   timestamp_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatMessage::SetCachedSize(int size) const {
@@ -9267,6 +10345,13 @@ const ChatMessage& ChatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+ChatMessage* ChatMessage::New(::google::protobuf::Arena* arena) const {
+  ChatMessage* n = new ChatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatMessage)
@@ -9275,26 +10360,30 @@ void ChatMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!senderaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      senderaccount_.UnsafeMutablePointer()->clear();
+      (*senderaccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!receiveraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      receiveraccount_.UnsafeMutablePointer()->clear();
+      (*receiveraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!content_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      content_.UnsafeMutablePointer()->clear();
+      (*content_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000010u) {
       GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      timestamp_.UnsafeMutablePointer()->clear();
+      (*timestamp_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   messageid_ = GOOGLE_ULONGLONG(0);
@@ -9376,7 +10465,7 @@ bool ChatMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // required string timestamp = 5;
+      // optional string timestamp = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
@@ -9400,6 +10489,22 @@ bool ChatMessage::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
                  input, &messageid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sign = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatMessage.sign");
         } else {
           goto handle_unusual;
         }
@@ -9473,7 +10578,7 @@ void ChatMessage::SerializeWithCachedSizes(
       4, this->content(), output);
   }
 
-  // required string timestamp = 5;
+  // optional string timestamp = 5;
   if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->timestamp().data(), static_cast<int>(this->timestamp().length()),
@@ -9484,8 +10589,18 @@ void ChatMessage::SerializeWithCachedSizes(
   }
 
   // optional uint64 messageID = 6;
-  if (cached_has_bits & 0x00000020u) {
+  if (cached_has_bits & 0x00000040u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(6, this->messageid(), output);
+  }
+
+  // required string sign = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -9547,7 +10662,7 @@ void ChatMessage::SerializeWithCachedSizes(
         4, this->content(), target);
   }
 
-  // required string timestamp = 5;
+  // optional string timestamp = 5;
   if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->timestamp().data(), static_cast<int>(this->timestamp().length()),
@@ -9559,8 +10674,19 @@ void ChatMessage::SerializeWithCachedSizes(
   }
 
   // optional uint64 messageID = 6;
-  if (cached_has_bits & 0x00000020u) {
+  if (cached_has_bits & 0x00000040u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(6, this->messageid(), target);
+  }
+
+  // required string sign = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -9603,11 +10729,11 @@ size_t ChatMessage::RequiredFieldsByteSizeFallback() const {
         this->content());
   }
 
-  if (has_timestamp()) {
-    // required string timestamp = 5;
+  if (has_sign()) {
+    // required string sign = 7;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->timestamp());
+        this->sign());
   }
 
   return total_size;
@@ -9621,7 +10747,7 @@ size_t ChatMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x0000002f) ^ 0x0000002f) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -9642,14 +10768,21 @@ size_t ChatMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->content());
 
-    // required string timestamp = 5;
+    // required string sign = 7;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->timestamp());
+        this->sign());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string timestamp = 5;
+  if (has_timestamp()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->timestamp());
+  }
+
   // optional uint64 messageID = 6;
   if (has_messageid()) {
     total_size += 1 +
@@ -9687,7 +10820,7 @@ void ChatMessage::MergeFrom(const ChatMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 63u) {
+  if (cached_has_bits & 127u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -9709,6 +10842,10 @@ void ChatMessage::MergeFrom(const ChatMessage& from) {
       timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
     }
     if (cached_has_bits & 0x00000020u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000040u) {
       messageid_ = from.messageid_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -9730,7 +10867,7 @@ void ChatMessage::CopyFrom(const ChatMessage& from) {
 }
 
 bool ChatMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
+  if ((_has_bits_[0] & 0x0000002f) != 0x0000002f) return false;
   return true;
 }
 
@@ -9745,6 +10882,7 @@ void ChatMessage::InternalSwap(ChatMessage* other) {
   receiveraccount_.Swap(&other->receiveraccount_);
   content_.Swap(&other->content_);
   timestamp_.Swap(&other->timestamp_);
+  sign_.Swap(&other->sign_);
   swap(messageid_, other->messageid_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -9752,6 +10890,3853 @@ void ChatMessage::InternalSwap(ChatMessage* other) {
 }
 
 ::google::protobuf::Metadata ChatMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatRequestMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatRequestMessage::kSessionIDFieldNumber;
+const int VideoChatRequestMessage::kChatTypeFieldNumber;
+const int VideoChatRequestMessage::kOfferIDFieldNumber;
+const int VideoChatRequestMessage::kSponsorAccountFieldNumber;
+const int VideoChatRequestMessage::kTargetAccountFieldNumber;
+const int VideoChatRequestMessage::kSponsorSessionIdFieldNumber;
+const int VideoChatRequestMessage::kTimestampFieldNumber;
+const int VideoChatRequestMessage::kSignFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatRequestMessage::VideoChatRequestMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatRequestMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatRequestMessage)
+}
+VideoChatRequestMessage::VideoChatRequestMessage(const VideoChatRequestMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sponsoraccount()) {
+    sponsoraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsoraccount_);
+  }
+  targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_targetaccount()) {
+    targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
+  }
+  sponsorsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sponsorsessionid()) {
+    sponsorsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsorsessionid_);
+  }
+  timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_timestamp()) {
+    timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
+  }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
+  ::memcpy(&offerid_, &from.offerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&chattype_) -
+    reinterpret_cast<char*>(&offerid_)) + sizeof(chattype_));
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatRequestMessage)
+}
+
+void VideoChatRequestMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsorsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+  chattype_ = 1;
+}
+
+VideoChatRequestMessage::~VideoChatRequestMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatRequestMessage)
+  SharedDtor();
+}
+
+void VideoChatRequestMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsoraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetaccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsorsessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timestamp_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatRequestMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatRequestMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatRequestMessage& VideoChatRequestMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatRequestMessage();
+  return *internal_default_instance();
+}
+
+VideoChatRequestMessage* VideoChatRequestMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatRequestMessage* n = new VideoChatRequestMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatRequestMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatRequestMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 63u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!sponsoraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sponsoraccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!targetaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*targetaccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sponsorsessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sponsorsessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*timestamp_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  if (cached_has_bits & 192u) {
+    offerid_ = GOOGLE_ULONGLONG(0);
+    chattype_ = 1;
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatRequestMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatRequestMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required .kakaIM.Node.VideoChatRequestMessage.ChatType chatType = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::kakaIM::Node::VideoChatRequestMessage_ChatType_IsValid(value)) {
+            set_chattype(static_cast< ::kakaIM::Node::VideoChatRequestMessage_ChatType >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(
+                2, static_cast< ::google::protobuf::uint64>(value));
+          }
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint64 offerID = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sponsorAccount = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sponsoraccount()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sponsoraccount().data(), static_cast<int>(this->sponsoraccount().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestMessage.sponsorAccount");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string targetAccount = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_targetaccount()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->targetaccount().data(), static_cast<int>(this->targetaccount().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestMessage.targetAccount");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sponsorSessionId = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sponsorsessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sponsorsessionid().data(), static_cast<int>(this->sponsorsessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestMessage.sponsorSessionId");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string timestamp = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_timestamp()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestMessage.timestamp");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sign = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestMessage.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatRequestMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatRequestMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatRequestMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatRequestMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required .kakaIM.Node.VideoChatRequestMessage.ChatType chatType = 2;
+  if (cached_has_bits & 0x00000080u) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->chattype(), output);
+  }
+
+  // optional uint64 offerID = 3;
+  if (cached_has_bits & 0x00000040u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(3, this->offerid(), output);
+  }
+
+  // optional string sponsorAccount = 4;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsoraccount().data(), static_cast<int>(this->sponsoraccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sponsorAccount");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->sponsoraccount(), output);
+  }
+
+  // required string targetAccount = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetaccount().data(), static_cast<int>(this->targetaccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.targetAccount");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->targetaccount(), output);
+  }
+
+  // optional string sponsorSessionId = 6;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsorsessionid().data(), static_cast<int>(this->sponsorsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sponsorSessionId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->sponsorsessionid(), output);
+  }
+
+  // optional string timestamp = 7;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.timestamp");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->timestamp(), output);
+  }
+
+  // required string sign = 8;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      8, this->sign(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatRequestMessage)
+}
+
+::google::protobuf::uint8* VideoChatRequestMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatRequestMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required .kakaIM.Node.VideoChatRequestMessage.ChatType chatType = 2;
+  if (cached_has_bits & 0x00000080u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      2, this->chattype(), target);
+  }
+
+  // optional uint64 offerID = 3;
+  if (cached_has_bits & 0x00000040u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(3, this->offerid(), target);
+  }
+
+  // optional string sponsorAccount = 4;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsoraccount().data(), static_cast<int>(this->sponsoraccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sponsorAccount");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->sponsoraccount(), target);
+  }
+
+  // required string targetAccount = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetaccount().data(), static_cast<int>(this->targetaccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.targetAccount");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->targetaccount(), target);
+  }
+
+  // optional string sponsorSessionId = 6;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsorsessionid().data(), static_cast<int>(this->sponsorsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sponsorSessionId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->sponsorsessionid(), target);
+  }
+
+  // optional string timestamp = 7;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.timestamp");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->timestamp(), target);
+  }
+
+  // required string sign = 8;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        8, this->sign(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatRequestMessage)
+  return target;
+}
+
+size_t VideoChatRequestMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatRequestMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_targetaccount()) {
+    // required string targetAccount = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetaccount());
+  }
+
+  if (has_sign()) {
+    // required string sign = 8;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
+  if (has_chattype()) {
+    // required .kakaIM.Node.VideoChatRequestMessage.ChatType chatType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->chattype());
+  }
+
+  return total_size;
+}
+size_t VideoChatRequestMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatRequestMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x000000a5) ^ 0x000000a5) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required string targetAccount = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetaccount());
+
+    // required string sign = 8;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+
+    // required .kakaIM.Node.VideoChatRequestMessage.ChatType chatType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->chattype());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  // optional string sponsorAccount = 4;
+  if (has_sponsoraccount()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sponsoraccount());
+  }
+
+  if (_has_bits_[0 / 32] & 24u) {
+    // optional string sponsorSessionId = 6;
+    if (has_sponsorsessionid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sponsorsessionid());
+    }
+
+    // optional string timestamp = 7;
+    if (has_timestamp()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->timestamp());
+    }
+
+  }
+  // optional uint64 offerID = 3;
+  if (has_offerid()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatRequestMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatRequestMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatRequestMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatRequestMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatRequestMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatRequestMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatRequestMessage::MergeFrom(const VideoChatRequestMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatRequestMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 255u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_sponsoraccount();
+      sponsoraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsoraccount_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_targetaccount();
+      targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sponsorsessionid();
+      sponsorsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsorsessionid_);
+    }
+    if (cached_has_bits & 0x00000010u) {
+      set_has_timestamp();
+      timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
+    }
+    if (cached_has_bits & 0x00000020u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000040u) {
+      offerid_ = from.offerid_;
+    }
+    if (cached_has_bits & 0x00000080u) {
+      chattype_ = from.chattype_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatRequestMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatRequestMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatRequestMessage::CopyFrom(const VideoChatRequestMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatRequestMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatRequestMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x000000a5) != 0x000000a5) return false;
+  return true;
+}
+
+void VideoChatRequestMessage::Swap(VideoChatRequestMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatRequestMessage::InternalSwap(VideoChatRequestMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  sponsoraccount_.Swap(&other->sponsoraccount_);
+  targetaccount_.Swap(&other->targetaccount_);
+  sponsorsessionid_.Swap(&other->sponsorsessionid_);
+  timestamp_.Swap(&other->timestamp_);
+  sign_.Swap(&other->sign_);
+  swap(offerid_, other->offerid_);
+  swap(chattype_, other->chattype_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatRequestMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatRequestCancelMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatRequestCancelMessage::kSessionIDFieldNumber;
+const int VideoChatRequestCancelMessage::kOfferIDFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatRequestCancelMessage::VideoChatRequestCancelMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatRequestCancelMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatRequestCancelMessage)
+}
+VideoChatRequestCancelMessage::VideoChatRequestCancelMessage(const VideoChatRequestCancelMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  offerid_ = from.offerid_;
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatRequestCancelMessage)
+}
+
+void VideoChatRequestCancelMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+}
+
+VideoChatRequestCancelMessage::~VideoChatRequestCancelMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatRequestCancelMessage)
+  SharedDtor();
+}
+
+void VideoChatRequestCancelMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatRequestCancelMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatRequestCancelMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatRequestCancelMessage& VideoChatRequestCancelMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatRequestCancelMessage();
+  return *internal_default_instance();
+}
+
+VideoChatRequestCancelMessage* VideoChatRequestCancelMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatRequestCancelMessage* n = new VideoChatRequestCancelMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatRequestCancelMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*sessionid_.UnsafeRawStringPointer())->clear();
+  }
+  offerid_ = GOOGLE_ULONGLONG(0);
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatRequestCancelMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatRequestCancelMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatRequestCancelMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatRequestCancelMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatRequestCancelMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestCancelMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatRequestCancelMessage)
+}
+
+::google::protobuf::uint8* VideoChatRequestCancelMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatRequestCancelMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatRequestCancelMessage)
+  return target;
+}
+
+size_t VideoChatRequestCancelMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  return total_size;
+}
+size_t VideoChatRequestCancelMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatRequestCancelMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatRequestCancelMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatRequestCancelMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatRequestCancelMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatRequestCancelMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatRequestCancelMessage::MergeFrom(const VideoChatRequestCancelMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      offerid_ = from.offerid_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatRequestCancelMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatRequestCancelMessage::CopyFrom(const VideoChatRequestCancelMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatRequestCancelMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatRequestCancelMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  return true;
+}
+
+void VideoChatRequestCancelMessage::Swap(VideoChatRequestCancelMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatRequestCancelMessage::InternalSwap(VideoChatRequestCancelMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  swap(offerid_, other->offerid_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatRequestCancelMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatReplyMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatReplyMessage::kSessionIDFieldNumber;
+const int VideoChatReplyMessage::kOfferIDFieldNumber;
+const int VideoChatReplyMessage::kSponsorAccountFieldNumber;
+const int VideoChatReplyMessage::kTargetAccountFieldNumber;
+const int VideoChatReplyMessage::kSponsorSessionIdFieldNumber;
+const int VideoChatReplyMessage::kAnswerSessionIdFieldNumber;
+const int VideoChatReplyMessage::kReplyFieldNumber;
+const int VideoChatReplyMessage::kTimestampFieldNumber;
+const int VideoChatReplyMessage::kSignFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatReplyMessage::VideoChatReplyMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatReplyMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatReplyMessage)
+}
+VideoChatReplyMessage::VideoChatReplyMessage(const VideoChatReplyMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sponsoraccount()) {
+    sponsoraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsoraccount_);
+  }
+  targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_targetaccount()) {
+    targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
+  }
+  sponsorsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sponsorsessionid()) {
+    sponsorsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsorsessionid_);
+  }
+  answersessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_answersessionid()) {
+    answersessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.answersessionid_);
+  }
+  timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_timestamp()) {
+    timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
+  }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
+  ::memcpy(&offerid_, &from.offerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&reply_) -
+    reinterpret_cast<char*>(&offerid_)) + sizeof(reply_));
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatReplyMessage)
+}
+
+void VideoChatReplyMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsoraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetaccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsorsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  answersessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+  reply_ = 1;
+}
+
+VideoChatReplyMessage::~VideoChatReplyMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatReplyMessage)
+  SharedDtor();
+}
+
+void VideoChatReplyMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsoraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetaccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sponsorsessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  answersessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timestamp_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatReplyMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatReplyMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatReplyMessage& VideoChatReplyMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatReplyMessage();
+  return *internal_default_instance();
+}
+
+VideoChatReplyMessage* VideoChatReplyMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatReplyMessage* n = new VideoChatReplyMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatReplyMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatReplyMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 127u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!sponsoraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sponsoraccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!targetaccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*targetaccount_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sponsorsessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sponsorsessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!answersessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*answersessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*timestamp_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000040u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  offerid_ = GOOGLE_ULONGLONG(0);
+  reply_ = 1;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatReplyMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatReplyMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sponsorAccount = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sponsoraccount()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sponsoraccount().data(), static_cast<int>(this->sponsoraccount().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.sponsorAccount");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string targetAccount = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_targetaccount()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->targetaccount().data(), static_cast<int>(this->targetaccount().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.targetAccount");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sponsorSessionId = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sponsorsessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sponsorsessionid().data(), static_cast<int>(this->sponsorsessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.sponsorSessionId");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string answerSessionId = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_answersessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->answersessionid().data(), static_cast<int>(this->answersessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.answerSessionId");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required .kakaIM.Node.VideoChatReplyMessage.VideoChatReply reply = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::kakaIM::Node::VideoChatReplyMessage_VideoChatReply_IsValid(value)) {
+            set_reply(static_cast< ::kakaIM::Node::VideoChatReplyMessage_VideoChatReply >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(
+                7, static_cast< ::google::protobuf::uint64>(value));
+          }
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string timestamp = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_timestamp()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.timestamp");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sign = 9;
+      case 9: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatReplyMessage.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatReplyMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatReplyMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatReplyMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatReplyMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000080u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  // optional string sponsorAccount = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsoraccount().data(), static_cast<int>(this->sponsoraccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sponsorAccount");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->sponsoraccount(), output);
+  }
+
+  // optional string targetAccount = 4;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetaccount().data(), static_cast<int>(this->targetaccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.targetAccount");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->targetaccount(), output);
+  }
+
+  // optional string sponsorSessionId = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsorsessionid().data(), static_cast<int>(this->sponsorsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sponsorSessionId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sponsorsessionid(), output);
+  }
+
+  // optional string answerSessionId = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->answersessionid().data(), static_cast<int>(this->answersessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.answerSessionId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->answersessionid(), output);
+  }
+
+  // required .kakaIM.Node.VideoChatReplyMessage.VideoChatReply reply = 7;
+  if (cached_has_bits & 0x00000100u) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      7, this->reply(), output);
+  }
+
+  // optional string timestamp = 8;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.timestamp");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      8, this->timestamp(), output);
+  }
+
+  // required string sign = 9;
+  if (cached_has_bits & 0x00000040u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      9, this->sign(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatReplyMessage)
+}
+
+::google::protobuf::uint8* VideoChatReplyMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatReplyMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000080u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  // optional string sponsorAccount = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsoraccount().data(), static_cast<int>(this->sponsoraccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sponsorAccount");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->sponsoraccount(), target);
+  }
+
+  // optional string targetAccount = 4;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->targetaccount().data(), static_cast<int>(this->targetaccount().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.targetAccount");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->targetaccount(), target);
+  }
+
+  // optional string sponsorSessionId = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sponsorsessionid().data(), static_cast<int>(this->sponsorsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sponsorSessionId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sponsorsessionid(), target);
+  }
+
+  // optional string answerSessionId = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->answersessionid().data(), static_cast<int>(this->answersessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.answerSessionId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->answersessionid(), target);
+  }
+
+  // required .kakaIM.Node.VideoChatReplyMessage.VideoChatReply reply = 7;
+  if (cached_has_bits & 0x00000100u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      7, this->reply(), target);
+  }
+
+  // optional string timestamp = 8;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.timestamp");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        8, this->timestamp(), target);
+  }
+
+  // required string sign = 9;
+  if (cached_has_bits & 0x00000040u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatReplyMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->sign(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatReplyMessage)
+  return target;
+}
+
+size_t VideoChatReplyMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatReplyMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_sign()) {
+    // required string sign = 9;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  if (has_reply()) {
+    // required .kakaIM.Node.VideoChatReplyMessage.VideoChatReply reply = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->reply());
+  }
+
+  return total_size;
+}
+size_t VideoChatReplyMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatReplyMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x000001c1) ^ 0x000001c1) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required string sign = 9;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+    // required .kakaIM.Node.VideoChatReplyMessage.VideoChatReply reply = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->reply());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  if (_has_bits_[0 / 32] & 62u) {
+    // optional string sponsorAccount = 3;
+    if (has_sponsoraccount()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sponsoraccount());
+    }
+
+    // optional string targetAccount = 4;
+    if (has_targetaccount()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->targetaccount());
+    }
+
+    // optional string sponsorSessionId = 5;
+    if (has_sponsorsessionid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sponsorsessionid());
+    }
+
+    // optional string answerSessionId = 6;
+    if (has_answersessionid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->answersessionid());
+    }
+
+    // optional string timestamp = 8;
+    if (has_timestamp()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->timestamp());
+    }
+
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatReplyMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatReplyMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatReplyMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatReplyMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatReplyMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatReplyMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatReplyMessage::MergeFrom(const VideoChatReplyMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatReplyMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 255u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_sponsoraccount();
+      sponsoraccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsoraccount_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_targetaccount();
+      targetaccount_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetaccount_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sponsorsessionid();
+      sponsorsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sponsorsessionid_);
+    }
+    if (cached_has_bits & 0x00000010u) {
+      set_has_answersessionid();
+      answersessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.answersessionid_);
+    }
+    if (cached_has_bits & 0x00000020u) {
+      set_has_timestamp();
+      timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
+    }
+    if (cached_has_bits & 0x00000040u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000080u) {
+      offerid_ = from.offerid_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+  if (cached_has_bits & 0x00000100u) {
+    set_reply(from.reply());
+  }
+}
+
+void VideoChatReplyMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatReplyMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatReplyMessage::CopyFrom(const VideoChatReplyMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatReplyMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatReplyMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x000001c1) != 0x000001c1) return false;
+  return true;
+}
+
+void VideoChatReplyMessage::Swap(VideoChatReplyMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatReplyMessage::InternalSwap(VideoChatReplyMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  sponsoraccount_.Swap(&other->sponsoraccount_);
+  targetaccount_.Swap(&other->targetaccount_);
+  sponsorsessionid_.Swap(&other->sponsorsessionid_);
+  answersessionid_.Swap(&other->answersessionid_);
+  timestamp_.Swap(&other->timestamp_);
+  sign_.Swap(&other->sign_);
+  swap(offerid_, other->offerid_);
+  swap(reply_, other->reply_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatReplyMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatOfferMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatOfferMessage::kSessionIDFieldNumber;
+const int VideoChatOfferMessage::kOfferIDFieldNumber;
+const int VideoChatOfferMessage::kSessionDescriptionFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatOfferMessage::VideoChatOfferMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatOfferMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatOfferMessage)
+}
+VideoChatOfferMessage::VideoChatOfferMessage(const VideoChatOfferMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  sessiondescription_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessiondescription()) {
+    sessiondescription_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessiondescription_);
+  }
+  offerid_ = from.offerid_;
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatOfferMessage)
+}
+
+void VideoChatOfferMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sessiondescription_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+}
+
+VideoChatOfferMessage::~VideoChatOfferMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatOfferMessage)
+  SharedDtor();
+}
+
+void VideoChatOfferMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sessiondescription_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatOfferMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatOfferMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatOfferMessage& VideoChatOfferMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatOfferMessage();
+  return *internal_default_instance();
+}
+
+VideoChatOfferMessage* VideoChatOfferMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatOfferMessage* n = new VideoChatOfferMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatOfferMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatOfferMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!sessiondescription_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessiondescription_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  offerid_ = GOOGLE_ULONGLONG(0);
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatOfferMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatOfferMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatOfferMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sessionDescription = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessiondescription()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessiondescription().data(), static_cast<int>(this->sessiondescription().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatOfferMessage.sessionDescription");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatOfferMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatOfferMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatOfferMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatOfferMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatOfferMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  // required string sessionDescription = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessiondescription().data(), static_cast<int>(this->sessiondescription().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatOfferMessage.sessionDescription");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->sessiondescription(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatOfferMessage)
+}
+
+::google::protobuf::uint8* VideoChatOfferMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatOfferMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatOfferMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  // required string sessionDescription = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessiondescription().data(), static_cast<int>(this->sessiondescription().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatOfferMessage.sessionDescription");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->sessiondescription(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatOfferMessage)
+  return target;
+}
+
+size_t VideoChatOfferMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatOfferMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_sessiondescription()) {
+    // required string sessionDescription = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessiondescription());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  return total_size;
+}
+size_t VideoChatOfferMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatOfferMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required string sessionDescription = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessiondescription());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatOfferMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatOfferMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatOfferMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatOfferMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatOfferMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatOfferMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatOfferMessage::MergeFrom(const VideoChatOfferMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatOfferMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_sessiondescription();
+      sessiondescription_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessiondescription_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      offerid_ = from.offerid_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatOfferMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatOfferMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatOfferMessage::CopyFrom(const VideoChatOfferMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatOfferMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatOfferMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  return true;
+}
+
+void VideoChatOfferMessage::Swap(VideoChatOfferMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatOfferMessage::InternalSwap(VideoChatOfferMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  sessiondescription_.Swap(&other->sessiondescription_);
+  swap(offerid_, other->offerid_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatOfferMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatAnswerMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatAnswerMessage::kSessionIDFieldNumber;
+const int VideoChatAnswerMessage::kOfferIDFieldNumber;
+const int VideoChatAnswerMessage::kSessionDescriptionFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatAnswerMessage::VideoChatAnswerMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatAnswerMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatAnswerMessage)
+}
+VideoChatAnswerMessage::VideoChatAnswerMessage(const VideoChatAnswerMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  sessiondescription_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessiondescription()) {
+    sessiondescription_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessiondescription_);
+  }
+  offerid_ = from.offerid_;
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatAnswerMessage)
+}
+
+void VideoChatAnswerMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sessiondescription_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+}
+
+VideoChatAnswerMessage::~VideoChatAnswerMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatAnswerMessage)
+  SharedDtor();
+}
+
+void VideoChatAnswerMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sessiondescription_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatAnswerMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatAnswerMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatAnswerMessage& VideoChatAnswerMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatAnswerMessage();
+  return *internal_default_instance();
+}
+
+VideoChatAnswerMessage* VideoChatAnswerMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatAnswerMessage* n = new VideoChatAnswerMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatAnswerMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatAnswerMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!sessiondescription_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessiondescription_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  offerid_ = GOOGLE_ULONGLONG(0);
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatAnswerMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatAnswerMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatAnswerMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sessionDescription = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessiondescription()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessiondescription().data(), static_cast<int>(this->sessiondescription().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatAnswerMessage.sessionDescription");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatAnswerMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatAnswerMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatAnswerMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatAnswerMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatAnswerMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  // required string sessionDescription = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessiondescription().data(), static_cast<int>(this->sessiondescription().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatAnswerMessage.sessionDescription");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->sessiondescription(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatAnswerMessage)
+}
+
+::google::protobuf::uint8* VideoChatAnswerMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatAnswerMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatAnswerMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  // required string sessionDescription = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessiondescription().data(), static_cast<int>(this->sessiondescription().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatAnswerMessage.sessionDescription");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->sessiondescription(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatAnswerMessage)
+  return target;
+}
+
+size_t VideoChatAnswerMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatAnswerMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_sessiondescription()) {
+    // required string sessionDescription = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessiondescription());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  return total_size;
+}
+size_t VideoChatAnswerMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatAnswerMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required string sessionDescription = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessiondescription());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatAnswerMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatAnswerMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatAnswerMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatAnswerMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatAnswerMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatAnswerMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatAnswerMessage::MergeFrom(const VideoChatAnswerMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatAnswerMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_sessiondescription();
+      sessiondescription_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessiondescription_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      offerid_ = from.offerid_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatAnswerMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatAnswerMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatAnswerMessage::CopyFrom(const VideoChatAnswerMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatAnswerMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatAnswerMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  return true;
+}
+
+void VideoChatAnswerMessage::Swap(VideoChatAnswerMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatAnswerMessage::InternalSwap(VideoChatAnswerMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  sessiondescription_.Swap(&other->sessiondescription_);
+  swap(offerid_, other->offerid_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatAnswerMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatNegotiationResultMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatNegotiationResultMessage::kSessionIDFieldNumber;
+const int VideoChatNegotiationResultMessage::kOfferIDFieldNumber;
+const int VideoChatNegotiationResultMessage::kResultFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatNegotiationResultMessage::VideoChatNegotiationResultMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatNegotiationResultMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatNegotiationResultMessage)
+}
+VideoChatNegotiationResultMessage::VideoChatNegotiationResultMessage(const VideoChatNegotiationResultMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  ::memcpy(&offerid_, &from.offerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&result_) -
+    reinterpret_cast<char*>(&offerid_)) + sizeof(result_));
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatNegotiationResultMessage)
+}
+
+void VideoChatNegotiationResultMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+  result_ = 1;
+}
+
+VideoChatNegotiationResultMessage::~VideoChatNegotiationResultMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatNegotiationResultMessage)
+  SharedDtor();
+}
+
+void VideoChatNegotiationResultMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatNegotiationResultMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatNegotiationResultMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatNegotiationResultMessage& VideoChatNegotiationResultMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatNegotiationResultMessage();
+  return *internal_default_instance();
+}
+
+VideoChatNegotiationResultMessage* VideoChatNegotiationResultMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatNegotiationResultMessage* n = new VideoChatNegotiationResultMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatNegotiationResultMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*sessionid_.UnsafeRawStringPointer())->clear();
+  }
+  if (cached_has_bits & 6u) {
+    offerid_ = GOOGLE_ULONGLONG(0);
+    result_ = 1;
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatNegotiationResultMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatNegotiationResultMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required .kakaIM.Node.VideoChatNegotiationResultMessage.NegotiationResult result = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::kakaIM::Node::VideoChatNegotiationResultMessage_NegotiationResult_IsValid(value)) {
+            set_result(static_cast< ::kakaIM::Node::VideoChatNegotiationResultMessage_NegotiationResult >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(
+                3, static_cast< ::google::protobuf::uint64>(value));
+          }
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatNegotiationResultMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatNegotiationResultMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatNegotiationResultMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatNegotiationResultMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  // required .kakaIM.Node.VideoChatNegotiationResultMessage.NegotiationResult result = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      3, this->result(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatNegotiationResultMessage)
+}
+
+::google::protobuf::uint8* VideoChatNegotiationResultMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatNegotiationResultMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  // required .kakaIM.Node.VideoChatNegotiationResultMessage.NegotiationResult result = 3;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      3, this->result(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatNegotiationResultMessage)
+  return target;
+}
+
+size_t VideoChatNegotiationResultMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  if (has_result()) {
+    // required .kakaIM.Node.VideoChatNegotiationResultMessage.NegotiationResult result = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
+  }
+
+  return total_size;
+}
+size_t VideoChatNegotiationResultMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+    // required .kakaIM.Node.VideoChatNegotiationResultMessage.NegotiationResult result = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatNegotiationResultMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatNegotiationResultMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatNegotiationResultMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatNegotiationResultMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatNegotiationResultMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatNegotiationResultMessage::MergeFrom(const VideoChatNegotiationResultMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      offerid_ = from.offerid_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      result_ = from.result_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatNegotiationResultMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatNegotiationResultMessage::CopyFrom(const VideoChatNegotiationResultMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatNegotiationResultMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatNegotiationResultMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  return true;
+}
+
+void VideoChatNegotiationResultMessage::Swap(VideoChatNegotiationResultMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatNegotiationResultMessage::InternalSwap(VideoChatNegotiationResultMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  swap(offerid_, other->offerid_);
+  swap(result_, other->result_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatNegotiationResultMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatCandidateAddressMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatCandidateAddressMessage::kSessionIDFieldNumber;
+const int VideoChatCandidateAddressMessage::kOfferIDFieldNumber;
+const int VideoChatCandidateAddressMessage::kFromSessionIdFieldNumber;
+const int VideoChatCandidateAddressMessage::kSdpMidFieldNumber;
+const int VideoChatCandidateAddressMessage::kSdpMLineIndexFieldNumber;
+const int VideoChatCandidateAddressMessage::kSDPIzedDescriptionFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatCandidateAddressMessage::VideoChatCandidateAddressMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatCandidateAddressMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatCandidateAddressMessage)
+}
+VideoChatCandidateAddressMessage::VideoChatCandidateAddressMessage(const VideoChatCandidateAddressMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  fromsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_fromsessionid()) {
+    fromsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.fromsessionid_);
+  }
+  sdpmid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sdpmid()) {
+    sdpmid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sdpmid_);
+  }
+  sdp_ized_description_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sdp_ized_description()) {
+    sdp_ized_description_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sdp_ized_description_);
+  }
+  ::memcpy(&offerid_, &from.offerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&sdpmlineindex_) -
+    reinterpret_cast<char*>(&offerid_)) + sizeof(sdpmlineindex_));
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatCandidateAddressMessage)
+}
+
+void VideoChatCandidateAddressMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  fromsessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sdpmid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sdp_ized_description_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&offerid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&sdpmlineindex_) -
+      reinterpret_cast<char*>(&offerid_)) + sizeof(sdpmlineindex_));
+}
+
+VideoChatCandidateAddressMessage::~VideoChatCandidateAddressMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatCandidateAddressMessage)
+  SharedDtor();
+}
+
+void VideoChatCandidateAddressMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  fromsessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sdpmid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sdp_ized_description_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatCandidateAddressMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatCandidateAddressMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatCandidateAddressMessage& VideoChatCandidateAddressMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatCandidateAddressMessage();
+  return *internal_default_instance();
+}
+
+VideoChatCandidateAddressMessage* VideoChatCandidateAddressMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatCandidateAddressMessage* n = new VideoChatCandidateAddressMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatCandidateAddressMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 15u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!fromsessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*fromsessionid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!sdpmid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sdpmid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sdp_ized_description_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sdp_ized_description_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  if (cached_has_bits & 48u) {
+    ::memset(&offerid_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&sdpmlineindex_) -
+        reinterpret_cast<char*>(&offerid_)) + sizeof(sdpmlineindex_));
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatCandidateAddressMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatCandidateAddressMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string fromSessionId = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_fromsessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->fromsessionid().data(), static_cast<int>(this->fromsessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatCandidateAddressMessage.fromSessionId");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sdpMid = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sdpmid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sdpmid().data(), static_cast<int>(this->sdpmid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatCandidateAddressMessage.sdpMid");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required int64 sdpMLineIndex = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+          set_has_sdpmlineindex();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &sdpmlineindex_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string SDP_ized_description = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sdp_ized_description()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sdp_ized_description().data(), static_cast<int>(this->sdp_ized_description().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatCandidateAddressMessage.SDP_ized_description");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatCandidateAddressMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatCandidateAddressMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatCandidateAddressMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  // required string fromSessionId = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->fromsessionid().data(), static_cast<int>(this->fromsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.fromSessionId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->fromsessionid(), output);
+  }
+
+  // required string sdpMid = 4;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sdpmid().data(), static_cast<int>(this->sdpmid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.sdpMid");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->sdpmid(), output);
+  }
+
+  // required int64 sdpMLineIndex = 5;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(5, this->sdpmlineindex(), output);
+  }
+
+  // required string SDP_ized_description = 6;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sdp_ized_description().data(), static_cast<int>(this->sdp_ized_description().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.SDP_ized_description");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->sdp_ized_description(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatCandidateAddressMessage)
+}
+
+::google::protobuf::uint8* VideoChatCandidateAddressMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000010u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  // required string fromSessionId = 3;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->fromsessionid().data(), static_cast<int>(this->fromsessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.fromSessionId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->fromsessionid(), target);
+  }
+
+  // required string sdpMid = 4;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sdpmid().data(), static_cast<int>(this->sdpmid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.sdpMid");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->sdpmid(), target);
+  }
+
+  // required int64 sdpMLineIndex = 5;
+  if (cached_has_bits & 0x00000020u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(5, this->sdpmlineindex(), target);
+  }
+
+  // required string SDP_ized_description = 6;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sdp_ized_description().data(), static_cast<int>(this->sdp_ized_description().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatCandidateAddressMessage.SDP_ized_description");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->sdp_ized_description(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatCandidateAddressMessage)
+  return target;
+}
+
+size_t VideoChatCandidateAddressMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_fromsessionid()) {
+    // required string fromSessionId = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->fromsessionid());
+  }
+
+  if (has_sdpmid()) {
+    // required string sdpMid = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sdpmid());
+  }
+
+  if (has_sdp_ized_description()) {
+    // required string SDP_ized_description = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sdp_ized_description());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  if (has_sdpmlineindex()) {
+    // required int64 sdpMLineIndex = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->sdpmlineindex());
+  }
+
+  return total_size;
+}
+size_t VideoChatCandidateAddressMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x0000003f) ^ 0x0000003f) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required string fromSessionId = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->fromsessionid());
+
+    // required string sdpMid = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sdpmid());
+
+    // required string SDP_ized_description = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sdp_ized_description());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+    // required int64 sdpMLineIndex = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->sdpmlineindex());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatCandidateAddressMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatCandidateAddressMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatCandidateAddressMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatCandidateAddressMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatCandidateAddressMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatCandidateAddressMessage::MergeFrom(const VideoChatCandidateAddressMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 63u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_fromsessionid();
+      fromsessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.fromsessionid_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_sdpmid();
+      sdpmid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sdpmid_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sdp_ized_description();
+      sdp_ized_description_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sdp_ized_description_);
+    }
+    if (cached_has_bits & 0x00000010u) {
+      offerid_ = from.offerid_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      sdpmlineindex_ = from.sdpmlineindex_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatCandidateAddressMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatCandidateAddressMessage::CopyFrom(const VideoChatCandidateAddressMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatCandidateAddressMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatCandidateAddressMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
+  return true;
+}
+
+void VideoChatCandidateAddressMessage::Swap(VideoChatCandidateAddressMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatCandidateAddressMessage::InternalSwap(VideoChatCandidateAddressMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  fromsessionid_.Swap(&other->fromsessionid_);
+  sdpmid_.Swap(&other->sdpmid_);
+  sdp_ized_description_.Swap(&other->sdp_ized_description_);
+  swap(offerid_, other->offerid_);
+  swap(sdpmlineindex_, other->sdpmlineindex_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatCandidateAddressMessage::GetMetadata() const {
+  protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void VideoChatByeMessage::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int VideoChatByeMessage::kSessionIDFieldNumber;
+const int VideoChatByeMessage::kOfferIDFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+VideoChatByeMessage::VideoChatByeMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatByeMessage();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:kakaIM.Node.VideoChatByeMessage)
+}
+VideoChatByeMessage::VideoChatByeMessage(const VideoChatByeMessage& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sessionid()) {
+    sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+  }
+  offerid_ = from.offerid_;
+  // @@protoc_insertion_point(copy_constructor:kakaIM.Node.VideoChatByeMessage)
+}
+
+void VideoChatByeMessage::SharedCtor() {
+  _cached_size_ = 0;
+  sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  offerid_ = GOOGLE_ULONGLONG(0);
+}
+
+VideoChatByeMessage::~VideoChatByeMessage() {
+  // @@protoc_insertion_point(destructor:kakaIM.Node.VideoChatByeMessage)
+  SharedDtor();
+}
+
+void VideoChatByeMessage::SharedDtor() {
+  sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void VideoChatByeMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* VideoChatByeMessage::descriptor() {
+  ::protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const VideoChatByeMessage& VideoChatByeMessage::default_instance() {
+  ::protobuf_KakaIMMessage_2eproto::InitDefaultsVideoChatByeMessage();
+  return *internal_default_instance();
+}
+
+VideoChatByeMessage* VideoChatByeMessage::New(::google::protobuf::Arena* arena) const {
+  VideoChatByeMessage* n = new VideoChatByeMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void VideoChatByeMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:kakaIM.Node.VideoChatByeMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*sessionid_.UnsafeRawStringPointer())->clear();
+  }
+  offerid_ = GOOGLE_ULONGLONG(0);
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool VideoChatByeMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:kakaIM.Node.VideoChatByeMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string sessionID = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sessionid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.VideoChatByeMessage.sessionID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required uint64 offerID = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_offerid();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &offerid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:kakaIM.Node.VideoChatByeMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:kakaIM.Node.VideoChatByeMessage)
+  return false;
+#undef DO_
+}
+
+void VideoChatByeMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:kakaIM.Node.VideoChatByeMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatByeMessage.sessionID");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->sessionid(), output);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->offerid(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:kakaIM.Node.VideoChatByeMessage)
+}
+
+::google::protobuf::uint8* VideoChatByeMessage::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:kakaIM.Node.VideoChatByeMessage)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required string sessionID = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sessionid().data(), static_cast<int>(this->sessionid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.VideoChatByeMessage.sessionID");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->sessionid(), target);
+  }
+
+  // required uint64 offerID = 2;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->offerid(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:kakaIM.Node.VideoChatByeMessage)
+  return target;
+}
+
+size_t VideoChatByeMessage::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:kakaIM.Node.VideoChatByeMessage)
+  size_t total_size = 0;
+
+  if (has_sessionid()) {
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+  }
+
+  if (has_offerid()) {
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+  }
+
+  return total_size;
+}
+size_t VideoChatByeMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:kakaIM.Node.VideoChatByeMessage)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required string sessionID = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sessionid());
+
+    // required uint64 offerID = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->offerid());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void VideoChatByeMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:kakaIM.Node.VideoChatByeMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const VideoChatByeMessage* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const VideoChatByeMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:kakaIM.Node.VideoChatByeMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:kakaIM.Node.VideoChatByeMessage)
+    MergeFrom(*source);
+  }
+}
+
+void VideoChatByeMessage::MergeFrom(const VideoChatByeMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:kakaIM.Node.VideoChatByeMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_sessionid();
+      sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      offerid_ = from.offerid_;
+    }
+    _has_bits_[0] |= cached_has_bits;
+  }
+}
+
+void VideoChatByeMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:kakaIM.Node.VideoChatByeMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void VideoChatByeMessage::CopyFrom(const VideoChatByeMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:kakaIM.Node.VideoChatByeMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool VideoChatByeMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  return true;
+}
+
+void VideoChatByeMessage::Swap(VideoChatByeMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void VideoChatByeMessage::InternalSwap(VideoChatByeMessage* other) {
+  using std::swap;
+  sessionid_.Swap(&other->sessionid_);
+  swap(offerid_, other->offerid_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata VideoChatByeMessage::GetMetadata() const {
   protobuf_KakaIMMessage_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_KakaIMMessage_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -9815,6 +14800,13 @@ const NotificationMessage& NotificationMessage::default_instance() {
   return *internal_default_instance();
 }
 
+NotificationMessage* NotificationMessage::New(::google::protobuf::Arena* arena) const {
+  NotificationMessage* n = new NotificationMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void NotificationMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.NotificationMessage)
@@ -10108,6 +15100,13 @@ const PullChatMessage& PullChatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+PullChatMessage* PullChatMessage::New(::google::protobuf::Arena* arena) const {
+  PullChatMessage* n = new PullChatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PullChatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.PullChatMessage)
@@ -10118,7 +15117,7 @@ void PullChatMessage::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    sessionid_.UnsafeMutablePointer()->clear();
+    (*sessionid_.UnsafeRawStringPointer())->clear();
   }
   messageid_ = GOOGLE_ULONGLONG(0);
   _has_bits_.Clear();
@@ -10376,6 +15375,7 @@ void FetchUserVCardMessage::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int FetchUserVCardMessage::kSessionIDFieldNumber;
 const int FetchUserVCardMessage::kUserIDFieldNumber;
+const int FetchUserVCardMessage::kCurrentVersionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FetchUserVCardMessage::FetchUserVCardMessage()
@@ -10400,6 +15400,10 @@ FetchUserVCardMessage::FetchUserVCardMessage(const FetchUserVCardMessage& from)
   if (from.has_userid()) {
     userid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.userid_);
   }
+  currentversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_currentversion()) {
+    currentversion_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.currentversion_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.FetchUserVCardMessage)
 }
 
@@ -10407,6 +15411,7 @@ void FetchUserVCardMessage::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   userid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  currentversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 FetchUserVCardMessage::~FetchUserVCardMessage() {
@@ -10417,6 +15422,7 @@ FetchUserVCardMessage::~FetchUserVCardMessage() {
 void FetchUserVCardMessage::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   userid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  currentversion_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void FetchUserVCardMessage::SetCachedSize(int size) const {
@@ -10434,6 +15440,13 @@ const FetchUserVCardMessage& FetchUserVCardMessage::default_instance() {
   return *internal_default_instance();
 }
 
+FetchUserVCardMessage* FetchUserVCardMessage::New(::google::protobuf::Arena* arena) const {
+  FetchUserVCardMessage* n = new FetchUserVCardMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchUserVCardMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchUserVCardMessage)
@@ -10442,14 +15455,18 @@ void FetchUserVCardMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!userid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      userid_.UnsafeMutablePointer()->clear();
+      (*userid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!currentversion_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*currentversion_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -10492,6 +15509,22 @@ bool FetchUserVCardMessage::MergePartialFromCodedStream(
             this->userid().data(), static_cast<int>(this->userid().length()),
             ::google::protobuf::internal::WireFormat::PARSE,
             "kakaIM.Node.FetchUserVCardMessage.userID");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string currentVersion = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_currentversion()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->currentversion().data(), static_cast<int>(this->currentversion().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.FetchUserVCardMessage.currentVersion");
         } else {
           goto handle_unusual;
         }
@@ -10545,6 +15578,16 @@ void FetchUserVCardMessage::SerializeWithCachedSizes(
       2, this->userid(), output);
   }
 
+  // optional string currentVersion = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->currentversion().data(), static_cast<int>(this->currentversion().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.FetchUserVCardMessage.currentVersion");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->currentversion(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -10580,6 +15623,17 @@ void FetchUserVCardMessage::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->userid(), target);
+  }
+
+  // optional string currentVersion = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->currentversion().data(), static_cast<int>(this->currentversion().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.FetchUserVCardMessage.currentVersion");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->currentversion(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -10633,6 +15687,13 @@ size_t FetchUserVCardMessage::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string currentVersion = 3;
+  if (has_currentversion()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->currentversion());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -10663,7 +15724,7 @@ void FetchUserVCardMessage::MergeFrom(const FetchUserVCardMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -10671,6 +15732,10 @@ void FetchUserVCardMessage::MergeFrom(const FetchUserVCardMessage& from) {
     if (cached_has_bits & 0x00000002u) {
       set_has_userid();
       userid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.userid_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_currentversion();
+      currentversion_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.currentversion_);
     }
   }
 }
@@ -10702,6 +15767,7 @@ void FetchUserVCardMessage::InternalSwap(FetchUserVCardMessage* other) {
   using std::swap;
   sessionid_.Swap(&other->sessionid_);
   userid_.Swap(&other->userid_);
+  currentversion_.Swap(&other->currentversion_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -10724,6 +15790,7 @@ const int UserVCardResponseMessage::kNicknameFieldNumber;
 const int UserVCardResponseMessage::kGenderFieldNumber;
 const int UserVCardResponseMessage::kMoodFieldNumber;
 const int UserVCardResponseMessage::kAvatorFieldNumber;
+const int UserVCardResponseMessage::kCurrentVersionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 UserVCardResponseMessage::UserVCardResponseMessage()
@@ -10760,6 +15827,10 @@ UserVCardResponseMessage::UserVCardResponseMessage(const UserVCardResponseMessag
   if (from.has_avator()) {
     avator_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.avator_);
   }
+  currentversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_currentversion()) {
+    currentversion_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.currentversion_);
+  }
   gender_ = from.gender_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.UserVCardResponseMessage)
 }
@@ -10771,6 +15842,7 @@ void UserVCardResponseMessage::SharedCtor() {
   nickname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mood_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   avator_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  currentversion_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   gender_ = 1;
 }
 
@@ -10785,6 +15857,7 @@ void UserVCardResponseMessage::SharedDtor() {
   nickname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mood_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   avator_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  currentversion_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void UserVCardResponseMessage::SetCachedSize(int size) const {
@@ -10802,6 +15875,13 @@ const UserVCardResponseMessage& UserVCardResponseMessage::default_instance() {
   return *internal_default_instance();
 }
 
+UserVCardResponseMessage* UserVCardResponseMessage::New(::google::protobuf::Arena* arena) const {
+  UserVCardResponseMessage* n = new UserVCardResponseMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UserVCardResponseMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.UserVCardResponseMessage)
@@ -10810,26 +15890,30 @@ void UserVCardResponseMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 63u) {
+  if (cached_has_bits & 127u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!userid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      userid_.UnsafeMutablePointer()->clear();
+      (*userid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!nickname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      nickname_.UnsafeMutablePointer()->clear();
+      (*nickname_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!mood_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      mood_.UnsafeMutablePointer()->clear();
+      (*mood_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000010u) {
       GOOGLE_DCHECK(!avator_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      avator_.UnsafeMutablePointer()->clear();
+      (*avator_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!currentversion_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*currentversion_.UnsafeRawStringPointer())->clear();
     }
     gender_ = 1;
   }
@@ -10879,7 +15963,7 @@ bool UserVCardResponseMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // required string nickname = 3;
+      // optional string nickname = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
@@ -10895,7 +15979,7 @@ bool UserVCardResponseMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // required .kakaIM.Node.UserGenderType gender = 4;
+      // optional .kakaIM.Node.UserGenderType gender = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
@@ -10937,6 +16021,22 @@ bool UserVCardResponseMessage::MergePartialFromCodedStream(
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_avator()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string currentVersion = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_currentversion()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->currentversion().data(), static_cast<int>(this->currentversion().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.UserVCardResponseMessage.currentVersion");
         } else {
           goto handle_unusual;
         }
@@ -10990,7 +16090,7 @@ void UserVCardResponseMessage::SerializeWithCachedSizes(
       2, this->userid(), output);
   }
 
-  // required string nickname = 3;
+  // optional string nickname = 3;
   if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->nickname().data(), static_cast<int>(this->nickname().length()),
@@ -11000,8 +16100,8 @@ void UserVCardResponseMessage::SerializeWithCachedSizes(
       3, this->nickname(), output);
   }
 
-  // required .kakaIM.Node.UserGenderType gender = 4;
-  if (cached_has_bits & 0x00000020u) {
+  // optional .kakaIM.Node.UserGenderType gender = 4;
+  if (cached_has_bits & 0x00000040u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->gender(), output);
   }
@@ -11020,6 +16120,16 @@ void UserVCardResponseMessage::SerializeWithCachedSizes(
   if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
       6, this->avator(), output);
+  }
+
+  // optional string currentVersion = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->currentversion().data(), static_cast<int>(this->currentversion().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.UserVCardResponseMessage.currentVersion");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->currentversion(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -11059,7 +16169,7 @@ void UserVCardResponseMessage::SerializeWithCachedSizes(
         2, this->userid(), target);
   }
 
-  // required string nickname = 3;
+  // optional string nickname = 3;
   if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->nickname().data(), static_cast<int>(this->nickname().length()),
@@ -11070,8 +16180,8 @@ void UserVCardResponseMessage::SerializeWithCachedSizes(
         3, this->nickname(), target);
   }
 
-  // required .kakaIM.Node.UserGenderType gender = 4;
-  if (cached_has_bits & 0x00000020u) {
+  // optional .kakaIM.Node.UserGenderType gender = 4;
+  if (cached_has_bits & 0x00000040u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->gender(), target);
   }
@@ -11092,6 +16202,17 @@ void UserVCardResponseMessage::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         6, this->avator(), target);
+  }
+
+  // optional string currentVersion = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->currentversion().data(), static_cast<int>(this->currentversion().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.UserVCardResponseMessage.currentVersion");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->currentversion(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -11120,19 +16241,6 @@ size_t UserVCardResponseMessage::RequiredFieldsByteSizeFallback() const {
         this->userid());
   }
 
-  if (has_nickname()) {
-    // required string nickname = 3;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->nickname());
-  }
-
-  if (has_gender()) {
-    // required .kakaIM.Node.UserGenderType gender = 4;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->gender());
-  }
-
   return total_size;
 }
 size_t UserVCardResponseMessage::ByteSizeLong() const {
@@ -11144,7 +16252,7 @@ size_t UserVCardResponseMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000027) ^ 0x00000027) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -11155,19 +16263,17 @@ size_t UserVCardResponseMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->userid());
 
-    // required string nickname = 3;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->nickname());
-
-    // required .kakaIM.Node.UserGenderType gender = 4;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->gender());
-
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  if (_has_bits_[0 / 32] & 24u) {
+  if (_has_bits_[0 / 32] & 124u) {
+    // optional string nickname = 3;
+    if (has_nickname()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->nickname());
+    }
+
     // optional string mood = 5;
     if (has_mood()) {
       total_size += 1 +
@@ -11180,6 +16286,19 @@ size_t UserVCardResponseMessage::ByteSizeLong() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(
           this->avator());
+    }
+
+    // optional string currentVersion = 7;
+    if (has_currentversion()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->currentversion());
+    }
+
+    // optional .kakaIM.Node.UserGenderType gender = 4;
+    if (has_gender()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->gender());
     }
 
   }
@@ -11213,7 +16332,7 @@ void UserVCardResponseMessage::MergeFrom(const UserVCardResponseMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 63u) {
+  if (cached_has_bits & 127u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -11235,6 +16354,10 @@ void UserVCardResponseMessage::MergeFrom(const UserVCardResponseMessage& from) {
       avator_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.avator_);
     }
     if (cached_has_bits & 0x00000020u) {
+      set_has_currentversion();
+      currentversion_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.currentversion_);
+    }
+    if (cached_has_bits & 0x00000040u) {
       gender_ = from.gender_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -11256,7 +16379,7 @@ void UserVCardResponseMessage::CopyFrom(const UserVCardResponseMessage& from) {
 }
 
 bool UserVCardResponseMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000027) != 0x00000027) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
   return true;
 }
 
@@ -11271,6 +16394,7 @@ void UserVCardResponseMessage::InternalSwap(UserVCardResponseMessage* other) {
   nickname_.Swap(&other->nickname_);
   mood_.Swap(&other->mood_);
   avator_.Swap(&other->avator_);
+  currentversion_.Swap(&other->currentversion_);
   swap(gender_, other->gender_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -11365,6 +16489,13 @@ const UpdateUserVCardMessage& UpdateUserVCardMessage::default_instance() {
   return *internal_default_instance();
 }
 
+UpdateUserVCardMessage* UpdateUserVCardMessage::New(::google::protobuf::Arena* arena) const {
+  UpdateUserVCardMessage* n = new UpdateUserVCardMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UpdateUserVCardMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.UpdateUserVCardMessage)
@@ -11376,19 +16507,19 @@ void UpdateUserVCardMessage::Clear() {
   if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!nickname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      nickname_.UnsafeMutablePointer()->clear();
+      (*nickname_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!mood_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      mood_.UnsafeMutablePointer()->clear();
+      (*mood_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!avator_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      avator_.UnsafeMutablePointer()->clear();
+      (*avator_.UnsafeRawStringPointer())->clear();
     }
     gender_ = 1;
   }
@@ -11824,6 +16955,13 @@ const UpdateUserVCardMessageResponse& UpdateUserVCardMessageResponse::default_in
   return *internal_default_instance();
 }
 
+UpdateUserVCardMessageResponse* UpdateUserVCardMessageResponse::New(::google::protobuf::Arena* arena) const {
+  UpdateUserVCardMessageResponse* n = new UpdateUserVCardMessageResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UpdateUserVCardMessageResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.UpdateUserVCardMessageResponse)
@@ -11835,7 +16973,7 @@ void UpdateUserVCardMessageResponse::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     state_ = 1;
   }
@@ -12101,6 +17239,7 @@ void ChatGroupCreateRequest::InitAsDefaultInstance() {
 const int ChatGroupCreateRequest::kSessionIDFieldNumber;
 const int ChatGroupCreateRequest::kGroupNameFieldNumber;
 const int ChatGroupCreateRequest::kGroupDescrptionFieldNumber;
+const int ChatGroupCreateRequest::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupCreateRequest::ChatGroupCreateRequest()
@@ -12129,6 +17268,10 @@ ChatGroupCreateRequest::ChatGroupCreateRequest(const ChatGroupCreateRequest& fro
   if (from.has_groupdescrption()) {
     groupdescrption_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupdescrption_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupCreateRequest)
 }
 
@@ -12137,6 +17280,7 @@ void ChatGroupCreateRequest::SharedCtor() {
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupdescrption_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 ChatGroupCreateRequest::~ChatGroupCreateRequest() {
@@ -12148,6 +17292,7 @@ void ChatGroupCreateRequest::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupdescrption_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupCreateRequest::SetCachedSize(int size) const {
@@ -12165,6 +17310,13 @@ const ChatGroupCreateRequest& ChatGroupCreateRequest::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupCreateRequest* ChatGroupCreateRequest::New(::google::protobuf::Arena* arena) const {
+  ChatGroupCreateRequest* n = new ChatGroupCreateRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupCreateRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupCreateRequest)
@@ -12173,18 +17325,22 @@ void ChatGroupCreateRequest::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupname_.UnsafeMutablePointer()->clear();
+      (*groupname_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!groupdescrption_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupdescrption_.UnsafeMutablePointer()->clear();
+      (*groupdescrption_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -12249,6 +17405,22 @@ bool ChatGroupCreateRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupCreateRequest.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -12306,6 +17478,16 @@ void ChatGroupCreateRequest::SerializeWithCachedSizes(
       3, this->groupdescrption(), output);
   }
 
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupCreateRequest.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->sign(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -12352,6 +17534,17 @@ void ChatGroupCreateRequest::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->groupdescrption(), target);
+  }
+
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupCreateRequest.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -12417,6 +17610,13 @@ size_t ChatGroupCreateRequest::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 4;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -12447,7 +17647,7 @@ void ChatGroupCreateRequest::MergeFrom(const ChatGroupCreateRequest& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -12459,6 +17659,10 @@ void ChatGroupCreateRequest::MergeFrom(const ChatGroupCreateRequest& from) {
     if (cached_has_bits & 0x00000004u) {
       set_has_groupdescrption();
       groupdescrption_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupdescrption_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
   }
 }
@@ -12491,6 +17695,7 @@ void ChatGroupCreateRequest::InternalSwap(ChatGroupCreateRequest* other) {
   sessionid_.Swap(&other->sessionid_);
   groupname_.Swap(&other->groupname_);
   groupdescrption_.Swap(&other->groupdescrption_);
+  sign_.Swap(&other->sign_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -12510,6 +17715,7 @@ void ChatGroupCreateResponse::InitAsDefaultInstance() {
 const int ChatGroupCreateResponse::kSessionIDFieldNumber;
 const int ChatGroupCreateResponse::kResultFieldNumber;
 const int ChatGroupCreateResponse::kGroupIdFieldNumber;
+const int ChatGroupCreateResponse::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupCreateResponse::ChatGroupCreateResponse()
@@ -12534,6 +17740,10 @@ ChatGroupCreateResponse::ChatGroupCreateResponse(const ChatGroupCreateResponse& 
   if (from.has_groupid()) {
     groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupCreateResponse)
 }
@@ -12542,6 +17752,7 @@ void ChatGroupCreateResponse::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   result_ = 1;
 }
 
@@ -12553,6 +17764,7 @@ ChatGroupCreateResponse::~ChatGroupCreateResponse() {
 void ChatGroupCreateResponse::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupCreateResponse::SetCachedSize(int size) const {
@@ -12570,6 +17782,13 @@ const ChatGroupCreateResponse& ChatGroupCreateResponse::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupCreateResponse* ChatGroupCreateResponse::New(::google::protobuf::Arena* arena) const {
+  ChatGroupCreateResponse* n = new ChatGroupCreateResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupCreateResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupCreateResponse)
@@ -12578,14 +17797,18 @@ void ChatGroupCreateResponse::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
     result_ = 1;
   }
@@ -12655,6 +17878,22 @@ bool ChatGroupCreateResponse::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupCreateResponse.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -12693,7 +17932,7 @@ void ChatGroupCreateResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.ChatGroupCreateResponse.ChatGroupCreateResponseResult result = 2;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       2, this->result(), output);
   }
@@ -12706,6 +17945,16 @@ void ChatGroupCreateResponse::SerializeWithCachedSizes(
       "kakaIM.Node.ChatGroupCreateResponse.groupId");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->groupid(), output);
+  }
+
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupCreateResponse.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -12735,7 +17984,7 @@ void ChatGroupCreateResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.ChatGroupCreateResponse.ChatGroupCreateResponseResult result = 2;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       2, this->result(), target);
   }
@@ -12749,6 +17998,17 @@ void ChatGroupCreateResponse::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->groupid(), target);
+  }
+
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupCreateResponse.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -12787,7 +18047,7 @@ size_t ChatGroupCreateResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000005) ^ 0x00000005) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000009) ^ 0x00000009) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -12800,13 +18060,22 @@ size_t ChatGroupCreateResponse::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  // optional string groupId = 3;
-  if (has_groupid()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->groupid());
-  }
+  if (_has_bits_[0 / 32] & 6u) {
+    // optional string groupId = 3;
+    if (has_groupid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->groupid());
+    }
 
+    // optional string sign = 4;
+    if (has_sign()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign());
+    }
+
+  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -12837,7 +18106,7 @@ void ChatGroupCreateResponse::MergeFrom(const ChatGroupCreateResponse& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -12847,6 +18116,10 @@ void ChatGroupCreateResponse::MergeFrom(const ChatGroupCreateResponse& from) {
       groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
     }
     if (cached_has_bits & 0x00000004u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000008u) {
       result_ = from.result_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -12868,7 +18141,7 @@ void ChatGroupCreateResponse::CopyFrom(const ChatGroupCreateResponse& from) {
 }
 
 bool ChatGroupCreateResponse::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000005) != 0x00000005) return false;
+  if ((_has_bits_[0] & 0x00000009) != 0x00000009) return false;
   return true;
 }
 
@@ -12880,6 +18153,7 @@ void ChatGroupCreateResponse::InternalSwap(ChatGroupCreateResponse* other) {
   using std::swap;
   sessionid_.Swap(&other->sessionid_);
   groupid_.Swap(&other->groupid_);
+  sign_.Swap(&other->sign_);
   swap(result_, other->result_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -12900,6 +18174,7 @@ void ChatGroupDisbandRequest::InitAsDefaultInstance() {
 const int ChatGroupDisbandRequest::kSessionIDFieldNumber;
 const int ChatGroupDisbandRequest::kGroupIdFieldNumber;
 const int ChatGroupDisbandRequest::kOperatorIdFieldNumber;
+const int ChatGroupDisbandRequest::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupDisbandRequest::ChatGroupDisbandRequest()
@@ -12928,6 +18203,10 @@ ChatGroupDisbandRequest::ChatGroupDisbandRequest(const ChatGroupDisbandRequest& 
   if (from.has_operatorid()) {
     operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupDisbandRequest)
 }
 
@@ -12936,6 +18215,7 @@ void ChatGroupDisbandRequest::SharedCtor() {
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 ChatGroupDisbandRequest::~ChatGroupDisbandRequest() {
@@ -12947,6 +18227,7 @@ void ChatGroupDisbandRequest::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupDisbandRequest::SetCachedSize(int size) const {
@@ -12964,6 +18245,13 @@ const ChatGroupDisbandRequest& ChatGroupDisbandRequest::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupDisbandRequest* ChatGroupDisbandRequest::New(::google::protobuf::Arena* arena) const {
+  ChatGroupDisbandRequest* n = new ChatGroupDisbandRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupDisbandRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupDisbandRequest)
@@ -12972,18 +18260,22 @@ void ChatGroupDisbandRequest::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!operatorid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operatorid_.UnsafeMutablePointer()->clear();
+      (*operatorid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -13048,6 +18340,22 @@ bool ChatGroupDisbandRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupDisbandRequest.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -13105,6 +18413,16 @@ void ChatGroupDisbandRequest::SerializeWithCachedSizes(
       3, this->operatorid(), output);
   }
 
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupDisbandRequest.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->sign(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -13151,6 +18469,17 @@ void ChatGroupDisbandRequest::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->operatorid(), target);
+  }
+
+  // optional string sign = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupDisbandRequest.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -13216,6 +18545,13 @@ size_t ChatGroupDisbandRequest::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 4;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -13246,7 +18582,7 @@ void ChatGroupDisbandRequest::MergeFrom(const ChatGroupDisbandRequest& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -13258,6 +18594,10 @@ void ChatGroupDisbandRequest::MergeFrom(const ChatGroupDisbandRequest& from) {
     if (cached_has_bits & 0x00000004u) {
       set_has_operatorid();
       operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
+    }
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
   }
 }
@@ -13290,6 +18630,7 @@ void ChatGroupDisbandRequest::InternalSwap(ChatGroupDisbandRequest* other) {
   sessionid_.Swap(&other->sessionid_);
   groupid_.Swap(&other->groupid_);
   operatorid_.Swap(&other->operatorid_);
+  sign_.Swap(&other->sign_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -13307,8 +18648,10 @@ void ChatGroupDisbandResponse::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ChatGroupDisbandResponse::kSessionIDFieldNumber;
+const int ChatGroupDisbandResponse::kGroupIdFieldNumber;
 const int ChatGroupDisbandResponse::kOperatorIdFieldNumber;
 const int ChatGroupDisbandResponse::kResultFieldNumber;
+const int ChatGroupDisbandResponse::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupDisbandResponse::ChatGroupDisbandResponse()
@@ -13329,9 +18672,17 @@ ChatGroupDisbandResponse::ChatGroupDisbandResponse(const ChatGroupDisbandRespons
   if (from.has_sessionid()) {
     sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
   }
+  groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_groupid()) {
+    groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
+  }
   operatorid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.has_operatorid()) {
     operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
+  }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
   }
   result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupDisbandResponse)
@@ -13340,7 +18691,9 @@ ChatGroupDisbandResponse::ChatGroupDisbandResponse(const ChatGroupDisbandRespons
 void ChatGroupDisbandResponse::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   result_ = 1;
 }
 
@@ -13351,7 +18704,9 @@ ChatGroupDisbandResponse::~ChatGroupDisbandResponse() {
 
 void ChatGroupDisbandResponse::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupDisbandResponse::SetCachedSize(int size) const {
@@ -13369,6 +18724,13 @@ const ChatGroupDisbandResponse& ChatGroupDisbandResponse::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupDisbandResponse* ChatGroupDisbandResponse::New(::google::protobuf::Arena* arena) const {
+  ChatGroupDisbandResponse* n = new ChatGroupDisbandResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupDisbandResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupDisbandResponse)
@@ -13377,14 +18739,22 @@ void ChatGroupDisbandResponse::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*groupid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!operatorid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operatorid_.UnsafeMutablePointer()->clear();
+      (*operatorid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
     result_ = 1;
   }
@@ -13418,10 +18788,26 @@ bool ChatGroupDisbandResponse::MergePartialFromCodedStream(
         break;
       }
 
-      // required string operatorId = 2;
+      // required string groupId = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_groupid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->groupid().data(), static_cast<int>(this->groupid().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupDisbandResponse.groupId");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string operatorId = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_operatorid()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
@@ -13434,10 +18820,10 @@ bool ChatGroupDisbandResponse::MergePartialFromCodedStream(
         break;
       }
 
-      // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 3;
-      case 3: {
+      // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -13446,8 +18832,24 @@ bool ChatGroupDisbandResponse::MergePartialFromCodedStream(
             set_result(static_cast< ::kakaIM::Node::ChatGroupDisbandResponse_ChatGroupDisbandResponseResult >(value));
           } else {
             mutable_unknown_fields()->AddVarint(
-                3, static_cast< ::google::protobuf::uint64>(value));
+                4, static_cast< ::google::protobuf::uint64>(value));
           }
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sign = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupDisbandResponse.sign");
         } else {
           goto handle_unusual;
         }
@@ -13491,20 +18893,40 @@ void ChatGroupDisbandResponse::SerializeWithCachedSizes(
       1, this->sessionid(), output);
   }
 
-  // required string operatorId = 2;
+  // required string groupId = 2;
   if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->groupid().data(), static_cast<int>(this->groupid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupDisbandResponse.groupId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->groupid(), output);
+  }
+
+  // required string operatorId = 3;
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->operatorid().data(), static_cast<int>(this->operatorid().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.ChatGroupDisbandResponse.operatorId");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->operatorid(), output);
+      3, this->operatorid(), output);
   }
 
-  // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 3;
-  if (cached_has_bits & 0x00000004u) {
+  // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 4;
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      3, this->result(), output);
+      4, this->result(), output);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupDisbandResponse.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -13533,21 +18955,43 @@ void ChatGroupDisbandResponse::SerializeWithCachedSizes(
         1, this->sessionid(), target);
   }
 
-  // required string operatorId = 2;
+  // required string groupId = 2;
   if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->groupid().data(), static_cast<int>(this->groupid().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupDisbandResponse.groupId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->groupid(), target);
+  }
+
+  // required string operatorId = 3;
+  if (cached_has_bits & 0x00000004u) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->operatorid().data(), static_cast<int>(this->operatorid().length()),
       ::google::protobuf::internal::WireFormat::SERIALIZE,
       "kakaIM.Node.ChatGroupDisbandResponse.operatorId");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->operatorid(), target);
+        3, this->operatorid(), target);
   }
 
-  // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 3;
-  if (cached_has_bits & 0x00000004u) {
+  // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 4;
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->result(), target);
+      4, this->result(), target);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupDisbandResponse.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -13569,15 +19013,22 @@ size_t ChatGroupDisbandResponse::RequiredFieldsByteSizeFallback() const {
         this->sessionid());
   }
 
+  if (has_groupid()) {
+    // required string groupId = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->groupid());
+  }
+
   if (has_operatorid()) {
-    // required string operatorId = 2;
+    // required string operatorId = 3;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->operatorid());
   }
 
   if (has_result()) {
-    // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 3;
+    // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 4;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
   }
@@ -13593,24 +19044,36 @@ size_t ChatGroupDisbandResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000017) ^ 0x00000017) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->sessionid());
 
-    // required string operatorId = 2;
+    // required string groupId = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->groupid());
+
+    // required string operatorId = 3;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->operatorid());
 
-    // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 3;
+    // required .kakaIM.Node.ChatGroupDisbandResponse.ChatGroupDisbandResponseResult result = 4;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 5;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -13641,16 +19104,24 @@ void ChatGroupDisbandResponse::MergeFrom(const ChatGroupDisbandResponse& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
     }
     if (cached_has_bits & 0x00000002u) {
+      set_has_groupid();
+      groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
+    }
+    if (cached_has_bits & 0x00000004u) {
       set_has_operatorid();
       operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
     }
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000008u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000010u) {
       result_ = from.result_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -13672,7 +19143,7 @@ void ChatGroupDisbandResponse::CopyFrom(const ChatGroupDisbandResponse& from) {
 }
 
 bool ChatGroupDisbandResponse::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x00000017) != 0x00000017) return false;
   return true;
 }
 
@@ -13683,7 +19154,9 @@ void ChatGroupDisbandResponse::Swap(ChatGroupDisbandResponse* other) {
 void ChatGroupDisbandResponse::InternalSwap(ChatGroupDisbandResponse* other) {
   using std::swap;
   sessionid_.Swap(&other->sessionid_);
+  groupid_.Swap(&other->groupid_);
   operatorid_.Swap(&other->operatorid_);
+  sign_.Swap(&other->sign_);
   swap(result_, other->result_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -13707,6 +19180,8 @@ const int ChatGroupJoinRequest::kUserAccountFieldNumber;
 const int ChatGroupJoinRequest::kOperatorIdFieldNumber;
 const int ChatGroupJoinRequest::kIntroductionFieldNumber;
 const int ChatGroupJoinRequest::kApplicantIdFieldNumber;
+const int ChatGroupJoinRequest::kSignFieldNumber;
+const int ChatGroupJoinRequest::kSubmissionTimeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupJoinRequest::ChatGroupJoinRequest()
@@ -13743,6 +19218,14 @@ ChatGroupJoinRequest::ChatGroupJoinRequest(const ChatGroupJoinRequest& from)
   if (from.has_introduction()) {
     introduction_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.introduction_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
+  submissiontime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_submissiontime()) {
+    submissiontime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.submissiontime_);
+  }
   applicant_id_ = from.applicant_id_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupJoinRequest)
 }
@@ -13754,6 +19237,8 @@ void ChatGroupJoinRequest::SharedCtor() {
   useraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   introduction_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  submissiontime_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   applicant_id_ = GOOGLE_ULONGLONG(0);
 }
 
@@ -13768,6 +19253,8 @@ void ChatGroupJoinRequest::SharedDtor() {
   useraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   introduction_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  submissiontime_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupJoinRequest::SetCachedSize(int size) const {
@@ -13785,6 +19272,13 @@ const ChatGroupJoinRequest& ChatGroupJoinRequest::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupJoinRequest* ChatGroupJoinRequest::New(::google::protobuf::Arena* arena) const {
+  ChatGroupJoinRequest* n = new ChatGroupJoinRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupJoinRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupJoinRequest)
@@ -13793,26 +19287,34 @@ void ChatGroupJoinRequest::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 127u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!operatorid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operatorid_.UnsafeMutablePointer()->clear();
+      (*operatorid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000010u) {
       GOOGLE_DCHECK(!introduction_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      introduction_.UnsafeMutablePointer()->clear();
+      (*introduction_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000040u) {
+      GOOGLE_DCHECK(!submissiontime_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*submissiontime_.UnsafeRawStringPointer())->clear();
     }
   }
   applicant_id_ = GOOGLE_ULONGLONG(0);
@@ -13924,6 +19426,38 @@ bool ChatGroupJoinRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // required string sign = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupJoinRequest.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string submissionTime = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_submissiontime()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->submissiontime().data(), static_cast<int>(this->submissiontime().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupJoinRequest.submissionTime");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -14002,8 +19536,28 @@ void ChatGroupJoinRequest::SerializeWithCachedSizes(
   }
 
   // optional uint64 applicant_id = 6;
-  if (cached_has_bits & 0x00000020u) {
+  if (cached_has_bits & 0x00000080u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(6, this->applicant_id(), output);
+  }
+
+  // required string sign = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupJoinRequest.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->sign(), output);
+  }
+
+  // optional string submissionTime = 8;
+  if (cached_has_bits & 0x00000040u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->submissiontime().data(), static_cast<int>(this->submissiontime().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupJoinRequest.submissionTime");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      8, this->submissiontime(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -14077,8 +19631,30 @@ void ChatGroupJoinRequest::SerializeWithCachedSizes(
   }
 
   // optional uint64 applicant_id = 6;
-  if (cached_has_bits & 0x00000020u) {
+  if (cached_has_bits & 0x00000080u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(6, this->applicant_id(), target);
+  }
+
+  // required string sign = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupJoinRequest.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->sign(), target);
+  }
+
+  // optional string submissionTime = 8;
+  if (cached_has_bits & 0x00000040u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->submissiontime().data(), static_cast<int>(this->submissiontime().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupJoinRequest.submissionTime");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        8, this->submissiontime(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -14114,6 +19690,13 @@ size_t ChatGroupJoinRequest::RequiredFieldsByteSizeFallback() const {
         this->useraccount());
   }
 
+  if (has_sign()) {
+    // required string sign = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   return total_size;
 }
 size_t ChatGroupJoinRequest::ByteSizeLong() const {
@@ -14125,7 +19708,7 @@ size_t ChatGroupJoinRequest::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000027) ^ 0x00000027) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -14141,10 +19724,15 @@ size_t ChatGroupJoinRequest::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->useraccount());
 
+    // required string sign = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  if (_has_bits_[0 / 32] & 56u) {
+  if (_has_bits_[0 / 32] & 24u) {
     // optional string operatorId = 4;
     if (has_operatorid()) {
       total_size += 1 +
@@ -14157,6 +19745,15 @@ size_t ChatGroupJoinRequest::ByteSizeLong() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
           this->introduction());
+    }
+
+  }
+  if (_has_bits_[0 / 32] & 192u) {
+    // optional string submissionTime = 8;
+    if (has_submissiontime()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->submissiontime());
     }
 
     // optional uint64 applicant_id = 6;
@@ -14197,7 +19794,7 @@ void ChatGroupJoinRequest::MergeFrom(const ChatGroupJoinRequest& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 63u) {
+  if (cached_has_bits & 255u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -14219,6 +19816,14 @@ void ChatGroupJoinRequest::MergeFrom(const ChatGroupJoinRequest& from) {
       introduction_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.introduction_);
     }
     if (cached_has_bits & 0x00000020u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000040u) {
+      set_has_submissiontime();
+      submissiontime_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.submissiontime_);
+    }
+    if (cached_has_bits & 0x00000080u) {
       applicant_id_ = from.applicant_id_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -14240,7 +19845,7 @@ void ChatGroupJoinRequest::CopyFrom(const ChatGroupJoinRequest& from) {
 }
 
 bool ChatGroupJoinRequest::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x00000027) != 0x00000027) return false;
   return true;
 }
 
@@ -14255,6 +19860,8 @@ void ChatGroupJoinRequest::InternalSwap(ChatGroupJoinRequest* other) {
   useraccount_.Swap(&other->useraccount_);
   operatorid_.Swap(&other->operatorid_);
   introduction_.Swap(&other->introduction_);
+  sign_.Swap(&other->sign_);
+  submissiontime_.Swap(&other->submissiontime_);
   swap(applicant_id_, other->applicant_id_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -14353,6 +19960,13 @@ const ChatGroupJoinResponse& ChatGroupJoinResponse::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupJoinResponse* ChatGroupJoinResponse::New(::google::protobuf::Arena* arena) const {
+  ChatGroupJoinResponse* n = new ChatGroupJoinResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupJoinResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupJoinResponse)
@@ -14364,19 +19978,19 @@ void ChatGroupJoinResponse::Clear() {
   if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!operatorid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operatorid_.UnsafeMutablePointer()->clear();
+      (*operatorid_.UnsafeRawStringPointer())->clear();
     }
   }
   if (cached_has_bits & 48u) {
@@ -14840,6 +20454,7 @@ const int ChatGroupQuitRequest::kSessionIDFieldNumber;
 const int ChatGroupQuitRequest::kUserAccountFieldNumber;
 const int ChatGroupQuitRequest::kGroupIdFieldNumber;
 const int ChatGroupQuitRequest::kOperatorIdFieldNumber;
+const int ChatGroupQuitRequest::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupQuitRequest::ChatGroupQuitRequest()
@@ -14872,6 +20487,10 @@ ChatGroupQuitRequest::ChatGroupQuitRequest(const ChatGroupQuitRequest& from)
   if (from.has_operatorid()) {
     operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupQuitRequest)
 }
 
@@ -14881,6 +20500,7 @@ void ChatGroupQuitRequest::SharedCtor() {
   useraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 ChatGroupQuitRequest::~ChatGroupQuitRequest() {
@@ -14893,6 +20513,7 @@ void ChatGroupQuitRequest::SharedDtor() {
   useraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupQuitRequest::SetCachedSize(int size) const {
@@ -14910,6 +20531,13 @@ const ChatGroupQuitRequest& ChatGroupQuitRequest::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupQuitRequest* ChatGroupQuitRequest::New(::google::protobuf::Arena* arena) const {
+  ChatGroupQuitRequest* n = new ChatGroupQuitRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupQuitRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupQuitRequest)
@@ -14918,22 +20546,26 @@ void ChatGroupQuitRequest::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!operatorid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operatorid_.UnsafeMutablePointer()->clear();
+      (*operatorid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -15014,6 +20646,22 @@ bool ChatGroupQuitRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupQuitRequest.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -15081,6 +20729,16 @@ void ChatGroupQuitRequest::SerializeWithCachedSizes(
       4, this->operatorid(), output);
   }
 
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupQuitRequest.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sign(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -15138,6 +20796,17 @@ void ChatGroupQuitRequest::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->operatorid(), target);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupQuitRequest.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -15203,13 +20872,22 @@ size_t ChatGroupQuitRequest::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  // optional string operatorId = 4;
-  if (has_operatorid()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->operatorid());
-  }
+  if (_has_bits_[0 / 32] & 24u) {
+    // optional string operatorId = 4;
+    if (has_operatorid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->operatorid());
+    }
 
+    // optional string sign = 5;
+    if (has_sign()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign());
+    }
+
+  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -15240,7 +20918,7 @@ void ChatGroupQuitRequest::MergeFrom(const ChatGroupQuitRequest& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -15256,6 +20934,10 @@ void ChatGroupQuitRequest::MergeFrom(const ChatGroupQuitRequest& from) {
     if (cached_has_bits & 0x00000008u) {
       set_has_operatorid();
       operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
+    }
+    if (cached_has_bits & 0x00000010u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
   }
 }
@@ -15289,6 +20971,7 @@ void ChatGroupQuitRequest::InternalSwap(ChatGroupQuitRequest* other) {
   useraccount_.Swap(&other->useraccount_);
   groupid_.Swap(&other->groupid_);
   operatorid_.Swap(&other->operatorid_);
+  sign_.Swap(&other->sign_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -15310,6 +20993,7 @@ const int ChatGroupQuitResponse::kUserAccountFieldNumber;
 const int ChatGroupQuitResponse::kGroupIdFieldNumber;
 const int ChatGroupQuitResponse::kResultFieldNumber;
 const int ChatGroupQuitResponse::kOperatorIdFieldNumber;
+const int ChatGroupQuitResponse::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ChatGroupQuitResponse::ChatGroupQuitResponse()
@@ -15342,6 +21026,10 @@ ChatGroupQuitResponse::ChatGroupQuitResponse(const ChatGroupQuitResponse& from)
   if (from.has_operatorid()) {
     operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.ChatGroupQuitResponse)
 }
@@ -15352,6 +21040,7 @@ void ChatGroupQuitResponse::SharedCtor() {
   useraccount_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   result_ = 1;
 }
 
@@ -15365,6 +21054,7 @@ void ChatGroupQuitResponse::SharedDtor() {
   useraccount_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operatorid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void ChatGroupQuitResponse::SetCachedSize(int size) const {
@@ -15382,6 +21072,13 @@ const ChatGroupQuitResponse& ChatGroupQuitResponse::default_instance() {
   return *internal_default_instance();
 }
 
+ChatGroupQuitResponse* ChatGroupQuitResponse::New(::google::protobuf::Arena* arena) const {
+  ChatGroupQuitResponse* n = new ChatGroupQuitResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ChatGroupQuitResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.ChatGroupQuitResponse)
@@ -15390,22 +21087,26 @@ void ChatGroupQuitResponse::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!operatorid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operatorid_.UnsafeMutablePointer()->clear();
+      (*operatorid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
     result_ = 1;
   }
@@ -15507,6 +21208,22 @@ bool ChatGroupQuitResponse::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.ChatGroupQuitResponse.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -15565,7 +21282,7 @@ void ChatGroupQuitResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.ChatGroupQuitResponse.ChatGroupQuitResponseResult result = 4;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000020u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->result(), output);
   }
@@ -15578,6 +21295,16 @@ void ChatGroupQuitResponse::SerializeWithCachedSizes(
       "kakaIM.Node.ChatGroupQuitResponse.operatorId");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->operatorid(), output);
+  }
+
+  // optional string sign = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupQuitResponse.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -15629,7 +21356,7 @@ void ChatGroupQuitResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.ChatGroupQuitResponse.ChatGroupQuitResponseResult result = 4;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000020u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->result(), target);
   }
@@ -15643,6 +21370,17 @@ void ChatGroupQuitResponse::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->operatorid(), target);
+  }
+
+  // optional string sign = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.ChatGroupQuitResponse.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -15695,7 +21433,7 @@ size_t ChatGroupQuitResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000017) ^ 0x00000017) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000027) ^ 0x00000027) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -15718,13 +21456,22 @@ size_t ChatGroupQuitResponse::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  // optional string operatorId = 5;
-  if (has_operatorid()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->operatorid());
-  }
+  if (_has_bits_[0 / 32] & 24u) {
+    // optional string operatorId = 5;
+    if (has_operatorid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->operatorid());
+    }
 
+    // optional string sign = 6;
+    if (has_sign()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign());
+    }
+
+  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -15755,7 +21502,7 @@ void ChatGroupQuitResponse::MergeFrom(const ChatGroupQuitResponse& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -15773,6 +21520,10 @@ void ChatGroupQuitResponse::MergeFrom(const ChatGroupQuitResponse& from) {
       operatorid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operatorid_);
     }
     if (cached_has_bits & 0x00000010u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000020u) {
       result_ = from.result_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -15794,7 +21545,7 @@ void ChatGroupQuitResponse::CopyFrom(const ChatGroupQuitResponse& from) {
 }
 
 bool ChatGroupQuitResponse::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000017) != 0x00000017) return false;
+  if ((_has_bits_[0] & 0x00000027) != 0x00000027) return false;
   return true;
 }
 
@@ -15808,6 +21559,7 @@ void ChatGroupQuitResponse::InternalSwap(ChatGroupQuitResponse* other) {
   useraccount_.Swap(&other->useraccount_);
   groupid_.Swap(&other->groupid_);
   operatorid_.Swap(&other->operatorid_);
+  sign_.Swap(&other->sign_);
   swap(result_, other->result_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -15829,6 +21581,7 @@ const int UpdateChatGroupInfoRequest::kSessionIDFieldNumber;
 const int UpdateChatGroupInfoRequest::kGroupIdFieldNumber;
 const int UpdateChatGroupInfoRequest::kGroupNameFieldNumber;
 const int UpdateChatGroupInfoRequest::kGroupDescrptionFieldNumber;
+const int UpdateChatGroupInfoRequest::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 UpdateChatGroupInfoRequest::UpdateChatGroupInfoRequest()
@@ -15861,6 +21614,10 @@ UpdateChatGroupInfoRequest::UpdateChatGroupInfoRequest(const UpdateChatGroupInfo
   if (from.has_groupdescrption()) {
     groupdescrption_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupdescrption_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.UpdateChatGroupInfoRequest)
 }
 
@@ -15870,6 +21627,7 @@ void UpdateChatGroupInfoRequest::SharedCtor() {
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupdescrption_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 UpdateChatGroupInfoRequest::~UpdateChatGroupInfoRequest() {
@@ -15882,6 +21640,7 @@ void UpdateChatGroupInfoRequest::SharedDtor() {
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupdescrption_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void UpdateChatGroupInfoRequest::SetCachedSize(int size) const {
@@ -15899,6 +21658,13 @@ const UpdateChatGroupInfoRequest& UpdateChatGroupInfoRequest::default_instance()
   return *internal_default_instance();
 }
 
+UpdateChatGroupInfoRequest* UpdateChatGroupInfoRequest::New(::google::protobuf::Arena* arena) const {
+  UpdateChatGroupInfoRequest* n = new UpdateChatGroupInfoRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UpdateChatGroupInfoRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.UpdateChatGroupInfoRequest)
@@ -15907,22 +21673,26 @@ void UpdateChatGroupInfoRequest::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!groupname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupname_.UnsafeMutablePointer()->clear();
+      (*groupname_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!groupdescrption_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupdescrption_.UnsafeMutablePointer()->clear();
+      (*groupdescrption_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -16003,6 +21773,22 @@ bool UpdateChatGroupInfoRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.UpdateChatGroupInfoRequest.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -16070,6 +21856,16 @@ void UpdateChatGroupInfoRequest::SerializeWithCachedSizes(
       4, this->groupdescrption(), output);
   }
 
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.UpdateChatGroupInfoRequest.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sign(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -16127,6 +21923,17 @@ void UpdateChatGroupInfoRequest::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->groupdescrption(), target);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.UpdateChatGroupInfoRequest.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -16204,6 +22011,13 @@ size_t UpdateChatGroupInfoRequest::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 5;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -16234,7 +22048,7 @@ void UpdateChatGroupInfoRequest::MergeFrom(const UpdateChatGroupInfoRequest& fro
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -16250,6 +22064,10 @@ void UpdateChatGroupInfoRequest::MergeFrom(const UpdateChatGroupInfoRequest& fro
     if (cached_has_bits & 0x00000008u) {
       set_has_groupdescrption();
       groupdescrption_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupdescrption_);
+    }
+    if (cached_has_bits & 0x00000010u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
   }
 }
@@ -16283,6 +22101,7 @@ void UpdateChatGroupInfoRequest::InternalSwap(UpdateChatGroupInfoRequest* other)
   groupid_.Swap(&other->groupid_);
   groupname_.Swap(&other->groupname_);
   groupdescrption_.Swap(&other->groupdescrption_);
+  sign_.Swap(&other->sign_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -16303,6 +22122,7 @@ const int UpdateChatGroupInfoResponse::kSessionIDFieldNumber;
 const int UpdateChatGroupInfoResponse::kGroupIdFieldNumber;
 const int UpdateChatGroupInfoResponse::kResultFieldNumber;
 const int UpdateChatGroupInfoResponse::kOperatorFieldNumber;
+const int UpdateChatGroupInfoResponse::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 UpdateChatGroupInfoResponse::UpdateChatGroupInfoResponse()
@@ -16331,6 +22151,10 @@ UpdateChatGroupInfoResponse::UpdateChatGroupInfoResponse(const UpdateChatGroupIn
   if (from.has_operator_()) {
     operator__.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operator__);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.UpdateChatGroupInfoResponse)
 }
@@ -16340,6 +22164,7 @@ void UpdateChatGroupInfoResponse::SharedCtor() {
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operator__.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   result_ = 1;
 }
 
@@ -16352,6 +22177,7 @@ void UpdateChatGroupInfoResponse::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   operator__.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void UpdateChatGroupInfoResponse::SetCachedSize(int size) const {
@@ -16369,6 +22195,13 @@ const UpdateChatGroupInfoResponse& UpdateChatGroupInfoResponse::default_instance
   return *internal_default_instance();
 }
 
+UpdateChatGroupInfoResponse* UpdateChatGroupInfoResponse::New(::google::protobuf::Arena* arena) const {
+  UpdateChatGroupInfoResponse* n = new UpdateChatGroupInfoResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void UpdateChatGroupInfoResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.UpdateChatGroupInfoResponse)
@@ -16377,18 +22210,22 @@ void UpdateChatGroupInfoResponse::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!operator__.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      operator__.UnsafeMutablePointer()->clear();
+      (*operator__.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
     result_ = 1;
   }
@@ -16474,6 +22311,22 @@ bool UpdateChatGroupInfoResponse::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string sign = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.UpdateChatGroupInfoResponse.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -16532,9 +22385,19 @@ void UpdateChatGroupInfoResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.UpdateChatGroupInfoResponse.UpdateChatGroupInfoResponseResult result = 4;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->result(), output);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.UpdateChatGroupInfoResponse.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -16586,9 +22449,20 @@ void UpdateChatGroupInfoResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.UpdateChatGroupInfoResponse.UpdateChatGroupInfoResponseResult result = 4;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->result(), target);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.UpdateChatGroupInfoResponse.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -16634,7 +22508,7 @@ size_t UpdateChatGroupInfoResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000000b) ^ 0x0000000b) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000013) ^ 0x00000013) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -16652,13 +22526,22 @@ size_t UpdateChatGroupInfoResponse::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
-  // optional string operator = 3;
-  if (has_operator_()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->operator_());
-  }
+  if (_has_bits_[0 / 32] & 12u) {
+    // optional string operator = 3;
+    if (has_operator_()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->operator_());
+    }
 
+    // optional string sign = 5;
+    if (has_sign()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sign());
+    }
+
+  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -16689,7 +22572,7 @@ void UpdateChatGroupInfoResponse::MergeFrom(const UpdateChatGroupInfoResponse& f
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 31u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -16703,6 +22586,10 @@ void UpdateChatGroupInfoResponse::MergeFrom(const UpdateChatGroupInfoResponse& f
       operator__.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.operator__);
     }
     if (cached_has_bits & 0x00000008u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000010u) {
       result_ = from.result_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -16724,7 +22611,7 @@ void UpdateChatGroupInfoResponse::CopyFrom(const UpdateChatGroupInfoResponse& fr
 }
 
 bool UpdateChatGroupInfoResponse::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000b) != 0x0000000b) return false;
+  if ((_has_bits_[0] & 0x00000013) != 0x00000013) return false;
   return true;
 }
 
@@ -16737,6 +22624,7 @@ void UpdateChatGroupInfoResponse::InternalSwap(UpdateChatGroupInfoResponse* othe
   sessionid_.Swap(&other->sessionid_);
   groupid_.Swap(&other->groupid_);
   operator__.Swap(&other->operator__);
+  sign_.Swap(&other->sign_);
   swap(result_, other->result_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -16814,6 +22702,13 @@ const FetchChatGroupInfoRequest& FetchChatGroupInfoRequest::default_instance() {
   return *internal_default_instance();
 }
 
+FetchChatGroupInfoRequest* FetchChatGroupInfoRequest::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupInfoRequest* n = new FetchChatGroupInfoRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupInfoRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupInfoRequest)
@@ -16825,11 +22720,11 @@ void FetchChatGroupInfoRequest::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -17182,6 +23077,13 @@ const FetchChatGroupInfoResponse& FetchChatGroupInfoResponse::default_instance()
   return *internal_default_instance();
 }
 
+FetchChatGroupInfoResponse* FetchChatGroupInfoResponse::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupInfoResponse* n = new FetchChatGroupInfoResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupInfoResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupInfoResponse)
@@ -17193,23 +23095,23 @@ void FetchChatGroupInfoResponse::Clear() {
   if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!groupname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupname_.UnsafeMutablePointer()->clear();
+      (*groupname_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!groupdescrption_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupdescrption_.UnsafeMutablePointer()->clear();
+      (*groupdescrption_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000010u) {
       GOOGLE_DCHECK(!groupmaster_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupmaster_.UnsafeMutablePointer()->clear();
+      (*groupmaster_.UnsafeRawStringPointer())->clear();
     }
     result_ = 1;
   }
@@ -17677,6 +23579,7 @@ void FetchChatGroupMemberListRequest::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int FetchChatGroupMemberListRequest::kSessionIDFieldNumber;
 const int FetchChatGroupMemberListRequest::kGroupIdFieldNumber;
+const int FetchChatGroupMemberListRequest::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FetchChatGroupMemberListRequest::FetchChatGroupMemberListRequest()
@@ -17701,6 +23604,10 @@ FetchChatGroupMemberListRequest::FetchChatGroupMemberListRequest(const FetchChat
   if (from.has_groupid()) {
     groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.FetchChatGroupMemberListRequest)
 }
 
@@ -17708,6 +23615,7 @@ void FetchChatGroupMemberListRequest::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 FetchChatGroupMemberListRequest::~FetchChatGroupMemberListRequest() {
@@ -17718,6 +23626,7 @@ FetchChatGroupMemberListRequest::~FetchChatGroupMemberListRequest() {
 void FetchChatGroupMemberListRequest::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void FetchChatGroupMemberListRequest::SetCachedSize(int size) const {
@@ -17735,6 +23644,13 @@ const FetchChatGroupMemberListRequest& FetchChatGroupMemberListRequest::default_
   return *internal_default_instance();
 }
 
+FetchChatGroupMemberListRequest* FetchChatGroupMemberListRequest::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupMemberListRequest* n = new FetchChatGroupMemberListRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupMemberListRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupMemberListRequest)
@@ -17743,14 +23659,18 @@ void FetchChatGroupMemberListRequest::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -17793,6 +23713,22 @@ bool FetchChatGroupMemberListRequest::MergePartialFromCodedStream(
             this->groupid().data(), static_cast<int>(this->groupid().length()),
             ::google::protobuf::internal::WireFormat::PARSE,
             "kakaIM.Node.FetchChatGroupMemberListRequest.groupId");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sign = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.FetchChatGroupMemberListRequest.sign");
         } else {
           goto handle_unusual;
         }
@@ -17846,6 +23782,16 @@ void FetchChatGroupMemberListRequest::SerializeWithCachedSizes(
       2, this->groupid(), output);
   }
 
+  // optional string sign = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.FetchChatGroupMemberListRequest.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->sign(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -17881,6 +23827,17 @@ void FetchChatGroupMemberListRequest::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->groupid(), target);
+  }
+
+  // optional string sign = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.FetchChatGroupMemberListRequest.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -17934,6 +23891,13 @@ size_t FetchChatGroupMemberListRequest::ByteSizeLong() const {
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string sign = 3;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -17964,7 +23928,7 @@ void FetchChatGroupMemberListRequest::MergeFrom(const FetchChatGroupMemberListRe
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -17972,6 +23936,10 @@ void FetchChatGroupMemberListRequest::MergeFrom(const FetchChatGroupMemberListRe
     if (cached_has_bits & 0x00000002u) {
       set_has_groupid();
       groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
     }
   }
 }
@@ -18003,6 +23971,7 @@ void FetchChatGroupMemberListRequest::InternalSwap(FetchChatGroupMemberListReque
   using std::swap;
   sessionid_.Swap(&other->sessionid_);
   groupid_.Swap(&other->groupid_);
+  sign_.Swap(&other->sign_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -18079,6 +24048,13 @@ const FetchChatGroupMemberListResponse_ChatGroupMemberInfo& FetchChatGroupMember
   return *internal_default_instance();
 }
 
+FetchChatGroupMemberListResponse_ChatGroupMemberInfo* FetchChatGroupMemberListResponse_ChatGroupMemberInfo::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupMemberListResponse_ChatGroupMemberInfo* n = new FetchChatGroupMemberListResponse_ChatGroupMemberInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupMemberListResponse_ChatGroupMemberInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupMemberListResponse.ChatGroupMemberInfo)
@@ -18090,11 +24066,11 @@ void FetchChatGroupMemberListResponse_ChatGroupMemberInfo::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!useraccount_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      useraccount_.UnsafeMutablePointer()->clear();
+      (*useraccount_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupnickname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupnickname_.UnsafeMutablePointer()->clear();
+      (*groupnickname_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -18346,6 +24322,7 @@ const int FetchChatGroupMemberListResponse::kSessionIDFieldNumber;
 const int FetchChatGroupMemberListResponse::kGroupIdFieldNumber;
 const int FetchChatGroupMemberListResponse::kResultFieldNumber;
 const int FetchChatGroupMemberListResponse::kGroupMemberFieldNumber;
+const int FetchChatGroupMemberListResponse::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FetchChatGroupMemberListResponse::FetchChatGroupMemberListResponse()
@@ -18371,6 +24348,10 @@ FetchChatGroupMemberListResponse::FetchChatGroupMemberListResponse(const FetchCh
   if (from.has_groupid()) {
     groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
   }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.FetchChatGroupMemberListResponse)
 }
@@ -18379,6 +24360,7 @@ void FetchChatGroupMemberListResponse::SharedCtor() {
   _cached_size_ = 0;
   sessionid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   result_ = 1;
 }
 
@@ -18390,6 +24372,7 @@ FetchChatGroupMemberListResponse::~FetchChatGroupMemberListResponse() {
 void FetchChatGroupMemberListResponse::SharedDtor() {
   sessionid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void FetchChatGroupMemberListResponse::SetCachedSize(int size) const {
@@ -18407,6 +24390,13 @@ const FetchChatGroupMemberListResponse& FetchChatGroupMemberListResponse::defaul
   return *internal_default_instance();
 }
 
+FetchChatGroupMemberListResponse* FetchChatGroupMemberListResponse::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupMemberListResponse* n = new FetchChatGroupMemberListResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupMemberListResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupMemberListResponse)
@@ -18416,14 +24406,18 @@ void FetchChatGroupMemberListResponse::Clear() {
 
   groupmember_.Clear();
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
     result_ = 1;
   }
@@ -18497,8 +24491,23 @@ bool FetchChatGroupMemberListResponse::MergePartialFromCodedStream(
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_groupmember()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_groupmember()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string sign = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.FetchChatGroupMemberListResponse.sign");
         } else {
           goto handle_unusual;
         }
@@ -18553,7 +24562,7 @@ void FetchChatGroupMemberListResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.FetchChatGroupMemberListResponse.FetchChatGroupMemberListResponseResult result = 3;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       3, this->result(), output);
   }
@@ -18562,9 +24571,17 @@ void FetchChatGroupMemberListResponse::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->groupmember_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4,
-      this->groupmember(static_cast<int>(i)),
-      output);
+      4, this->groupmember(static_cast<int>(i)), output);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.FetchChatGroupMemberListResponse.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      5, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -18605,7 +24622,7 @@ void FetchChatGroupMemberListResponse::SerializeWithCachedSizes(
   }
 
   // required .kakaIM.Node.FetchChatGroupMemberListResponse.FetchChatGroupMemberListResponseResult result = 3;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       3, this->result(), target);
   }
@@ -18616,6 +24633,17 @@ void FetchChatGroupMemberListResponse::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
         4, this->groupmember(static_cast<int>(i)), deterministic, target);
+  }
+
+  // optional string sign = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.FetchChatGroupMemberListResponse.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -18661,7 +24689,7 @@ size_t FetchChatGroupMemberListResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x0000000b) ^ 0x0000000b) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -18688,6 +24716,13 @@ size_t FetchChatGroupMemberListResponse::ByteSizeLong() const {
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           this->groupmember(static_cast<int>(i)));
     }
+  }
+
+  // optional string sign = 5;
+  if (has_sign()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -18721,7 +24756,7 @@ void FetchChatGroupMemberListResponse::MergeFrom(const FetchChatGroupMemberListR
 
   groupmember_.MergeFrom(from.groupmember_);
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -18731,6 +24766,10 @@ void FetchChatGroupMemberListResponse::MergeFrom(const FetchChatGroupMemberListR
       groupid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.groupid_);
     }
     if (cached_has_bits & 0x00000004u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000008u) {
       result_ = from.result_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -18752,7 +24791,7 @@ void FetchChatGroupMemberListResponse::CopyFrom(const FetchChatGroupMemberListRe
 }
 
 bool FetchChatGroupMemberListResponse::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000000b) != 0x0000000b) return false;
   if (!::google::protobuf::internal::AllAreInitialized(this->groupmember())) return false;
   return true;
 }
@@ -18763,9 +24802,10 @@ void FetchChatGroupMemberListResponse::Swap(FetchChatGroupMemberListResponse* ot
 }
 void FetchChatGroupMemberListResponse::InternalSwap(FetchChatGroupMemberListResponse* other) {
   using std::swap;
-  CastToBase(&groupmember_)->InternalSwap(CastToBase(&other->groupmember_));
+  groupmember_.InternalSwap(&other->groupmember_);
   sessionid_.Swap(&other->sessionid_);
   groupid_.Swap(&other->groupid_);
+  sign_.Swap(&other->sign_);
   swap(result_, other->result_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -18836,6 +24876,13 @@ const FetchChatGroupListRequest& FetchChatGroupListRequest::default_instance() {
   return *internal_default_instance();
 }
 
+FetchChatGroupListRequest* FetchChatGroupListRequest::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupListRequest* n = new FetchChatGroupListRequest;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupListRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupListRequest)
@@ -18846,7 +24893,7 @@ void FetchChatGroupListRequest::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    sessionid_.UnsafeMutablePointer()->clear();
+    (*sessionid_.UnsafeRawStringPointer())->clear();
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -19101,6 +25148,13 @@ const FetchChatGroupListResponse_GroupInfo& FetchChatGroupListResponse_GroupInfo
   return *internal_default_instance();
 }
 
+FetchChatGroupListResponse_GroupInfo* FetchChatGroupListResponse_GroupInfo::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupListResponse_GroupInfo* n = new FetchChatGroupListResponse_GroupInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupListResponse_GroupInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupListResponse.GroupInfo)
@@ -19112,11 +25166,11 @@ void FetchChatGroupListResponse_GroupInfo::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupname_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupname_.UnsafeMutablePointer()->clear();
+      (*groupname_.UnsafeRawStringPointer())->clear();
     }
   }
   _has_bits_.Clear();
@@ -19440,6 +25494,13 @@ const FetchChatGroupListResponse& FetchChatGroupListResponse::default_instance()
   return *internal_default_instance();
 }
 
+FetchChatGroupListResponse* FetchChatGroupListResponse::New(::google::protobuf::Arena* arena) const {
+  FetchChatGroupListResponse* n = new FetchChatGroupListResponse;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void FetchChatGroupListResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.FetchChatGroupListResponse)
@@ -19451,7 +25512,7 @@ void FetchChatGroupListResponse::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-    sessionid_.UnsafeMutablePointer()->clear();
+    (*sessionid_.UnsafeRawStringPointer())->clear();
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -19487,8 +25548,7 @@ bool FetchChatGroupListResponse::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_group()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_group()));
         } else {
           goto handle_unusual;
         }
@@ -19536,9 +25596,7 @@ void FetchChatGroupListResponse::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->group_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->group(static_cast<int>(i)),
-      output);
+      2, this->group(static_cast<int>(i)), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -19671,7 +25729,7 @@ void FetchChatGroupListResponse::Swap(FetchChatGroupListResponse* other) {
 }
 void FetchChatGroupListResponse::InternalSwap(FetchChatGroupListResponse* other) {
   using std::swap;
-  CastToBase(&group_)->InternalSwap(CastToBase(&other->group_));
+  group_.InternalSwap(&other->group_);
   sessionid_.Swap(&other->sessionid_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -19694,6 +25752,8 @@ const int GroupChatMessage::kSenderFieldNumber;
 const int GroupChatMessage::kGroupIdFieldNumber;
 const int GroupChatMessage::kContentFieldNumber;
 const int GroupChatMessage::kMsgIdFieldNumber;
+const int GroupChatMessage::kTimestampFieldNumber;
+const int GroupChatMessage::kSignFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GroupChatMessage::GroupChatMessage()
@@ -19726,6 +25786,14 @@ GroupChatMessage::GroupChatMessage(const GroupChatMessage& from)
   if (from.has_content()) {
     content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
   }
+  timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_timestamp()) {
+    timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
+  }
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_sign()) {
+    sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+  }
   msgid_ = from.msgid_;
   // @@protoc_insertion_point(copy_constructor:kakaIM.Node.GroupChatMessage)
 }
@@ -19736,6 +25804,8 @@ void GroupChatMessage::SharedCtor() {
   sender_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timestamp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   msgid_ = GOOGLE_ULONGLONG(0);
 }
 
@@ -19749,6 +25819,8 @@ void GroupChatMessage::SharedDtor() {
   sender_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   groupid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  timestamp_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sign_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void GroupChatMessage::SetCachedSize(int size) const {
@@ -19766,6 +25838,13 @@ const GroupChatMessage& GroupChatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+GroupChatMessage* GroupChatMessage::New(::google::protobuf::Arena* arena) const {
+  GroupChatMessage* n = new GroupChatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void GroupChatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.GroupChatMessage)
@@ -19774,22 +25853,30 @@ void GroupChatMessage::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!sender_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sender_.UnsafeMutablePointer()->clear();
+      (*sender_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000008u) {
       GOOGLE_DCHECK(!content_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      content_.UnsafeMutablePointer()->clear();
+      (*content_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(!timestamp_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*timestamp_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(!sign_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*sign_.UnsafeRawStringPointer())->clear();
     }
   }
   msgid_ = GOOGLE_ULONGLONG(0);
@@ -19885,6 +25972,38 @@ bool GroupChatMessage::MergePartialFromCodedStream(
         break;
       }
 
+      // optional string timestamp = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_timestamp()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.GroupChatMessage.timestamp");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required string sign = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sign()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sign().data(), static_cast<int>(this->sign().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "kakaIM.Node.GroupChatMessage.sign");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -19953,8 +26072,28 @@ void GroupChatMessage::SerializeWithCachedSizes(
   }
 
   // optional uint64 msgId = 5;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000040u) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(5, this->msgid(), output);
+  }
+
+  // optional string timestamp = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.GroupChatMessage.timestamp");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->timestamp(), output);
+  }
+
+  // required string sign = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.GroupChatMessage.sign");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      7, this->sign(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -20017,8 +26156,30 @@ void GroupChatMessage::SerializeWithCachedSizes(
   }
 
   // optional uint64 msgId = 5;
-  if (cached_has_bits & 0x00000010u) {
+  if (cached_has_bits & 0x00000040u) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(5, this->msgid(), target);
+  }
+
+  // optional string timestamp = 6;
+  if (cached_has_bits & 0x00000010u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->timestamp().data(), static_cast<int>(this->timestamp().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.GroupChatMessage.timestamp");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->timestamp(), target);
+  }
+
+  // required string sign = 7;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sign().data(), static_cast<int>(this->sign().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "kakaIM.Node.GroupChatMessage.sign");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        7, this->sign(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -20061,6 +26222,13 @@ size_t GroupChatMessage::RequiredFieldsByteSizeFallback() const {
         this->content());
   }
 
+  if (has_sign()) {
+    // required string sign = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+  }
+
   return total_size;
 }
 size_t GroupChatMessage::ByteSizeLong() const {
@@ -20072,7 +26240,7 @@ size_t GroupChatMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x0000002f) ^ 0x0000002f) == 0) {  // All required fields are present.
     // required string sessionID = 1;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -20093,9 +26261,21 @@ size_t GroupChatMessage::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->content());
 
+    // required string sign = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->sign());
+
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  // optional string timestamp = 6;
+  if (has_timestamp()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->timestamp());
+  }
+
   // optional uint64 msgId = 5;
   if (has_msgid()) {
     total_size += 1 +
@@ -20133,7 +26313,7 @@ void GroupChatMessage::MergeFrom(const GroupChatMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 127u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_sessionid();
       sessionid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sessionid_);
@@ -20151,6 +26331,14 @@ void GroupChatMessage::MergeFrom(const GroupChatMessage& from) {
       content_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_);
     }
     if (cached_has_bits & 0x00000010u) {
+      set_has_timestamp();
+      timestamp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.timestamp_);
+    }
+    if (cached_has_bits & 0x00000020u) {
+      set_has_sign();
+      sign_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.sign_);
+    }
+    if (cached_has_bits & 0x00000040u) {
       msgid_ = from.msgid_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -20172,7 +26360,7 @@ void GroupChatMessage::CopyFrom(const GroupChatMessage& from) {
 }
 
 bool GroupChatMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000002f) != 0x0000002f) return false;
   return true;
 }
 
@@ -20186,6 +26374,8 @@ void GroupChatMessage::InternalSwap(GroupChatMessage* other) {
   sender_.Swap(&other->sender_);
   groupid_.Swap(&other->groupid_);
   content_.Swap(&other->content_);
+  timestamp_.Swap(&other->timestamp_);
+  sign_.Swap(&other->sign_);
   swap(msgid_, other->msgid_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -20266,6 +26456,13 @@ const PullGroupChatMessage& PullGroupChatMessage::default_instance() {
   return *internal_default_instance();
 }
 
+PullGroupChatMessage* PullGroupChatMessage::New(::google::protobuf::Arena* arena) const {
+  PullGroupChatMessage* n = new PullGroupChatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PullGroupChatMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:kakaIM.Node.PullGroupChatMessage)
@@ -20277,11 +26474,11 @@ void PullGroupChatMessage::Clear() {
   if (cached_has_bits & 3u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!sessionid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      sessionid_.UnsafeMutablePointer()->clear();
+      (*sessionid_.UnsafeRawStringPointer())->clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!groupid_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
-      groupid_.UnsafeMutablePointer()->clear();
+      (*groupid_.UnsafeRawStringPointer())->clear();
     }
   }
   messageid_ = GOOGLE_ULONGLONG(0);
@@ -20590,144 +26787,5 @@ void PullGroupChatMessage::InternalSwap(PullGroupChatMessage* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Node
 }  // namespace kakaIM
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::RequestSessionIDMessage* Arena::Create< ::kakaIM::Node::RequestSessionIDMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::RequestSessionIDMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ResponseSessionIDMessage* Arena::Create< ::kakaIM::Node::ResponseSessionIDMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ResponseSessionIDMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::LoginMessage* Arena::Create< ::kakaIM::Node::LoginMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::LoginMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ResponseLoginMessage* Arena::Create< ::kakaIM::Node::ResponseLoginMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ResponseLoginMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::RegisterMessage* Arena::Create< ::kakaIM::Node::RegisterMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::RegisterMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ResponseRegisterMessage* Arena::Create< ::kakaIM::Node::ResponseRegisterMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ResponseRegisterMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::HeartBeatMessage* Arena::Create< ::kakaIM::Node::HeartBeatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::HeartBeatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ResponseHeartBeatMessage* Arena::Create< ::kakaIM::Node::ResponseHeartBeatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ResponseHeartBeatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::LogoutMessage* Arena::Create< ::kakaIM::Node::LogoutMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::LogoutMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ResponseLogoutMessage* Arena::Create< ::kakaIM::Node::ResponseLogoutMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ResponseLogoutMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::BuildingRelationshipRequestMessage* Arena::Create< ::kakaIM::Node::BuildingRelationshipRequestMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::BuildingRelationshipRequestMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::BuildingRelationshipAnswerMessage* Arena::Create< ::kakaIM::Node::BuildingRelationshipAnswerMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::BuildingRelationshipAnswerMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::DestroyingRelationshipRequestMessage* Arena::Create< ::kakaIM::Node::DestroyingRelationshipRequestMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::DestroyingRelationshipRequestMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::DestoryingRelationshipResponseMessage* Arena::Create< ::kakaIM::Node::DestoryingRelationshipResponseMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::DestoryingRelationshipResponseMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FriendListRequestMessage* Arena::Create< ::kakaIM::Node::FriendListRequestMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FriendListRequestMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FriendListItem* Arena::Create< ::kakaIM::Node::FriendListItem >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FriendListItem >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FriendListResponseMessage* Arena::Create< ::kakaIM::Node::FriendListResponseMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FriendListResponseMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::OnlineStateMessage* Arena::Create< ::kakaIM::Node::OnlineStateMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::OnlineStateMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatMessage* Arena::Create< ::kakaIM::Node::ChatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::NotificationMessage* Arena::Create< ::kakaIM::Node::NotificationMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::NotificationMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::PullChatMessage* Arena::Create< ::kakaIM::Node::PullChatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::PullChatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchUserVCardMessage* Arena::Create< ::kakaIM::Node::FetchUserVCardMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchUserVCardMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::UserVCardResponseMessage* Arena::Create< ::kakaIM::Node::UserVCardResponseMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::UserVCardResponseMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::UpdateUserVCardMessage* Arena::Create< ::kakaIM::Node::UpdateUserVCardMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::UpdateUserVCardMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::UpdateUserVCardMessageResponse* Arena::Create< ::kakaIM::Node::UpdateUserVCardMessageResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::UpdateUserVCardMessageResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupCreateRequest* Arena::Create< ::kakaIM::Node::ChatGroupCreateRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupCreateRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupCreateResponse* Arena::Create< ::kakaIM::Node::ChatGroupCreateResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupCreateResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupDisbandRequest* Arena::Create< ::kakaIM::Node::ChatGroupDisbandRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupDisbandRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupDisbandResponse* Arena::Create< ::kakaIM::Node::ChatGroupDisbandResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupDisbandResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupJoinRequest* Arena::Create< ::kakaIM::Node::ChatGroupJoinRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupJoinRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupJoinResponse* Arena::Create< ::kakaIM::Node::ChatGroupJoinResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupJoinResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupQuitRequest* Arena::Create< ::kakaIM::Node::ChatGroupQuitRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupQuitRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::ChatGroupQuitResponse* Arena::Create< ::kakaIM::Node::ChatGroupQuitResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::ChatGroupQuitResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::UpdateChatGroupInfoRequest* Arena::Create< ::kakaIM::Node::UpdateChatGroupInfoRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::UpdateChatGroupInfoRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::UpdateChatGroupInfoResponse* Arena::Create< ::kakaIM::Node::UpdateChatGroupInfoResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::UpdateChatGroupInfoResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupInfoRequest* Arena::Create< ::kakaIM::Node::FetchChatGroupInfoRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupInfoRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupInfoResponse* Arena::Create< ::kakaIM::Node::FetchChatGroupInfoResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupInfoResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupMemberListRequest* Arena::Create< ::kakaIM::Node::FetchChatGroupMemberListRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupMemberListRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo* Arena::Create< ::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupMemberListResponse_ChatGroupMemberInfo >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupMemberListResponse* Arena::Create< ::kakaIM::Node::FetchChatGroupMemberListResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupMemberListResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupListRequest* Arena::Create< ::kakaIM::Node::FetchChatGroupListRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupListRequest >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupListResponse_GroupInfo* Arena::Create< ::kakaIM::Node::FetchChatGroupListResponse_GroupInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupListResponse_GroupInfo >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::FetchChatGroupListResponse* Arena::Create< ::kakaIM::Node::FetchChatGroupListResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::FetchChatGroupListResponse >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::GroupChatMessage* Arena::Create< ::kakaIM::Node::GroupChatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::GroupChatMessage >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::kakaIM::Node::PullGroupChatMessage* Arena::Create< ::kakaIM::Node::PullGroupChatMessage >(Arena* arena) {
-  return Arena::CreateInternal< ::kakaIM::Node::PullGroupChatMessage >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)

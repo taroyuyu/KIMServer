@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/8.
+// Created by Kakawater on 2018/1/8.
 //
 
 #ifndef KAKAIMCLUSTER_CLUSTEREVENT_H

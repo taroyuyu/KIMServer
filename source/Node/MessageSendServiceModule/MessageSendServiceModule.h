@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/26.
+// Created by Kakawater on 2018/1/26.
 //
 
 #ifndef KAKAIMCLUSTER_MESSAGESENDSERVICEMODULE_H
@@ -38,6 +38,8 @@ namespace kakaIM {
             virtual void
             sendMessageToUser(const std::string &userAccount, const ::google::protobuf::Message &message) override;
 
+            virtual void
+            sendMessageToSession(const std::string &serverID,const std::string & sessionID, const ::google::protobuf::Message &message)override ;
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
 
@@ -65,6 +67,8 @@ namespace kakaIM {
             std::queue<std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>>> mMessageQueue;
 
             void handleMessageForSend(const std::string &userAccount, ::google::protobuf::Message &message);
+
+	    void handleSessionMessage(kakaIM::president::SessionMessage & message);
 
             int serverMessageEventfd;
             std::mutex mServerMessageQueueMutex;

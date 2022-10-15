@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/1.
+// Created by Kakawater on 2018/1/1.
 //
 
 #ifndef KAKAIMCLUSTER_USERSTATEMANAGERMODULE_H
@@ -31,11 +31,11 @@ namespace kakaIM {
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
-            void addUpdateUserOnlineStateMessage(const UpdateUserOnlineStateMessage &message,
+            void addUpdateUserOnlineStateMessage(std::unique_ptr<UpdateUserOnlineStateMessage> message,
                                                  const std::string connectionIdentifier);
 
             void
-            addUserOnlineStateMessage(const UserOnlineStateMessage &message, const std::string connectionIdentifier);
+            addUserOnlineStateMessage(std::unique_ptr<UserOnlineStateMessage> message, const std::string connectionIdentifier);
 
             void addEvent(ClusterEvent event);
 

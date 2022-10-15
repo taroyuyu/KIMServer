@@ -1,5 +1,5 @@
 //
-// Created by taroyuyu on 2018/1/7.
+// Created by Kakawater on 2018/1/7.
 //
 
 #include "MessageCenterModule.h"
@@ -251,8 +251,7 @@ namespace kakaIM {
                     ::google::protobuf::Message *message = nullptr;
                     while (this->mAdapater->tryToretriveMessage(*it->second, &message)) {
                         //分发消息
-                        this->dispatchMessage(connectionFD, *message);
-                        delete message;
+                        this->dispatchMessage(connectionFD,std::move(std::unique_ptr<::google::protobuf::Message>(message)));
                     };
 
                     //std::cout<<<<"输入缓冲区中已经不存在一条完整的消息"<<std::endl;
@@ -328,8 +327,11 @@ namespace kakaIM {
             }
         }
 
-        void MessageCenterModule::dispatchMessage(int socketfd, ::google::protobuf::Message &message) {
-            auto handlerIt = this->messageHandler.find(message.GetTypeName());
+        void MessageCenterModule::dispatchMessage(int socketfd,std::unique_ptr<::google::protobuf::Message> message) {
+            if (!message){
+                return;
+            }
+            auto handlerIt = this->messageHandler.find(message->GetTypeName());
             if (this->messageHandler.end() != handlerIt) {
                 //1.从连接池中获得连接
                 auto connectionIdentifierIt = this->mConnectionPool.find(socketfd);
@@ -346,7 +348,7 @@ namespace kakaIM {
                     auto it = this->messageFilterList.begin();
                     bool flag = true;
                     while (it != this->messageFilterList.end()) {
-                        if ((*it)->doFilter(message, connectionIdentifier)) {
+                        if ((*it)->doFilter(*message.get(), connectionIdentifier)) {
                             //消息通过，执行下一个过滤器
                             it++;
                             continue;
@@ -356,10 +358,10 @@ namespace kakaIM {
                         }
                     }
                     if (flag) {
-                        handlerIt->second(message, connectionIdentifier);
+                        handlerIt->second(std::move(message), connectionIdentifier);
                     }
                 } else {
-                    handlerIt->second(message, connectionIdentifier);
+                    handlerIt->second(std::move(message), connectionIdentifier);
                 }
             }
         }
@@ -384,7 +386,7 @@ namespace kakaIM {
         }
 
         void MessageCenterModule::setMessageHandler(const std::string &messageType,
-                                                    std::function<void(const ::google::protobuf::Message &,
+                                                    std::function<void(std::unique_ptr<::google::protobuf::Message>,
                                                                        std::string)> messageHandler) {
             this->messageHandler[messageType] = messageHandler;
         }

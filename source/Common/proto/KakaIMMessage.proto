@@ -44,10 +44,9 @@ message ResponseLoginMessage{
 
 //注册消息
 message RegisterMessage {
-    required string sessionID = 1; //会话ID
-    required string userAccount = 2; //账户
-    required string userPassword = 3; //密码
-    optional string userNickName = 4; //昵称
+    required string userAccount = 1; //账户
+    required string userPassword = 2; //密码
+    optional string userNickName = 3; //昵称
 
     enum UserSex {
         male = 1; //男生
@@ -55,7 +54,7 @@ message RegisterMessage {
         Unkown = 3; //未知
     }
 
-    optional UserSex sex = 5 [default = Unkown]; //用户性别
+    optional UserSex sex = 4 [default = Unkown]; //用户性别
 
 }
 
@@ -71,9 +70,8 @@ message ResponseRegisterMessage{
         ServerInternalError = 2;//服务器内部错误
     }
 
-    required string sessionID = 1;//会话ID
-    required RegisterState registerState = 2;//注册状态
-    optional FailureError failureError = 3;//错误原因
+    required RegisterState registerState = 1;//注册状态
+    optional FailureError failureError = 2;//错误原因
 }
 
 //心跳包
@@ -118,7 +116,8 @@ message BuildingRelationshipRequestMessage{
     required string sponsorAccount = 3;//发起者ID
     required string targetAccount = 4;//目标用户ID
     required string introduction = 5;//自我介绍
-    optional uint64 messageID = 6;//消息ID
+    required string sign = 6;//消息签名
+    optional string submissionTime = 7;//提交时间
 }
 
 //建立好友关系回复消息
@@ -135,7 +134,7 @@ message BuildingRelationshipAnswerMessage{
     }
 
     required BuildingRelationshipAnswer answer = 5;//回复
-    optional uint64 messageID = 6;//消息ID
+    optional string handleTime = 6;//处理时间
 }
 
 
@@ -146,6 +145,7 @@ message DestroyingRelationshipRequestMessage{
     required string sessionID = 1;//会话ID
     required string sponsorAccount = 2;//发起者ID
     required string targetAccount = 3;//用户ID
+    optional string sign = 4;//消息签名
 }
 
 //拆除好友关系回复消息
@@ -160,13 +160,14 @@ message DestoryingRelationshipResponseMessage{
         IllegalOperation = 3;//非法操作，对方并不是该用户的好友
     }
     required DestoryingRelationshipResponse response = 4;//响应
+    optional string sign = 5;//消息签名
 }
 
 
 //请求好友列表消息
 message FriendListRequestMessage{
     required string sessionID = 1;//会话ID
-
+    optional uint64 currentVersion = 2;//当前使用的此用户的好友列表的版本，服务器端根据此值来判断是否返回好友列表信息，0表示请求最新的好友饿列表
 }
 
 message FriendListItem{
@@ -177,6 +178,7 @@ message FriendListItem{
 message FriendListResponseMessage{
     required string sessionID = 1;//会话ID
     repeated FriendListItem friend = 2;//好友列表
+    optional uint64 currentVersion = 3;//服务器端维护的此用户的好友列表的当前版本
 }
 
 //在线消息
@@ -191,14 +193,111 @@ message OnlineStateMessage{
     required OnlineState userState = 3;//用户状态
 }
 
+//拉取好友在线消息
+message PullFriendOnlineStateMessage{
+    required string sessionID = 1;//会话ID
+}
+
 //聊天消息
 message ChatMessage{
     required string sessionID = 1;//会话ID
     required string senderAccount = 2;//发送者
     required string receiverAccount = 3;//接受者ID
     required string content = 4;//消息内容
-    required string timestamp = 5;//时间戳
+    optional string timestamp = 5;//时间戳
     optional uint64 messageID = 6;//消息ID
+    required string sign = 7;//消息签名
+}
+
+//视频聊天请求消息
+message VideoChatRequestMessage
+{
+    required string sessionID = 1;//会话ID
+    enum ChatType
+    {
+        Voice = 1;//语音通话
+        Video = 2;//音频通话
+    }
+    required ChatType chatType = 2;//通话类型
+    optional uint64 offerID = 3;//提议ID
+    optional string sponsorAccount = 4;//发起者ID
+    required string targetAccount = 5;//目标用户ID
+    optional string sponsorSessionId = 6;//发起者的im会话Id
+    optional string timestamp = 7;//时间戳
+    required string sign = 8;//消息签名
+}
+
+//视频聊天请求取消消息
+message VideoChatRequestCancelMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
+}
+
+//视频聊天请求答复消息
+message VideoChatReplyMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
+    optional string sponsorAccount = 3;//发起者ID
+    optional string targetAccount = 4;//目标用户ID
+    optional string sponsorSessionId = 5;//发起者的im会话Id
+    optional string answerSessionId = 6;//接听者所在的im会话Id
+    enum VideoChatReply{
+        VideoChatReply_Allow = 1;//允许
+        VideoChatReply_Reject = 2;//拒绝
+        VideoChatReply_NoAnswer = 3;//无响应
+    }
+
+    required VideoChatReply reply = 7;//答复
+    optional string timestamp = 8;//时间戳
+    required string sign = 9;//消息签名
+}
+
+//视频聊天提议消息
+message VideoChatOfferMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
+    required string sessionDescription = 3;//会话描述符信息
+}
+
+//视频聊天应答消息
+message VideoChatAnswerMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
+    required string sessionDescription = 3;//会话描述符信息
+}
+
+//视频聊天协商响应消息
+message VideoChatNegotiationResultMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
+    enum NegotiationResult{
+        NegotiationResult_Success = 1;//协商成功
+        NegotiationResult_Failed = 2;//协商失败
+    }
+    required NegotiationResult result = 3;
+}
+
+//候选项消息
+message VideoChatCandidateAddressMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
+    required string fromSessionId = 3;
+    required string sdpMid = 4;
+    required int64 sdpMLineIndex = 5;
+    required string SDP_ized_description = 6;//sdp格式的描述
+}
+
+//视频聊天结束消息
+message VideoChatByeMessage
+{
+    required string sessionID = 1;//会话ID
+    required uint64 offerID = 2;//提议ID
 }
 
 //通知消息
@@ -226,6 +325,7 @@ message FetchUserVCardMessage
 {
     required string sessionID = 1;//会话ID
     required string userID = 2;//用户ID
+    optional string currentVersion = 3;//客户端所持有的此用户的电子名片的版本，0表示希望获取最新版本
 }
 
 enum UserGenderType
@@ -239,11 +339,12 @@ message UserVCardResponseMessage
 {
     required string sessionID = 1;//会话ID
     required string userID = 2;//用户ID
-    required string nickname = 3;//昵称
+    optional string nickname = 3;//昵称
 
-    required UserGenderType gender = 4;//性别
+    optional UserGenderType gender = 4;//性别
     optional string mood = 5;//心情
     optional bytes avator = 6;//头像
+    optional string currentVersion = 7;//服务器所持有的此用户的电子名片的版本
 }
 
 message UpdateUserVCardMessage
@@ -275,6 +376,7 @@ message ChatGroupCreateRequest
     required string sessionID = 1;//会话ID
     required string groupName  = 2;//群组名称
     required string groupDescrption  = 3;//群组描述
+    optional string sign = 4;//请求签名
 }
 
 message ChatGroupCreateResponse
@@ -288,6 +390,7 @@ message ChatGroupCreateResponse
     }
     required ChatGroupCreateResponseResult result  = 2;//响应结果
     optional string groupId  = 3;//群组Id
+    optional string sign = 4;//请求签名
 }
 
 //解散聊天群
@@ -297,18 +400,21 @@ message ChatGroupDisbandRequest
     required string sessionID = 1;//会话ID
     required string groupId  =2;//群组Id
     required string operatorId  = 3;//操作员
+    optional string sign = 4;//请求签名
 }
 
 message ChatGroupDisbandResponse
 {
     required string sessionID = 1;//会话ID
+    required string groupId = 2;//群组Id
+    required string operatorId  = 3;//操作员
     enum ChatGroupDisbandResponseResult
     {
         Success = 1;//解散成功
         Failed = 2;//解散失败
     }
-    required string operatorId  = 2;//操作员
-    required ChatGroupDisbandResponseResult result  = 3;//响应结果
+    required ChatGroupDisbandResponseResult result  = 4;//响应结果
+    optional string sign = 5;//请求签名
 }
 
 //加入聊天群
@@ -320,6 +426,8 @@ message ChatGroupJoinRequest
     optional string operatorId  = 4;//操作员
     optional string introduction = 5;//自我介绍
     optional uint64 applicant_id = 6;//申请ID
+    required string sign = 7;//签名
+    optional string submissionTime = 8;//提交时间
 }
 
 message ChatGroupJoinResponse
@@ -348,6 +456,7 @@ message ChatGroupQuitRequest
     required string userAccount  = 2;//待退出的用户
     required string groupId  = 3;//群组id
     optional string operatorId  = 4;//操作员
+    optional string sign = 5;//签名
 }
 
 message ChatGroupQuitResponse
@@ -362,6 +471,7 @@ message ChatGroupQuitResponse
     }
     required ChatGroupQuitResponseResult result = 4;//退出操作处理结果
     optional string operatorId = 5 ;//操作员
+    optional string sign = 6;//签名
 }
 
 //更新群信息
@@ -372,6 +482,7 @@ message UpdateChatGroupInfoRequest
     required string groupId  = 2;
     required string groupName  =3;
     required string groupDescrption  = 4;
+    optional string sign = 5;//签名
 }
 
 message UpdateChatGroupInfoResponse
@@ -388,6 +499,7 @@ message UpdateChatGroupInfoResponse
     }
     required UpdateChatGroupInfoResponseResult result  = 4;
     optional string operator  = 3;
+    optional string sign = 5;//签名
 }
 
 //获取群信息
@@ -419,6 +531,7 @@ message FetchChatGroupMemberListRequest
 {
     required string sessionID = 1;//会话ID
     required string groupId  = 2;//群Id
+    optional string sign = 3;//签名
 }
 
 message FetchChatGroupMemberListResponse
@@ -437,6 +550,7 @@ message FetchChatGroupMemberListResponse
         optional string groupNickName  = 2;
     }
     repeated ChatGroupMemberInfo groupMember  = 4;
+    optional string sign = 5;//签名
 }
 
 //获取用户所加入的群组
@@ -465,6 +579,8 @@ message GroupChatMessage
     required string groupId  = 3;//群ID
     required string content  = 4;//消息内容
     optional uint64 msgId = 5;//消息Id
+    optional string timestamp = 6;//时间戳
+    required string sign = 7;//消息签名
 }
 
 //拉取群消息
