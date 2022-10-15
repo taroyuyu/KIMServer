@@ -50,8 +50,7 @@ namespace kakaIM {
             void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
 
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
-
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
+            
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
