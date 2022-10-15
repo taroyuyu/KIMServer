@@ -33,6 +33,7 @@ namespace kakaIM {
             void addUpdateUserOnlineStateMessage(std::unique_ptr<UpdateUserOnlineStateMessage> message,
                                                  const std::string connectionIdentifier);
 
+            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
             void
             addUserOnlineStateMessage(std::unique_ptr<UserOnlineStateMessage> message, const std::string connectionIdentifier);
 

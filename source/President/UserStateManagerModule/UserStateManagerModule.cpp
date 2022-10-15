@@ -207,6 +207,17 @@ namespace kakaIM {
             this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier)));
         }
 
+        void UserStateManagerModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            //添加到队列中
+            if (UserOnlineStateMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier)));
+            }
+        }
+
         void UserStateManagerModule::addUserOnlineStateMessage(std::unique_ptr<UserOnlineStateMessage> message,
                                                                const std::string connectionIdentifier) {
             if (!message) {
