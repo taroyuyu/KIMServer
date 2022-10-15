@@ -25,13 +25,15 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            virtual void execute() override;
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void
             addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message, const std::string connectionIdentifier);
 
+        protected:
+            virtual void execute() override;
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             int messageEventfd;
 

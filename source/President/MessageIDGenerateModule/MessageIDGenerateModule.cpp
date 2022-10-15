@@ -20,7 +20,7 @@ namespace kakaIM {
         uint64_t waitNextMs(uint64_t lastStamp);
 
         MessageIDGenerateModule::MessageIDGenerateModule() : messageEventfd(-1) {
-	    this->logger = log4cxx::Logger::getLogger(MessageIDGenerateModuleLogger);
+            this->logger = log4cxx::Logger::getLogger(MessageIDGenerateModuleLogger);
         }
 
         MessageIDGenerateModule::~MessageIDGenerateModule() {
@@ -42,7 +42,13 @@ namespace kakaIM {
         }
 
         void MessageIDGenerateModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+
+            while (not this->m_needStop) {
                 uint64_t count;
                 if (0 < read(this->messageEventfd, &count, sizeof(count))) {
                     while (count-- && false == this->messageQueue.empty()) {
@@ -54,18 +60,32 @@ namespace kakaIM {
                         this->handleRequestMessageIDMessage(*(pairIt.first.get()), pairIt.second);
                     }
                 } else {
-		    LOG4CXX_WARN(this->logger, typeid(this).name()<<""<<__FUNCTION__<<"read(messageEventfd)操作出错，errno ="<<errno);
+                    LOG4CXX_WARN(this->logger,
+                                 typeid(this).name() << "" << __FUNCTION__ << "read(messageEventfd)操作出错，errno ="
+                                                     << errno);
                 }
+            }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
             }
         }
 
-        void MessageIDGenerateModule::setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr){
+        void MessageIDGenerateModule::shouldStop() {
+            this->m_needStop = true;
+        }
+
+        void MessageIDGenerateModule::setConnectionOperationService(
+                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
         void MessageIDGenerateModule::addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message,
                                                                  const std::string connectionIdentifier) {
-            if (!message){
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -102,7 +122,9 @@ namespace kakaIM {
             uint64_t currentTimestamp = generateStamp();
             // 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
             if (currentTimestamp < lastTimestamp) {
-		LOG4CXX_ERROR(this->logger, typeid(this).name()<<""<<__FUNCTION__<<"clock moved backwards.  Refusing to generate id for "<<lastTimestamp - currentTimestamp<<" milliseconds");
+                LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__
+                                                                << "clock moved backwards.  Refusing to generate id for "
+                                                                << lastTimestamp - currentTimestamp << " milliseconds");
                 //抛出异常
             }
 
@@ -132,8 +154,9 @@ namespace kakaIM {
             responseMessageIDMessage.set_messageid(messageID.to_ullong());
             responseMessageIDMessage.set_requestid(message.requestid());
             assert(responseMessageIDMessage.IsInitialized());
-            if(auto connectionOperationService = this->connectionOperationServicePtr.lock()){
-                connectionOperationService->sendMessageThroughConnection(connectionIdentifier,responseMessageIDMessage);
+            if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
+                connectionOperationService->sendMessageThroughConnection(connectionIdentifier,
+                                                                         responseMessageIDMessage);
             }
         }
 
