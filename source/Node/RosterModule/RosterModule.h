@@ -41,28 +41,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
 
-            void addBuildingRelationshipRequestMessage(
-                    std::unique_ptr<kakaIM::Node::BuildingRelationshipRequestMessage> message,
-                    const std::string connectionIdentifier);
-
-            void addBuildingRelationshipAnswerMessage(
-                    std::unique_ptr<kakaIM::Node::BuildingRelationshipAnswerMessage> message,
-                    const std::string connectionIdentifier);
-
-            void
-            addDestroyingRelationshipRequestMessage(
-                    std::unique_ptr<kakaIM::Node::DestroyingRelationshipRequestMessage> message,
-                    const std::string connectionIdentifier);
-
-            void addFriendListRequestMessage(std::unique_ptr<kakaIM::Node::FriendListRequestMessage> message,
-                                             const std::string connectionIdentifier);
-
-            void addFetchUserVCardMessage(std::unique_ptr<kakaIM::Node::FetchUserVCardMessage> message,
-                                          const std::string connectionIdentifier);
-
-            void addUpdateUserVCardMessage(std::unique_ptr<kakaIM::Node::UpdateUserVCardMessage> message,
-                                           const std::string connectionIdentifier);
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setQueryUserAccountWithSessionService(

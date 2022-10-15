@@ -987,7 +987,7 @@ namespace kakaIM {
             }
         }
 
-        void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+        void RosterModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
             if (!message) {
                 return;
             }
@@ -1010,64 +1010,6 @@ namespace kakaIM {
                 //添加到队列中
                 this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
             }
-        }
-
-        void RosterModule::addBuildingRelationshipRequestMessage(
-                std::unique_ptr<kakaIM::Node::BuildingRelationshipRequestMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void RosterModule::addBuildingRelationshipAnswerMessage(
-                std::unique_ptr<kakaIM::Node::BuildingRelationshipAnswerMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void RosterModule::addDestroyingRelationshipRequestMessage(
-                std::unique_ptr<kakaIM::Node::DestroyingRelationshipRequestMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void RosterModule::addFriendListRequestMessage(std::unique_ptr<kakaIM::Node::FriendListRequestMessage> message,
-                                                       const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void RosterModule::addFetchUserVCardMessage(std::unique_ptr<kakaIM::Node::FetchUserVCardMessage> message,
-                                                    const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void RosterModule::addUpdateUserVCardMessage(std::unique_ptr<kakaIM::Node::UpdateUserVCardMessage> message,
-                                                     const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
         }
 
         void RosterModule::setConnectionOperationService(
