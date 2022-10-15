@@ -129,6 +129,18 @@ namespace kakaIM {
             }
         }
 
+        void OnlineStateModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            if (kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
         void OnlineStateModule::addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
                                                       const std::string connectionIdentifier) {
             if (!message) {
