@@ -6,44 +6,42 @@
 #define KAKAIMCLUSTER_KIMMODULE_H
 
 #include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
 
 namespace kakaIM {
     namespace common {
         class KIMModule {
         public:
-            KIMModule(): m_isStarted(false)
-            {
-
+            KIMModule() : m_status(Status::Stopped) {
             }
-	    /**
-             * @description 对模块进行初始化
-             * @return 模块初始化成功，则返回true,失败则返回false
-             */
+
             virtual bool init() = 0;
-            /**
-            * @description 启动
-            */
+
             virtual void start();
 
-            /**
-             * @description 停止
-             */
             virtual void stop();
 
-            /**
-             * @description 重启
-             */
-            virtual void restart()
-            {
+            virtual void restart() {
                 this->stop();
                 this->start();
             }
 
         protected:
             virtual void execute() = 0;
+            virtual void shouldStop() = 0;
         protected:
             std::thread m_workThread;
-            bool m_isStarted;
+            enum class Status:int{
+                Stopped,
+                Starting,
+                Started,
+                Stopping,
+            };
+            std::atomic<Status> m_status;
+            std::mutex m_statusMutex;
+            std::condition_variable m_statusCV;
         };
     }
 }
