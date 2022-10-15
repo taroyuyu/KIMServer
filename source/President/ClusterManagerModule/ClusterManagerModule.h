@@ -36,8 +36,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            virtual void execute() override;
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 
@@ -56,6 +54,10 @@ namespace kakaIM {
             void addRequestJoinClusterMessage(std::unique_ptr<RequestJoinClusterMessage> message, const std::string connectionIdentifier);
 
             void addHeartBeatMessage(std::unique_ptr<HeartBeatMessage> message, const std::string connectionIdentifier);
+        protected:
+            virtual void execute() override;
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             const std::string invitation_code;
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;

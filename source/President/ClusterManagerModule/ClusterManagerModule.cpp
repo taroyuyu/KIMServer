@@ -26,7 +26,12 @@ namespace kakaIM {
         }
 
         void ClusterManagerModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+            while (not this->m_needStop) {
                 uint64_t count;
                 if (0 < read(this->messageEventfd, &count, sizeof(count))) {
                     while (count-- && false == this->messageQueue.empty()) {
@@ -46,6 +51,17 @@ namespace kakaIM {
                     }
                 }
             }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
+        }
+
+        void ClusterManagerModule::shouldStop() {
+            this->m_needStop = true;
         }
 
         void ClusterManagerModule::handleRequestJoinClusterMessage(
@@ -64,10 +80,10 @@ namespace kakaIM {
                     connectionOperationService->sendMessageThroughConnection(connectionIdentifier, response);
                 }
                 //connection->shouldClose();
-                LOG4CXX_DEBUG(this->logger, typeid(this).name() << "::" << __FUNCTION__<<"邀请码错误");
+                LOG4CXX_DEBUG(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "邀请码错误");
                 return;
             }
-            LOG4CXX_DEBUG(this->logger, typeid(this).name() << "::" << __FUNCTION__<<"邀请码正确");
+            LOG4CXX_DEBUG(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "邀请码正确");
             //2.验证服务器ID
             if (false == this->validateServerID(serverId)) {//服务器ID错误
                 ResponseJoinClusterMessage response;
@@ -86,7 +102,8 @@ namespace kakaIM {
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
 
             if (!connectionOperationService) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "connectionOperationService不存在");
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "" << __FUNCTION__ << "connectionOperationService不存在");
                 return;
             }
 
@@ -97,14 +114,16 @@ namespace kakaIM {
                 return;
             }
             this->nodeConnection.emplace(serverId, Node(serverId, connectionIdentifier, pair.second.first,
-                                                                      pair.second.second, std::make_pair(
-                            requestJoinClusterMessage.longitude(), requestJoinClusterMessage.latitude()),requestJoinClusterMessage.serviceaddr(),requestJoinClusterMessage.serviceport()));
+                                                        pair.second.second, std::make_pair(
+                            requestJoinClusterMessage.longitude(), requestJoinClusterMessage.latitude()),
+                                                        requestJoinClusterMessage.serviceaddr(),
+                                                        requestJoinClusterMessage.serviceport()));
             ResponseJoinClusterMessage response;
             response.set_result(ResponseJoinClusterMessage_JoinResult::ResponseJoinClusterMessage_JoinResult_Success);
             if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                 connectionOperationService->sendMessageThroughConnection(connectionIdentifier, response);
             }
-            LOG4CXX_INFO(this->logger,__FUNCTION__<<" 服务器"<<serverId<<"加入集群");
+            LOG4CXX_INFO(this->logger, __FUNCTION__ << " 服务器" << serverId << "加入集群");
             //4.通知其余组件，有新的服务器加入集群
             triggerEvent(ClusterEvent(serverId, ClusterEvent::NewNodeJoinedCluster));
         }
@@ -139,7 +158,8 @@ namespace kakaIM {
         bool ClusterManagerModule::doFilter(const ::google::protobuf::Message &message,
                                             const std::string connectionIdentifier) {
             std::string messageType = message.GetTypeName();
-            if (messageType == RequestJoinClusterMessage::default_instance().GetTypeName() || messageType == RequestNodeMessage::default_instance().GetTypeName()) {
+            if (messageType == RequestJoinClusterMessage::default_instance().GetTypeName() ||
+                messageType == RequestNodeMessage::default_instance().GetTypeName()) {
                 return true;
             }
 
@@ -179,7 +199,7 @@ namespace kakaIM {
         }
 
         Node ClusterManagerModule::getNodeWithConnectionIdentifier(
-                std::string connectionIdentifier)throw(NodeNotExitException) {
+                std::string connectionIdentifier) throw(NodeNotExitException) {
             for (auto itemIt = this->nodeConnection.begin(); itemIt != this->nodeConnection.end(); ++itemIt) {
                 if (connectionIdentifier == itemIt->second.getServerConnectionIdentifier()) {
                     return itemIt->second;
@@ -205,26 +225,29 @@ namespace kakaIM {
                 ClusterEvent event(serverID, ClusterEvent::NodeRemovedCluster);
                 triggerEvent(event);
                 //向集群中的其余节点推送此节点脱离信息
-                LOG4CXX_DEBUG(this->logger,__FUNCTION__<<"正在向集群其余节点推送此节点脱离信息")
+                LOG4CXX_DEBUG(this->logger, __FUNCTION__ << "正在向集群其余节点推送此节点脱离信息")
                 NodeSecessionMessage nodeSecessionMessage;
                 nodeSecessionMessage.set_serverid(serverID);
-                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()){
-                    for (auto pairIt = this->nodeConnection.begin(); pairIt != this->nodeConnection.end();++pairIt){
-                        LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" pairIt->first="<<pairIt->first<<" serverID="<<serverID);
-                        if(pairIt->first != serverID){
-                            LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 推送....");
-                            connectionOperationService->sendMessageThroughConnection(pairIt->second.getServerConnectionIdentifier(),nodeSecessionMessage);
+                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
+                    for (auto pairIt = this->nodeConnection.begin(); pairIt != this->nodeConnection.end(); ++pairIt) {
+                        LOG4CXX_DEBUG(this->logger,
+                                      __FUNCTION__ << " pairIt->first=" << pairIt->first << " serverID=" << serverID);
+                        if (pairIt->first != serverID) {
+                            LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 推送....");
+                            connectionOperationService->sendMessageThroughConnection(
+                                    pairIt->second.getServerConnectionIdentifier(), nodeSecessionMessage);
                         }
                     }
-                }else{
-                    LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 无法向其余节点推送"<<serverID<<"脱离的信息，由于connectionOperationService不存在");
+                } else {
+                    LOG4CXX_ERROR(this->logger, __FUNCTION__ << " 无法向其余节点推送" << serverID
+                                                             << "脱离的信息，由于connectionOperationService不存在");
                 }
             }
         }
 
         void ClusterManagerModule::addRequestJoinClusterMessage(std::unique_ptr<RequestJoinClusterMessage> message,
                                                                 const std::string connectionIdentifier) {
-            if (!message){
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -238,7 +261,7 @@ namespace kakaIM {
 
         void ClusterManagerModule::addHeartBeatMessage(std::unique_ptr<HeartBeatMessage> message,
                                                        const std::string connectionIdentifier) {
-            if (!message){
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -258,7 +281,8 @@ namespace kakaIM {
             }
         }
 
-        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : invitation_code(invitation_code),messageEventfd(-1) {
+        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : invitation_code(
+                invitation_code), messageEventfd(-1) {
             this->logger = log4cxx::Logger::getLogger(ClusterManagerModuleLogger);
         }
 
