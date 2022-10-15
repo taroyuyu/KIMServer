@@ -51,8 +51,6 @@ namespace kakaIM {
             void addEventListener(ClusterEvent::ClusterEventType eventType, std::function<void(ClusterEvent)> callback);
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
-
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
