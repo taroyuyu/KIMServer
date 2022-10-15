@@ -150,7 +150,7 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(
                     RequestJoinClusterMessage::default_instance().GetTypeName(),
                     [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
-			this->mClusterManagerModulePtr->addRequestJoinClusterMessage(std::move(message),connectionIdentifier);
+			this->mClusterManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
                     });
             this->mMessageCenterModulePtr->setMessageHandler(HeartBeatMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
