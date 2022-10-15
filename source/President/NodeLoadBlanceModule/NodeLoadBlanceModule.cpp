@@ -107,73 +107,19 @@ namespace kakaIM {
                 this->m_statusCV.notify_all();
             }
             while (not this->m_needStop) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   10000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << "等待mEpollInstance出错=" << errno);
+                bool needSleep = true;
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                    needSleep = false;
                 }
 
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->clusterEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->clusterEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->mEventQueue.empty()) {
-                                    this->eventQueueMutex.lock();
-                                    auto event = std::move(this->mEventQueue.front());
-                                    this->mEventQueue.pop();
-                                    this->eventQueueMutex.unlock();
+                if (auto event = this->mEventQueue.try_pop()){
+                    this->dispatchClusterEvent(*event);
+                    needSleep = false;
+                }
 
-                                    switch (event.getEventType()) {
-                                        case ClusterEvent::NewNodeJoinedCluster: {
-                                            this->handleNewNodeJoinedClusterEvent(event);
-                                        }
-                                            break;
-                                        case ClusterEvent::NodeRemovedCluster: {
-                                            this->handleNodeRemovedClusterEvent(event);
-                                        }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
-                            }
-                        } else if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    std::string messageType = pairIt.first->GetTypeName();
-                                    if (messageType == NodeLoadInfoMessage::default_instance().GetTypeName()) {
-                                        this->handleNodeLoadInfoMessage(
-                                                *(const NodeLoadInfoMessage *) pairIt.first.get(), pairIt.second);
-                                    } else if (messageType == RequestNodeMessage::default_instance().GetTypeName()) {
-                                        this->handleRequestNodeMessage(*(const RequestNodeMessage *) pairIt.first.get(),
-                                                                       pairIt.second);
-                                    } else {
-
-                                    }
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        }
-                    } else {
-
-                    }
+                if (needSleep){
+                    std::this_thread::yield();
                 }
             }
 
@@ -187,6 +133,32 @@ namespace kakaIM {
 
         void NodeLoadBlanceModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void NodeLoadBlanceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+            std::string messageType = task.first->GetTypeName();
+            if (messageType == NodeLoadInfoMessage::default_instance().GetTypeName()) {
+                this->handleNodeLoadInfoMessage(
+                        *(const NodeLoadInfoMessage *) task.first.get(), task.second);
+            } else if (messageType == RequestNodeMessage::default_instance().GetTypeName()) {
+                this->handleRequestNodeMessage(*(const RequestNodeMessage *) task.first.get(),
+                                               task.second);
+            }
+        }
+
+        void NodeLoadBlanceModule::dispatchClusterEvent(ClusterEvent & event){
+            switch (event.getEventType()) {
+                case ClusterEvent::NewNodeJoinedCluster: {
+                    this->handleNewNodeJoinedClusterEvent(event);
+                }
+                    break;
+                case ClusterEvent::NodeRemovedCluster: {
+                    this->handleNodeRemovedClusterEvent(event);
+                }
+                    break;
+                default:
+                    break;
+            }
         }
 
         void NodeLoadBlanceModule::handleNodeLoadInfoMessage(const NodeLoadInfoMessage &message,
