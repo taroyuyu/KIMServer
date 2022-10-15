@@ -9,6 +9,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
+#include <google/protobuf/message.h>
 
 namespace kakaIM {
     namespace common {
@@ -27,6 +28,8 @@ namespace kakaIM {
                 this->stop();
                 this->start();
             }
+
+            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) = 0;
 
         protected:
             virtual void execute() = 0;

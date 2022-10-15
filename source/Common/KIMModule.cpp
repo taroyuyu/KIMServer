@@ -31,7 +31,5 @@ namespace kakaIM {
                 return Status::Stopped != this->m_status;
             });
         }
-
-
     }
 }
