@@ -11,17 +11,19 @@
 
 namespace kakaIM {
     namespace node {
-        MessageSendServiceModule::MessageSendServiceModule() :mEpollInstance(-1),messageEventfd(-1),serverMessageEventfd(-1) {
-	    this->logger = log4cxx::Logger::getLogger(MessageSenderServiceModuleLogger);
+        MessageSendServiceModule::MessageSendServiceModule() : mEpollInstance(-1), messageEventfd(-1),
+                                                               serverMessageEventfd(-1) {
+            this->logger = log4cxx::Logger::getLogger(MessageSenderServiceModuleLogger);
         }
 
         MessageSendServiceModule::~MessageSendServiceModule() {
-            if(auto clusterService = this->mClusterServicePtr.lock()){
+            if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->removeServerMessageListener(this);
             }
         }
 
-        void MessageSendServiceModule::setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr){
+        void MessageSendServiceModule::setConnectionOperationService(
+                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
@@ -35,11 +37,11 @@ namespace kakaIM {
         }
 
         void MessageSendServiceModule::setClusterService(std::weak_ptr<ClusterService> service) {
-            if(auto clusterService = this->mClusterServicePtr.lock()){
+            if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->removeServerMessageListener(this);
             }
             this->mClusterServicePtr = service;
-            if(auto clusterService = this->mClusterServicePtr.lock()){
+            if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->addServerMessageListener(this);
             }
         }
@@ -79,7 +81,13 @@ namespace kakaIM {
         }
 
         void MessageSendServiceModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+
+            while (not this->m_needStop) {
                 int const kHandleEventMaxCountPerLoop = 2;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
 
@@ -88,7 +96,7 @@ namespace kakaIM {
                                                    1000);
 
                 if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,__FUNCTION__<<" 等待Epil实例上的事件出错，errno ="<<errno);
+                    LOG4CXX_WARN(this->logger, __FUNCTION__ << " 等待Epil实例上的事件出错，errno =" << errno);
                 }
                 //遍历所有的文件描述符
                 for (int i = 0; i < happedEventsCount; ++i) {
@@ -102,19 +110,23 @@ namespace kakaIM {
                                     this->mMessageQueue.pop();
                                     this->mMessageQueueMutex.unlock();
 
-				    auto messageType = (*pairIt.second).GetTypeName();
+                                    auto messageType = (*pairIt.second).GetTypeName();
 
-                                    if (messageType == kakaIM::president::SessionMessage::default_instance().GetTypeName()){
-                                        this->handleSessionMessage(*((kakaIM::president::SessionMessage*)pairIt.second.get()));
-                                    }else{
+                                    if (messageType ==
+                                        kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
+                                        this->handleSessionMessage(
+                                                *((kakaIM::president::SessionMessage *) pairIt.second.get()));
+                                    } else {
                                         this->handleMessageForSend(pairIt.first, *pairIt.second.get());
                                     }
                                 }
 
                             } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name()<<""<<__FUNCTION__<<"read(messageEventfd)操作出错，errno ="<<errno);
+                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
+                                                                               << "read(messageEventfd)操作出错，errno ="
+                                                                               << errno);
                             }
-                        }else if(this->serverMessageEventfd == happedEvents[i].data.fd){
+                        } else if (this->serverMessageEventfd == happedEvents[i].data.fd) {
                             uint64_t count;
                             if (0 < ::read(this->serverMessageEventfd, &count, sizeof(count))) {
                                 while (count-- && false == this->mServerMessageQueue.empty()) {
@@ -126,17 +138,30 @@ namespace kakaIM {
                                 }
 
                             } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name()<<""<<__FUNCTION__<<"read(messageEventfd)操作出错，errno ="<<errno);
+                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
+                                                                               << "read(messageEventfd)操作出错，errno ="
+                                                                               << errno);
                             }
                         }
                     }
                 }
             }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
+        }
+
+        void MessageSendServiceModule::shouldStop() {
+            this->m_needStop = true;
         }
 
         void MessageSendServiceModule::sendMessageToUser(const std::string &userAccount,
                                                          const ::google::protobuf::Message &message) {
-	    std::unique_ptr<::google::protobuf::Message> messageDuplicate(message.New());
+            std::unique_ptr<::google::protobuf::Message> messageDuplicate(message.New());
             messageDuplicate->CopyFrom(message);
             //添加到队列中
             std::lock_guard<std::mutex> lock(this->mMessageQueueMutex);
@@ -146,9 +171,10 @@ namespace kakaIM {
             ::write(this->messageEventfd, &count, sizeof(count));
         }
 
-	void
-        MessageSendServiceModule::sendMessageToSession(const std::string &serverID,const std::string & sessionID, const ::google::protobuf::Message &message){
-            kakaIM::president::SessionMessage * sessionMessage = new kakaIM::president::SessionMessage();
+        void
+        MessageSendServiceModule::sendMessageToSession(const std::string &serverID, const std::string &sessionID,
+                                                       const ::google::protobuf::Message &message) {
+            kakaIM::president::SessionMessage *sessionMessage = new kakaIM::president::SessionMessage();
             sessionMessage->set_targetserverid(serverID);
             sessionMessage->set_targetsessionid(sessionID);
             sessionMessage->set_messagetype(message.GetTypeName());
@@ -160,7 +186,9 @@ namespace kakaIM {
             //增加信号量
             ::write(this->messageEventfd, &count, sizeof(count));
         }
-        void MessageSendServiceModule::didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage){
+
+        void MessageSendServiceModule::didReceivedServerMessageFromCluster(
+                const kakaIM::president::ServerMessage &serverMessage) {
             std::lock_guard<std::mutex> lock(this->mServerMessageQueueMutex);
             this->mServerMessageQueue.emplace(new kakaIM::president::ServerMessage(serverMessage));
             uint64_t count = 1;
@@ -175,7 +203,8 @@ namespace kakaIM {
             auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
             auto clusterService = this->mClusterServicePtr.lock();
             if (!loginDeviceQueryService || !queryConnectionWithSessionService || !clusterService) {
-                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 无法工作，由于缺少loginDeviceQueryService或者queryConnectionWithSessionService再或者clusterService")
+                LOG4CXX_ERROR(this->logger, __FUNCTION__
+                        << " 无法工作，由于缺少loginDeviceQueryService或者queryConnectionWithSessionService再或者clusterService")
                 return;
             }
 
@@ -197,8 +226,9 @@ namespace kakaIM {
                             const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
                                     sessionID);
                             if (!deviceConnectionIdentifier.empty()) {
-                                if(auto connectionOperationService = this->connectionOperationServicePtr.lock()){
-                                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,message);
+                                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
+                                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                                             message);
                                 }
                             }
                         } else if (loginDeviceIt->first.first ==
@@ -220,27 +250,31 @@ namespace kakaIM {
             }
         }
 
-	void MessageSendServiceModule::handleSessionMessage(kakaIM::president::SessionMessage & sessionMessage){
+        void MessageSendServiceModule::handleSessionMessage(kakaIM::president::SessionMessage &sessionMessage) {
             auto clusterService = this->mClusterServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
             if (!(queryConnectionWithSessionService && connectionOperationService && clusterService)) {
-                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 无法工作，由于缺少connectionOperationService或者clusterService、queryConnectionWithSessionService")
+                LOG4CXX_ERROR(this->logger, __FUNCTION__
+                        << " 无法工作，由于缺少connectionOperationService或者clusterService、queryConnectionWithSessionService")
                 return;
             }
 
-            if (sessionMessage.targetserverid() == clusterService->getServerID()){
-                auto descriptor = ::google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(sessionMessage.GetTypeName());
-                if(nullptr == descriptor){//不存在此消息类型
+            if (sessionMessage.targetserverid() == clusterService->getServerID()) {
+                auto descriptor = ::google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(
+                        sessionMessage.GetTypeName());
+                if (nullptr == descriptor) {//不存在此消息类型
                     return;
                 }
-                ::google::protobuf::Message * message = ::google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor)->New();
+                ::google::protobuf::Message *message = ::google::protobuf::MessageFactory::generated_factory()->GetPrototype(
+                        descriptor)->New();
                 message->ParseFromString(sessionMessage.content());
-                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(sessionMessage.targetsessionid());
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        sessionMessage.targetsessionid());
                 if (!deviceConnectionIdentifier.empty()) {
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,*message);
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier, *message);
                 }
-            }else{
+            } else {
                 kakaIM::president::ServerMessage serverMessage;
                 serverMessage.set_messagetype(sessionMessage.GetTypeName());
                 serverMessage.set_content(sessionMessage.SerializeAsString());
@@ -248,6 +282,7 @@ namespace kakaIM {
                 clusterService->sendServerMessage(serverMessage);
             }
         }
+
 /*8
         void MessageSendServiceModule::handleServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage){
             //1.根据messageType创建消息，并进行反序列化
@@ -301,7 +336,8 @@ namespace kakaIM {
             }
         }
 */
-        void MessageSendServiceModule::handleServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage) {
+        void MessageSendServiceModule::handleServerMessageFromCluster(
+                const kakaIM::president::ServerMessage &serverMessage) {
             auto clusterService = this->mClusterServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto loginDeviceQueryService = this->mLoginDeviceQueryServicePtr.lock();
@@ -334,9 +370,11 @@ namespace kakaIM {
                     std::unique_ptr<::google::protobuf::Message> message(
                             ::google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor)->New());
                     message->ParseFromString(sessionMessage.content());
-                    message->GetReflection()->SetString(message.get(), message->GetDescriptor()->FindFieldByName("sessionID"),
-                                                       sessionMessage.targetsessionid());
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,*message.get());
+                    message->GetReflection()->SetString(message.get(),
+                                                        message->GetDescriptor()->FindFieldByName("sessionID"),
+                                                        sessionMessage.targetsessionid());
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                             *message.get());
                 }
             } else {
 
@@ -375,8 +413,8 @@ namespace kakaIM {
                                 const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
                                         sessionID);
                                 if (!deviceConnectionIdentifier.empty()) {
-                                        connectionOperationService->sendMessageThroughConnection(
-                                                deviceConnectionIdentifier, *message.get());
+                                    connectionOperationService->sendMessageThroughConnection(
+                                            deviceConnectionIdentifier, *message.get());
                                 }
                             }
                         }
