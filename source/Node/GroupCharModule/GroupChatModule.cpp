@@ -45,10 +45,6 @@ namespace kakaIM {
             return true;
         }
 
-        void GroupChatModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
         void GroupChatModule::setConnectionOperationService(
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;

@@ -33,8 +33,6 @@ namespace kakaIM {
 
             virtual void start() override;
 
-            void setDBConfig(const common::KIMDBConfig &dbConfig);
-
             virtual bool checkFriendRelation(const std::string userA, const std::string userB) override;
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
@@ -125,11 +123,6 @@ namespace kakaIM {
 
             void rosterRPCListenerWork();
 
-            /**
-             * @description 数据库连接
-
-             */
-            common::KIMDBConfig dbConfig;
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();

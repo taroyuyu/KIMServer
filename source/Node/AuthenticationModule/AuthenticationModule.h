@@ -42,8 +42,6 @@ namespace kakaIM {
 
             virtual void start() override;
 
-            void setDBConfig(const common::KIMDBConfig &dbConfig);
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             virtual bool
@@ -85,10 +83,6 @@ namespace kakaIM {
 
             VerifyUserResult verifyUser(const std::string userAccount, const std::string userPassword);
 
-            /**
-             * @description 数据库连接
-             */
-            common::KIMDBConfig dbConfig;
             std::mutex mDBConnectionPoolMutex;
             std::queue<std::unique_ptr<pqxx::connection>> mDBConnectionPool;
 

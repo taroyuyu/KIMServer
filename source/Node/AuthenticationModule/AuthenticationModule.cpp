@@ -36,10 +36,6 @@ namespace kakaIM {
             return true;
         }
 
-        void AuthenticationModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
         void AuthenticationModule::setConnectionOperationService(
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;

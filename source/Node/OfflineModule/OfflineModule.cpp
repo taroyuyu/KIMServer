@@ -61,10 +61,6 @@ namespace kakaIM {
             return true;
         }
 
-        void OfflineModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
         void OfflineModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

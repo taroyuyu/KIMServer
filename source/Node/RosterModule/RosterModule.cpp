@@ -49,10 +49,6 @@ namespace kakaIM {
             return true;
         }
 
-        void RosterModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
         void RosterModule::start() {
             if (false == this->m_isStarted) {
                 this->m_isStarted = true;

@@ -78,10 +78,6 @@ namespace kakaIM {
             return true;
         }
 
-        void SingleChatModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
         void SingleChatModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

@@ -32,8 +32,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            void setDBConfig(const common::KIMDBConfig &dbConfig);
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setQueryUserAccountWithSessionService(
@@ -148,10 +146,6 @@ namespace kakaIM {
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
-            /**
-             * @description 数据库连接
-             */
-            common::KIMDBConfig dbConfig;
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();

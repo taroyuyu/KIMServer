@@ -40,5 +40,9 @@ namespace kakaIM {
 
             this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier));
         }
+
+        void KIMModule::setDBConfig(const KIMDBConfig &dbConfig) {
+            this->dbConfig = dbConfig;
+        }
     }
 }

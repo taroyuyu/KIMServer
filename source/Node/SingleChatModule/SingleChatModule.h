@@ -33,8 +33,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            void setDBConfig(const common::KIMDBConfig &dbConfig);
-
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
@@ -161,11 +159,6 @@ namespace kakaIM {
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
 
-            /**
-                 * @description 数据库连接
-
-                 */
-            common::KIMDBConfig dbConfig;
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();

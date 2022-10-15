@@ -13,6 +13,7 @@
 #include <atomic>
 #include <google/protobuf/message.h>
 #include "ConcurrentQueue/ConcurrentLinkedQueue.h"
+#include "KIMDBConfig.h"
 
 namespace kakaIM {
     namespace common {
@@ -32,15 +33,21 @@ namespace kakaIM {
                 this->start();
             }
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier);
+            virtual void
+            addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier);
+
+            virtual void setDBConfig(const KIMDBConfig &dbConfig);
 
         protected:
             virtual void execute() = 0;
+
             virtual void shouldStop() = 0;
+
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            KIMDBConfig dbConfig;
         protected:
             std::thread m_workThread;
-            enum class Status:int{
+            enum class Status : int {
                 Stopped,
                 Starting,
                 Started,
