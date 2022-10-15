@@ -2,7 +2,6 @@
 // Created by Kakawater on 2018/1/2.
 //
 
-#include <iostream>
 #include "KIMModule.h"
 
 namespace kakaIM {
