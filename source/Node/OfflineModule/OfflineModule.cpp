@@ -73,74 +73,19 @@ namespace kakaIM {
             }
 
             while (not this->m_needStop) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 等待Epill实例上的事件出错，errno ="
-                                                     << errno);
+                bool needSleep = true;
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                    needSleep = false;
                 }
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
 
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType ==
-                                        kakaIM::Node::PullChatMessage::default_instance().GetTypeName()) {
-                                        this->handlePullChatMessage(
-                                                *(kakaIM::Node::PullChatMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName()) {
-                                        this->handlePullGroupChatMessage(
-                                                *(kakaIM::Node::PullGroupChatMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    }
-                                }
+                if (auto task = this->mPersistTaskQueue.try_pop()){
+                    this->dispatchPersistTask(**task);
+                    needSleep = false;
+                }
 
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        } else if (this->persistTaskQueueEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->persistTaskQueueEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->persistTaskQueue.empty()) {
-                                    this->persistTaskQueueMutex.lock();
-                                    auto task = std::move(this->persistTaskQueue.front());
-                                    this->persistTaskQueue.pop();
-                                    this->persistTaskQueueMutex.unlock();
-
-                                    if (0 == strcmp(typeid(*task).name(), (typeid(ChatMessagePersistTask).name()))) {
-                                        ChatMessagePersistTask *chatMessagePersistTask = reinterpret_cast<ChatMessagePersistTask *>(task.get());
-                                        this->handleChatMessagePersist(chatMessagePersistTask->getUserAccount(),
-                                                                       chatMessagePersistTask->getMessage(),
-                                                                       chatMessagePersistTask->getMessageID());
-                                    } else if (0 == strcmp(typeid(*task).name(),
-                                                           typeid(GroupChatMessagePersistTask).name())) {
-                                        GroupChatMessagePersistTask *groupChatMessagePersistTask = reinterpret_cast<GroupChatMessagePersistTask *>(task.get());
-                                        this->handletGroupChatMessagePersis(groupChatMessagePersistTask->getGroupId(),
-                                                                            groupChatMessagePersistTask->getMessage(),
-                                                                            groupChatMessagePersistTask->getMessageID());
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (needSleep){
+                    std::this_thread::yield();
                 }
             }
 
@@ -154,6 +99,36 @@ namespace kakaIM {
 
         void OfflineModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void OfflineModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+            auto messageType = task.first->GetTypeName();
+            if (messageType ==
+                kakaIM::Node::PullChatMessage::default_instance().GetTypeName()) {
+                this->handlePullChatMessage(
+                        *(kakaIM::Node::PullChatMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName()) {
+                this->handlePullGroupChatMessage(
+                        *(kakaIM::Node::PullGroupChatMessage *) task.first.get(),
+                        task.second);
+            }
+        }
+
+        void OfflineModule::dispatchPersistTask(const PersistTask & task){
+            if (0 == strcmp(typeid(task).name(), (typeid(ChatMessagePersistTask).name()))) {
+                auto chatMessagePersistTask = static_cast<ChatMessagePersistTask &>(task);
+                this->handleChatMessagePersist(chatMessagePersistTask->getUserAccount(),
+                                               chatMessagePersistTask->getMessage(),
+                                               chatMessagePersistTask->getMessageID());
+            } else if (0 == strcmp(typeid(task).name(),
+                                   typeid(GroupChatMessagePersistTask).name())) {
+                auto groupChatMessagePersistTask = static_cast<GroupChatMessagePersistTask &>(task);
+                this->handletGroupChatMessagePersis(groupChatMessagePersistTask->getGroupId(),
+                                                    groupChatMessagePersistTask->getMessage(),
+                                                    groupChatMessagePersistTask->getMessageID());
+            }
         }
 
         void OfflineModule::setConnectionOperationService(

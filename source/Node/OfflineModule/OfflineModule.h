@@ -16,6 +16,7 @@
 #include "../Service/SessionQueryService.h"
 #include "../Service/ConnectionOperationService.h"
 #include "../../Common/KIMDBConfig.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace node {
@@ -125,6 +126,11 @@ namespace kakaIM {
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            ConcurrentLinkedQueue<std::unique_ptr<PersistTask>> mPersistTaskQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
+            void dispatchPersistTask(const PersistTask & task);
 
             void handleChatMessagePersist(std::string userAccount, const kakaIM::Node::ChatMessage &message,
                                           const uint64_t messageID);
