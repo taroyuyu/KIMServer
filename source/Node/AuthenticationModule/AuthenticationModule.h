@@ -48,13 +48,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
 
-            void addLoginMessage(std::unique_ptr<kakaIM::Node::LoginMessage> message,
-                                 const std::string connectionIdentifier);
-
-            void
-            addRegisterMessage(std::unique_ptr<kakaIM::Node::RegisterMessage> message,
-                               const std::string connectionIdentifier);
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 

@@ -157,25 +157,6 @@ namespace kakaIM {
             }
         }
 
-        void
-        AuthenticationModule::addLoginMessage(std::unique_ptr<kakaIM::Node::LoginMessage> message,
-                                              const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
-        }
-
-        void AuthenticationModule::addRegisterMessage(std::unique_ptr<kakaIM::Node::RegisterMessage> message,
-                                                      const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
-        }
-
         AuthenticationModule::VerifyUserResult
         AuthenticationModule::verifyUser(const std::string userAccount, const std::string userPassword) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
