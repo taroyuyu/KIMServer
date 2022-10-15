@@ -181,16 +181,6 @@ namespace kakaIM {
             }
         }
 
-
-        void ServerRelayModule::addServerMessage(std::unique_ptr<ServerMessage> message,
-                                                 const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
         void ServerRelayModule::addEvent(ClusterEvent event) {
             std::lock_guard<std::mutex> lock(this->eventQueueMutex);
             this->mEventQueue.emplace(event);
