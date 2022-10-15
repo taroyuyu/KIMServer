@@ -77,24 +77,6 @@ namespace kakaIM {
             }
         }
 
-        void NodeLoadBlanceModule::addNodeLoadInfoMessage(std::unique_ptr<NodeLoadInfoMessage> message,
-                                                          const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void NodeLoadBlanceModule::addRequestNodeMessage(std::unique_ptr<RequestNodeMessage> message,
-                                                         const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
         void NodeLoadBlanceModule::addEvent(ClusterEvent event) {
             std::lock_guard<std::mutex> lock(this->eventQueueMutex);
             this->mEventQueue.emplace(event);
