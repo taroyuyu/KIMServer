@@ -15,6 +15,8 @@
 #include "../../Common/util/Date.h"
 #include "../../Common/proto/MessageCluster.pb.h"
 #include "../Service/ConnectionOperationService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
+
 namespace kakaIM {
     namespace president {
         class MessageIDGenerateModule : public common::KIMModule {
@@ -36,6 +38,10 @@ namespace kakaIM {
             std::atomic_bool m_needStop;
         private:
             int messageEventfd;
+
+            ConcurrentLinkedQueue<std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string>> mTaskQueue;
+
+            void dispatchMessage(std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string> & task);
 
             void handleRequestMessageIDMessage(const RequestMessageIDMessage &message,
                                                const std::string connectionIdentifier);

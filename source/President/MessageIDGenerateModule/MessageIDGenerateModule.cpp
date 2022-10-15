@@ -49,20 +49,10 @@ namespace kakaIM {
             }
 
             while (not this->m_needStop) {
-                uint64_t count;
-                if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                    while (count-- && false == this->messageQueue.empty()) {
-                        this->messageQueueMutex.lock();
-                        auto pairIt = std::move(this->messageQueue.front());
-                        this->messageQueue.pop();
-                        this->messageQueueMutex.unlock();
-
-                        this->handleRequestMessageIDMessage(*(pairIt.first.get()), pairIt.second);
-                    }
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
                 } else {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << "read(messageEventfd)操作出错，errno ="
-                                                     << errno);
+                    std::this_thread::yield();
                 }
             }
 
@@ -72,6 +62,11 @@ namespace kakaIM {
                 this->m_status = Status::Stopped;
                 this->m_statusCV.notify_all();
             }
+        }
+
+        void MessageIDGenerateModule::dispatchMessage(
+                std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string> &task) {
+            this->handleRequestMessageIDMessage(*(task.first.get()), task.second);
         }
 
         void MessageIDGenerateModule::shouldStop() {
