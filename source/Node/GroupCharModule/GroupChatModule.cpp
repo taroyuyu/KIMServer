@@ -165,6 +165,47 @@ namespace kakaIM {
             this->mQueryConnectionWithSessionServicePtr = service;
         }
 
+        void GroupChatModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+
+            if (kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::GroupChatMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }
+        }
+
         void
         GroupChatModule::addChatGroupCreateRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupCreateRequest> message,
                                                           const std::string connectionIdentifier) {

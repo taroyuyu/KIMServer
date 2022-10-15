@@ -51,6 +51,8 @@ namespace kakaIM {
 
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
 
+            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
+
             void addChatGroupCreateRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupCreateRequest> message,
                                                   const std::string connectionIdentifier);
 
