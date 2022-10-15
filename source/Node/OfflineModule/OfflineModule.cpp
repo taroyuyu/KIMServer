@@ -11,7 +11,8 @@
 
 namespace kakaIM {
     namespace node {
-        OfflineModule::OfflineModule() : mEpollInstance(-1),messageEventfd(-1), persistTaskQueueEventfd(-1), m_dbConnection(nullptr) {
+        OfflineModule::OfflineModule() : mEpollInstance(-1), messageEventfd(-1), persistTaskQueueEventfd(-1),
+                                         m_dbConnection(nullptr) {
             this->logger = log4cxx::Logger::getLogger(OfflineModuleLogger);
         }
 
@@ -65,6 +66,12 @@ namespace kakaIM {
         }
 
         void OfflineModule::execute() {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+
             while (this->m_isStarted) {
                 int const kHandleEventMaxCountPerLoop = 2;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
@@ -75,7 +82,8 @@ namespace kakaIM {
 
                 if (-1 == happedEventsCount) {
                     LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 等待Epill实例上的事件出错，errno =" << errno);
+                                 typeid(this).name() << "" << __FUNCTION__ << " 等待Epill实例上的事件出错，errno ="
+                                                     << errno);
                 }
                 //遍历所有的文件描述符
                 for (int i = 0; i < happedEventsCount; ++i) {
@@ -135,6 +143,17 @@ namespace kakaIM {
                     }
                 }
             }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
+        }
+
+        void OfflineModule::shouldStop() {
+            this->m_needStop = true;
         }
 
         void OfflineModule::setConnectionOperationService(
@@ -149,7 +168,7 @@ namespace kakaIM {
 
         void OfflineModule::addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message,
                                                const std::string connectionIdentifier) {
-            if (!message){
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -158,13 +177,14 @@ namespace kakaIM {
             const uint64_t count = 1;
             //增加信号量
             if (8 != ::write(this->messageEventfd, &count, sizeof(count))) {
-                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 增加信号量失败，errno =" << errno);
+                LOG4CXX_WARN(this->logger,
+                             typeid(this).name() << "" << __FUNCTION__ << " 增加信号量失败，errno =" << errno);
             }
         }
 
         void OfflineModule::addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
                                                     const std::string connectionIdentifier) {
-            if (!message){
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -189,7 +209,7 @@ namespace kakaIM {
         void OfflineModule::persistGroupChatMessage(const kakaIM::Node::GroupChatMessage &groupChatMessage,
                                                     const uint64_t messageID) {
             static size_t messageCount = 0;
-            LOG4CXX_TRACE(this->logger,__FUNCTION__<<" messageCount="<<++messageCount);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__ << " messageCount=" << ++messageCount);
             std::unique_ptr<GroupChatMessagePersistTask> task(
                     new GroupChatMessagePersistTask(groupChatMessage.groupid(), groupChatMessage, messageID));
             std::lock_guard<std::mutex> lock(this->persistTaskQueueMutex);
@@ -212,9 +232,9 @@ namespace kakaIM {
 
             static const std::string ChatMessagePersistSQLStatement = "ChatMessagePersistSQL";
             static const std::string chatMessagePersistSQL = "INSERT INTO single_chat_timeline "
-                    "(owner, msg_id, msg_sender, msg_receiver, msg_content,msg_timestamp) "
-                    "VALUES "
-                    "($1,$2,$3,$4,$5,$6);";
+                                                             "(owner, msg_id, msg_sender, msg_receiver, msg_content,msg_timestamp) "
+                                                             "VALUES "
+                                                             "($1,$2,$3,$4,$5,$6);";
             try {
                 pqxx::work dbWork(*dbConnection);
                 auto invocation = dbWork.prepared(ChatMessagePersistSQLStatement);
@@ -232,7 +252,8 @@ namespace kakaIM {
                     LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "保存群聊数据失败");
                 }
             } catch (pqxx::sql_error exception) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "执行出错," << exception.what());
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "" << __FUNCTION__ << "执行出错," << exception.what());
 
             }
 
@@ -243,7 +264,7 @@ namespace kakaIM {
                                                           const uint64_t messageID) {
             static size_t messageCount = 0;
             static size_t messagehandleErrorCount = 0;
-            LOG4CXX_TRACE(this->logger,__FUNCTION__<<" messageCount="<<++messageCount);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__ << " messageCount=" << ++messageCount);
             auto dbConnection = this->getDBConnection();
 
             if (!dbConnection) {
@@ -254,8 +275,8 @@ namespace kakaIM {
 
             const std::string GroupChatMessagePersistSQLStatement = "GroupChatMessagePersistSQL";
             const std::string groupChatMessagePersistSQL = "INSERT INTO group_chat_timeline "
-                    "(group_id, msg_sender, msg_content, msg_id) "
-                    "VALUES ($1,$2,$3,$4);";
+                                                           "(group_id, msg_sender, msg_content, msg_id) "
+                                                           "VALUES ($1,$2,$3,$4);";
             try {
                 pqxx::work dbWork(*dbConnection);
                 auto invocation = dbWork.prepared(GroupChatMessagePersistSQLStatement);
@@ -269,11 +290,13 @@ namespace kakaIM {
                 //提交事务
                 dbWork.commit();
                 if (1 != result.affected_rows()) {//保存失败
-                    LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 保存群聊消息失败 messageCount="<<++messagehandleErrorCount);
+                    LOG4CXX_ERROR(this->logger,
+                                  __FUNCTION__ << " 保存群聊消息失败 messageCount=" << ++messagehandleErrorCount);
                     LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "保存群聊消息失败");
                 }
             } catch (pqxx::sql_error exception) {
-                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" 保存群聊消息失败 messageCount="<<++messagehandleErrorCount);
+                LOG4CXX_ERROR(this->logger,
+                              __FUNCTION__ << " 保存群聊消息失败 messageCount=" << ++messagehandleErrorCount);
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "保存群聊消息失败," << exception.what());
             }
@@ -322,7 +345,7 @@ namespace kakaIM {
                     chatMessage.set_receiveraccount(row[2].as<std::string>());
                     chatMessage.set_content(row[3].as<std::string>());
                     chatMessage.set_timestamp(kaka::Date(row[4].as<std::string>()).toString());
-		    chatMessage.set_sign("");
+                    chatMessage.set_sign("");
                     chatMessageList.emplace_back(std::move(chatMessage));
                 }
 
@@ -332,7 +355,7 @@ namespace kakaIM {
             }
 
             //3.发送响应
-            for (auto message : chatMessageList) {
+            for (auto message: chatMessageList) {
                 message.set_sessionid(pullOfflineMessage.sessionid());
                 if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                     connectionOperationService->sendMessageThroughConnection(connectionIdentifier, message);
@@ -393,7 +416,7 @@ namespace kakaIM {
             } catch (pqxx::sql_error exception) {
             }
             //3.发送响应
-            for (auto message : chatMessageList) {
+            for (auto message: chatMessageList) {
                 message.set_sessionid(pullGroupChatMessage.sessionid());
                 if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                     connectionOperationService->sendMessageThroughConnection(connectionIdentifier, message);
