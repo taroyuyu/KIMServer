@@ -177,12 +177,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
         }
 
         void ServerRelayModule::addEvent(ClusterEvent event) {
