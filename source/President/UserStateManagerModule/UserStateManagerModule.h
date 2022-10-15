@@ -16,6 +16,7 @@
 #include "../Service/ServerManageService.h"
 #include "../Service/ConnectionOperationService.h"
 #include "../Service/UserStateManagerService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace president {
@@ -56,6 +57,12 @@ namespace kakaIM {
             int messageEventfd;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
 
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            ConcurrentLinkedQueue<ClusterEvent> mEventQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
+            void dispatchClusterEvent(ClusterEvent & event);
+
             void handleUpdateUserOnlineStateMessage(const UpdateUserOnlineStateMessage &,
                                                     const std::string connectionIdentifier);
 
@@ -65,7 +72,7 @@ namespace kakaIM {
 
             int clusterEventfd;
             std::mutex eventQueueMutex;
-            std::queue<ClusterEvent> mEventQueue;
+//            std::queue<ClusterEvent> mEventQueue;
 
             void handleNewNodeJoinedClusterEvent(const ClusterEvent &event);
 
