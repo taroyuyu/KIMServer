@@ -38,11 +38,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
 
-            void addSessionIDRequesMessage(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> message,
-                                           const std::string connectionIdentifier);
-
-            void addLogoutMessage(std::unique_ptr<kakaIM::Node::LogoutMessage> message, const std::string connectionIdentifier);
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
         protected:

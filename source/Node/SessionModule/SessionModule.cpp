@@ -133,26 +133,6 @@ namespace kakaIM {
             }
         }
 
-        void SessionModule::addSessionIDRequesMessage(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> message,
-                                                      const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void SessionModule::addLogoutMessage(std::unique_ptr<kakaIM::Node::LogoutMessage> message,
-                                             const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
         void SessionModule::setConnectionOperationService(
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
