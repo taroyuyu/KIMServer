@@ -171,6 +171,17 @@ namespace kakaIM {
             this->mServerManageServicePtr = serverManageServicePtr;
         }
 
+        void ServerRelayModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            if (ServerMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
+
+
         void ServerRelayModule::addServerMessage(std::unique_ptr<ServerMessage> message,
                                                  const std::string connectionIdentifier) {
             if (!message) {

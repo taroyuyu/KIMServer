@@ -64,6 +64,19 @@ namespace kakaIM {
             this->mUserStateManagerServicePtr = userStateManagerServicePtr;
         }
 
+        void NodeLoadBlanceModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            if (NodeLoadInfoMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (RequestNodeMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
+
         void NodeLoadBlanceModule::addNodeLoadInfoMessage(std::unique_ptr<NodeLoadInfoMessage> message,
                                                           const std::string connectionIdentifier) {
             if (!message) {
