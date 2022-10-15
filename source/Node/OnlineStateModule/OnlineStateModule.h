@@ -21,6 +21,7 @@
 #include "../Service/UserRelationService.h"
 #include "../Service/ClusterService.h"
 #include "../Service/ConnectionOperationService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace node {
@@ -87,7 +88,14 @@ namespace kakaIM {
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string >> messageQueue;
             int eventQueuefd;
             std::mutex eventQueueMutex;
-            std::queue<std::shared_ptr<const Event>> mEventQueue;
+//            std::queue<std::shared_ptr<const Event>> mEventQueue;
+
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            ConcurrentLinkedQueue<std::shared_ptr<const Event>> mEventQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
+            void dispatchEvent(const Event & event);
+
 
             void handleOnlineMessage(const kakaIM::Node::OnlineStateMessage &onlineStateMessage,
                                      const std::string connectionIdentifier);

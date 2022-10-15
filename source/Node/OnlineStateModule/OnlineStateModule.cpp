@@ -68,73 +68,22 @@ namespace kakaIM {
             EventBus::getDefault().registerEvent(userLogoutEventProto->getEventType(), this);
             EventBus::getDefault().registerEvent(nodeSecessionEventProto->getEventType(), this);
             while (this->m_needStop) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 等待Epil实例上的事件出错，errno =" << errno);
+                bool needSleep = true;
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                    needSleep = false;
                 }
 
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->eventQueuefd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->eventQueuefd, &count, sizeof(count))) {
-                                while (count-- && false == this->mEventQueue.empty()) {
-                                    this->eventQueueMutex.lock();
-                                    auto event = std::move(this->mEventQueue.front());
-                                    this->mEventQueue.pop();
-                                    this->eventQueueMutex.unlock();
+                if (auto event = this->mEventQueue.try_pop()){
+                    this->dispatchEvent(**event);
+                    needSleep = false;
+                }
 
-                                    if (event->getEventType() == this->userLogoutEventProto->getEventType()) {
-                                        this->handleUserLogoutEvent(*static_cast<const UserLogoutEvent *>(event.get()));
-                                    }else if(event->getEventType() == this->nodeSecessionEventProto->getEventType()){
-                                        this->handleNodeSecessionEvent(*static_cast<const NodeSecessionEvent*>(event.get()));
-                                    }
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        } else if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType ==
-                                        kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName()) {
-                                        handleOnlineMessage(*(kakaIM::Node::OnlineStateMessage *) pairIt.first.get(),
-                                                            pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
-                                        handleOnlineMessage(
-                                                *(kakaIM::president::UserOnlineStateMessage *) pairIt.first.get());
-                                    }else if(messageType == kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName()){
-                                        handlePullFriendOnlineStateMessage(*(kakaIM::Node::PullFriendOnlineStateMessage*)pairIt.first.get(),pairIt.second);
-                                    }
-                                }
-
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        }
-                    }
+                if (needSleep){
+                    std::this_thread::yield();
                 }
             }
+            
             //向EventBus取消注册
             EventBus::getDefault().unregister(this);
             //向ClusterService取消注册
@@ -150,12 +99,39 @@ namespace kakaIM {
             }
         }
 
-        void OnlineStateModule::shouldStop(){
+        void OnlineStateModule::shouldStop() {
             this->m_needStop = true;
         }
+
+        void OnlineStateModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
+            auto messageType = task.first->GetTypeName();
+            if (messageType ==
+                kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName()) {
+                handleOnlineMessage(*(kakaIM::Node::OnlineStateMessage *) task.first.get(),
+                                    task.second);
+            } else if (messageType ==
+                       kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
+                handleOnlineMessage(
+                        *(kakaIM::president::UserOnlineStateMessage *) task.first.get());
+            } else if (messageType == kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName()) {
+                handlePullFriendOnlineStateMessage(*(kakaIM::Node::PullFriendOnlineStateMessage *) task.first.get(),
+                                                   task.second);
+            }
+        }
+
+        void OnlineStateModule::dispatchEvent(const Event & event){
+            if (event.getEventType() == this->userLogoutEventProto->getEventType()) {
+                this->handleUserLogoutEvent(static_cast<const UserLogoutEvent &>(event));
+            } else if (event.getEventType() == this->nodeSecessionEventProto->getEventType()) {
+                this->handleNodeSecessionEvent(
+                        static_cast<const NodeSecessionEvent &>(event));
+            }
+        }
+
         void OnlineStateModule::addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
                                                       const std::string connectionIdentifier) {
-            if(!message){
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -168,8 +144,10 @@ namespace kakaIM {
 
         }
 
-        void OnlineStateModule::addPullFriendOnlineStateMessage(std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage> message,const std::string connectionIdentifier) {
-            if(!message){
+        void OnlineStateModule::addPullFriendOnlineStateMessage(
+                std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage> message,
+                const std::string connectionIdentifier) {
+            if (!message) {
                 return;
             }
             //添加到队列中
@@ -253,7 +231,7 @@ namespace kakaIM {
 
                 auto loginSet = setPairIt->second;
 
-                LOG4CXX_DEBUG(this->logger,__FUNCTION__<<"userAccount="<<userAccount);
+                LOG4CXX_DEBUG(this->logger, __FUNCTION__ << "userAccount=" << userAccount);
                 //2.判断此Node上，此userAccount的状态信息
                 size_t userOnNodeCount = 0;
                 Node::OnlineStateMessage_OnlineState userNodeState = Node::OnlineStateMessage_OnlineState_Offline;
@@ -277,9 +255,11 @@ namespace kakaIM {
                     }
                 }
 
-                LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" userAccount="<<userAccount<<" userOnNodeCount="<<userOnNodeCount);
+                LOG4CXX_DEBUG(this->logger,
+                              __FUNCTION__ << " userAccount=" << userAccount << " userOnNodeCount=" << userOnNodeCount);
                 if (0 == userOnNodeCount) {//向集群更新：以userAccount登陆此Node的所有设备全部下线
-                    LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 向集群更新:以"<<userAccount<<"登陆此Node的所有设备全部下线");
+                    LOG4CXX_DEBUG(this->logger,
+                                  __FUNCTION__ << " 向集群更新:以" << userAccount << "登陆此Node的所有设备全部下线");
                     kakaIM::Node::OnlineStateMessage offlineMessage;
                     offlineMessage.set_useraccount(userAccount);
                     offlineMessage.set_userstate(Node::OnlineStateMessage_OnlineState_Offline);
@@ -343,59 +323,61 @@ namespace kakaIM {
             }
         }
 
-        void OnlineStateModule::handlePullFriendOnlineStateMessage(const kakaIM::Node::PullFriendOnlineStateMessage & pullFriendOnlineStateMessage,const std::string connectionIdentifier)
-        {
+        void OnlineStateModule::handlePullFriendOnlineStateMessage(
+                const kakaIM::Node::PullFriendOnlineStateMessage &pullFriendOnlineStateMessage,
+                const std::string connectionIdentifier) {
 
             //1.获取用户账号
 
             auto queryUserAccountWithSessionService = this->mQueryUserAccountWithSessionServicePtr.lock();
 
-            if (!queryUserAccountWithSessionService){
+            if (!queryUserAccountWithSessionService) {
                 return;
             }
 
-            std::string userAccount = queryUserAccountWithSessionService->queryUserAccountWithSession(pullFriendOnlineStateMessage.sessionid());
+            std::string userAccount = queryUserAccountWithSessionService->queryUserAccountWithSession(
+                    pullFriendOnlineStateMessage.sessionid());
 
-            if (userAccount.empty()){
+            if (userAccount.empty()) {
                 return;;
             }
 
             //2.查询用户的好友列表
             auto userRelationService = this->userRelationServicePtr.lock();
 
-            if (!userRelationService){
+            if (!userRelationService) {
                 return;
             }
 
             std::list<std::string> friendList = userRelationService->retriveUserFriendList(userAccount);
-            
-            for (auto friendAccount : friendList){
+
+            for (auto friendAccount: friendList) {
                 //3.查询此好友的在线状态
                 kakaIM::Node::OnlineStateMessage onlineStateMessage;
                 onlineStateMessage.set_sessionid(pullFriendOnlineStateMessage.sessionid());
                 onlineStateMessage.set_useraccount(friendAccount);
-                switch (this->getUserOnlineState(friendAccount)){
-                    case kakaIM::Node::OnlineStateMessage_OnlineState_Online:{
+                switch (this->getUserOnlineState(friendAccount)) {
+                    case kakaIM::Node::OnlineStateMessage_OnlineState_Online: {
                         onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Online);
                     }
                         break;
-                    case kakaIM::Node::OnlineStateMessage_OnlineState_Invisible:{
-                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Invisible);                        
+                    case kakaIM::Node::OnlineStateMessage_OnlineState_Invisible: {
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Invisible);
                     }
                         break;
-                    case kakaIM::Node::OnlineStateMessage_OnlineState_Offline:{
-                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Offline);                        
+                    case kakaIM::Node::OnlineStateMessage_OnlineState_Offline: {
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Offline);
                     }
                         break;
-                    default:{
-                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Offline);                        
+                    default: {
+                        onlineStateMessage.set_userstate(kakaIM::Node::OnlineStateMessage_OnlineState_Offline);
                     }
                         break;
                 }
 
                 //4.发送
-                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()){
-                    connectionOperationService->sendMessageThroughConnection(connectionIdentifier,onlineStateMessage);
+                if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
+                    connectionOperationService->sendMessageThroughConnection(connectionIdentifier, onlineStateMessage);
                 }
             }
 
@@ -431,7 +413,7 @@ namespace kakaIM {
         }
 
         void OnlineStateModule::onEvent(std::shared_ptr<const Event> event) {
-            LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 被调用");
+            LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 被调用");
             std::lock_guard<std::mutex> lock(this->eventQueueMutex);
             this->mEventQueue.emplace(event);
             uint64_t count = 1;
@@ -450,7 +432,7 @@ namespace kakaIM {
                         if (loginItemIt->first.first == IDType_SessionID &&
                             loginItemIt->first.second == sessionID) {
                             setPairIt->second.erase(loginItemIt);
-                            LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 移除完毕");
+                            LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 移除完毕");
                             break;
                         }
                     }
@@ -459,14 +441,15 @@ namespace kakaIM {
             }
         }
 
-        void OnlineStateModule::handleNodeSecessionEvent(const NodeSecessionEvent & event){
-            LOG4CXX_DEBUG(this->logger,__FUNCTION__);
+        void OnlineStateModule::handleNodeSecessionEvent(const NodeSecessionEvent &event) {
+            LOG4CXX_DEBUG(this->logger, __FUNCTION__);
             const std::string serverID = event.getServerID();
-            for(auto setIt = this->mUserStateDB.begin(); setIt != this->mUserStateDB.end();++setIt){
-                auto recordIt = std::find_if(setIt->second.begin(),setIt->second.end(),[serverID](const std::set<std::pair<std::pair<IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::value_type & item)-> bool{
+            for (auto setIt = this->mUserStateDB.begin(); setIt != this->mUserStateDB.end(); ++setIt) {
+                auto recordIt = std::find_if(setIt->second.begin(), setIt->second.end(), [serverID](
+                        const std::set<std::pair<std::pair<IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::value_type &item) -> bool {
                     return item.first.first == IDType_ServerID && item.first.second == serverID;
                 });
-                if(recordIt != setIt->second.end()){
+                if (recordIt != setIt->second.end()) {
                     setIt->second.erase(recordIt);
                 }
             }
@@ -477,7 +460,8 @@ namespace kakaIM {
             auto setPairIt = this->mUserStateDB.find(userAccount);
             if (setPairIt != this->mUserStateDB.end()) {
                 LOG4CXX_DEBUG(this->logger,
-                              __FUNCTION__ << " 用户:" << userAccount << " 当前在线设备数量:" << setPairIt->second.size());
+                              __FUNCTION__ << " 用户:" << userAccount << " 当前在线设备数量:"
+                                           << setPairIt->second.size());
                 return std::make_pair(setPairIt->second.begin(), setPairIt->second.end());
             } else {
                 LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 用户:" << userAccount << " 当前在线设备数量:0");
@@ -491,7 +475,7 @@ namespace kakaIM {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
-        void OnlineStateModule::setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr){
+        void OnlineStateModule::setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr) {
             this->userRelationServicePtr = userRelationServicePtr;
         }
 
