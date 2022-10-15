@@ -21,6 +21,7 @@
 #include "../Service/UserRelationService.h"
 #include "../Service/ConnectionOperationService.h"
 #include "../../Common/KIMDBConfig.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace node {
@@ -79,6 +80,9 @@ namespace kakaIM {
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
 
             void handleChatMessage(kakaIM::Node::ChatMessage &chatMessage, const std::string connectionIdentifier);
 

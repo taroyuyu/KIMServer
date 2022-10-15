@@ -88,85 +88,12 @@ namespace kakaIM {
                 this->m_status = Status::Started;
                 this->m_statusCV.notify_all();
             }
+
             while (not this->m_needStop) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger, __FUNCTION__ << " 等待Epil实例上的事件出错，errno =" << errno);
-                }
-
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType == kakaIM::Node::ChatMessage::default_instance().GetTypeName()) {
-                                        handleChatMessage(*(kakaIM::Node::ChatMessage *) pairIt.first.get(),
-                                                          pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatRequestMessage(
-                                                *(kakaIM::Node::VideoChatRequestMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatRequestCancelMessage(
-                                                *(kakaIM::Node::VideoChatRequestCancelMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatReplyMessage(
-                                                *(kakaIM::Node::VideoChatReplyMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatOfferMessage(
-                                                *(kakaIM::Node::VideoChatOfferMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatAnswerMessage(
-                                                *(kakaIM::Node::VideoChatAnswerMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatNegotiationResultMessage(
-                                                *(kakaIM::Node::VideoChatNegotiationResultMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatCandidateAddressMessage(
-                                                *(kakaIM::Node::VideoChatCandidateAddressMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatByeMessage(
-                                                *(kakaIM::Node::VideoChatByeMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    }
-                                }
-
-                            } else {
-                                LOG4CXX_WARN(this->logger,
-                                             typeid(this).name() << "" << __FUNCTION__
-                                                                 << "read(messageEventfd)操作出错，errno ="
-                                                                 << errno);
-                            }
-                        }
-                    }
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                } else {
+                    std::this_thread::yield();
                 }
             }
 
@@ -178,8 +105,57 @@ namespace kakaIM {
             }
         }
 
-        void shouldStop() {
+        void SingleChatModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void SingleChatModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
+            auto messageType = task.first->GetTypeName();
+            if (messageType == kakaIM::Node::ChatMessage::default_instance().GetTypeName()) {
+                handleChatMessage(*(kakaIM::Node::ChatMessage *) task.first.get(),
+                                  task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName()) {
+                handleVideoChatRequestMessage(
+                        *(kakaIM::Node::VideoChatRequestMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName()) {
+                handleVideoChatRequestCancelMessage(
+                        *(kakaIM::Node::VideoChatRequestCancelMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName()) {
+                handleVideoChatReplyMessage(
+                        *(kakaIM::Node::VideoChatReplyMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName()) {
+                handleVideoChatOfferMessage(
+                        *(kakaIM::Node::VideoChatOfferMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName()) {
+                handleVideoChatAnswerMessage(
+                        *(kakaIM::Node::VideoChatAnswerMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName()) {
+                handleVideoChatNegotiationResultMessage(
+                        *(kakaIM::Node::VideoChatNegotiationResultMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName()) {
+                handleVideoChatCandidateAddressMessage(
+                        *(kakaIM::Node::VideoChatCandidateAddressMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName()) {
+                handleVideoChatByeMessage(
+                        *(kakaIM::Node::VideoChatByeMessage *) task.first.get(),
+                        task.second);
+            }
         }
 
         void SingleChatModule::handleChatMessage(kakaIM::Node::ChatMessage &chatMessage,
