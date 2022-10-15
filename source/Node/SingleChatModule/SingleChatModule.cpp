@@ -848,6 +848,34 @@ namespace kakaIM {
             }
         }
 
+        void SingleChatModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            //添加到队列中
+            if (kakaIM::Node::ChatMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }else if (kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
+            }
+        }
+
         void
         SingleChatModule::addChatMessage(std::unique_ptr<kakaIM::Node::ChatMessage> message,
                                          const std::string connectionIdentifier) {

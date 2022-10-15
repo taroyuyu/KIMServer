@@ -25,7 +25,7 @@
 
 namespace kakaIM {
     namespace node {
-        class SingleChatModule : public common::KIMModule{
+        class SingleChatModule : public common::KIMModule {
         public:
             SingleChatModule();
 
@@ -33,25 +33,38 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-	    void setDBConfig(const common::KIMDBConfig &dbConfig);
+            void setDBConfig(const common::KIMDBConfig &dbConfig);
 
-            void addChatMessage(std::unique_ptr<kakaIM::Node::ChatMessage> message, const std::string connectionIdentifier);
-	    
-            void addVideoChatRequestCancelMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestCancelMessage> message, const std::string connectionIdentifier);
+            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
-	    void addVideoChatRequestMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestMessage> message,const std::string connectionIdentifier);
+            void
+            addChatMessage(std::unique_ptr<kakaIM::Node::ChatMessage> message, const std::string connectionIdentifier);
 
-            void addVideoChatReplyMessage(std::unique_ptr<kakaIM::Node::VideoChatReplyMessage> message,const std::string connectionIdentifier);
+            void addVideoChatRequestCancelMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestCancelMessage> message,
+                                                  const std::string connectionIdentifier);
 
-	    void addVideoChatOfferMessage(std::unique_ptr<kakaIM::Node::VideoChatOfferMessage> message,const std::string connectionIdentifier);
-            
-            void addVideoChatAnswerMessage(std::unique_ptr<kakaIM::Node::VideoChatAnswerMessage> message,const std::string connectionIdentifier);
-            
-            void addVideoChatCandidateAddressMessage(std::unique_ptr<kakaIM::Node::VideoChatCandidateAddressMessage> message,const std::string connectionIdentifier);
+            void addVideoChatRequestMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestMessage> message,
+                                            const std::string connectionIdentifier);
 
-            void addVideoChatNegotiationResultMessage(std::unique_ptr<kakaIM::Node::VideoChatNegotiationResultMessage> message,const std::string connectionIdentifier);
-            
-            void addVideoChatByeMessage(std::unique_ptr<kakaIM::Node::VideoChatByeMessage> message,const std::string connectionIdentifier);
+            void addVideoChatReplyMessage(std::unique_ptr<kakaIM::Node::VideoChatReplyMessage> message,
+                                          const std::string connectionIdentifier);
+
+            void addVideoChatOfferMessage(std::unique_ptr<kakaIM::Node::VideoChatOfferMessage> message,
+                                          const std::string connectionIdentifier);
+
+            void addVideoChatAnswerMessage(std::unique_ptr<kakaIM::Node::VideoChatAnswerMessage> message,
+                                           const std::string connectionIdentifier);
+
+            void
+            addVideoChatCandidateAddressMessage(std::unique_ptr<kakaIM::Node::VideoChatCandidateAddressMessage> message,
+                                                const std::string connectionIdentifier);
+
+            void addVideoChatNegotiationResultMessage(
+                    std::unique_ptr<kakaIM::Node::VideoChatNegotiationResultMessage> message,
+                    const std::string connectionIdentifier);
+
+            void addVideoChatByeMessage(std::unique_ptr<kakaIM::Node::VideoChatByeMessage> message,
+                                        const std::string connectionIdentifier);
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
@@ -73,7 +86,9 @@ namespace kakaIM {
 
         protected:
             virtual void execute() override;
+
             virtual void shouldStop() override;
+
             std::atomic_bool m_needStop;
         protected:
             int mEpollInstance;
@@ -82,59 +97,75 @@ namespace kakaIM {
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
 
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task);
 
             void handleChatMessage(kakaIM::Node::ChatMessage &chatMessage, const std::string connectionIdentifier);
 
-	    void handleVideoChatRequestMessage(kakaIM::Node::VideoChatRequestMessage & videoChatRequestMessage, const std::string connectionIdentifier);
+            void handleVideoChatRequestMessage(kakaIM::Node::VideoChatRequestMessage &videoChatRequestMessage,
+                                               const std::string connectionIdentifier);
 
-	    void handleVideoChatRequestCancelMessage(kakaIM::Node::VideoChatRequestCancelMessage & videoChatRequestCancelMessage,const std::string connectionIdentifier);
-            
-            void handleVideoChatReplyMessage(kakaIM::Node::VideoChatReplyMessage & videoChatReplyMessage,const std::string connectionIdentifier);
+            void handleVideoChatRequestCancelMessage(
+                    kakaIM::Node::VideoChatRequestCancelMessage &videoChatRequestCancelMessage,
+                    const std::string connectionIdentifier);
 
-            void handleVideoChatOfferMessage(kakaIM::Node::VideoChatOfferMessage & videoChatOfferMessage,const std::string connectionIdentifier);
-            
-            void handleVideoChatAnswerMessage(kakaIM::Node::VideoChatAnswerMessage & videoChatAnswerMessage,const std::string connectionIdentifier);
+            void handleVideoChatReplyMessage(kakaIM::Node::VideoChatReplyMessage &videoChatReplyMessage,
+                                             const std::string connectionIdentifier);
 
-	    void handleVideoChatNegotiationResultMessage(kakaIM::Node::VideoChatNegotiationResultMessage & videoChatNegotiationResultMessage,const std::string connectionIdentifier);
-            
-            void handleVideoChatCandidateAddressMessage(kakaIM::Node::VideoChatCandidateAddressMessage & videoChatCandidateAddressMessage,const std::string connectionIdentifier);
-            
-            void handleVideoChatByeMessage(kakaIM::Node::VideoChatByeMessage & videoChatByeMessage,const std::string connectionIdentifier);
+            void handleVideoChatOfferMessage(kakaIM::Node::VideoChatOfferMessage &videoChatOfferMessage,
+                                             const std::string connectionIdentifier);
 
-	    enum SaveVideoChatOfferResult{
+            void handleVideoChatAnswerMessage(kakaIM::Node::VideoChatAnswerMessage &videoChatAnswerMessage,
+                                              const std::string connectionIdentifier);
+
+            void handleVideoChatNegotiationResultMessage(
+                    kakaIM::Node::VideoChatNegotiationResultMessage &videoChatNegotiationResultMessage,
+                    const std::string connectionIdentifier);
+
+            void handleVideoChatCandidateAddressMessage(
+                    kakaIM::Node::VideoChatCandidateAddressMessage &videoChatCandidateAddressMessage,
+                    const std::string connectionIdentifier);
+
+            void handleVideoChatByeMessage(kakaIM::Node::VideoChatByeMessage &videoChatByeMessage,
+                                           const std::string connectionIdentifier);
+
+            enum SaveVideoChatOfferResult {
                 SaveVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
                 SaveVideoChatOfferResult_InteralError,//内部错误
                 SaveVideoChatOfferResult_Success,//查询成功
             };
 
-	    SaveVideoChatOfferResult  saveVideoChatOffer(const std::string spnsorAccount,const std::string targetAccount,const std::string sponsorServer,const std::string sponsorSessionId, uint64_t * offerId, std::string * submissionTime);
+            SaveVideoChatOfferResult
+            saveVideoChatOffer(const std::string spnsorAccount, const std::string targetAccount,
+                               const std::string sponsorServer, const std::string sponsorSessionId, uint64_t *offerId,
+                               std::string *submissionTime);
 
-	    enum UpdateVideoChatOfferResult{
+            enum UpdateVideoChatOfferResult {
                 UpdateVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
                 UpdateVideoChatOfferResult_Success,//更新成功
                 UpdateVideoChatOfferResult_ParameterErrpr,//参数错误
                 UpdateVideoChatOfferResult_Failed,//更新失败
             };
 
-            enum VideoChatOfferState{
+            enum VideoChatOfferState {
                 VideoChatOfferState_Pending,//待处理
-		VideoChatOfferState_Cancel,//被取消
+                VideoChatOfferState_Cancel,//被取消
                 VideoChatOfferState_Accept,//允许
                 VideoChatOfferState_Reject,//拒绝
                 VideoChatOfferState_NoAnswer,//无响应
             };
 
-            UpdateVideoChatOfferResult  updateVideoChatOffer(const uint64_t offerId,std::string recipientServerId,std::string recipientSessionId,const VideoChatOfferState offerState);
+            UpdateVideoChatOfferResult
+            updateVideoChatOffer(const uint64_t offerId, std::string recipientServerId, std::string recipientSessionId,
+                                 const VideoChatOfferState offerState);
 
-            enum FetchVideoChatOfferResult{
+            enum FetchVideoChatOfferResult {
                 FetchVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
                 FetchVideoChatOfferResult_InteralError,//内部错误
                 FetchVideoChatOfferResult_RecordNotExist,//记录不存在
                 FetchVideoChatOfferResult_Success//更新成功
             };
 
-            struct VideoChatOfferInfo{
+            struct VideoChatOfferInfo {
                 uint64_t offerId;
                 std::string sponsorAccount;
                 std::string targetAccount;
@@ -146,7 +177,7 @@ namespace kakaIM {
                 std::string submissionTime;
             };
 
-            FetchVideoChatOfferResult  fetchVideoChatOffer(const uint64_t offerId,VideoChatOfferInfo & offerInfo);
+            FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
 
 
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
@@ -159,10 +190,10 @@ namespace kakaIM {
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
 
-	    /**
-             * @description 数据库连接
+            /**
+                 * @description 数据库连接
 
-             */
+                 */
             common::KIMDBConfig dbConfig;
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
