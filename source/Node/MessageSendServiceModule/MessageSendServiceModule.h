@@ -17,6 +17,7 @@
 #include "../Service/SessionQueryService.h"
 #include "../Service/ClusterService.h"
 #include "../Service/ConnectionOperationService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace node {
@@ -67,13 +68,19 @@ namespace kakaIM {
             std::mutex mMessageQueueMutex;
             std::queue<std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>>> mMessageQueue;
 
+            ConcurrentLinkedQueue<std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>>> mTaskQueue;
+
+            void dispatchMessage(std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>> & task);
+            void dispatchServerMessage(kakaIM::president::ServerMessage & message);
+
             void handleMessageForSend(const std::string &userAccount, ::google::protobuf::Message &message);
 
 	    void handleSessionMessage(kakaIM::president::SessionMessage & message);
 
             int serverMessageEventfd;
             std::mutex mServerMessageQueueMutex;
-            std::queue<std::unique_ptr<kakaIM::president::ServerMessage>> mServerMessageQueue;
+//            std::queue<std::unique_ptr<kakaIM::president::ServerMessage>> mServerMessageQueue;
+            ConcurrentLinkedQueue<std::unique_ptr<kakaIM::president::ServerMessage>> mServerMessageQueue;
             void handleServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage);
             log4cxx::LoggerPtr logger;
         };

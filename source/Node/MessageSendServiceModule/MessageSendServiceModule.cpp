@@ -88,62 +88,19 @@ namespace kakaIM {
             }
 
             while (not this->m_needStop) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger, __FUNCTION__ << " 等待Epil实例上的事件出错，errno =" << errno);
+                bool needSleep = true;
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                    needSleep = false;
                 }
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->mMessageQueue.empty()) {
-                                    this->mMessageQueueMutex.lock();
-                                    auto pairIt = std::move(this->mMessageQueue.front());
-                                    this->mMessageQueue.pop();
-                                    this->mMessageQueueMutex.unlock();
 
-                                    auto messageType = (*pairIt.second).GetTypeName();
+                if (auto message = this->mServerMessageQueue.try_pop()){
+                    this->dispatchServerMessage(**message);
+                    needSleep = false;
+                }
 
-                                    if (messageType ==
-                                        kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
-                                        this->handleSessionMessage(
-                                                *((kakaIM::president::SessionMessage *) pairIt.second.get()));
-                                    } else {
-                                        this->handleMessageForSend(pairIt.first, *pairIt.second.get());
-                                    }
-                                }
-
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        } else if (this->serverMessageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->serverMessageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->mServerMessageQueue.empty()) {
-                                    this->mServerMessageQueueMutex.lock();
-                                    auto serverMessage = std::move(this->mServerMessageQueue.front());
-                                    this->mServerMessageQueue.pop();
-                                    this->mServerMessageQueueMutex.unlock();
-                                    this->handleServerMessageFromCluster(*serverMessage.get());
-                                }
-
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        }
-                    }
+                if (needSleep){
+                    std::this_thread::yield();
                 }
             }
 
@@ -157,6 +114,21 @@ namespace kakaIM {
 
         void MessageSendServiceModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void MessageSendServiceModule::dispatchMessage(std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>> & task){
+            auto messageType = task.second->GetTypeName();
+            if (messageType ==
+                kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
+                this->handleSessionMessage(
+                        *((kakaIM::president::SessionMessage *) task.second.get()));
+            } else {
+                this->handleMessageForSend(task.first, *task.second.get());
+            }
+        }
+
+        void MessageSendServiceModule::dispatchServerMessage(kakaIM::president::ServerMessage & message){
+            this->handleServerMessageFromCluster(message);
         }
 
         void MessageSendServiceModule::sendMessageToUser(const std::string &userAccount,
