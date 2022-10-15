@@ -20,8 +20,9 @@
 #include <mutex>
 #include <memory>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
+
 namespace kakaIM {
-    namespace rpc{
+    namespace rpc {
         class AuthenticationRequest;
     }
     namespace node {
@@ -38,16 +39,18 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-	    virtual void start()override;
+            virtual void start() override;
 
             void setDBConfig(const common::KIMDBConfig &dbConfig);
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
-            void addLoginMessage(std::unique_ptr<kakaIM::Node::LoginMessage> message, const std::string connectionIdentifier);
+            void addLoginMessage(std::unique_ptr<kakaIM::Node::LoginMessage> message,
+                                 const std::string connectionIdentifier);
 
             void
-            addRegisterMessage(std::unique_ptr<kakaIM::Node::RegisterMessage> message, const std::string connectionIdentifier);
+            addRegisterMessage(std::unique_ptr<kakaIM::Node::RegisterMessage> message,
+                               const std::string connectionIdentifier);
 
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
@@ -60,6 +63,8 @@ namespace kakaIM {
 
         protected:
             virtual void execute() override;
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             int messageEventfd;
             std::mutex messageQueueMutex;
@@ -73,13 +78,14 @@ namespace kakaIM {
 
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
 
-            enum VerifyUserResult{
+            enum VerifyUserResult {
                 VerifyUserResult_DBConnectionNotExit,//数据库连接不存在
                 VerifyUserResult_InteralError,//内部错误
                 VerifyUserResult_True,//身份真实
                 VerifyUserResult_False,//身份错误
             };
-            VerifyUserResult verifyUser(const std::string userAccount,const std::string userPassword);
+
+            VerifyUserResult verifyUser(const std::string userAccount, const std::string userPassword);
 
             /**
              * @description 数据库连接
@@ -87,6 +93,7 @@ namespace kakaIM {
             common::KIMDBConfig dbConfig;
             std::mutex mDBConnectionPoolMutex;
             std::queue<std::unique_ptr<pqxx::connection>> mDBConnectionPool;
+
             std::unique_ptr<pqxx::connection> getDBConnection();
 
             void releaseDBConnection(std::unique_ptr<pqxx::connection> dbConnection);
@@ -99,11 +106,13 @@ namespace kakaIM {
             /**
              * expireSessionMap的Key-Value为sessionID-(userAccount,connectionIdentifier)
              */
-            std::map<std::string,std::pair<std::string, std::string>> expireSessionMap;
+            std::map<std::string, std::pair<std::string, std::string>> expireSessionMap;
 
-	    std::thread mAuthenticationRPCWorkThread;
+            std::thread mAuthenticationRPCWorkThread;
             AmqpClient::Channel::ptr_t mAmqpChannel;
+
             void authenticationRPCListenerWork();
+
             log4cxx::LoggerPtr logger;
         };
     }

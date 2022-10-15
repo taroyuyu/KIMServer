@@ -10,7 +10,7 @@
 #include "../Log/log.h"
 namespace kakaIM {
     namespace node {
-        AuthenticationModule::AuthenticationModule() : messageEventfd(-1) {
+        AuthenticationModule::AuthenticationModule() : messageEventfd(-1),m_needStop(false) {
             this->logger = log4cxx::Logger::getLogger(AuthenticationModuleLogger);
         }
 
@@ -58,7 +58,13 @@ namespace kakaIM {
         }
 
         void AuthenticationModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+
+            while (not this->m_needStop) {
                 uint64_t count;
                 if (0 < read(this->messageEventfd, &count, sizeof(count))) {
                     while (count-- && false == this->messageQueue.empty()) {
@@ -81,6 +87,15 @@ namespace kakaIM {
                                                      << errno);
                 }
             }
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
+        }
+        void AuthenticationModule::shouldStop(){
+            this->m_needStop = true;
         }
 
         void AuthenticationModule::authenticationRPCListenerWork(){
