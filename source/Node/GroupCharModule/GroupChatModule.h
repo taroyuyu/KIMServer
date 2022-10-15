@@ -52,36 +52,6 @@ namespace kakaIM {
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
-            void addChatGroupCreateRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupCreateRequest> message,
-                                                  const std::string connectionIdentifier);
-
-            void addChatGroupDisbandRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupDisbandRequest> message,
-                                                   const std::string connectionIdentifier);
-
-            void addChatGroupJoinRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupJoinRequest> message,
-                                                const std::string connectionIdentifier);
-
-            void addChatGroupJoinResponseMessage(std::unique_ptr<kakaIM::Node::ChatGroupJoinResponse> message,
-                                                 const std::string connectionIdentifier);
-
-            void addChatGroupQuitRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupQuitRequest> message,
-                                                const std::string connectionIdentifier);
-
-            void addUpdateChatGroupInfoRequestMessage(std::unique_ptr<kakaIM::Node::UpdateChatGroupInfoRequest> message,
-                                                      const std::string connectionIdentifier);
-
-            void addFetchChatGroupInfoRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupInfoRequest> message,
-                                                     const std::string connectionIdentifier);
-
-            void addFetchChatGroupMemberListRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupMemberListRequest> message,
-                                                           const std::string connectionIdentifier);
-
-            void addFetchChatGroupListRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupListRequest> message,
-                                                     const std::string connectionIdentifier);
-
-            void
-            addGroupChatMessage(std::unique_ptr<kakaIM::Node::GroupChatMessage> message, const std::string connectionIdentifier);
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
