@@ -258,24 +258,6 @@ namespace kakaIM {
             }
         }
 
-        void ClusterManagerModule::addRequestJoinClusterMessage(std::unique_ptr<RequestJoinClusterMessage> message,
-                                                                const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void ClusterManagerModule::addHeartBeatMessage(std::unique_ptr<HeartBeatMessage> message,
-                                                       const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
         void ClusterManagerModule::triggerEvent(ClusterEvent event) {
             auto it = this->eventCallbacks.find(event.getEventType());
             while (it != this->eventCallbacks.end()) {
