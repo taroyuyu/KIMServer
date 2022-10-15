@@ -7,15 +7,15 @@
 #include <arpa/inet.h>
 #include <log4cxx/logger.h>
 #include <log4cxx/basicconfigurator.h>
-#include "President.h"
-#include "../Common/KakaIMMessageAdapter.h"
-#include "ClusterManagerModule/ClusterManagerModule.h"
-#include "ServerRelayModule/ServerRelayModule.h"
-#include "UserStateManagerModule/UserStateManagerModule.h"
-#include "MessageIDGenerateModule/MessageIDGenerateModule.h"
-#include "NodeLoadBlanceModule/NodeLoadBlanceModule.h"
-#include "../Common/yaml-cpp/include/yaml.h"
-#include "Log/log.h"
+#include <President/President.h>
+#include <Common/KakaIMMessageAdapter.h>
+#include <President/ClusterManagerModule/ClusterManagerModule.h>
+#include <President/ServerRelayModule/ServerRelayModule.h>
+#include <President/UserStateManagerModule/UserStateManagerModule.h>
+#include <President/MessageIDGenerateModule/MessageIDGenerateModule.h>
+#include <President/NodeLoadBlanceModule/NodeLoadBlanceModule.h>
+#include <Common/yaml-cpp/include/yaml.h>
+#include <President/Log/log.h>
 #include <iostream>
 
 namespace kakaIM {
@@ -150,63 +150,47 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(
                     RequestJoinClusterMessage::default_instance().GetTypeName(),
                     [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
-			this->mClusterManagerModulePtr->addRequestJoinClusterMessage(std::move(std::unique_ptr<RequestJoinClusterMessage>((RequestJoinClusterMessage*)message.get())),
-                                                                           connectionIdentifier);
-                        message.release();
+			this->mClusterManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
                     });
             this->mMessageCenterModulePtr->setMessageHandler(HeartBeatMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mClusterManagerModulePtr->addHeartBeatMessage(std::move(std::unique_ptr<HeartBeatMessage>((HeartBeatMessage*)message.get())),
-                                                                                                                              connectionIdentifier);
-                        				            message.release();
+								    this->mClusterManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
                                                              });
             this->mMessageCenterModulePtr->setMessageHandler(UserOnlineStateMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mUserStateManagerModulePtr->addUserOnlineStateMessage(std::move(std::unique_ptr<UserOnlineStateMessage>((UserOnlineStateMessage*)message.get())),
-                                                                                                                     connectionIdentifier);
-                        				 	    message.release();
+								    this->mUserStateManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
                                                              });
 
             this->mMessageCenterModulePtr->setMessageHandler(
                     UpdateUserOnlineStateMessage::default_instance().GetTypeName(),
                     [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
-			this->mUserStateManagerModulePtr->addUpdateUserOnlineStateMessage(std::move(std::unique_ptr<UpdateUserOnlineStateMessage>((UpdateUserOnlineStateMessage*)message.get())),
-                                                                                    connectionIdentifier);
-                        message.release();
+			this->mUserStateManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
                     });
 
             this->mMessageCenterModulePtr->setMessageHandler(RequestMessageIDMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mMessageIDGenerateModulePtr->addRequestMessageIDMessage(std::move(std::unique_ptr<RequestMessageIDMessage>((RequestMessageIDMessage*)message.get())),
-                                                                                                                                   connectionIdentifier);
-	                        			 	    message.release();
+								    this->mMessageIDGenerateModulePtr->addMessage(std::move(message),connectionIdentifier);
                                                              });
 
             this->mMessageCenterModulePtr->setMessageHandler(ServerMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mServerRelayModulePtr->addServerMessage(std::move(std::unique_ptr<ServerMessage>((ServerMessage*)message.get())),
-                                                                                                                               connectionIdentifier);
-                       						     message.release();
+								    this->mServerRelayModulePtr->addMessage(std::move(message),connectionIdentifier);
                                                              });
 
             this->mMessageCenterModulePtr->setMessageHandler(NodeLoadInfoMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-							            this->mNodeLoadBlanceModulePtr->addNodeLoadInfoMessage(std::move(std::unique_ptr<NodeLoadInfoMessage>((NodeLoadInfoMessage*)message.get())),
-                                                                                                               connectionIdentifier);
-                        					    message.release();
+							            this->mNodeLoadBlanceModulePtr->addMessage(std::move(message),connectionIdentifier);
                                                              });
 
             this->mMessageCenterModulePtr->setMessageHandler(RequestNodeMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mNodeLoadBlanceModulePtr->addRequestNodeMessage(std::move(std::unique_ptr<RequestNodeMessage>((RequestNodeMessage*)message.get())),
-                                                                                                                        connectionIdentifier);
-								    message.release();
+								    this->mNodeLoadBlanceModulePtr->addMessage(std::move(message),connectionIdentifier);
                                                              });
 
 //            //分发事件

@@ -2,8 +2,7 @@
 // Created by Kakawater on 2018/3/8.
 //
 
-#include "GroupChatModule.h"
-
+#include <Client/GroupChatModule/GroupChatModule.h>
 
 namespace kakaIM {
     namespace client {

@@ -5,45 +5,57 @@
 #ifndef KAKAIMCLUSTER_KIMMODULE_H
 #define KAKAIMCLUSTER_KIMMODULE_H
 
+#include <memory>
+#include <string>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
+#include <google/protobuf/message.h>
+#include "ConcurrentQueue/ConcurrentLinkedQueue.h"
+#include "KIMDBConfig.h"
 
 namespace kakaIM {
     namespace common {
         class KIMModule {
         public:
-            KIMModule(): m_isStarted(false)
-            {
-
+            KIMModule() : m_status(Status::Stopped) {
             }
-	    /**
-             * @description 对模块进行初始化
-             * @return 模块初始化成功，则返回true,失败则返回false
-             */
-            virtual bool init() = 0;
-            /**
-            * @description 启动
-            */
+
+            virtual bool init();
+
             virtual void start();
 
-            /**
-             * @description 停止
-             */
             virtual void stop();
 
-            /**
-             * @description 重启
-             */
-            virtual void restart()
-            {
+            virtual void restart() {
                 this->stop();
                 this->start();
             }
 
+            virtual void
+            addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier);
+
+            virtual void setDBConfig(const KIMDBConfig &dbConfig);
+
         protected:
             virtual void execute() = 0;
+
+            virtual void shouldStop() = 0;
+
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            KIMDBConfig dbConfig;
         protected:
             std::thread m_workThread;
-            bool m_isStarted;
+            enum class Status : int {
+                Stopped,
+                Starting,
+                Started,
+                Stopping,
+            };
+            std::atomic<Status> m_status;
+            std::mutex m_statusMutex;
+            std::condition_variable m_statusCV;
         };
     }
 }

@@ -3,296 +3,71 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
-#include "GroupChatModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../Log/log.h"
-#include "../../Common/util/Date.h"
+#include <Node/GroupChatModule/GroupChatModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <Node/Log/log.h>
+#include <Common/util/Date.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
 
-        GroupChatModule::GroupChatModule() : mEpollInstance(-1), messageEventfd(-1),m_dbConnection(nullptr) {
-            this->logger = log4cxx::Logger::getLogger(GroupChatModuleLogger);
+        GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger){
         }
 
-        GroupChatModule::~GroupChatModule() {
-            if (this->m_dbConnection && this->m_dbConnection->is_open()) {
-                this->m_dbConnection->disconnect();
+        void GroupChatModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
+            if (task.first->GetTypeName() ==
+                kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName()) {
+                this->handleChatGroupCreateRequestMessage(
+                        *(kakaIM::Node::ChatGroupCreateRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName()) {
+                this->handleChatGroupDisbandRequestMessage(
+                        *(kakaIM::Node::ChatGroupDisbandRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName()) {
+                this->handleChatGroupJoinRequestMessage(
+                        *(kakaIM::Node::ChatGroupJoinRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName()) {
+                this->handleChatGroupJoinResponseMessage(
+                        *(kakaIM::Node::ChatGroupJoinResponse *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName()) {
+                this->handleChatGroupQuitRequestMessage(
+                        *(kakaIM::Node::ChatGroupQuitRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName()) {
+                this->handleUpdateChatGroupInfoRequestMessage(
+                        *(kakaIM::Node::UpdateChatGroupInfoRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName()) {
+                this->handleFetchChatGroupInfoRequestMessage(
+                        *(kakaIM::Node::FetchChatGroupInfoRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName()) {
+                this->handleFetchChatGroupMemberListRequestMessage(
+                        *(kakaIM::Node::FetchChatGroupMemberListRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName()) {
+                this->handleFetchChatGroupListRequestMessage(
+                        *(kakaIM::Node::FetchChatGroupListRequest *) task.first.get(),
+                        task.second);
+            } else if (task.first->GetTypeName() ==
+                       kakaIM::Node::GroupChatMessage::default_instance().GetTypeName()) {
+                this->handleGroupChatMessage(
+                        *(kakaIM::Node::GroupChatMessage *) task.first.get(),
+                        task.second);
             }
-        }
-
-        bool GroupChatModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            //向Epill实例注册messageEventfd,clusterMessageEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        void GroupChatModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
-        void GroupChatModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void GroupChatModule::execute() {
-            while (this->m_isStarted) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,__FUNCTION__<<" 等待Epil实例上的事件出错，errno ="<<errno);
-                }
-
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    if (pairIt.first->GetTypeName() ==
-                                        kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName()) {
-                                        this->handleChatGroupCreateRequestMessage(
-                                                *(kakaIM::Node::ChatGroupCreateRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName()) {
-                                        this->handleChatGroupDisbandRequestMessage(
-                                                *(kakaIM::Node::ChatGroupDisbandRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName()) {
-                                        this->handleChatGroupJoinRequestMessage(
-                                                *(kakaIM::Node::ChatGroupJoinRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName()) {
-                                        this->handleChatGroupJoinResponseMessage(
-                                                *(kakaIM::Node::ChatGroupJoinResponse *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName()) {
-                                        this->handleChatGroupQuitRequestMessage(
-                                                *(kakaIM::Node::ChatGroupQuitRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName()) {
-                                        this->handleUpdateChatGroupInfoRequestMessage(
-                                                *(kakaIM::Node::UpdateChatGroupInfoRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName()) {
-                                        this->handleFetchChatGroupInfoRequestMessage(
-                                                *(kakaIM::Node::FetchChatGroupInfoRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName()) {
-                                        this->handleFetchChatGroupMemberListRequestMessage(
-                                                *(kakaIM::Node::FetchChatGroupMemberListRequest *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName()) {
-                                        this->handleFetchChatGroupListRequestMessage(
-                                                *(kakaIM::Node::FetchChatGroupListRequest *) pairIt.first.get(), pairIt.second);
-                                    } else if (pairIt.first->GetTypeName() ==
-                                               kakaIM::Node::GroupChatMessage::default_instance().GetTypeName()) {
-                                        this->handleGroupChatMessage(*(kakaIM::Node::GroupChatMessage *) pairIt.first.get(),
-                                                                     pairIt.second);
-                                    }
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger,
-                                             typeid(this).name() << "::" << __FUNCTION__ << " read(messageEventfd)出错，返回值,errno="
-                                                                 << errno);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        void GroupChatModule::setQueryUserAccountWithSessionService(
-                std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
-            this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
-        }
-
-        void GroupChatModule::setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) {
-            this->mMessageSendServicePtr = messageSendServicePtr;
-        }
-
-        void GroupChatModule::setClusterService(std::weak_ptr<ClusterService> service){
-            this->mClusterServicePtr = service;
-        }
-        void GroupChatModule::setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service) {
-            this->mMessagePersistenceServicePtr = service;
-        }
-
-        void GroupChatModule::setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service) {
-            this->mMessageIDGenerateServicePtr = service;
-        }
-
-        void GroupChatModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
-            this->mLoginDeviceQueryServicePtr = service;
-        }
-
-        void GroupChatModule::setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service) {
-            this->mQueryConnectionWithSessionServicePtr = service;
-        }
-
-        void GroupChatModule::addChatGroupCreateRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupCreateRequest> message,
-                                                               const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-
-        }
-
-        void GroupChatModule::addChatGroupDisbandRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupDisbandRequest> message,
-                                                                const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void GroupChatModule::addChatGroupJoinRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupJoinRequest> message,
-                                                             const std::string connectionIdentifier) {
-	    if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void GroupChatModule::addChatGroupJoinResponseMessage(std::unique_ptr<kakaIM::Node::ChatGroupJoinResponse> message,
-                                                              const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void GroupChatModule::addChatGroupQuitRequestMessage(std::unique_ptr<kakaIM::Node::ChatGroupQuitRequest> message,
-                                                             const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void
-        GroupChatModule::addUpdateChatGroupInfoRequestMessage(std::unique_ptr<kakaIM::Node::UpdateChatGroupInfoRequest> message,
-                                                              const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void
-        GroupChatModule::addFetchChatGroupInfoRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupInfoRequest> message,
-                                                             const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void GroupChatModule::addFetchChatGroupMemberListRequestMessage(
-                std::unique_ptr<kakaIM::Node::FetchChatGroupMemberListRequest> message, const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void
-        GroupChatModule::addFetchChatGroupListRequestMessage(std::unique_ptr<kakaIM::Node::FetchChatGroupListRequest> message,
-                                                             const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void GroupChatModule::addGroupChatMessage(std::unique_ptr<kakaIM::Node::GroupChatMessage> message,
-                                                  const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
         }
 
         void GroupChatModule::handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,
@@ -302,14 +77,15 @@ namespace kakaIM {
             std::string groupDescription = message.groupdescrption();
             kakaIM::Node::ChatGroupCreateResponse chatGroupCreateResponse;
             chatGroupCreateResponse.set_sessionid(message.sessionid());
-	    if (message.has_sign()){
+            if (message.has_sign()) {
                 chatGroupCreateResponse.set_sign(message.sign());
             }
             if (auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock()) {
                 std::string userAccount = queryUserAccountService->queryUserAccountWithSession(message.sessionid());
                 auto dbConnection = this->getDBConnection();
                 if (!dbConnection) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败" << errno);
+                    LOG4CXX_ERROR(this->logger,
+                                  typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败" << errno);
                     //异常处理
                     chatGroupCreateResponse.set_result(
                             kakaIM::Node::ChatGroupCreateResponse_ChatGroupCreateResponseResult_Failed);
@@ -322,12 +98,12 @@ namespace kakaIM {
 
                 const std::string CreateGroupSQLStatement = "CreateGroupSQL";
                 const std::string createGroupSQL = "INSERT INTO group_info (group_id,group_name, group_descrption, group_master) "
-                        "VALUES (DEFAULT,$1,$2,$3) RETURNING group_id;";
+                                                   "VALUES (DEFAULT,$1,$2,$3) RETURNING group_id;";
                 const std::string AddGroupManagerSQLStatement = "AddGroupManagerSQL";
                 const std::string addGroupManagerSQL = "INSERT INTO group_manager (group_id,userAccount) VALUES($1,$2);";
                 const std::string AddGroupMemberSQLStatement = "AddGroupMemberSQL";
                 const std::string addGroupMemberSQL = "INSERT INTO group_member (user_account,groupid) "
-                        "VALUES ( $1,$2);";
+                                                      "VALUES ( $1,$2);";
 
                 try {
                     //开启事务
@@ -344,10 +120,10 @@ namespace kakaIM {
 
                     std::string groupId = r[0][0].as<std::string>();
 
-		    auto addGroupManagerSQLStatementInvocation = dbWork.prepared(AddGroupManagerSQLStatement);
-		    if(!addGroupManagerSQLStatementInvocation.exists()){
-		        dbConnection->prepare(AddGroupManagerSQLStatement,addGroupManagerSQL);
-		    }
+                    auto addGroupManagerSQLStatementInvocation = dbWork.prepared(AddGroupManagerSQLStatement);
+                    if (!addGroupManagerSQLStatementInvocation.exists()) {
+                        dbConnection->prepare(AddGroupManagerSQLStatement, addGroupManagerSQL);
+                    }
 
                     r = addGroupManagerSQLStatementInvocation(groupId)(userAccount).exec();
 
@@ -366,7 +142,8 @@ namespace kakaIM {
                             kakaIM::Node::ChatGroupCreateResponse_ChatGroupCreateResponseResult_Success);
 
                 } catch (const std::exception &e) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << " 创建聊天群失败," << e.what());
+                    LOG4CXX_ERROR(this->logger,
+                                  typeid(this).name() << "::" << __FUNCTION__ << " 创建聊天群失败," << e.what());
                     chatGroupCreateResponse.set_result(
                             kakaIM::Node::ChatGroupCreateResponse_ChatGroupCreateResponseResult_Failed);
                 }
@@ -389,14 +166,15 @@ namespace kakaIM {
             chatGroupDisbandResponse.set_sessionid(message.sessionid());
             chatGroupDisbandResponse.set_groupid(groupId);
             chatGroupDisbandResponse.set_operatorid(operatorId);
-	    if (message.has_sign()){
+            if (message.has_sign()) {
                 chatGroupDisbandResponse.set_sign(message.sign());
             }
             if (auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock()) {
                 std::string userAccount = queryUserAccountService->queryUserAccountWithSession(message.sessionid());
                 auto dbConnection = this->getDBConnection();
                 if (!dbConnection) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败" << errno);
+                    LOG4CXX_ERROR(this->logger,
+                                  typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败" << errno);
                     //异常处理
                     chatGroupDisbandResponse.set_result(
                             kakaIM::Node::ChatGroupDisbandResponse_ChatGroupDisbandResponseResult_Failed);
@@ -448,7 +226,8 @@ namespace kakaIM {
                             kakaIM::Node::ChatGroupDisbandResponse_ChatGroupDisbandResponseResult_Success);
 
                 } catch (const std::exception &e) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << " 解散聊天群失败," << e.what());
+                    LOG4CXX_ERROR(this->logger,
+                                  typeid(this).name() << "::" << __FUNCTION__ << " 解散聊天群失败," << e.what());
                     chatGroupDisbandResponse.set_result(
                             kakaIM::Node::ChatGroupDisbandResponse_ChatGroupDisbandResponseResult_Failed);
                 }
@@ -466,11 +245,11 @@ namespace kakaIM {
 
         std::pair<bool, uint64_t>
         GroupChatModule::persistChatGroupJoinApplication(const std::string applicant, const std::string group_id,
-                                                         const std::string introduction,std::string & submissionTime) {
+                                                         const std::string introduction, std::string &submissionTime) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
             static const std::string PersistChatGroupJoinApplicationStatement = "PersistChatGroupJoinApplication";
             static const std::string persistChatGroupJoinApplicationSQL = "INSERT INTO group_join_applications (applicant,group_id,introduction,state,submission_time)"
-                    "VALUES ($1,$2,$3,'Pending',now()) RETURNING applicant_id,submission_time;";
+                                                                          "VALUES ($1,$2,$3,'Pending',now()) RETURNING applicant_id,submission_time;";
             uint64_t applicant_id = 0;
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
@@ -506,7 +285,8 @@ namespace kakaIM {
 
             } catch (const std::exception &exception) {
                 LOG4CXX_WARN(this->logger,
-                             typeid(this).name() << "::" << __FUNCTION__ << " 将聊天群加入申请保存到数据库失败，" << exception.what());
+                             typeid(this).name() << "::" << __FUNCTION__ << " 将聊天群加入申请保存到数据库失败，"
+                                                 << exception.what());
                 return std::make_pair(false, 0);
             }
 
@@ -521,7 +301,8 @@ namespace kakaIM {
             std::list<std::string> managerlist;
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败" << errno);
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败" << errno);
                 //异常处理
                 return managerlist;
             }
@@ -547,7 +328,8 @@ namespace kakaIM {
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "::" << __FUNCTION__ << " 查询聊天群的管理员列表失败," << exception.what());
+                              typeid(this).name() << "::" << __FUNCTION__ << " 查询聊天群的管理员列表失败,"
+                                                  << exception.what());
             }
 
             return managerlist;
@@ -586,7 +368,8 @@ namespace kakaIM {
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "::" << __FUNCTION__ << "验证聊天群管理员权限失败，" << exception.what());
+                              typeid(this).name() << "::" << __FUNCTION__ << "验证聊天群管理员权限失败，"
+                                                  << exception.what());
             }
 
             return flag;
@@ -604,7 +387,7 @@ namespace kakaIM {
             bool flag = false;
             const std::string AddGroupMemberSQLStatement = "AddGroupMemberSQL";
             const std::string addGroupMemberSQL = "INSERT INTO group_member (user_account,groupid) "
-                    "VALUES ($1,$2);";
+                                                  "VALUES ($1,$2);";
 
             try {
                 //开启事务
@@ -625,7 +408,8 @@ namespace kakaIM {
                 }
 
             } catch (const std::exception &e) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << " 将用户加入聊天群失败," << e.what());
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "::" << __FUNCTION__ << " 将用户加入聊天群失败," << e.what());
             }
 
             return flag;
@@ -639,13 +423,13 @@ namespace kakaIM {
             chatGroupJoinResponse.set_sessionid(message.sessionid());
             chatGroupJoinResponse.set_useraccount(message.useraccount());
             chatGroupJoinResponse.set_groupid(groupId);
-std::cout<<__FUNCTION__<<std::endl;
+            std::cout << __FUNCTION__ << std::endl;
 
             if (auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock()) {
                 const std::string userAccount = queryUserAccountService->queryUserAccountWithSession(
                         message.sessionid());
                 if (message.has_operatorid()) {//由管理员提出申请
-std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
+                    std::cout << __FUNCTION__ << "由管理员提出申请" << std::endl;
 
                     chatGroupJoinResponse.set_operatorid(message.operatorid());
 
@@ -662,7 +446,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                     }
 
                     //2.检验用户是否具备管理员权限
-                    std::cout<<__FUNCTION__<<"operatorAccount="<<operatorAccount<<std::endl;
+                    std::cout << __FUNCTION__ << "operatorAccount=" << operatorAccount << std::endl;
                     if (false == this->validateChatGroupManager(groupId, operatorAccount)) {//不具备管理员工权限
                         chatGroupJoinResponse.set_result(
                                 kakaIM::Node::ChatGroupJoinResponse_ChatGroupJoinResponseResult_AuthorizationNotMath);
@@ -674,7 +458,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                     }
 
                     //3.将用户加入聊天群
-                    std::cout<<"将"<<message.useraccount()<<"加入聊天群"<<std::endl;
+                    std::cout << "将" << message.useraccount() << "加入聊天群" << std::endl;
                     const std::string targetUserAccount = message.useraccount();
                     if (this->addUserToCharGroup(targetUserAccount, groupId)) {//加入成功
                         chatGroupJoinResponse.set_result(
@@ -702,7 +486,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                     //1.将此申请记录保存到数据库
                     std::string submissionTime;
                     auto resultPair = this->persistChatGroupJoinApplication(userAccount, groupId,
-                                                                            message.introduction(),submissionTime);
+                                                                            message.introduction(), submissionTime);
                     submissionTime = kaka::Date(submissionTime).toString();
 
                     if (!resultPair.first) {
@@ -729,12 +513,12 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                     if (message.has_introduction()) {
                         joinRequest.set_introduction(message.introduction());
                     }
-                    for (auto managerAccount : managerList) {
+                    for (auto managerAccount: managerList) {
                         messageSendService->sendMessageToUser(managerAccount, joinRequest);
                     }
-		    //2.3将申请发送给发送端
-		    if (auto connectionOperationService = this->connectionOperationServicePtr.lock()){
-                        connectionOperationService->sendMessageThroughConnection(connectionIdentifier,joinRequest);
+                    //2.3将申请发送给发送端
+                    if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
+                        connectionOperationService->sendMessageThroughConnection(connectionIdentifier, joinRequest);
                     }
                     return;
                 }
@@ -793,17 +577,18 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                     application.group_id = row[row.column_number("group_id")].as<uint64_t>();
                     const std::string applicationState = row[row.column_number("state")].as<std::string>();
                     if (applicationState == "Pending") {
-                        application.state = GroupJoinApplicationState_Pending;
+                        application.state = GroupJoinApplicationState::Pending;
                     } else if (applicationState == "Allow") {
-                        application.state = GroupJoinApplicationState_Allow;
+                        application.state = GroupJoinApplicationState::Allow;
                     } else if (applicationState == "Reject") {
-                        application.state = GroupJoinApplicationState_Reject;
+                        application.state = GroupJoinApplicationState::Reject;
                     }
                     flag = true;
                 }
 
             } catch (const std::exception &e) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "查询聊天群加入申请失败," << e.what());
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "::" << __FUNCTION__ << "查询聊天群加入申请失败," << e.what());
             }
 
             return std::make_pair(flag, application);
@@ -818,15 +603,15 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
             std::string applicationState;
 
             switch (state) {
-                case GroupJoinApplicationState_Pending: {
+                case GroupJoinApplicationState::Pending: {
                     applicationState = "Pending";
                 }
                     break;
-                case GroupJoinApplicationState_Allow: {
+                case GroupJoinApplicationState::Allow: {
                     applicationState = "Allow";
                 }
                     break;
-                case GroupJoinApplicationState_Reject: {
+                case GroupJoinApplicationState::Reject: {
                     applicationState = "Reject";
                 }
                     break;
@@ -863,7 +648,8 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                 }
             } catch (const std::exception &e) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "::" << __FUNCTION__ << " 更新聊天群加入申请的状态失败," << e.what());
+                              typeid(this).name() << "::" << __FUNCTION__ << " 更新聊天群加入申请的状态失败,"
+                                                  << e.what());
             }
 
             return flag;
@@ -879,7 +665,8 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
 
             if (!queryUserAccountService) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "::" << __FUNCTION__ << " 执行失败，由于queryUserAccountService不存在");
+                              typeid(this).name() << "::" << __FUNCTION__
+                                                  << " 执行失败，由于queryUserAccountService不存在");
                 return;;
             }
 
@@ -905,7 +692,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                 return;;
             }
 
-            if (recordPair.second.state != GroupJoinApplicationState_Pending) {//此申请记录已经受理
+            if (recordPair.second.state != GroupJoinApplicationState::Pending) {//此申请记录已经受理
                 return;
             }
 
@@ -914,12 +701,12 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                 //将用户加入聊天群
                 if (this->addUserToCharGroup(applicant, groupId)) {
                     //更新此申请记录的状态
-                    this->updateGroupJoinApplicationState(applicant_id, GroupJoinApplicationState_Allow);
+                    this->updateGroupJoinApplicationState(applicant_id, GroupJoinApplicationState::Allow);
                 }
             } else if (message.result() ==
                        Node::ChatGroupJoinResponse_ChatGroupJoinResponseResult_Reject) {//拒绝将此用户加入聊天群
                 //更新此申请记录的状态
-                this->updateGroupJoinApplicationState(applicant_id, GroupJoinApplicationState_Reject);
+                this->updateGroupJoinApplicationState(applicant_id, GroupJoinApplicationState::Reject);
             }
 
             //5.通知申请者
@@ -936,7 +723,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
             chatGroupQuitResponse.set_sessionid(message.sessionid());
             chatGroupQuitResponse.set_useraccount(message.useraccount());
             chatGroupQuitResponse.set_groupid(groupId);
-	    if (message.has_sign()){
+            if (message.has_sign()) {
                 chatGroupQuitResponse.set_sign(message.sign());
             }
             if (auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock()) {
@@ -964,7 +751,8 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
 
                     auto dbConnection = this->getDBConnection();
                     if (!dbConnection) {
-                        LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败");
+                        LOG4CXX_ERROR(this->logger,
+                                      typeid(this).name() << "::" << __FUNCTION__ << "获取数据库连接失败");
                         //异常处理
                         chatGroupQuitResponse.set_result(
                                 kakaIM::Node::ChatGroupQuitResponse_ChatGroupQuitResponseResult_Failed);
@@ -1021,7 +809,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
             kakaIM::Node::UpdateChatGroupInfoResponse updateChatGroupInfoResponse;
             updateChatGroupInfoResponse.set_sessionid(message.sessionid());
             updateChatGroupInfoResponse.set_groupid(groupId);
-	    if (message.has_sign()){
+            if (message.has_sign()) {
                 updateChatGroupInfoResponse.set_sign(message.sign());
             }
             if (auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock()) {
@@ -1172,7 +960,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
             kakaIM::Node::FetchChatGroupMemberListResponse fetchChatGroupMemberListResponse;
             fetchChatGroupMemberListResponse.set_sessionid(message.sessionid());
             fetchChatGroupMemberListResponse.set_groupid(groupId);
-	    if (message.has_sign()){
+            if (message.has_sign()) {
                 fetchChatGroupMemberListResponse.set_sign(message.sign());
             }
             //1.判断此用户是否在此群中
@@ -1222,7 +1010,8 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                         kakaIM::Node::FetchChatGroupMemberListResponse_FetchChatGroupMemberListResponseResult_Success);
 
             } catch (const std::exception &e) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "获取群成员列表失败," << e.what());
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "::" << __FUNCTION__ << "获取群成员列表失败," << e.what());
                 fetchChatGroupMemberListResponse.set_result(
                         kakaIM::Node::FetchChatGroupMemberListResponse_FetchChatGroupMemberListResponseResult_Failed);
             }
@@ -1303,7 +1092,8 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
             const std::string resultAccount = queryUserAccountService->queryUserAccountWithSession(message.sessionid());
             if (senderAccount != resultAccount) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__
-                                                                << "用户账号不匹配,senderAccount="<<senderAccount<<" resultAccount="<<resultAccount);
+                                                                << "用户账号不匹配,senderAccount=" << senderAccount
+                                                                << " resultAccount=" << resultAccount);
                 return;
             }
 
@@ -1344,7 +1134,8 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                 //提交
                 dbWork.commit();
             } catch (const std::exception &e) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "查询群成员列表失败," << e.what());
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "::" << __FUNCTION__ << "查询群成员列表失败," << e.what());
             }
 
             LOG4CXX_TRACE(this->logger, typeid(this).name() << "::" << __FUNCTION__ << " 被调用");
@@ -1356,7 +1147,7 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
                 kakaIM::Node::GroupChatMessage groupChatMessage(message);
                 groupChatMessage.set_msgid(messageID);
 
-                for (auto groupMember : groupMemeberList) {
+                for (auto groupMember: groupMemeberList) {
                     auto pair = loginDeviceQueryService->queryLoginDeviceSetWithUserAccount(groupMember);
                     for (auto it = pair.first; it != pair.second; ++it) {
                         if (Node::OnlineStateMessage_OnlineState_Offline != it->second) {
@@ -1388,32 +1179,6 @@ std::cout<<__FUNCTION__<<"由管理员提出申请"<<std::endl;
 
         }
 
-        std::shared_ptr<pqxx::connection> GroupChatModule::getDBConnection() {
-            if (this->m_dbConnection) {
-                return this->m_dbConnection;
-            }
-
-            const std::string postgrelConnectionUrl =
-                    "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
-                    this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                    std::to_string(this->dbConfig.getPort());
-
-            try {
-
-                this->m_dbConnection = std::make_shared<pqxx::connection>(postgrelConnectionUrl);
-
-                if (!this->m_dbConnection->is_open()) {
-                    LOG4CXX_FATAL(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "打开数据库失败");
-                }
-
-
-            } catch (const std::exception &exception) {
-                LOG4CXX_FATAL(this->logger,
-                              typeid(this).name() << "::" << __FUNCTION__ << "连接数据库异常," << exception.what());
-            }
-
-            return this->m_dbConnection;
-        }
     }
 }
 

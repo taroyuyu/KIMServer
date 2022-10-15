@@ -7,7 +7,7 @@
 
 #include <google/protobuf/message.h>
 #include <list>
-#include "../SessionModule/SessionModule.h"
+#include <Client/SessionModule/SessionModule.h>
 namespace kakaIM {
     namespace client {
         class SessionModule;

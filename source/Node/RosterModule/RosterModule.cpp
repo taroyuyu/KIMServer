@@ -3,209 +3,54 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
-#include "RosterModule.h"
-#include "../Log/log.h"
-#include "../../Common/util/Date.h"
-#include "../../Common/proto/KakaIMRPC.pb.h"
+#include <Node/RosterModule/RosterModule.h>
+#include <Node/Log/log.h>
+#include <Common/util/Date.h>
+#include <Common/proto/KakaIMRPC.pb.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
-        RosterModule::RosterModule() : mEpollInstance(-1),messageEventfd(-1),m_dbConnection(nullptr) {
-            this->logger = log4cxx::Logger::getLogger(RosterModuleLogger);
+        RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger){
         }
 
-        RosterModule::~RosterModule() {
-            if (this->m_dbConnection && this->m_dbConnection->is_open()) {
-                this->m_dbConnection->disconnect();
-            }
-        }
-
-        bool RosterModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            //向Epill实例注册messageEventfd,clusterMessageEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-
-	    //创建AMQP信道
-	    this->mAmqpChannel = AmqpClient::Channel::Create("111.230.5.199",5672,"kakaIM-node","kakaIM-node_aixocm","KakaIM");
-
-            return true;
-        }
-
-        void RosterModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
-	void RosterModule::start() {
-            if (false == this->m_isStarted){
-                this->m_isStarted = true;
-                this->m_workThread = std::move(std::thread([this](){
-                    this->execute();
-                    this->m_isStarted = false;
-                }));
-                this->mRosterRPCWorkThread = std::move(std::thread([this](){
-                    this->rosterRPCListenerWork();
-                    this->m_isStarted = false;
-                }));
-            }
-        }
-
-        void RosterModule::execute() {
-            while (this->m_isStarted) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,__FUNCTION__<<" 等待Epil实例上的事件出错，errno ="<<errno);
-                }
-
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType ==
-                                        kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName()) {
-                                        handleBuildingRelationshipRequestMessage(
-                                                *(kakaIM::Node::BuildingRelationshipRequestMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName()) {
-                                        handleBuildingRelationshipAnswerMessage(
-                                                *(kakaIM::Node::BuildingRelationshipAnswerMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName()) {
-                                        handleDestroyingRelationshipRequestMessage(
-                                                *(kakaIM::Node::DestroyingRelationshipRequestMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName()) {
-                                        handleFriendListRequestMessage(
-                                                *(kakaIM::Node::FriendListRequestMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName()) {
-                                        handleFetchUserVCardMessage(*(kakaIM::Node::FetchUserVCardMessage *) pairIt.first.get(),
-                                                                    pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName()) {
-                                        handleUpdateUserVCardMessage(*(kakaIM::Node::UpdateUserVCardMessage *) pairIt.first.get(),
-                                                                     pairIt.second);
-                                    }
-                                }
-
-                            } else {
-                                LOG4CXX_WARN(this->logger,
-                                             typeid(this).name() << "" << __FUNCTION__ << "read(messageEventfd)操作出错，errno ="
-                                                                 << errno);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        void RosterModule::rosterRPCListenerWork(){
-            //配置AMQP信道
-            this->mAmqpChannel->DeclareExchange("KakaIMRPC");
-            this->mAmqpChannel->DeclareQueue("KakaIMRosterService",false,false,false,true);
-            this->mAmqpChannel->BindQueue("KakaIMRosterService","KakaIMRPC","KakaIMRPC_FriendList");
-            std::string consumer_tag = this->mAmqpChannel->BasicConsume("KakaIMRosterService","",true,false,false,1);
-            while (this->m_isStarted) {
-                AmqpClient::Envelope::ptr_t envelope = this->mAmqpChannel->BasicConsumeMessage(consumer_tag);
-                LOG4CXX_DEBUG(this->logger,typeid(this).name() << "" << __FUNCTION__ );
-                rpc::FriendListRequestMessage friendListRequestMessage;
-                friendListRequestMessage.ParseFromString(envelope->Message()->Body());
-                rpc::FriendListResponseMessage friendListResponseMessage;
-
-                friendListResponseMessage.set_useraccount(friendListRequestMessage.useraccount());
-                if(friendListRequestMessage.IsInitialized()){
-                    this->mAmqpChannel->BasicAck(envelope);
-                    const std::string userAccount = friendListRequestMessage.useraccount();
-                    const uint64_t peerCurrentVersion = friendListRequestMessage.currentversion();
-                    uint64_t currentVersion = 0;
-                    switch (this->fetchFriendListVersion(userAccount,currentVersion)){
-                        case FetchFriendListVersionResult_Success:
-                        {
-                            if(currentVersion > peerCurrentVersion){
-                                friendListResponseMessage.set_currentversion(currentVersion);
-                                std::set<std::string> friendList;
-                                if(FetchFriendListResult_Success == this->fetchFriendList(userAccount,friendList)){
-                                    friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Success);
-                                    friendListResponseMessage.set_currentversion(currentVersion);
-                                    for(std::string friendAccount : friendList){
-                                        friendListResponseMessage.add_friend_()->set_friendaccount(friendAccount);
-                                    }
-                                }else{
-                                    friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Failed);
-                                    friendListResponseMessage.set_failureerror(rpc::FriendListResponseMessage_FailureType_ServerInternalError);
-                                }
-
-                            }else{
-                                friendListResponseMessage.set_currentversion(currentVersion);
-                                friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_SuccessButNoNewChange);
-                            }
-                        }
-                            break;
-                        case FetchFriendListVersionResult_RecordNotExist:
-                        {
-                            friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Failed);
-                            friendListResponseMessage.set_failureerror(rpc::FriendListResponseMessage_FailureType_RecordNotExist);
-                        }
-                            break;
-                        case FetchFriendListVersionResult_DBConnectionNotExit:
-                        case FetchFriendListVersionResult_InteralError:
-                        default:{
-                            friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Failed);
-                            friendListResponseMessage.set_failureerror(rpc::FriendListResponseMessage_FailureType_ServerInternalError);
-                        }
-                            break;
-                    }
-                    AmqpClient::BasicMessage::ptr_t answerMessage = AmqpClient::BasicMessage::Create(friendListResponseMessage.SerializeAsString());
-                    answerMessage->ReplyTo(envelope->Message()->ReplyTo());
-                    answerMessage->CorrelationId(envelope->Message()->CorrelationId());
-                    this->mAmqpChannel->BasicPublish("KakaIMRPC",envelope->Message()->ReplyTo(),answerMessage);
-
-                }else{
-                    LOG4CXX_DEBUG(this->logger,typeid(this).name() << "" << __FUNCTION__<<" 消息格式不正确" );
-                    this->mAmqpChannel->BasicReject(envelope,false);
-                }
+        void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> &task) {
+            auto messageType = task.first->GetTypeName();
+            if (messageType ==
+                kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName()) {
+                handleBuildingRelationshipRequestMessage(
+                        *(kakaIM::Node::BuildingRelationshipRequestMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName()) {
+                handleBuildingRelationshipAnswerMessage(
+                        *(kakaIM::Node::BuildingRelationshipAnswerMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName()) {
+                handleDestroyingRelationshipRequestMessage(
+                        *(kakaIM::Node::DestroyingRelationshipRequestMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName()) {
+                handleFriendListRequestMessage(
+                        *(kakaIM::Node::FriendListRequestMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName()) {
+                handleFetchUserVCardMessage(*(kakaIM::Node::FetchUserVCardMessage *) task.first.get(),
+                                            task.second);
+            } else if (messageType ==
+                       kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName()) {
+                handleUpdateUserVCardMessage(*(kakaIM::Node::UpdateUserVCardMessage *) task.first.get(),
+                                             task.second);
             }
         }
 
         void RosterModule::handleBuildingRelationshipRequestMessage(
                 const kakaIM::Node::BuildingRelationshipRequestMessage &message,
                 const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             //1.查询SessionID对应的userAccount
             std::string userAccount = this->mQueryUserAccountWithSessionServicePtr.lock()->queryUserAccountWithSession(
                     message.sessionid());
@@ -220,7 +65,7 @@ namespace kakaIM {
             //3.将此申请保存到数据库
             const std::string AddUserRelationApplicationStatement = "AddUserRelationApplication";
             const std::string addUserRelationApplicationSQL = "INSERT INTO user_relation_applications (sponsor, target, state, submission_time, introduction, applicant_id)"
-                    "VALUES ($1, $2, 'Pending', now(), $3, DEFAULT)RETURNING applicant_id,submission_time;";
+                                                              "VALUES ($1, $2, 'Pending', now(), $3, DEFAULT)RETURNING applicant_id,submission_time;";
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
@@ -254,31 +99,34 @@ namespace kakaIM {
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << "将好友申请插入数据库失败," << exception.what());
+                              typeid(this).name() << "" << __FUNCTION__ << "将好友申请插入数据库失败,"
+                                                  << exception.what());
             }
 
             //4.发送此消息
             auto messageSendServicePtr = this->mMessageSendServicePtr.lock();
             if (messageSendServicePtr) {
-		//4.1发送给接收方
+                //4.1发送给接收方
                 messageSendServicePtr->sendMessageToUser(requestMessage.targetaccount(), requestMessage);
-		//4.2发送给发送方
-		messageSendServicePtr->sendMessageToUser(requestMessage.sponsoraccount(), requestMessage);
+                //4.2发送给发送方
+                messageSendServicePtr->sendMessageToUser(requestMessage.sponsoraccount(), requestMessage);
             } else {
-                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << "处理失败，由于不存在messageSendService");
+                LOG4CXX_WARN(this->logger,
+                             typeid(this).name() << "" << __FUNCTION__ << "处理失败，由于不存在messageSendService");
             }
         }
 
         bool
         RosterModule::checkUserRelationApplication(const std::string sponsorAccount, const std::string targetAccount,
                                                    const uint64_t applicantId) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             static const std::string CheckApplicantIdStatement = "CheckApplicantId";
             static const std::string checkApplicantIdSQL = "SELECT sponsor,target,state FROM user_relation_applications WHERE applicant_id = $1;";
 
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
-                LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 获取数据库连接失败" << errno);
+                LOG4CXX_ERROR(this->logger,
+                              typeid(this).name() << "" << __FUNCTION__ << " 获取数据库连接失败" << errno);
                 //异常处理
                 return false;;
             }
@@ -325,7 +173,7 @@ namespace kakaIM {
 
         }
 
-        std::list<std::string> RosterModule::retriveUserFriendList(const std::string userAccount){
+        std::list<std::string> RosterModule::retriveUserFriendList(const std::string userAccount) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
 
             static const std::string FetchUserFriendListStatement = "FetchUserFriendList";
@@ -360,15 +208,17 @@ namespace kakaIM {
 
             } catch (std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << " 查询用户"<<userAccount<<"的好友列表失败," << exception.what());
+                              typeid(this).name() << "" << __FUNCTION__ << " 查询用户" << userAccount << "的好友列表失败,"
+                                                  << exception.what());
             }
-            
+
             return friendList;
         }
 
         bool RosterModule::updateUserRelationApplicationState(const uint64_t applicantId,
-                                                              kakaIM::Node::BuildingRelationshipAnswerMessage_BuildingRelationshipAnswer answer,std::string &handleTime) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+                                                              kakaIM::Node::BuildingRelationshipAnswerMessage_BuildingRelationshipAnswer answer,
+                                                              std::string &handleTime) {
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             std::string state = "Pending";
             switch (answer) {
                 case Node::BuildingRelationshipAnswerMessage_BuildingRelationshipAnswer_Accept: {
@@ -386,7 +236,7 @@ namespace kakaIM {
 
             static const std::string UpdateUserRelationApplicationStateStatement = "UpdateUserRelationApplicationState";
             static const std::string updateUserRelationApplicationStateSQL = "UPDATE user_relation_applications SET state = $1 , handle_time = now() WHERE applicant_id = $2 RETURNING handle_time;";
-   
+
 
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
@@ -412,7 +262,7 @@ namespace kakaIM {
                 if (1 != result.affected_rows()) {
                     return false;
                 }
-   
+
                 handleTime = result[0][0].as<std::string>();
 
                 //提交事务
@@ -430,7 +280,7 @@ namespace kakaIM {
         void RosterModule::handleBuildingRelationshipAnswerMessage(
                 const kakaIM::Node::BuildingRelationshipAnswerMessage &message,
                 const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             kakaIM::Node::BuildingRelationshipAnswerMessage answerMessage(message);
             //1.查询SessionID对应的userAccount
             std::string userAccount = this->mQueryUserAccountWithSessionServicePtr.lock()->queryUserAccountWithSession(
@@ -439,14 +289,15 @@ namespace kakaIM {
             if (userAccount != answerMessage.targetaccount()) {
                 return;
             }//3.检查数据库中是否存在此applicationId
-            if (false == this->checkUserRelationApplication(answerMessage.sponsoraccount(), answerMessage.targetaccount(),
-                                                            answerMessage.applicant_id())) {
+            if (false ==
+                this->checkUserRelationApplication(answerMessage.sponsoraccount(), answerMessage.targetaccount(),
+                                                   answerMessage.applicant_id())) {
                 return;;
             }
             //4.设置好友申请状态
             std::string handleTime;
             this->updateUserRelationApplicationState(answerMessage.applicant_id(), answerMessage.answer(), handleTime);
- 	    handleTime = kaka::Date(handleTime).toString();
+            handleTime = kaka::Date(handleTime).toString();
 
             answerMessage.set_handletime(handleTime);
             switch (message.answer()) {
@@ -463,8 +314,8 @@ namespace kakaIM {
 
                     const std::string BuildRelationShipSQLStatement = "BuildRelationShipSQL";
                     const std::string buildRelationShipSQL = "INSERT INTO user_relationship "
-                            "(sponsor, target, relation, created_at) "
-                            "VALUES ($1,$2,'Friend',now())";
+                                                             "(sponsor, target, relation, created_at) "
+                                                             "VALUES ($1,$2,'Friend',now())";
 
                     try {
 
@@ -481,15 +332,15 @@ namespace kakaIM {
                         dbWork.commit();
 
                         if (1 == result.affected_rows()) {//好友关系建立成功
-			    uint64_t sponsorFriendListVersion = 0;
+                            uint64_t sponsorFriendListVersion = 0;
                             uint64_t targetFriendListVersion = 0;
-                            this->updateFriendListVersion(answerMessage.sponsoraccount(),sponsorFriendListVersion);
-                            this->updateFriendListVersion(answerMessage.targetaccount(),targetFriendListVersion);
-                            
+                            this->updateFriendListVersion(answerMessage.sponsoraccount(), sponsorFriendListVersion);
+                            this->updateFriendListVersion(answerMessage.targetaccount(), targetFriendListVersion);
+
                             auto messageSendServicePtr = this->mMessageSendServicePtr.lock();
                             if (messageSendServicePtr) {
-                                messageSendServicePtr->sendMessageToUser(answerMessage.targetaccount(),answerMessage);
-                                messageSendServicePtr->sendMessageToUser(answerMessage.sponsoraccount(),answerMessage);
+                                messageSendServicePtr->sendMessageToUser(answerMessage.targetaccount(), answerMessage);
+                                messageSendServicePtr->sendMessageToUser(answerMessage.sponsoraccount(), answerMessage);
                             } else {
 
                             }
@@ -498,7 +349,8 @@ namespace kakaIM {
                         }
                     } catch (const std::exception &exception) {
                         LOG4CXX_ERROR(this->logger,
-                                      typeid(this).name() << "" << __FUNCTION__ << "好友关系建立失败," << exception.what());
+                                      typeid(this).name() << "" << __FUNCTION__ << "好友关系建立失败,"
+                                                          << exception.what());
                     }
 
                 }
@@ -506,7 +358,7 @@ namespace kakaIM {
                 case kakaIM::Node::BuildingRelationshipAnswerMessage_BuildingRelationshipAnswer_Reject: {
                     auto messageSendServicePtr = this->mMessageSendServicePtr.lock();
                     if (messageSendServicePtr) {
-                        messageSendServicePtr->sendMessageToUser(answerMessage.sponsoraccount(),answerMessage);
+                        messageSendServicePtr->sendMessageToUser(answerMessage.sponsoraccount(), answerMessage);
                     } else {
 
                     }
@@ -519,11 +371,12 @@ namespace kakaIM {
             }
         }
 
-	RosterModule::UpdateFriendListVersionResult RosterModule::updateFriendListVersion(const std::string userAccount,uint64_t & currentVersion){
+        RosterModule::UpdateFriendListVersionResult
+        RosterModule::updateFriendListVersion(const std::string userAccount, uint64_t &currentVersion) {
             //1.查询用户当前的好友列表版本
             uint64_t friendListVersion = 0;
-            switch (this->fetchFriendListVersion(userAccount,friendListVersion)){
-                case FetchFriendListVersionResult_Success:{
+            switch (this->fetchFriendListVersion(userAccount, friendListVersion)) {
+                case FetchFriendListVersionResult::Success: {
                     static const std::string UpdateFriendListVersionStatement = "UpdateFriendListVersion";
                     static const std::string UpdateFriendListVersionSQL = "UPDATE friendlist_version SET current_version = (SELECT current_version FROM friendlist_version WHERE  user_account = $1) + 1 WHERE user_account = $1 RETURNING  current_version;";
 
@@ -531,7 +384,7 @@ namespace kakaIM {
                     if (!dbConnection) {
                         LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                         //异常处理
-                        return UpdateFriendListVersionResult_DBConnectionNotExit;
+                        return UpdateFriendListVersionResult::DBConnectionNotExit;
                     }
 
                     pqxx::work dbWork(*dbConnection);
@@ -544,16 +397,16 @@ namespace kakaIM {
                     pqxx::result result = updateFriendListVersionStatementInvocation(userAccount).exec();
                     dbWork.commit();
 
-                    if (result.affected_rows()){
+                    if (result.affected_rows()) {
                         currentVersion = result[0][0].as<uint64_t>();
-                        return UpdateFriendListVersionResult_Success;
-                    }else{
-                        return UpdateFriendListVersionResult_InteralError;
+                        return UpdateFriendListVersionResult::Success;
+                    } else {
+                        return UpdateFriendListVersionResult::InteralError;
                     }
 
                 }
                     break;
-                case FetchFriendListVersionResult_RecordNotExist:{
+                case FetchFriendListVersionResult::RecordNotExist: {
                     static const std::string AddFriendListVersionRecordStatement = "AddFriendListVersionRecord";
                     static const std::string AddFriendListVersionRecordSQL = "INSERT INTO friendlist_version (user_account, current_version) VALUES ($1,1)  RETURNING  current_version;";
 
@@ -561,11 +414,12 @@ namespace kakaIM {
                     if (!dbConnection) {
                         LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                         //异常处理
-                        return UpdateFriendListVersionResult_DBConnectionNotExit;
+                        return UpdateFriendListVersionResult::DBConnectionNotExit;
                     }
 
                     pqxx::work dbWork(*dbConnection);
-                    auto addFriendListVersionRecordStatementInvocation = dbWork.prepared(AddFriendListVersionRecordStatement);
+                    auto addFriendListVersionRecordStatementInvocation = dbWork.prepared(
+                            AddFriendListVersionRecordStatement);
                     if (!addFriendListVersionRecordStatementInvocation.exists()) {
                         dbConnection->prepare(AddFriendListVersionRecordStatement, AddFriendListVersionRecordSQL);
                     }
@@ -573,33 +427,34 @@ namespace kakaIM {
                     pqxx::result result = addFriendListVersionRecordStatementInvocation(userAccount).exec();
                     dbWork.commit();
 
-                    if (result.affected_rows()){
+                    if (result.affected_rows()) {
                         currentVersion = result[0][0].as<uint64_t>();
-                        return UpdateFriendListVersionResult_Success;
-                    }else{
-                        return UpdateFriendListVersionResult_InteralError;
+                        return UpdateFriendListVersionResult::Success;
+                    } else {
+                        return UpdateFriendListVersionResult::InteralError;
                     }
                 }
                     break;
 
-                case FetchFriendListVersionResult_DBConnectionNotExit:{
-                    return UpdateFriendListVersionResult_DBConnectionNotExit;
+                case FetchFriendListVersionResult::DBConnectionNotExit: {
+                    return UpdateFriendListVersionResult::DBConnectionNotExit;
                 }
-                case FetchFriendListVersionResult_InteralError:
-                default:{
-                    return UpdateFriendListVersionResult_InteralError;
+                case FetchFriendListVersionResult::InteralError:
+                default: {
+                    return UpdateFriendListVersionResult::InteralError;
                 }
             }
         }
 
-	RosterModule::FetchFriendListVersionResult  RosterModule::fetchFriendListVersion(const std::string userAccount,uint64_t & friendListVersion){
+        RosterModule::FetchFriendListVersionResult
+        RosterModule::fetchFriendListVersion(const std::string userAccount, uint64_t &friendListVersion) {
 
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return FetchFriendListVersionResult_DBConnectionNotExit;
+                return FetchFriendListVersionResult::DBConnectionNotExit;
             }
 
             try {
@@ -616,17 +471,18 @@ namespace kakaIM {
                 pqxx::result result = queryFriendListVersionStatementInvocation(userAccount).exec();
                 dbWork.commit();
 
-                if (result.size()){
+                if (result.size()) {
                     friendListVersion = result[0][0].as<uint64_t>();
-                    return FetchFriendListVersionResult_Success;
-                }else{
-                    return FetchFriendListVersionResult_RecordNotExist;
+                    return FetchFriendListVersionResult::Success;
+                } else {
+                    return FetchFriendListVersionResult::RecordNotExist;
                 }
 
             } catch (std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << " 查询用户"<<userAccount<<"的好友列表版本失败," << exception.what());
-                return FetchFriendListVersionResult_InteralError;
+                              typeid(this).name() << "" << __FUNCTION__ << " 查询用户" << userAccount << "的好友列表版本失败,"
+                                                  << exception.what());
+                return FetchFriendListVersionResult::InteralError;
             }
 
         }
@@ -634,11 +490,11 @@ namespace kakaIM {
         void RosterModule::handleDestroyingRelationshipRequestMessage(
                 const kakaIM::Node::DestroyingRelationshipRequestMessage &message,
                 const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             kakaIM::Node::DestoryingRelationshipResponseMessage responseMessage;
             responseMessage.set_sponsoraccount(message.sponsoraccount());
             responseMessage.set_targetaccount(message.targetaccount());
-	    if (message.has_sign()){
+            if (message.has_sign()) {
                 responseMessage.set_sign(message.sign());
             }
 
@@ -653,7 +509,7 @@ namespace kakaIM {
                 if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                     connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseMessage);
                 }
-                LOG4CXX_ERROR(this->logger,__FUNCTION__<<" connectionOperationService不存在");
+                LOG4CXX_ERROR(this->logger, __FUNCTION__ << " connectionOperationService不存在");
                 return;
             }
 
@@ -661,7 +517,6 @@ namespace kakaIM {
             const std::string destoryRelationShipSQL = "DELETE FROM user_relationship WHERE sponsor =  (SELECT sponsor FROM user_relationship WHERE (sponsor= $1 AND target= $2 ) OR (sponsor = $2  AND target= $1 ));";
 
             try {
-
                 auto dbConnection = this->getDBConnection();
                 if (!dbConnection) {
                     LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
@@ -686,10 +541,10 @@ namespace kakaIM {
 
                 dbWork.commit();
 
-	        uint64_t sponsorFriendListVersion = 0;
+                uint64_t sponsorFriendListVersion = 0;
                 uint64_t targetFriendListVersion = 0;
-                this->updateFriendListVersion(message.sponsoraccount(),sponsorFriendListVersion);
-                this->updateFriendListVersion(message.targetaccount(),targetFriendListVersion);
+                this->updateFriendListVersion(message.sponsoraccount(), sponsorFriendListVersion);
+                this->updateFriendListVersion(message.targetaccount(), targetFriendListVersion);
 
                 responseMessage.set_response(
                         kakaIM::Node::DestoryingRelationshipResponseMessage_DestoryingRelationshipResponse_Success);
@@ -699,7 +554,7 @@ namespace kakaIM {
                     messageSendServicePtr->sendMessageToUser(responseMessage.sponsoraccount(), responseMessage);
                     messageSendServicePtr->sendMessageToUser(responseMessage.targetaccount(), responseMessage);
                 } else {
-                    LOG4CXX_ERROR(this->logger,__FUNCTION__<<" messageSendServicePtr不存在");
+                    LOG4CXX_ERROR(this->logger, __FUNCTION__ << " messageSendServicePtr不存在");
                 }
 
             } catch (pqxx::sql_error exception) {//拆除失败
@@ -708,16 +563,16 @@ namespace kakaIM {
                 responseMessage.set_sessionid(message.sessionid());
                 if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                     connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseMessage);
-                }else{
-                    LOG4CXX_ERROR(this->logger,__FUNCTION__<<" connectionOperationService不存在");
+                } else {
+                    LOG4CXX_ERROR(this->logger, __FUNCTION__ << " connectionOperationService不存在");
                 }
             }
         }
 
-        RosterModule::FetchFriendListResult RosterModule::fetchFriendList(const std::string userAccount,std::set<std::string> & friendList)
-        {
+        RosterModule::FetchFriendListResult
+        RosterModule::fetchFriendList(const std::string userAccount, std::set<std::string> &friendList) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            
+
             const std::string QueryFriendListSQLStatement = "QueryFriendListSQL";
             const std::string queryFriendListSQL = "SELECT sponsor,target FROM user_relationship WHERE sponsor = $1 OR target = $1 ;";
 
@@ -727,7 +582,7 @@ namespace kakaIM {
                 if (!dbConnection) {
                     LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 获取数据库连接失败");
                     //异常处理
-                    return FetchFriendListResult_DBConnectionNotExit;
+                    return FetchFriendListResult::DBConnectionNotExit;
                 }
 
                 pqxx::work dbWork(*dbConnection);
@@ -749,13 +604,13 @@ namespace kakaIM {
                         }
                     }
                 }
-	        dbWork.commit();
+                dbWork.commit();
 
-                return FetchFriendListResult_Success;
+                return FetchFriendListResult::Success;
             } catch (std::exception &exception) {//查询失败
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << " 查询好友列表出错," << exception.what());
-                return FetchFriendListResult_InteralError;
+                return FetchFriendListResult::InteralError;
             }
 
         }
@@ -773,39 +628,36 @@ namespace kakaIM {
                 return;
             }
             uint64_t clientFriendListVersion = 0;
-            if (message.has_currentversion()){
+            if (message.has_currentversion()) {
                 clientFriendListVersion = message.currentversion();
             }
 
             kakaIM::Node::FriendListResponseMessage responseMessage;
             responseMessage.set_sessionid(message.sessionid());
 
-	    uint64_t currentVersion = 0;
-            switch (this->fetchFriendListVersion(userAccount,currentVersion)){
-                case FetchFriendListVersionResult_Success:
-                {
-                    if(currentVersion > clientFriendListVersion){
+            uint64_t currentVersion = 0;
+            switch (this->fetchFriendListVersion(userAccount, currentVersion)) {
+                case FetchFriendListVersionResult::Success: {
+                    if (currentVersion > clientFriendListVersion) {
                         std::set<std::string> friendList;
-                        if(FetchFriendListResult_Success == this->fetchFriendList(userAccount,friendList)){
-                            for (std::string friendAccount : friendList){
+                        if (FetchFriendListResult::Success == this->fetchFriendList(userAccount, friendList)) {
+                            for (std::string friendAccount: friendList) {
                                 auto friendItem = responseMessage.add_friend_();
                                 friendItem->set_friendaccount(friendAccount);
                             }
                         }
-
                     }
                 }
-                case FetchFriendListVersionResult_RecordNotExist:
-                {
+                case FetchFriendListVersionResult::RecordNotExist: {
                     responseMessage.set_currentversion(currentVersion);
                     if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                         connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseMessage);
                     }
                 }
                     break;
-                case FetchFriendListVersionResult_DBConnectionNotExit:
-                case FetchFriendListVersionResult_InteralError:
-                default:{
+                case FetchFriendListVersionResult::DBConnectionNotExit:
+                case FetchFriendListVersionResult::InteralError:
+                default: {
                 }
                     break;
             }
@@ -813,12 +665,12 @@ namespace kakaIM {
 
         void RosterModule::handleFetchUserVCardMessage(const kakaIM::Node::FetchUserVCardMessage &message,
                                                        const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             kakaIM::Node::UserVCardResponseMessage responseMessage;
             responseMessage.set_sessionid(message.sessionid());
 
-	    kaka::Date clientVersion = kaka::Date::getCurrentDate();
-            if (message.has_currentversion()){
+            kaka::Date clientVersion = kaka::Date::getCurrentDate();
+            if (message.has_currentversion()) {
                 clientVersion = kaka::Date(message.currentversion());
             }
 
@@ -859,15 +711,15 @@ namespace kakaIM {
                 ++field;
                 std::string userMood = field->c_str();
 
-		++field;
+                ++field;
                 kaka::Date mtime = kaka::Date(field->c_str());
 
-		responseMessage.set_userid(message.userid());
+                responseMessage.set_userid(message.userid());
                 responseMessage.set_currentversion(mtime.toString());
 
-                if (clientVersion == mtime){
+                if (clientVersion == mtime) {
 
-                }else{
+                } else {
                     responseMessage.set_nickname(userNickName);
                     responseMessage.set_gender(userGenderType);
                     responseMessage.set_mood(userMood);
@@ -880,14 +732,15 @@ namespace kakaIM {
 
             } catch (std::exception exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << " 查询用户:" << message.userid() << "的电子名片信息失败,"
+                              typeid(this).name() << "" << __FUNCTION__ << " 查询用户:" << message.userid()
+                                                  << "的电子名片信息失败,"
                                                   << exception.what());
             }
         }
 
         void RosterModule::handleUpdateUserVCardMessage(const kakaIM::Node::UpdateUserVCardMessage &message,
                                                         const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             auto queryUserAccountWithSessionServicePtr = this->mQueryUserAccountWithSessionServicePtr.lock();
             std::string userAccount;
             if (queryUserAccountWithSessionServicePtr) {
@@ -935,7 +788,7 @@ namespace kakaIM {
 
                 response.set_state(kakaIM::Node::UpdateUserVCardMessageResponse_UpdateUserVCardStateType_Success);
 
-            } catch (std::exception & exception) {
+            } catch (std::exception &exception) {
                 LOG4CXX_WARN(this->logger,
                              typeid(this).name() << "" << __FUNCTION__ << "更新用户电子名片失败," << exception.what());
                 response.set_state(kakaIM::Node::UpdateUserVCardMessageResponse_UpdateUserVCardStateType_Failure);
@@ -947,7 +800,7 @@ namespace kakaIM {
         }
 
         bool RosterModule::checkFriendRelation(const std::string userA, const std::string userB) {
-            LOG4CXX_TRACE(this->logger,__FUNCTION__);
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             static const std::string CheckFriendRelationStatement = "CheckFriendRelation";
             static const std::string checkFriendRelationSQL = "SELECT sponsor,target FROM user_relationship WHERE (sponsor = $1 AND target = $2) OR (sponsor = $2 AND target = $1);";
             auto dbConnection = this->getDBConnection();
@@ -978,131 +831,6 @@ namespace kakaIM {
                               typeid(this).name() << "" << __FUNCTION__ << " 验证好友关系出错," << exception.what());
                 return false;
             }
-        }
-
-        void RosterModule::addBuildingRelationshipRequestMessage(
-                std::unique_ptr<kakaIM::Node::BuildingRelationshipRequestMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(
-                    std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void RosterModule::addBuildingRelationshipAnswerMessage(
-                std::unique_ptr<kakaIM::Node::BuildingRelationshipAnswerMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void RosterModule::addDestroyingRelationshipRequestMessage(
-                std::unique_ptr<kakaIM::Node::DestroyingRelationshipRequestMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(
-                    std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void RosterModule::addFriendListRequestMessage(std::unique_ptr<kakaIM::Node::FriendListRequestMessage> message,
-                                                       const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void RosterModule::addFetchUserVCardMessage(std::unique_ptr<kakaIM::Node::FetchUserVCardMessage> message,
-                                                    const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void RosterModule::addUpdateUserVCardMessage(std::unique_ptr<kakaIM::Node::UpdateUserVCardMessage> message,
-                                                     const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void RosterModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void RosterModule::setQueryUserAccountWithSessionService(
-                std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
-            this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
-        }
-
-        void RosterModule::setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) {
-            this->mMessageSendServicePtr = messageSendServicePtr;
-        }
-
-        std::shared_ptr<pqxx::connection> RosterModule::getDBConnection() {
-            if (this->m_dbConnection) {
-                return this->m_dbConnection;
-            }
-
-            const std::string postgrelConnectionUrl =
-                    "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
-                    this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                    std::to_string(this->dbConfig.getPort());
-
-            try {
-
-                this->m_dbConnection = std::make_shared<pqxx::connection>(postgrelConnectionUrl);
-
-                if (!this->m_dbConnection->is_open()) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
-                }
-
-
-            } catch (const std::exception &exception) {
-                LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << "连接数据库出错," << exception.what());
-            }
-
-            return this->m_dbConnection;
         }
     }
 }

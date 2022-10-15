@@ -4,7 +4,7 @@
 
 #ifndef KAKAIMCLUSTER_NODESECESSIONEVENT_H
 #define KAKAIMCLUSTER_NODESECESSIONEVENT_H
-#include "../../Common/EventBus/Event.h"
+#include <Common/EventBus/Event.h>
 namespace kakaIM {
     class NodeSecessionEvent : public Event {
     public:

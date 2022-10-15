@@ -6,7 +6,7 @@
 #define KAKAIMCLUSTER_USERLOGOUTEVENT_H
 
 #include <typeinfo>
-#include "../../Common/EventBus/Event.h"
+#include <Common/EventBus/Event.h>
 
 namespace kakaIM {
     class UserLogoutEvent : public Event {

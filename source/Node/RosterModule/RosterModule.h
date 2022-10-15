@@ -5,76 +5,21 @@
 #ifndef KAKAIMCLUSTER_ROSTERMODULE_H
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
-#include <pqxx/pqxx>
-#include <queue>
-#include <mutex>
-#include <memory>
-#include <log4cxx/logger.h>
-#include <SimpleAmqpClient/SimpleAmqpClient.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../Service/SessionQueryService.h"
-#include "../Service/MessageSendService.h"
-#include "../Service/UserRelationService.h"
-#include "../../Common/KIMDBConfig.h"
-#include "../Service/ConnectionOperationService.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
+
 namespace kakaIM {
     namespace node {
         class RosterModule
-                : public common::KIMModule, public UserRelationService{
+                : public KIMNodeModule, public UserRelationService {
         public:
             RosterModule();
 
-            ~RosterModule();
-
-            virtual bool init() override;
-
-	    virtual void start()override;
-
-            void setDBConfig(const common::KIMDBConfig &dbConfig);
-
             virtual bool checkFriendRelation(const std::string userA, const std::string userB) override;
 
-	    virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
-
-            void addBuildingRelationshipRequestMessage(std::unique_ptr<kakaIM::Node::BuildingRelationshipRequestMessage> message,
-                                                       const std::string connectionIdentifier);
-
-            void addBuildingRelationshipAnswerMessage(std::unique_ptr<kakaIM::Node::BuildingRelationshipAnswerMessage> message,
-                                                      const std::string connectionIdentifier);
-
-            void
-            addDestroyingRelationshipRequestMessage(std::unique_ptr<kakaIM::Node::DestroyingRelationshipRequestMessage> message,
-                                                    const std::string connectionIdentifier);
-
-            void addFriendListRequestMessage(std::unique_ptr<kakaIM::Node::FriendListRequestMessage> message,
-                                             const std::string connectionIdentifier);
-
-            void addFetchUserVCardMessage(std::unique_ptr<kakaIM::Node::FetchUserVCardMessage> message,
-                                          const std::string connectionIdentifier);
-
-            void addUpdateUserVCardMessage(std::unique_ptr<kakaIM::Node::UpdateUserVCardMessage> message,
-                                           const std::string connectionIdentifier);
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
-            void setQueryUserAccountWithSessionService(
-                    std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
-
-            void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
-
+            virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
         protected:
-            virtual void execute() override;
-
-        protected:
-            int mEpollInstance;
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
-            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
-            std::weak_ptr<MessageSendService> mMessageSendServicePtr;
-            int messageEventfd;
-            std::mutex messageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> messageQueue;
-
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) override;
+        private:
             void
             handleBuildingRelationshipRequestMessage(const kakaIM::Node::BuildingRelationshipRequestMessage &message,
                                                      const std::string connectionIdentifier);
@@ -82,29 +27,31 @@ namespace kakaIM {
             void handleBuildingRelationshipAnswerMessage(const kakaIM::Node::BuildingRelationshipAnswerMessage &message,
                                                          const std::string connectionIdentifier);
 
-	    enum UpdateFriendListVersionResult{
-                UpdateFriendListVersionResult_DBConnectionNotExit,//数据库连接不存在
-                UpdateFriendListVersionResult_InteralError,//内部错误
-                UpdateFriendListVersionResult_Success,//查询成功
+            enum class UpdateFriendListVersionResult {
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
             };
 
-            UpdateFriendListVersionResult updateFriendListVersion(const std::string userAccount,uint64_t & currentVersion);
-            
-            
-            enum FetchFriendListVersionResult{
-                FetchFriendListVersionResult_DBConnectionNotExit,//数据库连接不存在
-                FetchFriendListVersionResult_InteralError,//内部错误
-                FetchFriendListVersionResult_Success,//查询成功
-	        FetchFriendListVersionResult_RecordNotExist,//记录不存在
+            UpdateFriendListVersionResult
+            updateFriendListVersion(const std::string userAccount, uint64_t &currentVersion);
+
+            enum class FetchFriendListVersionResult {
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
+                RecordNotExist,//记录不存在
             };
 
-            FetchFriendListVersionResult  fetchFriendListVersion(const std::string userAccount,uint64_t & friendListVersion);
+            FetchFriendListVersionResult
+            fetchFriendListVersion(const std::string userAccount, uint64_t &friendListVersion);
 
             bool checkUserRelationApplication(const std::string sponsorAccount, const std::string targetAccount,
                                               const uint64_t applicantId);
 
             bool updateUserRelationApplicationState(const uint64_t applicantId,
-                                                    kakaIM::Node::BuildingRelationshipAnswerMessage_BuildingRelationshipAnswer answer,std::string &handleTime);
+                                                    kakaIM::Node::BuildingRelationshipAnswerMessage_BuildingRelationshipAnswer answer,
+                                                    std::string &handleTime);
 
             void handleDestroyingRelationshipRequestMessage(
                     const kakaIM::Node::DestroyingRelationshipRequestMessage &message,
@@ -113,33 +60,20 @@ namespace kakaIM {
             void handleFriendListRequestMessage(const kakaIM::Node::FriendListRequestMessage &message,
 
                                                 const std::string connectionIdentifier);
-	    enum FetchFriendListResult{
-                FetchFriendListResult_DBConnectionNotExit,//数据库连接不存在
-                FetchFriendListResult_InteralError,//内部错误
-                FetchFriendListResult_Success,//查询成功
+
+            enum class FetchFriendListResult {
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
             };
-	    FetchFriendListResult fetchFriendList(const std::string userAccount,std::set<std::string> & friendList);
+
+            FetchFriendListResult fetchFriendList(const std::string userAccount, std::set<std::string> &friendList);
 
             void handleFetchUserVCardMessage(const kakaIM::Node::FetchUserVCardMessage &message,
                                              const std::string connectionIdentifier);
 
             void handleUpdateUserVCardMessage(const kakaIM::Node::UpdateUserVCardMessage &message,
                                               const std::string connectionIdentifier);
-
-	    std::thread mRosterRPCWorkThread;
-            AmqpClient::Channel::ptr_t mAmqpChannel;
-            void rosterRPCListenerWork();
-
-            /**
-             * @description 数据库连接
-
-             */
-            common::KIMDBConfig dbConfig;
-            std::shared_ptr<pqxx::connection> m_dbConnection;
-
-            std::shared_ptr<pqxx::connection> getDBConnection();
-
-            log4cxx::LoggerPtr logger;
         };
 
     }

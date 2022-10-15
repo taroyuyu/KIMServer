@@ -2,8 +2,8 @@
 // Created by Kakawater on 2018/2/16.
 //
 
-#include "OnlineStateModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Client/OnlineStateModule/OnlineStateModule.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace client {

@@ -3,93 +3,32 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
 #include <sstream>
 #include <uuid/uuid.h>
-#include "../Events/UserLogoutEvent.h"
-#include "SessionModule.h"
-#include "../../Common/EventBus/EventBus.h"
-#include "../../Common/util/MD5.h"
-#include "../Log/log.h"
+#include <Node/Events/UserLogoutEvent.h>
+#include <Node/SessionModule/SessionModule.h>
+#include <Common/EventBus/EventBus.h>
+#include <Common/util/MD5.h>
+#include <Node/Log/log.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
-        bool SessionModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, ::EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-
-            //创建Epoll实例
-            if (-1 == (this->epollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            //向Epoll实例注册messageEventfd事件
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->epollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-
-            return true;
+        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger){
         }
-
-        void SessionModule::execute() {
-            while (this->m_isStarted) {
-
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->epollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 等待Epill实例上的事件出错");
-                }
-
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType ==
-                                        kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
-                                        handleSessionIDRequestMessage(
-                                                *(kakaIM::Node::RequestSessionIDMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::LogoutMessage::default_instance().GetTypeName()) {
-                                        handleLogoutMessage(*(kakaIM::Node::LogoutMessage *) pairIt.first.get(),
-                                                            pairIt.second);
-                                    }
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-
-                        }
-                    }
-
-                }
-
+        void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> & task){
+            auto messageType = task.first->GetTypeName();
+            if (messageType ==
+                kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
+                handleSessionIDRequestMessage(
+                        *(kakaIM::Node::RequestSessionIDMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::LogoutMessage::default_instance().GetTypeName()) {
+                handleLogoutMessage(*(kakaIM::Node::LogoutMessage *) task.first.get(),
+                                    task.second);
             }
         }
-
         bool SessionModule::doFilter(const ::google::protobuf::Message &message,
                                      const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
@@ -133,41 +72,6 @@ namespace kakaIM {
                 std::string sessionID = connectionPairIt->first;
                 this->sessionMap.erase(connectionPairIt);
             }
-        }
-
-        void SessionModule::addSessionIDRequesMessage(std::unique_ptr<kakaIM::Node::RequestSessionIDMessage> message,
-                                                      const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(
-                    std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SessionModule::addLogoutMessage(std::unique_ptr<kakaIM::Node::LogoutMessage> message,
-                                             const std::string connectionIdentifier) {
-            LOG4CXX_TRACE(this->logger, __FUNCTION__);
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(
-                    std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SessionModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
         void SessionModule::handleSessionIDRequestMessage(const kakaIM::Node::RequestSessionIDMessage &message,
@@ -239,13 +143,6 @@ namespace kakaIM {
             kaka::Date currentDate = kaka::Date::getCurrentDate();
             //3.拼接uuid和currentDate,取摘要
             return ::MD5(currentDate.toString() + connectionUUID_str).toStr();
-        }
-
-        SessionModule::SessionModule() :epollInstance(-1), messageEventfd(-1){
-            this->logger = log4cxx::Logger::getLogger(SessionModuleLogger);
-        }
-
-        SessionModule::~SessionModule() {
         }
     }
 }

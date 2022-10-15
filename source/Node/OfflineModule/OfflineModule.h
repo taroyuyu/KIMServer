@@ -5,39 +5,14 @@
 #ifndef KAKAIMCLUSTER_OFFLINEMODULE_H
 #define KAKAIMCLUSTER_OFFLINEMODULE_H
 
-#include <pqxx/pqxx>
 #include <queue>
-#include <mutex>
-#include <memory>
-#include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../Service/MessagePersistenceService.h"
-#include "../Service/SessionQueryService.h"
-#include "../Service/ConnectionOperationService.h"
-#include "../../Common/KIMDBConfig.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
 
 namespace kakaIM {
     namespace node {
-        class OfflineModule : public common::KIMModule, public MessagePersistenceService {
+        class OfflineModule : public KIMNodeModule, public MessagePersistenceService {
         public:
             OfflineModule();
-
-            ~OfflineModule();
-
-            virtual bool init() override;
-
-            void setDBConfig(const common::KIMDBConfig &dbConfig);
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
-            void setQueryUserAccountWithSessionService(
-                    std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
-
-            void addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message, const std::string connectionIdentifier);
-
-            void addPullGroupChatMessage(std::unique_ptr<kakaIM::Node::PullGroupChatMessage> message,
-                                         const std::string connectionIdentifier);
 
             /**
              * 将消息持久化
@@ -52,7 +27,7 @@ namespace kakaIM {
 
         protected:
             virtual void execute() override;
-
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task)override;
         private:
             class PersistTask {
             public:
@@ -120,10 +95,10 @@ namespace kakaIM {
 
             };
 
-            int mEpollInstance;
-            int messageEventfd;
-            std::mutex messageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            ConcurrentLinkedQueue<std::unique_ptr<PersistTask>> mPersistTaskQueue;
+
+            void dispatchPersistTask(const PersistTask & task);
 
             void handleChatMessagePersist(std::string userAccount, const kakaIM::Node::ChatMessage &message,
                                           const uint64_t messageID);
@@ -131,27 +106,12 @@ namespace kakaIM {
             void handletGroupChatMessagePersis(const std::string groupId, const kakaIM::Node::GroupChatMessage &message,
                                                const uint64_t messageID);
 
-            int persistTaskQueueEventfd;
-            std::mutex persistTaskQueueMutex;
-            std::queue<std::unique_ptr<PersistTask>> persistTaskQueue;
-
             void
             handlePullChatMessage(const kakaIM::Node::PullChatMessage &pullOfflineMessage,
                                   const std::string connectionIdentifier);
 
             void handlePullGroupChatMessage(const kakaIM::Node::PullGroupChatMessage &pullGroupChatMessage,
                                             const std::string connectionIdentifier);
-
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
-            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
-            /**
-             * @description 数据库连接
-             */
-            common::KIMDBConfig dbConfig;
-	    std::shared_ptr<pqxx::connection> m_dbConnection;
-
-	    std::shared_ptr<pqxx::connection> getDBConnection();
-	    log4cxx::LoggerPtr logger;
         };
 
     }

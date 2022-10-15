@@ -3,140 +3,62 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
-#include "SingleChatModule.h"
-#include "../Log/log.h"
-#include "../../Common/util/Date.h"
+#include <Node/SingleChatModule/SingleChatModule.h>
+#include <Node/Log/log.h>
+#include <Common/util/Date.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
-        SingleChatModule::SingleChatModule() : mEpollInstance(-1),messageEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(SingleChatModuleLogger);
+        SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger){
         }
 
-        SingleChatModule::~SingleChatModule() {
-        }
-
-        void SingleChatModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void SingleChatModule::setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) {
-            this->mMessageSendServicePtr = messageSendServicePtr;
-        }
-
-        void SingleChatModule::setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service) {
-            this->mMessageIDGenerateServicePtr = service;
-        }
-
-        void SingleChatModule::setClusterService(std::weak_ptr<ClusterService> service) {
-            this->mClusterServicePtr = service;
-        }
-
-        void SingleChatModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
-            this->mLoginDeviceQueryServicePtr = service;
-        }
-
-        void
-        SingleChatModule::setQueryUserAccountWithSessionService(std::weak_ptr<QueryUserAccountWithSession> service) {
-            this->mQueryUserAccountWithSessionServicePtr = service;
-        }
-
-        void SingleChatModule::setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service) {
-            this->mQueryConnectionWithSessionServicePtr = service;
-        }
-
-        void SingleChatModule::setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service) {
-            this->mMessagePersistenceServicePtr = service;
-        }
-
-        void SingleChatModule::setUserRelationService(std::weak_ptr<UserRelationService> service) {
-            this->mUserRelationServicePtr = service;
-        }
-
-        bool SingleChatModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            //向Epill实例注册messageEventfd,clusterMessageEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        void SingleChatModule::setDBConfig(const common::KIMDBConfig &dbConfig) {
-            this->dbConfig = dbConfig;
-        }
-
-        void SingleChatModule::execute() {
-            while (this->m_isStarted) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger,__FUNCTION__<<" 等待Epil实例上的事件出错，errno ="<<errno);
-                }
-
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType == kakaIM::Node::ChatMessage::default_instance().GetTypeName()) {
-                                        handleChatMessage(*(kakaIM::Node::ChatMessage *) pairIt.first.get(), pairIt.second);
-                                    } else if (messageType == kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName()){
-                                        handleVideoChatRequestMessage(*(kakaIM::Node::VideoChatRequestMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName()){
-                                        handleVideoChatRequestCancelMessage(*(kakaIM::Node::VideoChatRequestCancelMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName()){
-                                        handleVideoChatReplyMessage(*(kakaIM::Node::VideoChatReplyMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName()){
-                                        handleVideoChatOfferMessage(*(kakaIM::Node::VideoChatOfferMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName()){
-                                        handleVideoChatAnswerMessage(*(kakaIM::Node::VideoChatAnswerMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName()) {
-                                        handleVideoChatNegotiationResultMessage(*(kakaIM::Node::VideoChatNegotiationResultMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName()){
-                                        handleVideoChatCandidateAddressMessage(*(kakaIM::Node::VideoChatCandidateAddressMessage *)pairIt.first.get(), pairIt.second);
-                                    }else if(messageType == kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName()){
-                                        handleVideoChatByeMessage(*(kakaIM::Node::VideoChatByeMessage *)pairIt.first.get(), pairIt.second);
-                                    }
-                                }
-
-                            } else {
-                                LOG4CXX_WARN(this->logger,
-                                             typeid(this).name() << "" << __FUNCTION__ << "read(messageEventfd)操作出错，errno ="
-                                                                 << errno);
-                            }
-                        }
-                    }
-                }
+        void SingleChatModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
+            auto messageType = task.first->GetTypeName();
+            if (messageType == kakaIM::Node::ChatMessage::default_instance().GetTypeName()) {
+                handleChatMessage(*(kakaIM::Node::ChatMessage *) task.first.get(),
+                                  task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName()) {
+                handleVideoChatRequestMessage(
+                        *(kakaIM::Node::VideoChatRequestMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName()) {
+                handleVideoChatRequestCancelMessage(
+                        *(kakaIM::Node::VideoChatRequestCancelMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName()) {
+                handleVideoChatReplyMessage(
+                        *(kakaIM::Node::VideoChatReplyMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName()) {
+                handleVideoChatOfferMessage(
+                        *(kakaIM::Node::VideoChatOfferMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName()) {
+                handleVideoChatAnswerMessage(
+                        *(kakaIM::Node::VideoChatAnswerMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName()) {
+                handleVideoChatNegotiationResultMessage(
+                        *(kakaIM::Node::VideoChatNegotiationResultMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName()) {
+                handleVideoChatCandidateAddressMessage(
+                        *(kakaIM::Node::VideoChatCandidateAddressMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName()) {
+                handleVideoChatByeMessage(
+                        *(kakaIM::Node::VideoChatByeMessage *) task.first.get(),
+                        task.second);
             }
         }
 
@@ -196,8 +118,10 @@ namespace kakaIM {
 
         }
 
-	void SingleChatModule::handleVideoChatRequestMessage(kakaIM::Node::VideoChatRequestMessage & videoChatRequestMessage, const std::string connectionIdentifier){
-	    auto clusterService = this->mClusterServicePtr.lock();
+        void
+        SingleChatModule::handleVideoChatRequestMessage(kakaIM::Node::VideoChatRequestMessage &videoChatRequestMessage,
+                                                        const std::string connectionIdentifier) {
+            auto clusterService = this->mClusterServicePtr.lock();
             auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock();
             auto userRelationService = this->mUserRelationServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
@@ -218,7 +142,7 @@ namespace kakaIM {
                 return;
             }
 
-            const std::string sponsorsessionid =  videoChatRequestMessage.sessionid();
+            const std::string sponsorsessionid = videoChatRequestMessage.sessionid();
 
             //2.验证提议着和目标用户是否存在好友关系
             if (false == userRelationService->checkFriendRelation(sponsorAccount, targetAccount)) {//不存在好友关系
@@ -230,8 +154,9 @@ namespace kakaIM {
             //3.将此通话提议保存到数据库
             uint64_t offerId = 0;
             std::string submissionTime;
-            auto result = this->saveVideoChatOffer(sponsorAccount,targetAccount,clusterService->getServerID(),videoChatRequestMessage.sessionid(),&offerId,&submissionTime);
-            if (result != SaveVideoChatOfferResult_Success){
+            auto result = this->saveVideoChatOffer(sponsorAccount, targetAccount, clusterService->getServerID(),
+                                                   videoChatRequestMessage.sessionid(), &offerId, &submissionTime);
+            if (result != SaveVideoChatOfferResult::Success) {
                 return;
             }
             videoChatRequestMessage.set_offerid(offerId);
@@ -240,10 +165,12 @@ namespace kakaIM {
             videoChatRequestMessage.set_timestamp(kaka::Date(submissionTime).toString());
             //4.将请求推送给双方
             messageSendService->sendMessageToUser(targetAccount, videoChatRequestMessage);
-            messageSendService->sendMessageToUser(sponsorAccount, videoChatRequestMessage); 
+            messageSendService->sendMessageToUser(sponsorAccount, videoChatRequestMessage);
         }
 
-	void SingleChatModule::handleVideoChatRequestCancelMessage(kakaIM::Node::VideoChatRequestCancelMessage & videoChatRequestCancelMessage,const std::string connectionIdentifier){
+        void SingleChatModule::handleVideoChatRequestCancelMessage(
+                kakaIM::Node::VideoChatRequestCancelMessage &videoChatRequestCancelMessage,
+                const std::string connectionIdentifier) {
             auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
             auto clusterService = this->mClusterServicePtr.lock();
@@ -260,97 +187,101 @@ namespace kakaIM {
 
             //2.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatRequestCancelMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
+            auto result = this->fetchVideoChatOffer(videoChatRequestCancelMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
             //3.验证是否为此通话提议的发起方
-            if (offerInfo.sponsorServerId != clusterService->getServerID() || offerInfo.sponsorSessionId != videoChatRequestCancelMessage.sessionid()){
+            if (offerInfo.sponsorServerId != clusterService->getServerID() ||
+                offerInfo.sponsorSessionId != videoChatRequestCancelMessage.sessionid()) {
                 return;
             }
 
             //4.检查此通话提议的是否已经被受理
-            if (VideoChatOfferState_Pending != offerInfo.state){
+            if (VideoChatOfferState::Pending != offerInfo.state) {
                 return;
             }
 
             //5.更改此通话提议的状态
-            this->updateVideoChatOffer(offerInfo.offerId,"","",VideoChatOfferState_Cancel);
-            
+            this->updateVideoChatOffer(offerInfo.offerId, "", "", VideoChatOfferState::Cancel);
+
             //6.该此通话取消的消息发送给接收方
-            messageSendService->sendMessageToUser(offerInfo.targetAccount, videoChatRequestCancelMessage); 
-	    //7.将此通话取消的消息发送给发送方
-	    messageSendService->sendMessageToUser(offerInfo.sponsorAccount, videoChatRequestCancelMessage);
+            messageSendService->sendMessageToUser(offerInfo.targetAccount, videoChatRequestCancelMessage);
+            //7.将此通话取消的消息发送给发送方
+            messageSendService->sendMessageToUser(offerInfo.sponsorAccount, videoChatRequestCancelMessage);
         }
 
-	void SingleChatModule::handleVideoChatReplyMessage(kakaIM::Node::VideoChatReplyMessage & videoChatReplyMessage,const std::string connectionIdentifier){
+        void SingleChatModule::handleVideoChatReplyMessage(kakaIM::Node::VideoChatReplyMessage &videoChatReplyMessage,
+                                                           const std::string connectionIdentifier) {
             videoChatReplyMessage.set_timestamp(kaka::Date::getCurrentDate().toString());
             auto queryUserAccountService = this->mQueryUserAccountWithSessionServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
-	    auto clusterService = this->mClusterServicePtr.lock();
+            auto clusterService = this->mClusterServicePtr.lock();
             if (!(clusterService && queryUserAccountService && messageSendService)) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__
                         << "无法执行，缺少clusterService、mqueryUserAccountService或messageSendService");
                 return;
             }
 
-
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatReplyMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
+            auto result = this->fetchVideoChatOffer(videoChatReplyMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
             //2.验证消息发送者
             const std::string userAccount = queryUserAccountService->queryUserAccountWithSession(
                     videoChatReplyMessage.sessionid());
-	
-	    if (userAccount.empty() || userAccount != offerInfo.targetAccount) {
+
+            if (userAccount.empty() || userAccount != offerInfo.targetAccount) {
                 return;
             }
             //3.检查此通话提议的是否已经被受理
-            if (VideoChatOfferState_Pending != offerInfo.state){
+            if (VideoChatOfferState::Pending != offerInfo.state) {
                 return;
             }
 
             //4.修改此通话提议的状态
-            switch (videoChatReplyMessage.reply()){
-                case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_Allow:{
-                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(),clusterService->getServerID(),videoChatReplyMessage.sessionid(),VideoChatOfferState_Accept);
+            switch (videoChatReplyMessage.reply()) {
+                case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_Allow: {
+                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(), clusterService->getServerID(),
+                                               videoChatReplyMessage.sessionid(), VideoChatOfferState::Accept);
                 }
                     break;
-                case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_Reject:{
-                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(),clusterService->getServerID(),videoChatReplyMessage.sessionid(),VideoChatOfferState_Reject);                    
+                case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_Reject: {
+                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(), clusterService->getServerID(),
+                                               videoChatReplyMessage.sessionid(), VideoChatOfferState::Reject);
                 }
                     break;
-                case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_NoAnswer:{
-                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(),"","",VideoChatOfferState_NoAnswer);                            
+                case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_NoAnswer: {
+                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(), "", "", VideoChatOfferState::NoAnswer);
                 }
                     break;
-                default:
-                {
+                default: {
                     return;
                 }
             }
 
-	    videoChatReplyMessage.set_sponsoraccount(offerInfo.sponsorAccount);
+            videoChatReplyMessage.set_sponsoraccount(offerInfo.sponsorAccount);
             videoChatReplyMessage.set_sponsorsessionid(offerInfo.sponsorSessionId);
             videoChatReplyMessage.set_targetaccount(offerInfo.targetAccount);
             videoChatReplyMessage.set_answersessionid(videoChatReplyMessage.sessionid());
-            
-            
+
+
             //5.将请求推送给双方
             messageSendService->sendMessageToUser(offerInfo.targetAccount, videoChatReplyMessage);
             messageSendService->sendMessageToUser(offerInfo.sponsorAccount, videoChatReplyMessage);
         }
 
-        void SingleChatModule::handleVideoChatOfferMessage(kakaIM::Node::VideoChatOfferMessage & videoChatOfferMessage,const std::string connectionIdentifier){
-	    auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
+        void SingleChatModule::handleVideoChatOfferMessage(kakaIM::Node::VideoChatOfferMessage &videoChatOfferMessage,
+                                                           const std::string connectionIdentifier) {
+            auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto clusterService = this->mClusterServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
-            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService && messageSendService)) {
+            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService &&
+                  messageSendService)) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__
                         << "无法执行，缺少queryConnectionWithSessionService、connectionOperationService、clusterService或messageSendService");
                 return;
@@ -358,13 +289,13 @@ namespace kakaIM {
 
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatOfferMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
+            auto result = this->fetchVideoChatOffer(videoChatOfferMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState_Accept != offerInfo.state){
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -374,47 +305,55 @@ namespace kakaIM {
             }
 
             //4.将此消息发送给接听者
-            
-            if (offerInfo.recipientServerId == clusterService->getServerID()){
-                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(offerInfo.recipientSessionId);
-                if (!deviceConnectionIdentifier.empty()){
+
+            if (offerInfo.recipientServerId == clusterService->getServerID()) {
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        offerInfo.recipientSessionId);
+                if (!deviceConnectionIdentifier.empty()) {
                     videoChatOfferMessage.set_sessionid(offerInfo.recipientSessionId);
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,videoChatOfferMessage);   
-                }else{
-		    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(videoChatOfferMessage.sessionid());
-                    if (!deviceConnectionIdentifier.empty()){
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                             videoChatOfferMessage);
+                } else {
+                    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                            videoChatOfferMessage.sessionid());
+                    if (!deviceConnectionIdentifier.empty()) {
                         kakaIM::Node::VideoChatByeMessage byeMessage;
                         byeMessage.set_offerid(videoChatOfferMessage.offerid());
                         byeMessage.set_sessionid(videoChatOfferMessage.sessionid());
-                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,byeMessage);
+                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                                 byeMessage);
                     }
-		}
-            }else{
-                messageSendService->sendMessageToSession(offerInfo.recipientServerId,offerInfo.recipientSessionId,videoChatOfferMessage);
+                }
+            } else {
+                messageSendService->sendMessageToSession(offerInfo.recipientServerId, offerInfo.recipientSessionId,
+                                                         videoChatOfferMessage);
             }
-            
+
         }
 
-        void SingleChatModule::handleVideoChatAnswerMessage(kakaIM::Node::VideoChatAnswerMessage & videoChatAnswerMessage,const std::string connectionIdentifier){
-	    auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
+        void
+        SingleChatModule::handleVideoChatAnswerMessage(kakaIM::Node::VideoChatAnswerMessage &videoChatAnswerMessage,
+                                                       const std::string connectionIdentifier) {
+            auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto clusterService = this->mClusterServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
-            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService && messageSendService)) {
+            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService &&
+                  messageSendService)) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__
                         << "无法执行，缺少queryConnectionWithSessionService、connectionOperationService、clusterService或messageSendService");
                 return;
             }
-            
+
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatAnswerMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
+            auto result = this->fetchVideoChatOffer(videoChatAnswerMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState_Accept != offerInfo.state){
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -422,90 +361,42 @@ namespace kakaIM {
             if (offerInfo.recipientSessionId != videoChatAnswerMessage.sessionid()) {
                 return;
             }
-            
+
             //4.将此消息发送给发起者
-            if (offerInfo.sponsorServerId == clusterService->getServerID()){
-                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(offerInfo.sponsorSessionId);
-                if (!deviceConnectionIdentifier.empty()){
+            if (offerInfo.sponsorServerId == clusterService->getServerID()) {
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        offerInfo.sponsorSessionId);
+                if (!deviceConnectionIdentifier.empty()) {
                     videoChatAnswerMessage.set_sessionid(offerInfo.sponsorSessionId);
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,videoChatAnswerMessage);
-                }else{
-		    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(videoChatAnswerMessage.sessionid());
-                    if (!deviceConnectionIdentifier.empty()){
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                             videoChatAnswerMessage);
+                } else {
+                    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                            videoChatAnswerMessage.sessionid());
+                    if (!deviceConnectionIdentifier.empty()) {
                         kakaIM::Node::VideoChatByeMessage byeMessage;
                         byeMessage.set_offerid(videoChatAnswerMessage.offerid());
                         byeMessage.set_sessionid(videoChatAnswerMessage.sessionid());
-                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,byeMessage);
-                    }
-		}
-            }else{
-                messageSendService->sendMessageToSession(offerInfo.sponsorServerId,offerInfo.sponsorSessionId,videoChatAnswerMessage);
-            }
-            
-        }
-
-	void SingleChatModule::handleVideoChatNegotiationResultMessage(kakaIM::Node::VideoChatNegotiationResultMessage & videoChatNegotiationResultMessage,const std::string connectionIdentifier){
-           auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
-            auto connectionOperationService = this->connectionOperationServicePtr.lock();
-            auto clusterService = this->mClusterServicePtr.lock();
-            auto messageSendService = this->mMessageSendServicePtr.lock();
-            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService && messageSendService)) {
-                LOG4CXX_ERROR(this->logger, __FUNCTION__
-                        << "无法执行，缺少queryConnectionWithSessionService、connectionOperationService、clusterService或messageSendService");
-                return;
-            }
-
-            //1.获取此通话提议的信息
-            VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatNegotiationResultMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
-                return;
-            }
-
-            //2.检查此通话提议的状态
-            if (VideoChatOfferState_Accept != offerInfo.state){
-                return;
-            }
-
-            //3.检查通信双方是否匹配
-            std::string opponentSessionId;
-            std::string opponentServerId;
-            if (offerInfo.sponsorSessionId == videoChatNegotiationResultMessage.sessionid()){
-                opponentSessionId = offerInfo.recipientSessionId;
-                opponentServerId = offerInfo.recipientServerId;
-            }else if(offerInfo.recipientSessionId == videoChatNegotiationResultMessage.sessionid()){
-                opponentSessionId =  offerInfo.sponsorSessionId;
-                opponentServerId = offerInfo.sponsorServerId;
-            }else{
-                return;
-            }
-
-            //4.将此消息发送给对方
-            if (opponentServerId == clusterService->getServerID()){
-                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(opponentSessionId);
-                if (!deviceConnectionIdentifier.empty()){
-                    videoChatNegotiationResultMessage.set_sessionid(opponentSessionId);
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,videoChatNegotiationResultMessage);
-                }else{
-                    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(videoChatNegotiationResultMessage.sessionid());
-                    if (!deviceConnectionIdentifier.empty()){
-                        kakaIM::Node::VideoChatByeMessage byeMessage;
-                        byeMessage.set_offerid(videoChatNegotiationResultMessage.offerid());
-                        byeMessage.set_sessionid(videoChatNegotiationResultMessage.sessionid());
-                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,byeMessage);
+                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                                 byeMessage);
                     }
                 }
-            }else{
-                messageSendService->sendMessageToSession(opponentServerId,opponentSessionId,videoChatNegotiationResultMessage);
-            } 
+            } else {
+                messageSendService->sendMessageToSession(offerInfo.sponsorServerId, offerInfo.sponsorSessionId,
+                                                         videoChatAnswerMessage);
+            }
+
         }
 
-        void SingleChatModule::handleVideoChatCandidateAddressMessage(kakaIM::Node::VideoChatCandidateAddressMessage & videoChatCandidateAddressMessage,const std::string connectionIdentifier){
+        void SingleChatModule::handleVideoChatNegotiationResultMessage(
+                kakaIM::Node::VideoChatNegotiationResultMessage &videoChatNegotiationResultMessage,
+                const std::string connectionIdentifier) {
             auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto clusterService = this->mClusterServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
-            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService && messageSendService)) {
+            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService &&
+                  messageSendService)) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__
                         << "无法执行，缺少queryConnectionWithSessionService、connectionOperationService、clusterService或messageSendService");
                 return;
@@ -513,59 +404,63 @@ namespace kakaIM {
 
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatCandidateAddressMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
+            auto result = this->fetchVideoChatOffer(videoChatNegotiationResultMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState_Accept != offerInfo.state){
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
             //3.检查通信双方是否匹配
             std::string opponentSessionId;
             std::string opponentServerId;
-            if (offerInfo.sponsorSessionId == videoChatCandidateAddressMessage.sessionid()){
+            if (offerInfo.sponsorSessionId == videoChatNegotiationResultMessage.sessionid()) {
                 opponentSessionId = offerInfo.recipientSessionId;
                 opponentServerId = offerInfo.recipientServerId;
-            }else if(offerInfo.recipientSessionId == videoChatCandidateAddressMessage.sessionid()){
-                opponentSessionId =  offerInfo.sponsorSessionId;
+            } else if (offerInfo.recipientSessionId == videoChatNegotiationResultMessage.sessionid()) {
+                opponentSessionId = offerInfo.sponsorSessionId;
                 opponentServerId = offerInfo.sponsorServerId;
-            }else{
-                return;
-            }
-            
-            if (videoChatCandidateAddressMessage.sessionid() != videoChatCandidateAddressMessage.fromsessionid()){
+            } else {
                 return;
             }
 
             //4.将此消息发送给对方
-            if (opponentServerId == clusterService->getServerID()){
-                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(opponentSessionId);
-                if (!deviceConnectionIdentifier.empty()){
-                    videoChatCandidateAddressMessage.set_sessionid(opponentSessionId);
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,videoChatCandidateAddressMessage);
-                }else{
-                    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(videoChatCandidateAddressMessage.sessionid());
-                    if (!deviceConnectionIdentifier.empty()){
+            if (opponentServerId == clusterService->getServerID()) {
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        opponentSessionId);
+                if (!deviceConnectionIdentifier.empty()) {
+                    videoChatNegotiationResultMessage.set_sessionid(opponentSessionId);
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                             videoChatNegotiationResultMessage);
+                } else {
+                    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                            videoChatNegotiationResultMessage.sessionid());
+                    if (!deviceConnectionIdentifier.empty()) {
                         kakaIM::Node::VideoChatByeMessage byeMessage;
-                        byeMessage.set_offerid(videoChatCandidateAddressMessage.offerid());
-                        byeMessage.set_sessionid(videoChatCandidateAddressMessage.sessionid());
-                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,byeMessage);
+                        byeMessage.set_offerid(videoChatNegotiationResultMessage.offerid());
+                        byeMessage.set_sessionid(videoChatNegotiationResultMessage.sessionid());
+                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                                 byeMessage);
                     }
-		}
-            }else{
-                messageSendService->sendMessageToSession(opponentServerId,opponentSessionId,videoChatCandidateAddressMessage);
-            } 
+                }
+            } else {
+                messageSendService->sendMessageToSession(opponentServerId, opponentSessionId,
+                                                         videoChatNegotiationResultMessage);
+            }
         }
 
-        void SingleChatModule::handleVideoChatByeMessage(kakaIM::Node::VideoChatByeMessage & videoChatByeMessage,const std::string connectionIdentifier){
-	    auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
+        void SingleChatModule::handleVideoChatCandidateAddressMessage(
+                kakaIM::Node::VideoChatCandidateAddressMessage &videoChatCandidateAddressMessage,
+                const std::string connectionIdentifier) {
+            auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
             auto connectionOperationService = this->connectionOperationServicePtr.lock();
             auto clusterService = this->mClusterServicePtr.lock();
             auto messageSendService = this->mMessageSendServicePtr.lock();
-            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService && messageSendService)) {
+            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService &&
+                  messageSendService)) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__
                         << "无法执行，缺少queryConnectionWithSessionService、connectionOperationService、clusterService或messageSendService");
                 return;
@@ -573,52 +468,123 @@ namespace kakaIM {
 
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
-            auto result = this->fetchVideoChatOffer(videoChatByeMessage.offerid(),offerInfo);
-            if (FetchVideoChatOfferResult_Success != result){
+            auto result = this->fetchVideoChatOffer(videoChatCandidateAddressMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState_Accept != offerInfo.state){
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
             //3.检查通信双方是否匹配
             std::string opponentSessionId;
             std::string opponentServerId;
-            if (offerInfo.sponsorSessionId == videoChatByeMessage.sessionid()){
+            if (offerInfo.sponsorSessionId == videoChatCandidateAddressMessage.sessionid()) {
                 opponentSessionId = offerInfo.recipientSessionId;
                 opponentServerId = offerInfo.recipientServerId;
-            }else if(offerInfo.recipientSessionId == videoChatByeMessage.sessionid()){
-                opponentSessionId =  offerInfo.sponsorSessionId;
+            } else if (offerInfo.recipientSessionId == videoChatCandidateAddressMessage.sessionid()) {
+                opponentSessionId = offerInfo.sponsorSessionId;
                 opponentServerId = offerInfo.sponsorServerId;
-            }else{
+            } else {
                 return;
             }
-            
+
+            if (videoChatCandidateAddressMessage.sessionid() != videoChatCandidateAddressMessage.fromsessionid()) {
+                return;
+            }
 
             //4.将此消息发送给对方
-            if (opponentServerId == clusterService->getServerID()){
-                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(opponentSessionId);
-                if (!deviceConnectionIdentifier.empty()){
-                    videoChatByeMessage.set_sessionid(opponentSessionId);
-                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,videoChatByeMessage);
+            if (opponentServerId == clusterService->getServerID()) {
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        opponentSessionId);
+                if (!deviceConnectionIdentifier.empty()) {
+                    videoChatCandidateAddressMessage.set_sessionid(opponentSessionId);
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                             videoChatCandidateAddressMessage);
+                } else {
+                    const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                            videoChatCandidateAddressMessage.sessionid());
+                    if (!deviceConnectionIdentifier.empty()) {
+                        kakaIM::Node::VideoChatByeMessage byeMessage;
+                        byeMessage.set_offerid(videoChatCandidateAddressMessage.offerid());
+                        byeMessage.set_sessionid(videoChatCandidateAddressMessage.sessionid());
+                        connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                                 byeMessage);
+                    }
                 }
-            }else{
-                messageSendService->sendMessageToSession(opponentServerId,opponentSessionId,videoChatByeMessage);
+            } else {
+                messageSendService->sendMessageToSession(opponentServerId, opponentSessionId,
+                                                         videoChatCandidateAddressMessage);
             }
-            
         }
 
-	SingleChatModule::SaveVideoChatOfferResult  SingleChatModule::saveVideoChatOffer(const std::string spnsorAccount,const std::string targetAccount,const std::string sponsorServer,const std::string sponsorSessionId, uint64_t * offerId, std::string * submissionTime){
+        void SingleChatModule::handleVideoChatByeMessage(kakaIM::Node::VideoChatByeMessage &videoChatByeMessage,
+                                                         const std::string connectionIdentifier) {
+            auto queryConnectionWithSessionService = this->mQueryConnectionWithSessionServicePtr.lock();
+            auto connectionOperationService = this->connectionOperationServicePtr.lock();
+            auto clusterService = this->mClusterServicePtr.lock();
+            auto messageSendService = this->mMessageSendServicePtr.lock();
+            if (!(queryConnectionWithSessionService && connectionOperationService && clusterService &&
+                  messageSendService)) {
+                LOG4CXX_ERROR(this->logger, __FUNCTION__
+                        << "无法执行，缺少queryConnectionWithSessionService、connectionOperationService、clusterService或messageSendService");
+                return;
+            }
+
+            //1.获取此通话提议的信息
+            VideoChatOfferInfo offerInfo;
+            auto result = this->fetchVideoChatOffer(videoChatByeMessage.offerid(), offerInfo);
+            if (FetchVideoChatOfferResult::Success != result) {
+                return;
+            }
+
+            //2.检查此通话提议的状态
+            if (VideoChatOfferState::Accept != offerInfo.state) {
+                return;
+            }
+
+            //3.检查通信双方是否匹配
+            std::string opponentSessionId;
+            std::string opponentServerId;
+            if (offerInfo.sponsorSessionId == videoChatByeMessage.sessionid()) {
+                opponentSessionId = offerInfo.recipientSessionId;
+                opponentServerId = offerInfo.recipientServerId;
+            } else if (offerInfo.recipientSessionId == videoChatByeMessage.sessionid()) {
+                opponentSessionId = offerInfo.sponsorSessionId;
+                opponentServerId = offerInfo.sponsorServerId;
+            } else {
+                return;
+            }
+
+            //4.将此消息发送给对方
+            if (opponentServerId == clusterService->getServerID()) {
+                const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
+                        opponentSessionId);
+                if (!deviceConnectionIdentifier.empty()) {
+                    videoChatByeMessage.set_sessionid(opponentSessionId);
+                    connectionOperationService->sendMessageThroughConnection(deviceConnectionIdentifier,
+                                                                             videoChatByeMessage);
+                }
+            } else {
+                messageSendService->sendMessageToSession(opponentServerId, opponentSessionId, videoChatByeMessage);
+            }
+
+        }
+
+        SingleChatModule::SaveVideoChatOfferResult
+        SingleChatModule::saveVideoChatOffer(const std::string spnsorAccount, const std::string targetAccount,
+                                             const std::string sponsorServer, const std::string sponsorSessionId,
+                                             uint64_t *offerId, std::string *submissionTime) {
             const std::string SaveVideoChatOfferStatement = "SaveVideoChatOffer";
             const std::string saveVideoChatOfferSQL = "INSERT INTO video_chat_offer_record(offerid, spnsor, target, sponsor_server, sponsor_session, state, submission_time)\n"
-                    "VALUES(DEFAULT,$1,$2,$3,$4,DEFAULT ,now()) RETURNING offerid,submission_time;";
+                                                      "VALUES(DEFAULT,$1,$2,$3,$4,DEFAULT ,now()) RETURNING offerid,submission_time;";
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return SaveVideoChatOfferResult_DBConnectionNotExit; ;
+                return SaveVideoChatOfferResult::DBConnectionNotExit;;
             }
 
             try {
@@ -634,30 +600,32 @@ namespace kakaIM {
                 pqxx::result result = saveVideoChatOfferStatementInvocation(spnsorAccount)(
                         targetAccount)(sponsorServer)(sponsorSessionId).exec();
 
-
                 //提交事务
                 dbWork.commit();
-                
+
                 *offerId = result[0][0].as<uint64_t>();
                 *submissionTime = result[0][1].as<std::string>();
 
-                return SaveVideoChatOfferResult_Success;
+                return SaveVideoChatOfferResult::Success;
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << "将通话提议插入数据库失败," << exception.what());
+                              typeid(this).name() << "" << __FUNCTION__ << "将通话提议插入数据库失败,"
+                                                  << exception.what());
 
-                return SaveVideoChatOfferResult_InteralError;
+                return SaveVideoChatOfferResult::InteralError;
             }
 
         }
-        SingleChatModule::FetchVideoChatOfferResult  SingleChatModule::fetchVideoChatOffer(const uint64_t offerId,VideoChatOfferInfo & offerInfo){
-    	    LOG4CXX_TRACE(this->logger, __FUNCTION__);
+
+        SingleChatModule::FetchVideoChatOfferResult
+        SingleChatModule::fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo) {
+            LOG4CXX_TRACE(this->logger, __FUNCTION__);
             auto dbConnection = this->getDBConnection();
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return FetchVideoChatOfferResult_DBConnectionNotExit;
+                return FetchVideoChatOfferResult::DBConnectionNotExit;
             }
 
             try {
@@ -673,72 +641,76 @@ namespace kakaIM {
 
                 pqxx::result result = queryVideoChatOfferInfoStatementInvocation(offerId).exec();
 
-                if (result.size()){
+                if (result.size()) {
                     offerInfo.sponsorAccount = result[0][0].as<std::string>();
                     offerInfo.targetAccount = result[0][1].as<std::string>();
                     offerInfo.sponsorServerId = result[0][2].as<std::string>();
                     offerInfo.sponsorSessionId = result[0][3].as<std::string>();
-                    if (result[0][4].is_null()){
+                    if (result[0][4].is_null()) {
                         offerInfo.recipientServerId = "";
-                    }else{
+                    } else {
                         offerInfo.recipientServerId = result[0][4].as<std::string>();
                     }
-                    if (result[0][5].is_null()){
+                    if (result[0][5].is_null()) {
                         offerInfo.recipientSessionId = "";
-                    }else{
+                    } else {
                         offerInfo.recipientSessionId = result[0][5].as<std::string>();
                     }
                     std::string state = result[0][6].as<std::string>();
-                    if("Pending" == state){
-                        offerInfo.state = VideoChatOfferState_Pending;
-                    }else if("Cancel" == state){
-                        offerInfo.state = VideoChatOfferState_Cancel;
-                    }  else if("Allow" == state){
-                        offerInfo.state = VideoChatOfferState_Accept;
-                    }else if("Reject" == state){
-                        offerInfo.state = VideoChatOfferState_Reject;
-                    }else{
-                        LOG4CXX_ERROR(this->logger, typeid(this).name()<<" "<<__FUNCTION__<<" 查询视频通话提议，offerId="<<offerId<<"的信息失败，由于state的类型不能识别，state="<<state);
-                        return FetchVideoChatOfferResult_InteralError;
+                    if ("Pending" == state) {
+                        offerInfo.state = VideoChatOfferState::Pending;
+                    } else if ("Cancel" == state) {
+                        offerInfo.state = VideoChatOfferState::Cancel;
+                    } else if ("Allow" == state) {
+                        offerInfo.state = VideoChatOfferState::Accept;
+                    } else if ("Reject" == state) {
+                        offerInfo.state = VideoChatOfferState::Reject;
+                    } else {
+                        LOG4CXX_ERROR(this->logger, typeid(this).name() << " " << __FUNCTION__ << " 查询视频通话提议，offerId="
+                                                                        << offerId << "的信息失败，由于state的类型不能识别，state="
+                                                                        << state);
+                        return FetchVideoChatOfferResult::InteralError;
                     }
                     offerInfo.submissionTime = result[0][7].as<std::string>();
-                    return FetchVideoChatOfferResult_Success;
-                }else{
-                    return FetchVideoChatOfferResult_DBConnectionNotExit;
+                    return FetchVideoChatOfferResult::Success;
+                } else {
+                    return FetchVideoChatOfferResult::DBConnectionNotExit;
                 }
 
             } catch (std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << " 查询视频通话提议，offerId"<<offerId<<"的信息失败," << exception.what());
-                return FetchVideoChatOfferResult_InteralError;
+                              typeid(this).name() << "" << __FUNCTION__ << " 查询视频通话提议，offerId" << offerId
+                                                  << "的信息失败," << exception.what());
+                return FetchVideoChatOfferResult::InteralError;
             }
-	}
+        }
 
-	SingleChatModule::UpdateVideoChatOfferResult  SingleChatModule::updateVideoChatOffer(const uint64_t offerId,std::string recipientServerId,std::string recipientSessionId,const VideoChatOfferState offerState){
+        SingleChatModule::UpdateVideoChatOfferResult
+        SingleChatModule::updateVideoChatOffer(const uint64_t offerId, std::string recipientServerId,
+                                               std::string recipientSessionId, const VideoChatOfferState offerState) {
 
             std::string state = "Pending";
             switch (offerState) {
-                case VideoChatOfferState_Pending: {
+                case VideoChatOfferState::Pending: {
                     state = "Pending";
                 }
                     break;
-	        case VideoChatOfferState_Cancel:{
+                case VideoChatOfferState::Cancel: {
                     state = "Cancel";
                 }
                     break;
-                case VideoChatOfferState_Accept: {
+                case VideoChatOfferState::Accept: {
                     state = "Allow";
                 }
                     break;
-                case VideoChatOfferState_Reject:{
+                case VideoChatOfferState::Reject: {
                     state = "Reject";
                 }
                     break;
                 default: {
-                    return UpdateVideoChatOfferResult_ParameterErrpr;
+                    return UpdateVideoChatOfferResult::ParameterErrpr;
                 }
             }
-
 
             static const std::string UpdateVideoChatOfferStatement = "UpdateVideoChatOffer";
             static const std::string updateVideoChatOfferSQL = "UPDATE video_chat_offer_record SET state = $2,recipient_server = $3,recipient_session = $4 WHERE offerid = $1;";
@@ -746,7 +718,7 @@ namespace kakaIM {
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return UpdateVideoChatOfferResult_DBConnectionNotExit; ;
+                return UpdateVideoChatOfferResult::DBConnectionNotExit;;
             }
 
             try {
@@ -759,157 +731,23 @@ namespace kakaIM {
                     dbConnection->prepare(UpdateVideoChatOfferStatement, updateVideoChatOfferSQL);
                 }
 
-                pqxx::result result = updateVideoChatOfferStatementInvocation(offerId)(state)(recipientServerId)(recipientSessionId).exec();
+                pqxx::result result = updateVideoChatOfferStatementInvocation(offerId)(state)(recipientServerId)(
+                        recipientSessionId).exec();
 
 
                 //提交事务
                 dbWork.commit();
 
-                return UpdateVideoChatOfferResult_Success;
+                return UpdateVideoChatOfferResult::Success;
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "更新通话提议状态失败," << exception.what());
 
-                return UpdateVideoChatOfferResult_Failed;
+                return UpdateVideoChatOfferResult::Failed;
             }
         }
 
-        void
-        SingleChatModule::addChatMessage(std::unique_ptr<kakaIM::Node::ChatMessage> message,
-                                         const std::string connectionIdentifier) {
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-	void SingleChatModule::addVideoChatRequestMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestMessage> message,const std::string connectionIdentifier){
-	    if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-}
-
-	void SingleChatModule::addVideoChatRequestCancelMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestCancelMessage> message, const std::string connectionIdentifier){
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SingleChatModule::addVideoChatReplyMessage(std::unique_ptr<kakaIM::Node::VideoChatReplyMessage> message,const std::string connectionIdentifier){
-	    if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SingleChatModule::addVideoChatOfferMessage(std::unique_ptr<kakaIM::Node::VideoChatOfferMessage> message,const std::string connectionIdentifier){
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SingleChatModule::addVideoChatAnswerMessage(std::unique_ptr<kakaIM::Node::VideoChatAnswerMessage> message,const std::string connectionIdentifier){
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-	void SingleChatModule::addVideoChatNegotiationResultMessage(std::unique_ptr<kakaIM::Node::VideoChatNegotiationResultMessage> message,const std::string connectionIdentifier){
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SingleChatModule::addVideoChatCandidateAddressMessage(std::unique_ptr<kakaIM::Node::VideoChatCandidateAddressMessage> message,const std::string connectionIdentifier){
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-
-        void SingleChatModule::addVideoChatByeMessage(std::unique_ptr<kakaIM::Node::VideoChatByeMessage> message,const std::string connectionIdentifier){
-            if (!message){
-                return;
-            }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-        }
-	std::shared_ptr<pqxx::connection> SingleChatModule::getDBConnection() {
-            if (this->m_dbConnection) {
-                return this->m_dbConnection;
-            }
-
-            const std::string postgrelConnectionUrl =
-                    "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
-                    this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                    std::to_string(this->dbConfig.getPort());
-
-            try {
-
-                this->m_dbConnection = std::make_shared<pqxx::connection>(postgrelConnectionUrl);
-
-                if (!this->m_dbConnection->is_open()) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
-                }
-
-
-            } catch (const std::exception &exception) {
-                LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << "连接数据库出错," << exception.what());
-            }
-
-            return this->m_dbConnection;
-        }
     }
 }
 

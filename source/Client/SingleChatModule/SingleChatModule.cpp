@@ -2,8 +2,8 @@
 // Created by Kakawater on 2018/2/1.
 //
 
-#include "SingleChatModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Client/SingleChatModule/SingleChatModule.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 namespace kakaIM {
     namespace client {
 

@@ -10,12 +10,13 @@
 #include <memory>
 #include <mutex>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../ClusterManagerModule/ClusterEvent.h"
-#include "../Service/ServerManageService.h"
-#include "../Service/ConnectionOperationService.h"
-#include "../Service/UserStateManagerService.h"
+#include <Common/KIMModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <President/ClusterManagerModule/ClusterEvent.h>
+#include <President/Service/ServerManageService.h>
+#include <President/Service/ConnectionOperationService.h>
+#include <President/Service/UserStateManagerService.h>
+#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
 
 namespace kakaIM {
     namespace president {
@@ -27,15 +28,7 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            virtual void execute() override;
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
-            void addUpdateUserOnlineStateMessage(std::unique_ptr<UpdateUserOnlineStateMessage> message,
-                                                 const std::string connectionIdentifier);
-
-            void
-            addUserOnlineStateMessage(std::unique_ptr<UserOnlineStateMessage> message, const std::string connectionIdentifier);
 
             void addEvent(ClusterEvent event);
 
@@ -47,13 +40,22 @@ namespace kakaIM {
              * @return 服务器ID列表
              */
             std::list<std::string> queryUserLoginServer(std::string userAccount);
-
+        protected:
+            virtual void execute() override;
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
 
             std::mutex messageQueueMutex;
             int messageEventfd;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
+
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            ConcurrentLinkedQueue<ClusterEvent> mEventQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
+            void dispatchClusterEvent(ClusterEvent & event);
 
             void handleUpdateUserOnlineStateMessage(const UpdateUserOnlineStateMessage &,
                                                     const std::string connectionIdentifier);
@@ -64,7 +66,7 @@ namespace kakaIM {
 
             int clusterEventfd;
             std::mutex eventQueueMutex;
-            std::queue<ClusterEvent> mEventQueue;
+//            std::queue<ClusterEvent> mEventQueue;
 
             void handleNewNodeJoinedClusterEvent(const ClusterEvent &event);
 

@@ -47,9 +47,12 @@ namespace kakaIM {
 
             uint64_t currentConnectionCount();
 
-        protected:
+            virtual void start() override;
+            virtual void stop() override;
             virtual void execute() override;
-
+        protected:
+            bool m_isStarted;
+            virtual void shouldStop() override;
         private:
             std::shared_ptr<MessageCenterAdapter> mAdapater;
             std::list<MessageFilter *> messageFilterList;

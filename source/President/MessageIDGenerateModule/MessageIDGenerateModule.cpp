@@ -10,8 +10,8 @@
 #include <typeinfo>
 #include <limits>
 #include <typeinfo>
-#include "MessageIDGenerateModule.h"
-#include "../Log/log.h"
+#include <President/MessageIDGenerateModule/MessageIDGenerateModule.h>
+#include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
@@ -20,7 +20,7 @@ namespace kakaIM {
         uint64_t waitNextMs(uint64_t lastStamp);
 
         MessageIDGenerateModule::MessageIDGenerateModule() : messageEventfd(-1) {
-	    this->logger = log4cxx::Logger::getLogger(MessageIDGenerateModuleLogger);
+            this->logger = log4cxx::Logger::getLogger(MessageIDGenerateModuleLogger);
         }
 
         MessageIDGenerateModule::~MessageIDGenerateModule() {
@@ -42,38 +42,40 @@ namespace kakaIM {
         }
 
         void MessageIDGenerateModule::execute() {
-            while (this->m_isStarted) {
-                uint64_t count;
-                if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                    while (count-- && false == this->messageQueue.empty()) {
-                        this->messageQueueMutex.lock();
-                        auto pairIt = std::move(this->messageQueue.front());
-                        this->messageQueue.pop();
-                        this->messageQueueMutex.unlock();
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
 
-                        this->handleRequestMessageIDMessage(*(pairIt.first.get()), pairIt.second);
-                    }
+            while (not this->m_needStop) {
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
                 } else {
-		    LOG4CXX_WARN(this->logger, typeid(this).name()<<""<<__FUNCTION__<<"read(messageEventfd)操作出错，errno ="<<errno);
+                    std::this_thread::yield();
                 }
             }
-        }
 
-        void MessageIDGenerateModule::setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr){
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void MessageIDGenerateModule::addRequestMessageIDMessage(std::unique_ptr<RequestMessageIDMessage> message,
-                                                                 const std::string connectionIdentifier) {
-            if (!message){
-                return;
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
             }
-            //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+        }
+
+        void MessageIDGenerateModule::dispatchMessage(
+                std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string> &task) {
+            this->handleRequestMessageIDMessage(*(task.first.get()), task.second);
+        }
+
+        void MessageIDGenerateModule::shouldStop() {
+            this->m_needStop = true;
+        }
+
+        void MessageIDGenerateModule::setConnectionOperationService(
+                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
+            this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
         void MessageIDGenerateModule::handleRequestMessageIDMessage(const RequestMessageIDMessage &message,
@@ -102,7 +104,9 @@ namespace kakaIM {
             uint64_t currentTimestamp = generateStamp();
             // 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
             if (currentTimestamp < lastTimestamp) {
-		LOG4CXX_ERROR(this->logger, typeid(this).name()<<""<<__FUNCTION__<<"clock moved backwards.  Refusing to generate id for "<<lastTimestamp - currentTimestamp<<" milliseconds");
+                LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__
+                                                                << "clock moved backwards.  Refusing to generate id for "
+                                                                << lastTimestamp - currentTimestamp << " milliseconds");
                 //抛出异常
             }
 
@@ -132,8 +136,9 @@ namespace kakaIM {
             responseMessageIDMessage.set_messageid(messageID.to_ullong());
             responseMessageIDMessage.set_requestid(message.requestid());
             assert(responseMessageIDMessage.IsInitialized());
-            if(auto connectionOperationService = this->connectionOperationServicePtr.lock()){
-                connectionOperationService->sendMessageThroughConnection(connectionIdentifier,responseMessageIDMessage);
+            if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
+                connectionOperationService->sendMessageThroughConnection(connectionIdentifier,
+                                                                         responseMessageIDMessage);
             }
         }
 

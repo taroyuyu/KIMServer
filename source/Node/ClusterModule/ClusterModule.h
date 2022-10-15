@@ -6,29 +6,22 @@
 #define KAKAIMCLUSTER_CLUSTERMODULE_H
 
 #include <semaphore.h>
-#include <queue>
 #include <map>
 #include <time.h>
 #include <functional>
-#include <memory>
-#include <mutex>
 #include <set>
-#include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../../Common/Net/TCPSocket/TCPClientSocket.h"
-#include "../../Common/Net/TCPSocketManager/TCPSocketManager.h"
-#include "../../Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h"
-#include "../../Common/KakaIMMessageAdapter.h"
-#include "../Service/ClusterService.h"
-#include "../Service/MessageIDGenerateService.h"
-#include "../Service/NodeConnectionQueryService.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <Common/Net/TCPSocket/TCPClientSocket.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManager.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h>
+#include <Common/KakaIMMessageAdapter.h>
+#include <Common/Timer/Timer.h>
 
 namespace kakaIM {
     namespace node {
         class ClusterModule
-                : public kakaIM::common::KIMModule,
+                : public KIMNodeModule,
                   public kakaIM::net::TCPSocketManagerConsignor,
                   public ClusterService,
                   public MessageIDGenerateService {
@@ -39,7 +32,7 @@ namespace kakaIM {
              * @param presidentPort president监听的端口号
              * @param serverID Node的serverID
              * @param invitationCode 邀请码
-	     * @param lngLatPair 经纬度(经度，纬度)
+	         * @param lngLatPair 经纬度(经度，纬度)
              * @param serviceAddr 本实例提供服务所监听的IP地址
              * @param servicePort 本实例提供服务所监听的端口
              */
@@ -48,12 +41,6 @@ namespace kakaIM {
                           uint16_t servicePort);
 
             ~ClusterModule();
-
-            virtual bool init() override;
-
-            void setNodeConnectionQueryService(std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr);
-
-            virtual void stop() override;
 
             virtual void execute() override;
 
@@ -97,19 +84,25 @@ namespace kakaIM {
             virtual std::shared_ptr<MessageIDGenerateService::Futrue>
             generateMessageIDWithUserAccount(const std::string &userAccount) override;
 
+
+        protected:
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
         private:
-            enum ClusterModuleState {
+            enum class ClusterModuleState {
                 Disconnected,
                 ConnectingPresident,
                 ConnectedPresident,
             } moduleState;
-            enum MessageSource {
-                MessageSource_NodeInternal,//节点内部
-                MessageSource_Cluster,//集群
+            enum class MessageSource {
+                NodeInternal,//节点内部
+                Cluster,//集群
             };
-            std::mutex mMessageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
             std::list<UserOnlineStateListener *> mUserOnlineStateListenerList;
+
+            void dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair);
+
+            void handleHeartBeatEvent();
 
             void handleResponseJoinClusterMessage(const president::ResponseJoinClusterMessage &message);
 
@@ -135,16 +128,12 @@ namespace kakaIM {
             std::pair<float, float> mlngLatPair;
             std::string serviceAddr;
             uint16_t servicePort;
-            int mHeartBeatTimerfd;//心跳定时器
-            int mMessageEventfd;//消息事件
+            Timer mHeartBeatTimer;// 心跳定时器
             std::map<std::string, std::function<void(
                     kakaIM::president::ResponseMessageIDMessage response)>> mMessageIDRequestCallback;
 
-            std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr;
-
             std::mutex serverMessageListenerSetMutex;
             std::set<ServerMessageListener*> serverMessageListenerSet;
-            log4cxx::LoggerPtr logger;
         };
     }
 }

@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 #define KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 
-#include "../ServiceModule/ServiceModule.h"
+#include <Client/ServiceModule/ServiceModule.h>
 #include <functional>
 
 namespace kakaIM {

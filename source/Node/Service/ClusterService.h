@@ -5,8 +5,8 @@
 #ifndef KAKAIMCLUSTER_CLUSTERSERVICE_H
 #define KAKAIMCLUSTER_CLUSTERSERVICE_H
 
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../../Common/proto/MessageCluster.pb.h"
+#include <Common/proto/KakaIMMessage.pb.h>
+#include <Common/proto/MessageCluster.pb.h>
 
 namespace kakaIM {
     namespace node {

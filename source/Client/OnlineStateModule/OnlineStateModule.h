@@ -5,8 +5,8 @@
 #ifndef KAKAIMCLUSTER_ONLINESTATEMODULE_H
 #define KAKAIMCLUSTER_ONLINESTATEMODULE_H
 
-#include "../ServiceModule/ServiceModule.h"
-#include "../RosterModule/User.h"
+#include <Client/ServiceModule/ServiceModule.h>
+#include <Client/RosterModule/User.h>
 #include <map>
 namespace kakaIM {
     namespace client {

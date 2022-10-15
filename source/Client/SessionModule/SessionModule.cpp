@@ -6,9 +6,9 @@
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include <sys/timerfd.h>
-#include "SessionModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../../Common/util/Date.h"
+#include <Client/SessionModule/SessionModule.h>
+#include <Common/proto/KakaIMMessage.pb.h>
+#include <Common/util/Date.h>
 
 namespace kakaIM {
     namespace client {
@@ -97,7 +97,12 @@ namespace kakaIM {
 
 
         void SessionModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+            while (not this->m_needStop) {
                 int const kHandleEventMaxCountPerLoop = 10;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
 
@@ -166,6 +171,13 @@ namespace kakaIM {
                     }
                 }
             }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
         }
 
         void SessionModule::buildSession(BuildSessionSuccessCallback success, BuildSessionFailureCallback failure) {
@@ -185,6 +197,10 @@ namespace kakaIM {
             Node::RequestSessionIDMessage requestSessionIDMessage;
             this->mSocketManager->sendMessage(this->mConnectionSocket,requestSessionIDMessage);
             this->state = SessionModuleState_SessionBuilding;
+        }
+
+        void SessionModule::shouldStop(){
+            this->m_needStop = true;
         }
 
         void SessionModule::destorySession() {

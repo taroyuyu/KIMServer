@@ -6,7 +6,7 @@
 #define KAKAIMCLUSTER_SERVERMANAGESERVICE_H
 
 #include <set>
-#include "Node.h"
+#include <President/Service/Node.h>
 
 namespace kakaIM {
     namespace president {

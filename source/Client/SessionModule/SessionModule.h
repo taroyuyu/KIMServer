@@ -9,12 +9,12 @@
 #include <functional>
 #include <queue>
 #include <memory>
-#include "../../Common/KIMModule.h"
-#include "../../Common/Net/TCPSocket/TCPClientSocket.h"
-#include "../../Common/Net/TCPSocketManager/TCPSocketManager.h"
-#include "../../Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h"
-#include "../../Common/KakaIMMessageAdapter.h"
-#include "../ServiceModule/ServiceModule.h"
+#include <Common/KIMModule.h>
+#include <Common/Net/TCPSocket/TCPClientSocket.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManager.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h>
+#include <Common/KakaIMMessageAdapter.h>
+#include <Client/ServiceModule/ServiceModule.h>
 
 namespace kakaIM {
     namespace client {
@@ -55,7 +55,8 @@ namespace kakaIM {
         protected:
 
             virtual void execute() override;
-
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
 
