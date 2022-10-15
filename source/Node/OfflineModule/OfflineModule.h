@@ -35,8 +35,6 @@ namespace kakaIM {
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
             /**
              * 将消息持久化
              * @param message 待持久化的消息

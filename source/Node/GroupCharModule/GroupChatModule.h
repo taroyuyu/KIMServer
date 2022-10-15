@@ -50,7 +50,7 @@ namespace kakaIM {
             void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
 
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
-            
+
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
