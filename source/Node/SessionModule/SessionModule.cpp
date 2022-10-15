@@ -39,7 +39,12 @@ namespace kakaIM {
         }
 
         void SessionModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+            while (this->m_needStop) {
 
                 int const kHandleEventMaxCountPerLoop = 2;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
@@ -88,8 +93,17 @@ namespace kakaIM {
                 }
 
             }
-        }
 
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
+        }
+        void SessionModule::shouldStop(){
+            this->m_needStop = true;
+        }
         bool SessionModule::doFilter(const ::google::protobuf::Message &message,
                                      const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
