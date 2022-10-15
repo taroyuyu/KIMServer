@@ -37,8 +37,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
             /**
              * @description 获取用户状态
              * @param userAccount 用户账号
