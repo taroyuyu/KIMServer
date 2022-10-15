@@ -172,12 +172,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
-
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void GroupChatModule::addChatGroupDisbandRequestMessage(
@@ -187,11 +182,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -201,11 +192,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -215,11 +202,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -229,11 +212,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -244,11 +223,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -259,11 +234,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void GroupChatModule::addFetchChatGroupMemberListRequestMessage(
@@ -273,11 +244,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -288,11 +255,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void GroupChatModule::addGroupChatMessage(std::unique_ptr<kakaIM::Node::GroupChatMessage> message,
@@ -301,11 +264,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::make_pair(std::move(message), connectionIdentifier));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void GroupChatModule::handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,
