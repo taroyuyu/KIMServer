@@ -44,54 +44,12 @@ namespace kakaIM {
                 this->m_status = Status::Started;
                 this->m_statusCV.notify_all();
             }
-            while (this->m_needStop) {
-
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->epollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 等待Epill实例上的事件出错");
+            while (not this->m_needStop) {
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                } else {
+                    std::this_thread::yield();
                 }
-
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    auto messageType = pairIt.first->GetTypeName();
-                                    if (messageType ==
-                                        kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
-                                        handleSessionIDRequestMessage(
-                                                *(kakaIM::Node::RequestSessionIDMessage *) pairIt.first.get(),
-                                                pairIt.second);
-                                    } else if (messageType ==
-                                               kakaIM::Node::LogoutMessage::default_instance().GetTypeName()) {
-                                        handleLogoutMessage(*(kakaIM::Node::LogoutMessage *) pairIt.first.get(),
-                                                            pairIt.second);
-                                    }
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-
-                        }
-                    }
-
-                }
-
             }
 
             this->m_needStop = false;
@@ -103,6 +61,19 @@ namespace kakaIM {
         }
         void SessionModule::shouldStop(){
             this->m_needStop = true;
+        }
+        void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task){
+            auto messageType = task.first->GetTypeName();
+            if (messageType ==
+                kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
+                handleSessionIDRequestMessage(
+                        *(kakaIM::Node::RequestSessionIDMessage *) task.first.get(),
+                        task.second);
+            } else if (messageType ==
+                       kakaIM::Node::LogoutMessage::default_instance().GetTypeName()) {
+                handleLogoutMessage(*(kakaIM::Node::LogoutMessage *) task.first.get(),
+                                    task.second);
+            }
         }
         bool SessionModule::doFilter(const ::google::protobuf::Message &message,
                                      const std::string connectionIdentifier) {

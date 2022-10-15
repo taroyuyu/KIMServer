@@ -10,6 +10,7 @@
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/util/Date.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 #include "../Service/ConnectionOperationService.h"
 #include <map>
 #include <string>
@@ -51,12 +52,15 @@ namespace kakaIM {
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> messageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
 
 
             /**
              * key-Value形式为 sessionID-connectionIdentifier
              */
             std::map<std::string, std::string> sessionMap;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task);
 
             void handleSessionIDRequestMessage(const kakaIM::Node::RequestSessionIDMessage &message,
                                                const std::string connectionIdentifier);
