@@ -39,8 +39,6 @@ namespace kakaIM {
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setQueryUserAccountWithSessionService(
