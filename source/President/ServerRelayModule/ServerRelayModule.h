@@ -32,8 +32,6 @@ namespace kakaIM {
 
             void setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr);
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
             void addEvent(ClusterEvent event);
 
         protected:
