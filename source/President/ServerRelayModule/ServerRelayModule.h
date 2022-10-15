@@ -24,8 +24,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            virtual void execute() override;
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setUserStateManagerService(std::weak_ptr<UserStateManagerService> userStateManagerServicePtr);
@@ -36,6 +34,10 @@ namespace kakaIM {
 
             void addEvent(ClusterEvent event);
 
+        protected:
+            virtual void execute() override;
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             void handleServerMessage(const ServerMessage &message, const std::string connectionIdentifier);
 
