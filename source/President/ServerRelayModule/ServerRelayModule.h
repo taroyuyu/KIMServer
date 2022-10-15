@@ -14,6 +14,8 @@
 #include "../Service/ConnectionOperationService.h"
 #include "../Service/UserStateManagerService.h"
 #include "../Service/ServerManageService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
+
 namespace kakaIM {
     namespace president {
         class ServerRelayModule : public kakaIM::common::KIMModule {
@@ -39,6 +41,10 @@ namespace kakaIM {
             virtual void shouldStop() override;
             std::atomic_bool m_needStop;
         private:
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<ServerMessage>, const std::string>> mTaskQueue;
+            ConcurrentLinkedQueue<ClusterEvent> mEventQueue;
+            void dispatchMessage(std::pair<std::unique_ptr<ServerMessage>, const std::string> & task);
+            void dispatchClusterEvent(ClusterEvent & event);
             void handleServerMessage(const ServerMessage &message, const std::string connectionIdentifier);
 
             void handleNewNodeJoinedClusterEvent(const ClusterEvent &event);
@@ -57,7 +63,7 @@ namespace kakaIM {
 
             int eventQueuefd;
             std::mutex eventQueueMutex;
-            std::queue<ClusterEvent> mEventQueue;
+//            std::queue<ClusterEvent> mEventQueue;
 
 	    log4cxx::LoggerPtr logger;
         };

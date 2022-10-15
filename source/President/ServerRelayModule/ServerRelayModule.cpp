@@ -50,67 +50,19 @@ namespace kakaIM {
             }
 
             while (not this->m_needStop) {
-                int const kHandleEventMaxCountPerLoop = 2;
-                static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
-
-                //等待事件发送，超时时间为0.1秒
-                int happedEventsCount = epoll_wait(this->mEpollInstance, happedEvents, kHandleEventMaxCountPerLoop,
-                                                   1000);
-
-                if (-1 == happedEventsCount) {
-                    LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 等待Epoll实例上的事件出错，errno ="
-                                                                   << errno);
+                bool needSleep = true;
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                    needSleep = false;
                 }
 
-                //遍历所有的文件描述符
-                for (int i = 0; i < happedEventsCount; ++i) {
-                    if (EPOLLIN & happedEvents[i].events) {
-                        if (this->eventQueuefd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < read(this->eventQueuefd, &count, sizeof(count))) {
-                                while (count-- && false == this->mEventQueue.empty()) {
-                                    this->eventQueueMutex.lock();
-                                    auto event = std::move(this->mEventQueue.front());
-                                    this->mEventQueue.pop();
-                                    this->eventQueueMutex.unlock();
+                if (auto event = this->mEventQueue.try_pop()){
+                    this->dispatchClusterEvent(*event);
+                    needSleep = false;
+                }
 
-                                    switch (event.getEventType()) {
-                                        case ClusterEvent::NewNodeJoinedCluster: {
-                                            this->handleNewNodeJoinedClusterEvent(event);
-                                        }
-                                            break;
-                                        case ClusterEvent::NodeRemovedCluster: {
-                                            this->handleNodeRemovedClusterEvent(event);
-                                        }
-                                            break;
-                                        default: {
-
-                                        }
-                                    }
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(eventqueuefd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        } else if (this->messageEventfd == happedEvents[i].data.fd) {
-                            uint64_t count;
-                            if (0 < ::read(this->messageEventfd, &count, sizeof(count))) {
-                                while (count-- && false == this->messageQueue.empty()) {
-                                    this->messageQueueMutex.lock();
-                                    auto pairIt = std::move(this->messageQueue.front());
-                                    this->messageQueue.pop();
-                                    this->messageQueueMutex.unlock();
-
-                                    this->handleServerMessage(*(pairIt.first.get()), pairIt.second);
-                                }
-                            } else {
-                                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                               << "read(messageEventfd)操作出错，errno ="
-                                                                               << errno);
-                            }
-                        }
-                    }
+                if (needSleep){
+                    std::this_thread::yield();
                 }
             }
 
@@ -124,6 +76,23 @@ namespace kakaIM {
 
         void ServerRelayModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void ServerRelayModule::dispatchMessage(std::pair<std::unique_ptr<ServerMessage>, const std::string> & task){
+            this->handleServerMessage(*(task.first.get()), task.second);
+        }
+
+        void ServerRelayModule::dispatchClusterEvent(ClusterEvent & event){
+            switch (event.getEventType()) {
+                case ClusterEvent::NewNodeJoinedCluster: {
+                    this->handleNewNodeJoinedClusterEvent(event);
+                }
+                    break;
+                case ClusterEvent::NodeRemovedCluster: {
+                    this->handleNodeRemovedClusterEvent(event);
+                }
+                    break;
+            }
         }
 
         void
