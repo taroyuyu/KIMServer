@@ -157,14 +157,14 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(HeartBeatMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mClusterManagerModulePtr->addHeartBeatMessage(std::move(std::unique_ptr<HeartBeatMessage>((HeartBeatMessage*)message.get())),
+								    this->mClusterManagerModulePtr->addMessage(std::move(std::unique_ptr<HeartBeatMessage>((HeartBeatMessage*)message.get())),
                                                                                                                               connectionIdentifier);
                         				            message.release();
                                                              });
             this->mMessageCenterModulePtr->setMessageHandler(UserOnlineStateMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mUserStateManagerModulePtr->addUserOnlineStateMessage(std::move(std::unique_ptr<UserOnlineStateMessage>((UserOnlineStateMessage*)message.get())),
+								    this->mUserStateManagerModulePtr->addMessage(std::move(std::unique_ptr<UserOnlineStateMessage>((UserOnlineStateMessage*)message.get())),
                                                                                                                      connectionIdentifier);
                         				 	    message.release();
                                                              });
@@ -172,7 +172,7 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(
                     UpdateUserOnlineStateMessage::default_instance().GetTypeName(),
                     [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
-			this->mUserStateManagerModulePtr->addUpdateUserOnlineStateMessage(std::move(std::unique_ptr<UpdateUserOnlineStateMessage>((UpdateUserOnlineStateMessage*)message.get())),
+			this->mUserStateManagerModulePtr->addMessage(std::move(std::unique_ptr<UpdateUserOnlineStateMessage>((UpdateUserOnlineStateMessage*)message.get())),
                                                                                     connectionIdentifier);
                         message.release();
                     });
@@ -180,7 +180,7 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(RequestMessageIDMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mMessageIDGenerateModulePtr->addRequestMessageIDMessage(std::move(std::unique_ptr<RequestMessageIDMessage>((RequestMessageIDMessage*)message.get())),
+								    this->mMessageIDGenerateModulePtr->addMessage(std::move(std::unique_ptr<RequestMessageIDMessage>((RequestMessageIDMessage*)message.get())),
                                                                                                                                    connectionIdentifier);
 	                        			 	    message.release();
                                                              });
@@ -188,7 +188,7 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(ServerMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mServerRelayModulePtr->addServerMessage(std::move(std::unique_ptr<ServerMessage>((ServerMessage*)message.get())),
+								    this->mServerRelayModulePtr->addMessage(std::move(std::unique_ptr<ServerMessage>((ServerMessage*)message.get())),
                                                                                                                                connectionIdentifier);
                        						     message.release();
                                                              });
@@ -196,7 +196,7 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(NodeLoadInfoMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-							            this->mNodeLoadBlanceModulePtr->addNodeLoadInfoMessage(std::move(std::unique_ptr<NodeLoadInfoMessage>((NodeLoadInfoMessage*)message.get())),
+							            this->mNodeLoadBlanceModulePtr->addMessage(std::move(std::unique_ptr<NodeLoadInfoMessage>((NodeLoadInfoMessage*)message.get())),
                                                                                                                connectionIdentifier);
                         					    message.release();
                                                              });
@@ -204,7 +204,7 @@ namespace kakaIM {
             this->mMessageCenterModulePtr->setMessageHandler(RequestNodeMessage::default_instance().GetTypeName(),
                                                              [this](std::unique_ptr<::google::protobuf::Message> message,
                                                                     const std::string connectionIdentifier) {
-								    this->mNodeLoadBlanceModulePtr->addRequestNodeMessage(std::move(std::unique_ptr<RequestNodeMessage>((RequestNodeMessage*)message.get())),
+								    this->mNodeLoadBlanceModulePtr->addMessage(std::move(std::unique_ptr<RequestNodeMessage>((RequestNodeMessage*)message.get())),
                                                                                                                         connectionIdentifier);
 								    message.release();
                                                              });
