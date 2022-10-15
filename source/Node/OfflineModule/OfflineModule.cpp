@@ -141,6 +141,18 @@ namespace kakaIM {
             this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
         }
 
+        void OfflineModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            if (kakaIM::Node::PullChatMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
         void OfflineModule::addPullChatMessage(std::unique_ptr<kakaIM::Node::PullChatMessage> message,
                                                const std::string connectionIdentifier) {
             if (!message) {
