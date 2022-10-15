@@ -43,7 +43,12 @@ namespace kakaIM {
         }
 
         void UserStateManagerModule::execute() {
-            while (this->m_isStarted) {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
+            while (not this->m_needStop) {
                 int const kHandleEventMaxCountPerLoop = 2;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
 
@@ -115,6 +120,17 @@ namespace kakaIM {
                     }
                 }
             }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
+        }
+
+        void UserStateManagerModule::shouldStop(){
+            this->m_needStop = true;
         }
 
         void UserStateManagerModule::handleUpdateUserOnlineStateMessage(const UpdateUserOnlineStateMessage &message,
