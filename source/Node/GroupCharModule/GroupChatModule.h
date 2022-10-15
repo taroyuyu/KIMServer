@@ -81,7 +81,8 @@ namespace kakaIM {
             addGroupChatMessage(std::unique_ptr<kakaIM::Node::GroupChatMessage> message, const std::string connectionIdentifier);
         protected:
             virtual void execute() override;
-
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
             int messageEventfd;
