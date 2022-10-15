@@ -46,8 +46,6 @@ namespace kakaIM {
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 
