@@ -18,6 +18,7 @@
 #include "../Service/UserRelationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../Service/ConnectionOperationService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 namespace kakaIM {
     namespace node {
         class RosterModule
@@ -75,6 +76,9 @@ namespace kakaIM {
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> messageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task);
 
             void
             handleBuildingRelationshipRequestMessage(const kakaIM::Node::BuildingRelationshipRequestMessage &message,
