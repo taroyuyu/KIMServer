@@ -28,9 +28,6 @@ namespace kakaIM {
             virtual bool init() override;
 
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
-            void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
-
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
