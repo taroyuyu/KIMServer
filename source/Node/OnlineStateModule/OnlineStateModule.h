@@ -40,18 +40,6 @@ namespace kakaIM {
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) override;
 
             /**
-             * @description 添加在线状态消息
-             * @param message
-             */
-            void addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
-                                       const std::string connectionIdentifier);
-            /**
-              * @description 添加拉取好友在线状态消息
-              * @param message
-              */
-            void addPullFriendOnlineStateMessage(std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage> message,const std::string connectionIdentifier);
-
-            /**
              * @description 获取用户状态
              * @param userAccount 用户账号
              * @return 用户状态

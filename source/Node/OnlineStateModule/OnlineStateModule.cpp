@@ -141,24 +141,6 @@ namespace kakaIM {
                 this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
             }
         }
-        void OnlineStateModule::addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
-                                                      const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
-
-        void OnlineStateModule::addPullFriendOnlineStateMessage(
-                std::unique_ptr<kakaIM::Node::PullFriendOnlineStateMessage> message,
-                const std::string connectionIdentifier) {
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
-        }
 
         void OnlineStateModule::didReceivedUserOnlineStateFromCluster(
                 const kakaIM::president::UserOnlineStateMessage &userOnlineStateMessage) {
