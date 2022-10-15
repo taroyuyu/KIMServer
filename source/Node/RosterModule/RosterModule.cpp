@@ -987,6 +987,31 @@ namespace kakaIM {
             }
         }
 
+        void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+            if (!message) {
+                return;
+            }
+            if (kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }else if (kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName() == message->GetTypeName()){
+                //添加到队列中
+                this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier)));
+            }
+        }
+
         void RosterModule::addBuildingRelationshipRequestMessage(
                 std::unique_ptr<kakaIM::Node::BuildingRelationshipRequestMessage> message,
                 const std::string connectionIdentifier) {
