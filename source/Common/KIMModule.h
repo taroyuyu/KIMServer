@@ -5,11 +5,14 @@
 #ifndef KAKAIMCLUSTER_KIMMODULE_H
 #define KAKAIMCLUSTER_KIMMODULE_H
 
+#include <memory>
+#include <string>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
 #include <google/protobuf/message.h>
+#include "ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace common {
@@ -29,11 +32,12 @@ namespace kakaIM {
                 this->start();
             }
 
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) = 0;
+            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier);
 
         protected:
             virtual void execute() = 0;
             virtual void shouldStop() = 0;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
         protected:
             std::thread m_workThread;
             enum class Status:int{

@@ -15,8 +15,8 @@ namespace kakaIM {
             this->m_workThread = std::move(std::thread([this]() {
                 this->execute();
             }));
-            this->m_statusCV.wait(lock,[this](){
-               return Status::Started != this->m_status;
+            this->m_statusCV.wait(lock, [this]() {
+                return Status::Started != this->m_status;
             });
         }
 
@@ -27,9 +27,18 @@ namespace kakaIM {
             }
             this->m_status = Status::Stopping;
             this->shouldStop();
-            this->m_statusCV.wait(lock,[this](){
+            this->m_statusCV.wait(lock, [this]() {
                 return Status::Stopped != this->m_status;
             });
+        }
+
+        void KIMModule::addMessage(std::unique_ptr<::google::protobuf::Message> message,
+                                   const std::string connectionIdentifier) {
+            if (!message) {
+                return;
+            }
+
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier));
         }
     }
 }
