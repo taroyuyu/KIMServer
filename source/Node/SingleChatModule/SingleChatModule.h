@@ -37,35 +37,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
-            void
-            addChatMessage(std::unique_ptr<kakaIM::Node::ChatMessage> message, const std::string connectionIdentifier);
-
-            void addVideoChatRequestCancelMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestCancelMessage> message,
-                                                  const std::string connectionIdentifier);
-
-            void addVideoChatRequestMessage(std::unique_ptr<kakaIM::Node::VideoChatRequestMessage> message,
-                                            const std::string connectionIdentifier);
-
-            void addVideoChatReplyMessage(std::unique_ptr<kakaIM::Node::VideoChatReplyMessage> message,
-                                          const std::string connectionIdentifier);
-
-            void addVideoChatOfferMessage(std::unique_ptr<kakaIM::Node::VideoChatOfferMessage> message,
-                                          const std::string connectionIdentifier);
-
-            void addVideoChatAnswerMessage(std::unique_ptr<kakaIM::Node::VideoChatAnswerMessage> message,
-                                           const std::string connectionIdentifier);
-
-            void
-            addVideoChatCandidateAddressMessage(std::unique_ptr<kakaIM::Node::VideoChatCandidateAddressMessage> message,
-                                                const std::string connectionIdentifier);
-
-            void addVideoChatNegotiationResultMessage(
-                    std::unique_ptr<kakaIM::Node::VideoChatNegotiationResultMessage> message,
-                    const std::string connectionIdentifier);
-
-            void addVideoChatByeMessage(std::unique_ptr<kakaIM::Node::VideoChatByeMessage> message,
-                                        const std::string connectionIdentifier);
-
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
