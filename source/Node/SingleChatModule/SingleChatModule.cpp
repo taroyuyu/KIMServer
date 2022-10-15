@@ -855,11 +855,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void
@@ -869,11 +865,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatRequestCancelMessage(
@@ -883,11 +875,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatReplyMessage(std::unique_ptr<kakaIM::Node::VideoChatReplyMessage> message,
@@ -896,11 +884,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatOfferMessage(std::unique_ptr<kakaIM::Node::VideoChatOfferMessage> message,
@@ -909,11 +893,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatAnswerMessage(std::unique_ptr<kakaIM::Node::VideoChatAnswerMessage> message,
@@ -922,11 +902,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatNegotiationResultMessage(
@@ -936,11 +912,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatCandidateAddressMessage(
@@ -950,11 +922,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         void SingleChatModule::addVideoChatByeMessage(std::unique_ptr<kakaIM::Node::VideoChatByeMessage> message,
@@ -963,11 +931,7 @@ namespace kakaIM {
                 return;
             }
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(message), connectionIdentifier);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(message),connectionIdentifier));
         }
 
         std::shared_ptr<pqxx::connection> SingleChatModule::getDBConnection() {
