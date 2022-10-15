@@ -22,6 +22,7 @@
 #include "../President.h"
 #include "../Service/ServerManageService.h"
 #include "../Service/ConnectionOperationService.h"
+#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 namespace kakaIM {
     namespace president {
         class ClusterManagerModule
@@ -63,6 +64,10 @@ namespace kakaIM {
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
 
             int messageEventfd;
+
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message> ,const std::string>> mTaskQueue;
+
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message> ,const std::string> & task);
 
             void handleRequestJoinClusterMessage(const RequestJoinClusterMessage &, const std::string connectionIdentifier);
 

@@ -32,23 +32,10 @@ namespace kakaIM {
                 this->m_statusCV.notify_all();
             }
             while (not this->m_needStop) {
-                uint64_t count;
-                if (0 < read(this->messageEventfd, &count, sizeof(count))) {
-                    while (count-- && false == this->messageQueue.empty()) {
-                        this->messageQueueMutex.lock();
-                        auto pairIt = std::move(this->messageQueue.front());
-                        this->messageQueue.pop();
-                        this->messageQueueMutex.unlock();
-                        if (pairIt.first->GetTypeName() ==
-                            president::RequestJoinClusterMessage::default_instance().GetTypeName()) {
-                            this->handleRequestJoinClusterMessage(
-                                    *(president::RequestJoinClusterMessage *) pairIt.first.get(), pairIt.second);
-                        } else if (pairIt.first->GetTypeName() ==
-                                   president::HeartBeatMessage::default_instance().GetTypeName()) {
-                            this->handleHeartBeatMessage(*(president::HeartBeatMessage *) pairIt.first.get(),
-                                                         pairIt.second);
-                        }
-                    }
+                if (auto task = this->mTaskQueue.try_pop()) {
+                    this->dispatchMessage(*task);
+                } else {
+                    std::this_thread::yield();
                 }
             }
 
@@ -62,6 +49,19 @@ namespace kakaIM {
 
         void ClusterManagerModule::shouldStop() {
             this->m_needStop = true;
+        }
+
+        void ClusterManagerModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
+            if (task.first->GetTypeName() ==
+                president::RequestJoinClusterMessage::default_instance().GetTypeName()) {
+                this->handleRequestJoinClusterMessage(
+                        *(president::RequestJoinClusterMessage *) task.first.get(), task.second);
+            } else if (task.first->GetTypeName() ==
+                       president::HeartBeatMessage::default_instance().GetTypeName()) {
+                this->handleHeartBeatMessage(*(president::HeartBeatMessage *) pairIt.first.get(),
+                                             task.second);
+            }
         }
 
         void ClusterManagerModule::handleRequestJoinClusterMessage(
