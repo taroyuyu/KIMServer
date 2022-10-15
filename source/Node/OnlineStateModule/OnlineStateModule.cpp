@@ -59,10 +59,15 @@ namespace kakaIM {
         }
 
         void OnlineStateModule::execute() {
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
             //向EventBus注册监听消息
             EventBus::getDefault().registerEvent(userLogoutEventProto->getEventType(), this);
             EventBus::getDefault().registerEvent(nodeSecessionEventProto->getEventType(), this);
-            while (this->m_isStarted) {
+            while (this->m_needStop) {
                 int const kHandleEventMaxCountPerLoop = 2;
                 static struct epoll_event happedEvents[kHandleEventMaxCountPerLoop];
 
@@ -136,8 +141,18 @@ namespace kakaIM {
             if (auto clusterServicePtr = this->mClusterServicePtr.lock()) {
                 clusterServicePtr->removeUserOnlineStateListener(*this);
             }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
+            }
         }
 
+        void OnlineStateModule::shouldStop(){
+            this->m_needStop = true;
+        }
         void OnlineStateModule::addOnlineStateMessage(std::unique_ptr<kakaIM::Node::OnlineStateMessage> message,
                                                       const std::string connectionIdentifier) {
             if(!message){
