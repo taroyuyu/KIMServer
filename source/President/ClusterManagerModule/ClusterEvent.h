@@ -11,7 +11,7 @@ namespace kakaIM {
     namespace president {
         class ClusterEvent {
         public:
-            enum ClusterEventType{
+            enum class ClusterEventType{
                 NewNodeJoinedCluster,//新的节点加入集群
                 NodeRemovedCluster,//节点脱离集群
             };
