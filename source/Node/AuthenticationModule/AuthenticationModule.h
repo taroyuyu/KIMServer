@@ -5,10 +5,10 @@
 #ifndef KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 #define KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 
-#include "../KIMNodeModule/KIMNodeModule.h"
-#include "../../Common/Net/MessageCenterModule/MessageFilter.h"
-#include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
-#include "../Events/UserLogoutEvent.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <Common/Net/MessageCenterModule/MessageFilter.h>
+#include <Common/Net/MessageCenterModule/ConnectionDelegate.h>
+#include <Node/Events/UserLogoutEvent.h>
 #include <map>
 #include <queue>
 

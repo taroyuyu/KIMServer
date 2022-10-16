@@ -3,10 +3,10 @@
 //
 
 #include <zconf.h>
-#include "AuthenticationModule.h"
-#include "../../Common/EventBus/EventBus.h"
-#include "../Log/log.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/AuthenticationModule/AuthenticationModule.h>
+#include <Common/EventBus/EventBus.h>
+#include <Node/Log/log.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
