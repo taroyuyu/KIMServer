@@ -79,39 +79,31 @@ namespace kakaIM {
             this->mSocketManager.sendMessage(mPresidentSocket, *(const ::google::protobuf::Message *) message);
 
             LOG4CXX_INFO(this->logger, typeid(this).name() << __FUNCTION__ << "发送加入集群的请求");
-            while (this->m_isStarted) {
 
-                fd_set listeningFdSet;
-                FD_ZERO(&listeningFdSet);
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Started;
+                this->m_statusCV.notify_all();
+            }
 
-
-                if (this->mHeartBeatTimerfd > 0) {//心跳定时器已经创建，则监听
-                    FD_SET(this->mHeartBeatTimerfd, &listeningFdSet);
-                }
-
-                struct timeval timeout;
-                timeout.tv_sec = 1;
-                timeout.tv_usec = 1;
-
-                int readyCount = select(mHeartBeatTimerfd + 1,
-                                        &listeningFdSet,
-                                        nullptr, nullptr, &timeout);
-
-                if (-1 == readyCount) {//出错
-                    LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << "select返回出错");
-                    this->m_isStarted = false;
-                } else if (0 == readyCount) {//如果没有任何事件准备好
-                    continue;
-                }
+            while (not this->m_needStop) {
 
                 if (auto task = this->mMessageQueue.try_pop()) {
                     this->dispatchClusterMessage(*task);
                 }
 
-
-                if (FD_ISSET(this->mHeartBeatTimerfd, &listeningFdSet)) {
+                // 检查心跳定时器是否超时
+                std::atomic<bool> heartBeatTimeout{false};
+                if (heartBeatTimeout){
                     this->handleHeartBeatEvent();
                 }
+            }
+
+            this->m_needStop = false;
+            {
+                std::lock_guard<std::mutex> lock(this->m_statusMutex);
+                this->m_status = Status::Stopped;
+                this->m_statusCV.notify_all();
             }
         }
 
