@@ -31,6 +31,7 @@ namespace kakaIM {
         }
 
         ClusterModule::~ClusterModule() {
+            this->mHeartBeatTimer.stop();
             if (this->mKakaIMMessageAdapter) {
                 delete this->mKakaIMMessageAdapter;
                 this->mKakaIMMessageAdapter = nullptr;
@@ -41,6 +42,7 @@ namespace kakaIM {
             KIMModule::stop();
 
             // 1.停止定时器
+            this->mHeartBeatTimer.stop();
             // 2. 停止socketManager
             this->mSocketManager.stop();
         }

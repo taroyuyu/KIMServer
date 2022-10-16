@@ -16,6 +16,7 @@
 #include <Common/Net/TCPSocketManager/TCPSocketManager.h>
 #include <Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h>
 #include <Common/KakaIMMessageAdapter.h>
+#include <Common/Timer/Timer.h>
 
 namespace kakaIM {
     namespace node {
@@ -131,6 +132,7 @@ namespace kakaIM {
             std::string serviceAddr;
             uint16_t servicePort;
             int mHeartBeatTimerfd;//心跳定时器
+            Timer mHeartBeatTimer;// 心跳定时器
             std::map<std::string, std::function<void(
                     kakaIM::president::ResponseMessageIDMessage response)>> mMessageIDRequestCallback;
 
