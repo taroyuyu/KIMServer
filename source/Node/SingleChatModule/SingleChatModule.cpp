@@ -694,24 +694,24 @@ namespace kakaIM {
 
             std::string state = "Pending";
             switch (offerState) {
-                case VideoChatOfferState_Pending: {
+                case VideoChatOfferState::VideoChatOfferState_Pending: {
                     state = "Pending";
                 }
                     break;
-                case VideoChatOfferState_Cancel: {
+                case VideoChatOfferState::VideoChatOfferState_Cancel: {
                     state = "Cancel";
                 }
                     break;
-                case VideoChatOfferState_Accept: {
+                case VideoChatOfferState::VideoChatOfferState_Accept: {
                     state = "Allow";
                 }
                     break;
-                case VideoChatOfferState_Reject: {
+                case VideoChatOfferState::VideoChatOfferState_Reject: {
                     state = "Reject";
                 }
                     break;
                 default: {
-                    return UpdateVideoChatOfferResult_ParameterErrpr;
+                    return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_ParameterErrpr;
                 }
             }
 
@@ -722,7 +722,7 @@ namespace kakaIM {
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return UpdateVideoChatOfferResult_DBConnectionNotExit;;
+                return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_DBConnectionNotExit;;
             }
 
             try {
@@ -742,13 +742,13 @@ namespace kakaIM {
                 //提交事务
                 dbWork.commit();
 
-                return UpdateVideoChatOfferResult_Success;
+                return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_Success;
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "更新通话提议状态失败," << exception.what());
 
-                return UpdateVideoChatOfferResult_Failed;
+                return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_Failed;
             }
         }
 
