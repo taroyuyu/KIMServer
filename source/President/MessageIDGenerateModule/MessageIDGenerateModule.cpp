@@ -10,8 +10,8 @@
 #include <typeinfo>
 #include <limits>
 #include <typeinfo>
-#include "MessageIDGenerateModule.h"
-#include "../Log/log.h"
+#include <President/MessageIDGenerateModule/MessageIDGenerateModule.h>
+#include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {

@@ -11,11 +11,11 @@
 #include <mutex>
 #include <memory>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/util/Date.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../Service/ConnectionOperationService.h"
-#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
+#include <Common/KIMModule.h>
+#include <Common/util/Date.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <President/Service/ConnectionOperationService.h>
+#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
 
 namespace kakaIM {
     namespace president {
