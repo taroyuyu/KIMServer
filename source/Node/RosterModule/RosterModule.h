@@ -28,9 +28,9 @@ namespace kakaIM {
                                                          const std::string connectionIdentifier);
 
             enum class UpdateFriendListVersionResult {
-                UpdateFriendListVersionResult_DBConnectionNotExit,//数据库连接不存在
-                UpdateFriendListVersionResult_InteralError,//内部错误
-                UpdateFriendListVersionResult_Success,//查询成功
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
             };
 
             UpdateFriendListVersionResult
@@ -38,10 +38,10 @@ namespace kakaIM {
 
 
             enum class FetchFriendListVersionResult {
-                FetchFriendListVersionResult_DBConnectionNotExit,//数据库连接不存在
-                FetchFriendListVersionResult_InteralError,//内部错误
-                FetchFriendListVersionResult_Success,//查询成功
-                FetchFriendListVersionResult_RecordNotExist,//记录不存在
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
+                RecordNotExist,//记录不存在
             };
 
             FetchFriendListVersionResult
@@ -63,9 +63,9 @@ namespace kakaIM {
                                                 const std::string connectionIdentifier);
 
             enum class FetchFriendListResult {
-                FetchFriendListResult_DBConnectionNotExit,//数据库连接不存在
-                FetchFriendListResult_InteralError,//内部错误
-                FetchFriendListResult_Success,//查询成功
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
             };
 
             FetchFriendListResult fetchFriendList(const std::string userAccount, std::set<std::string> &friendList);

@@ -376,7 +376,7 @@ namespace kakaIM {
             //1.查询用户当前的好友列表版本
             uint64_t friendListVersion = 0;
             switch (this->fetchFriendListVersion(userAccount, friendListVersion)) {
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_Success: {
+                case FetchFriendListVersionResult::Success: {
                     static const std::string UpdateFriendListVersionStatement = "UpdateFriendListVersion";
                     static const std::string UpdateFriendListVersionSQL = "UPDATE friendlist_version SET current_version = (SELECT current_version FROM friendlist_version WHERE  user_account = $1) + 1 WHERE user_account = $1 RETURNING  current_version;";
 
@@ -384,7 +384,7 @@ namespace kakaIM {
                     if (!dbConnection) {
                         LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                         //异常处理
-                        return UpdateFriendListVersionResult::UpdateFriendListVersionResult_DBConnectionNotExit;
+                        return UpdateFriendListVersionResult::DBConnectionNotExit;
                     }
 
                     pqxx::work dbWork(*dbConnection);
@@ -399,14 +399,14 @@ namespace kakaIM {
 
                     if (result.affected_rows()) {
                         currentVersion = result[0][0].as<uint64_t>();
-                        return UpdateFriendListVersionResult::UpdateFriendListVersionResult_Success;
+                        return UpdateFriendListVersionResult::Success;
                     } else {
-                        return UpdateFriendListVersionResult::UpdateFriendListVersionResult_InteralError;
+                        return UpdateFriendListVersionResult::InteralError;
                     }
 
                 }
                     break;
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_RecordNotExist: {
+                case FetchFriendListVersionResult::RecordNotExist: {
                     static const std::string AddFriendListVersionRecordStatement = "AddFriendListVersionRecord";
                     static const std::string AddFriendListVersionRecordSQL = "INSERT INTO friendlist_version (user_account, current_version) VALUES ($1,1)  RETURNING  current_version;";
 
@@ -414,7 +414,7 @@ namespace kakaIM {
                     if (!dbConnection) {
                         LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                         //异常处理
-                        return UpdateFriendListVersionResult::UpdateFriendListVersionResult_DBConnectionNotExit;
+                        return UpdateFriendListVersionResult::DBConnectionNotExit;
                     }
 
                     pqxx::work dbWork(*dbConnection);
@@ -429,19 +429,19 @@ namespace kakaIM {
 
                     if (result.affected_rows()) {
                         currentVersion = result[0][0].as<uint64_t>();
-                        return UpdateFriendListVersionResult::UpdateFriendListVersionResult_Success;
+                        return UpdateFriendListVersionResult::Success;
                     } else {
-                        return UpdateFriendListVersionResult::UpdateFriendListVersionResult_InteralError;
+                        return UpdateFriendListVersionResult::InteralError;
                     }
                 }
                     break;
 
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_DBConnectionNotExit: {
-                    return UpdateFriendListVersionResult::UpdateFriendListVersionResult_DBConnectionNotExit;
+                case FetchFriendListVersionResult::DBConnectionNotExit: {
+                    return UpdateFriendListVersionResult::DBConnectionNotExit;
                 }
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_InteralError:
+                case FetchFriendListVersionResult::InteralError:
                 default: {
-                    return UpdateFriendListVersionResult::UpdateFriendListVersionResult_InteralError;
+                    return UpdateFriendListVersionResult::InteralError;
                 }
             }
         }
@@ -454,7 +454,7 @@ namespace kakaIM {
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return FetchFriendListVersionResult::FetchFriendListVersionResult_DBConnectionNotExit;
+                return FetchFriendListVersionResult::DBConnectionNotExit;
             }
 
             try {
@@ -473,16 +473,16 @@ namespace kakaIM {
 
                 if (result.size()) {
                     friendListVersion = result[0][0].as<uint64_t>();
-                    return FetchFriendListVersionResult::FetchFriendListVersionResult_Success;
+                    return FetchFriendListVersionResult::Success;
                 } else {
-                    return FetchFriendListVersionResult::FetchFriendListVersionResult_RecordNotExist;
+                    return FetchFriendListVersionResult::RecordNotExist;
                 }
 
             } catch (std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << " 查询用户" << userAccount << "的好友列表版本失败,"
                                                   << exception.what());
-                return FetchFriendListVersionResult::FetchFriendListVersionResult_InteralError;
+                return FetchFriendListVersionResult::InteralError;
             }
 
         }
@@ -583,7 +583,7 @@ namespace kakaIM {
                 if (!dbConnection) {
                     LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 获取数据库连接失败");
                     //异常处理
-                    return FetchFriendListResult::FetchFriendListResult_DBConnectionNotExit;
+                    return FetchFriendListResult::DBConnectionNotExit;
                 }
 
                 pqxx::work dbWork(*dbConnection);
@@ -607,11 +607,11 @@ namespace kakaIM {
                 }
                 dbWork.commit();
 
-                return FetchFriendListResult::FetchFriendListResult_Success;
+                return FetchFriendListResult::Success;
             } catch (std::exception &exception) {//查询失败
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << " 查询好友列表出错," << exception.what());
-                return FetchFriendListResult::FetchFriendListResult_InteralError;
+                return FetchFriendListResult::InteralError;
             }
 
         }
@@ -638,10 +638,10 @@ namespace kakaIM {
 
             uint64_t currentVersion = 0;
             switch (this->fetchFriendListVersion(userAccount, currentVersion)) {
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_Success: {
+                case FetchFriendListVersionResult::Success: {
                     if (currentVersion > clientFriendListVersion) {
                         std::set<std::string> friendList;
-                        if (FetchFriendListVersionResult::FetchFriendListResult_Success == this->fetchFriendList(userAccount, friendList)) {
+                        if (FetchFriendListVersionResult::Success == this->fetchFriendList(userAccount, friendList)) {
                             for (std::string friendAccount: friendList) {
                                 auto friendItem = responseMessage.add_friend_();
                                 friendItem->set_friendaccount(friendAccount);
@@ -650,15 +650,15 @@ namespace kakaIM {
 
                     }
                 }
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_RecordNotExist: {
+                case FetchFriendListVersionResult::RecordNotExist: {
                     responseMessage.set_currentversion(currentVersion);
                     if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                         connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseMessage);
                     }
                 }
                     break;
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_DBConnectionNotExit:
-                case FetchFriendListVersionResult::FetchFriendListVersionResult_InteralError:
+                case FetchFriendListVersionResult::DBConnectionNotExit:
+                case FetchFriendListVersionResult::InteralError:
                 default: {
                 }
                     break;
