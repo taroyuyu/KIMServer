@@ -223,7 +223,6 @@ namespace kakaIM {
                     break;
                 case president::ResponseJoinClusterMessage_JoinResult_Failure: {
                     LOG4CXX_FATAL(this->logger, __FUNCTION__ << " 连接服务器集群失败");
-
                 }
                     break;
             }
