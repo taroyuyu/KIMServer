@@ -115,7 +115,6 @@ namespace kakaIM {
             void
             handleGroupChatMessage(const kakaIM::Node::GroupChatMessage &message,
                                    const std::string connectionIdentifier);
-            std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();

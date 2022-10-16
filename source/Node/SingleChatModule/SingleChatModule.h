@@ -126,8 +126,7 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-
-            std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
+            
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
 
             std::shared_ptr<pqxx::connection> m_dbConnection;
