@@ -12,7 +12,6 @@
 #include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../Service/MessageIDGenerateService.h"
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/MessagePersistenceService.h"
@@ -142,7 +141,6 @@ namespace kakaIM {
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
-            std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
 

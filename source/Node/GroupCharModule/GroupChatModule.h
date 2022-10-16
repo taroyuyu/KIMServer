@@ -14,7 +14,6 @@
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/MessagePersistenceService.h"
-#include "../Service/MessageIDGenerateService.h"
 #include "../Service/LoginDeviceQueryService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
@@ -130,7 +129,6 @@ namespace kakaIM {
                                    const std::string connectionIdentifier);
 
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
-            std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
