@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_ONLINESTATEMODULE_H
 
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include <queue>
 #include <map>
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"
