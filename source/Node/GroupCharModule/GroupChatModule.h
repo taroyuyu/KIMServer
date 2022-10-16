@@ -15,8 +15,6 @@ namespace kakaIM {
             GroupChatModule();
 
             ~GroupChatModule();
-
-            virtual bool init() override;
         private:
 
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;

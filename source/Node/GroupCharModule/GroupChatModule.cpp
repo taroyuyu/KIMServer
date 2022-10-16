@@ -23,10 +23,6 @@ namespace kakaIM {
             }
         }
 
-        bool GroupChatModule::init() {
-            return true;
-        }
-
         void GroupChatModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
