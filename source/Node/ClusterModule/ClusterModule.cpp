@@ -31,7 +31,6 @@ namespace kakaIM {
         }
 
         ClusterModule::~ClusterModule() {
-            ::close(this->mHeartBeatTimerfd);
             if (this->mKakaIMMessageAdapter) {
                 delete this->mKakaIMMessageAdapter;
                 this->mKakaIMMessageAdapter = nullptr;
@@ -41,18 +40,8 @@ namespace kakaIM {
         void ClusterModule::stop() {
             KIMModule::stop();
 
-            //1.停止定时器
-            if (this->mHeartBeatTimerfd > 0) {
-                struct itimerspec timerConfig;
-                timerConfig.it_value.tv_sec = 0;
-                timerConfig.it_value.tv_nsec = 0;
-                timerConfig.it_interval.tv_sec = 0;
-                timerConfig.it_interval.tv_nsec = 0;
-                if (-1 == timerfd_settime(this->mHeartBeatTimerfd, 0, &timerConfig, nullptr)) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "停止定时器失败,errno=" << errno);
-                }
-            }
-
+            // 1.停止定时器
+            // 2. 停止socketManager
             this->mSocketManager.stop();
         }
 
