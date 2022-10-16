@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_ONLINESTATEMODULE_H
 
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include <google/protobuf/message.h>
 #include <queue>
 #include <map>
 #include "../../Common/EventBus/EventListener.h"
