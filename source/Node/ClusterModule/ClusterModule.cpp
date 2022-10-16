@@ -140,14 +140,6 @@ namespace kakaIM {
             }
         }
 
-        void ClusterModule::startHeartBeat() {
-
-        }
-
-        void ClusterModule::stopHeartBeat() {
-
-        }
-
         void ClusterModule::handleHeartBeatEvent() {
             //1.获取CPU使用率
             static kaka::CpuUsage cpuUsage_last, cpuUsage_current;
