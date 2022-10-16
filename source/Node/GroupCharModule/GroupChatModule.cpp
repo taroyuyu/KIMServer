@@ -22,7 +22,7 @@ namespace kakaIM {
                 this->m_dbConnection->disconnect();
             }
         }
-        
+
         void GroupChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             if (task.first->GetTypeName() ==
