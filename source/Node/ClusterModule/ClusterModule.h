@@ -42,8 +42,6 @@ namespace kakaIM {
 
             ~ClusterModule();
 
-            virtual void stop() override;
-
             virtual void execute() override;
 
             virtual void didConnectionClosed(net::TCPClientSocket clientSocket) override;

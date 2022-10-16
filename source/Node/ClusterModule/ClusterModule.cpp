@@ -43,15 +43,6 @@ namespace kakaIM {
             }
         }
 
-        void ClusterModule::stop() {
-            KIMModule::stop();
-
-            // 1.停止定时器
-            this->mHeartBeatTimer.stop();
-            // 2. 停止socketManager
-            this->mSocketManager.stop();
-        }
-
         void ClusterModule::execute() {
             this->moduleState = ConnectingPresident::ConnectingPresident;
 
@@ -88,7 +79,11 @@ namespace kakaIM {
                 }
             }
 
+            // 停止定时器
             this->mHeartBeatTimer.stop();
+            // 停止socketManager
+            this->mSocketManager.stop();
+
             this->m_needStop = false;
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
