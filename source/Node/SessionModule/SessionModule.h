@@ -18,7 +18,6 @@
 #include <set>
 #include <mutex>
 #include <memory>
-#include <log4cxx/logger.h>
 
 namespace kakaIM {
     namespace node {
@@ -62,7 +61,6 @@ namespace kakaIM {
 
             void
             handleLogoutMessage(const kakaIM::Node::LogoutMessage &message, const std::string connectionIdentifier);
-	    log4cxx::LoggerPtr logger;
         };
     }
 }

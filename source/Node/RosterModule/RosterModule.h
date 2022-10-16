@@ -9,7 +9,6 @@
 #include <queue>
 #include <mutex>
 #include <memory>
-#include <log4cxx/logger.h>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
@@ -112,8 +111,6 @@ namespace kakaIM {
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();
-
-            log4cxx::LoggerPtr logger;
         };
 
     }

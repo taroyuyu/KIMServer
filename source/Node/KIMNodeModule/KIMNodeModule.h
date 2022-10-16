@@ -16,6 +16,7 @@
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/UserRelationService.h"
 #include <memory>
+#include <log4cxx/logger.h>
 
 namespace kakaIM {
     namespace node {
@@ -42,6 +43,7 @@ namespace kakaIM {
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
+            log4cxx::LoggerPtr logger;
         };
     }
 }

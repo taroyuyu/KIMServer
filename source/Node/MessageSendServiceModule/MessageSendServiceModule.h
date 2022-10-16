@@ -9,7 +9,6 @@
 #include <queue>
 #include <mutex>
 #include <memory>
-#include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
@@ -64,7 +63,6 @@ namespace kakaIM {
 //            std::queue<std::unique_ptr<kakaIM::president::ServerMessage>> mServerMessageQueue;
             ConcurrentLinkedQueue<std::unique_ptr<kakaIM::president::ServerMessage>> mServerMessageQueue;
             void handleServerMessageFromCluster(const kakaIM::president::ServerMessage & serverMessage);
-            log4cxx::LoggerPtr logger;
         };
     }
 }

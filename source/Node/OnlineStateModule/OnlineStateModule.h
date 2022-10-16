@@ -11,7 +11,6 @@
 #include <map>
 #include <memory>
 #include <mutex>
-#include <log4cxx/logger.h>
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"
@@ -89,7 +88,6 @@ namespace kakaIM {
             std::map<std::string, std::set<std::pair<std::pair<IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>> mUserStateDB;
             std::unique_ptr<UserLogoutEvent> userLogoutEventProto;
             std::unique_ptr<NodeSecessionEvent> nodeSecessionEventProto;
-            log4cxx::LoggerPtr logger;
         };
     }
 }

@@ -12,7 +12,6 @@
 #include "../Events/UserLogoutEvent.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
-#include <log4cxx/logger.h>
 #include <pqxx/pqxx>
 #include <map>
 #include <queue>
@@ -98,8 +97,6 @@ namespace kakaIM {
             AmqpClient::Channel::ptr_t mAmqpChannel;
 
             void authenticationRPCListenerWork();
-
-            log4cxx::LoggerPtr logger;
         };
     }
 }

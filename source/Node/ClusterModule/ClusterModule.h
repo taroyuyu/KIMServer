@@ -13,7 +13,6 @@
 #include <memory>
 #include <mutex>
 #include <set>
-#include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/MessageCluster.pb.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
@@ -137,7 +136,6 @@ namespace kakaIM {
 
             std::mutex serverMessageListenerSetMutex;
             std::set<ServerMessageListener*> serverMessageListenerSet;
-            log4cxx::LoggerPtr logger;
         };
     }
 }
