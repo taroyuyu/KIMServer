@@ -11,7 +11,6 @@
 #include <memory>
 #include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include "../Service/LoginDeviceQueryService.h"
 #include "../Service/ClusterService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
