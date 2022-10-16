@@ -13,7 +13,7 @@
 
 namespace kakaIM {
     namespace node {
-        RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger),mEpollInstance(-1), messageEventfd(-1), m_dbConnection(nullptr) {
+        RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger),mEpollInstance(-1), messageEventfd(-1){
         }
 
         RosterModule::~RosterModule() {

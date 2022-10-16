@@ -6,7 +6,7 @@
 
 namespace kakaIM {
     namespace node {
-        KIMNodeModule::KIMNodeModule(std::string moduleName) : logger(log4cxx::Logger::getLogger(moduleName)) {
+        KIMNodeModule::KIMNodeModule(std::string moduleName) : logger(log4cxx::Logger::getLogger(moduleName)),m_needStop(false) {
         }
 
         void KIMNodeModule::setConnectionOperationService(

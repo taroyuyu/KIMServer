@@ -12,8 +12,7 @@
 
 namespace kakaIM {
     namespace node {
-        AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger), messageEventfd(-1),
-                                                       m_needStop(false) {
+        AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger), messageEventfd(-1){
         }
 
         AuthenticationModule::~AuthenticationModule() {
