@@ -10,7 +10,6 @@
 #include <mutex>
 #include <memory>
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace node {

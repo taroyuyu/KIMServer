@@ -15,7 +15,6 @@
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"
 #include "../Events/NodeSecessionEvent.h"
-#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
     namespace node {

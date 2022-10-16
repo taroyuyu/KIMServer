@@ -10,7 +10,6 @@
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/util/Date.h"
-#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 #include <map>
 #include <string>
 #include <queue>
