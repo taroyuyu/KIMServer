@@ -216,20 +216,9 @@ namespace kakaIM {
                 case president::ResponseJoinClusterMessage_JoinResult_Success: {
                     LOG4CXX_INFO(this->logger, __FUNCTION__ << "连接集群成功");
                     this->moduleState = ClusterModuleState::ConnectedPresident;
-                    if (-1 == this->mHeartBeatTimerfd) {//若定时器未启动，则启动定时器
-                        this->mHeartBeatTimerfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC);
-                        if (-1 == this->mHeartBeatTimerfd) {
-                            LOG4CXX_FATAL(this->logger, "定时器创建失败，errno" << errno);
-                        } else {
-                            struct itimerspec timerConfig;
-                            timerConfig.it_value.tv_sec = 3;//3秒之后超时
-                            timerConfig.it_value.tv_nsec = 0;
-                            timerConfig.it_interval.tv_sec = 3;//间隔周期也是3秒
-                            timerConfig.it_interval.tv_nsec = 0;
-                            timerfd_settime(this->mHeartBeatTimerfd, 0, &timerConfig, nullptr);//相对定时器
-                        }
-
-                    }
+                    this->mHeartBeatTimer.setInterval([=](){
+                        this->handleHeartBeatEvent();
+                    },std::chrono::seconds(3));
                 }
                     break;
                 case president::ResponseJoinClusterMessage_JoinResult_Failure: {
