@@ -26,11 +26,6 @@ namespace kakaIM {
             this->mLoginDeviceQueryServicePtr = service;
         }
 
-        void MessageSendServiceModule::setQueryConnectionWithSessionService(
-                std::weak_ptr<QueryConnectionWithSession> service) {
-            this->mQueryConnectionWithSessionServicePtr = service;
-        }
-
         void MessageSendServiceModule::setClusterService(std::weak_ptr<ClusterService> service) {
             if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->removeServerMessageListener(this);
