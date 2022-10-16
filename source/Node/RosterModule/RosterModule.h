@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
 #include <queue>
-#include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
 namespace kakaIM {
@@ -17,8 +16,6 @@ namespace kakaIM {
             RosterModule();
 
             ~RosterModule();
-
-            virtual bool init() override;
 
             virtual void start() override;
 
@@ -86,11 +83,6 @@ namespace kakaIM {
 
             void handleUpdateUserVCardMessage(const kakaIM::Node::UpdateUserVCardMessage &message,
                                               const std::string connectionIdentifier);
-
-            std::thread mRosterRPCWorkThread;
-            AmqpClient::Channel::ptr_t mAmqpChannel;
-
-            void rosterRPCListenerWork();
         };
 
     }

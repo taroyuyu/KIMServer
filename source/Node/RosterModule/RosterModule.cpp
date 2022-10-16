@@ -22,24 +22,11 @@ namespace kakaIM {
             }
         }
 
-        bool RosterModule::init() {
-
-            //创建AMQP信道
-            this->mAmqpChannel = AmqpClient::Channel::Create("111.230.5.199", 5672, "kakaIM-node", "kakaIM-node_aixocm",
-                                                             "KakaIM");
-
-            return true;
-        }
-
         void RosterModule::start() {
             if (false == this->m_isStarted) {
                 this->m_isStarted = true;
                 this->m_workThread = std::move(std::thread([this]() {
                     this->execute();
-                    this->m_isStarted = false;
-                }));
-                this->mRosterRPCWorkThread = std::move(std::thread([this]() {
-                    this->rosterRPCListenerWork();
                     this->m_isStarted = false;
                 }));
             }
@@ -98,78 +85,6 @@ namespace kakaIM {
                        kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName()) {
                 handleUpdateUserVCardMessage(*(kakaIM::Node::UpdateUserVCardMessage *) task.first.get(),
                                              task.second);
-            }
-        }
-
-        void RosterModule::rosterRPCListenerWork() {
-            //配置AMQP信道
-            this->mAmqpChannel->DeclareExchange("KakaIMRPC");
-            this->mAmqpChannel->DeclareQueue("KakaIMRosterService", false, false, false, true);
-            this->mAmqpChannel->BindQueue("KakaIMRosterService", "KakaIMRPC", "KakaIMRPC_FriendList");
-            std::string consumer_tag = this->mAmqpChannel->BasicConsume("KakaIMRosterService", "", true, false, false,
-                                                                        1);
-            while (this->m_isStarted) {
-                AmqpClient::Envelope::ptr_t envelope = this->mAmqpChannel->BasicConsumeMessage(consumer_tag);
-                LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__);
-                rpc::FriendListRequestMessage friendListRequestMessage;
-                friendListRequestMessage.ParseFromString(envelope->Message()->Body());
-                rpc::FriendListResponseMessage friendListResponseMessage;
-
-                friendListResponseMessage.set_useraccount(friendListRequestMessage.useraccount());
-                if (friendListRequestMessage.IsInitialized()) {
-                    this->mAmqpChannel->BasicAck(envelope);
-                    const std::string userAccount = friendListRequestMessage.useraccount();
-                    const uint64_t peerCurrentVersion = friendListRequestMessage.currentversion();
-                    uint64_t currentVersion = 0;
-                    switch (this->fetchFriendListVersion(userAccount, currentVersion)) {
-                        case FetchFriendListVersionResult_Success: {
-                            if (currentVersion > peerCurrentVersion) {
-                                friendListResponseMessage.set_currentversion(currentVersion);
-                                std::set<std::string> friendList;
-                                if (FetchFriendListResult_Success == this->fetchFriendList(userAccount, friendList)) {
-                                    friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Success);
-                                    friendListResponseMessage.set_currentversion(currentVersion);
-                                    for (std::string friendAccount: friendList) {
-                                        friendListResponseMessage.add_friend_()->set_friendaccount(friendAccount);
-                                    }
-                                } else {
-                                    friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Failed);
-                                    friendListResponseMessage.set_failureerror(
-                                            rpc::FriendListResponseMessage_FailureType_ServerInternalError);
-                                }
-
-                            } else {
-                                friendListResponseMessage.set_currentversion(currentVersion);
-                                friendListResponseMessage.set_status(
-                                        rpc::FriendListResponseMessage_Status_SuccessButNoNewChange);
-                            }
-                        }
-                            break;
-                        case FetchFriendListVersionResult_RecordNotExist: {
-                            friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Failed);
-                            friendListResponseMessage.set_failureerror(
-                                    rpc::FriendListResponseMessage_FailureType_RecordNotExist);
-                        }
-                            break;
-                        case FetchFriendListVersionResult_DBConnectionNotExit:
-                        case FetchFriendListVersionResult_InteralError:
-                        default: {
-                            friendListResponseMessage.set_status(rpc::FriendListResponseMessage_Status_Failed);
-                            friendListResponseMessage.set_failureerror(
-                                    rpc::FriendListResponseMessage_FailureType_ServerInternalError);
-                        }
-                            break;
-                    }
-                    AmqpClient::BasicMessage::ptr_t answerMessage = AmqpClient::BasicMessage::Create(
-                            friendListResponseMessage.SerializeAsString());
-                    answerMessage->ReplyTo(envelope->Message()->ReplyTo());
-                    answerMessage->CorrelationId(envelope->Message()->CorrelationId());
-                    this->mAmqpChannel->BasicPublish("KakaIMRPC", envelope->Message()->ReplyTo(), answerMessage);
-
-                } else {
-                    LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 消息格式不正确");
-                    this->mAmqpChannel->BasicReject(envelope, false);
-                }
             }
         }
 
