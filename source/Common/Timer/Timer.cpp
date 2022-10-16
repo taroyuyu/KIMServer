@@ -3,10 +3,10 @@
 //
 
 #include <Common/Timer/Timer.h>
-#include <chrono>
 
 namespace kakaIM {
-    void Timer::setTimeout(std::function<void()> task, int delay) {
+    template <class Rep, class Period>
+    void Timer::setTimeout(std::function<void()> task, const std::chrono::duration<Rep, Period> delay){
         std::lock_guard<std::mutex> lock(this->mutex);
         if (this->active){
             return;
@@ -21,7 +21,7 @@ namespace kakaIM {
             if (not this->active) {
                 return;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+            std::this_thread::sleep_for(delay);
             if (not this->active) {
                 return;
             }
@@ -31,7 +31,8 @@ namespace kakaIM {
         this->workThread = std::move(thread);
     }
 
-    void Timer::setInterval(std::function<void()> task, int interval) {
+    template <class Rep, class Period>
+    void Timer::setInterval(std::function<void()> task, const std::chrono::duration<Rep, Period> interval) {
         std::lock_guard<std::mutex> lock(this->mutex);
         if (this->active){
             return;
@@ -44,7 +45,7 @@ namespace kakaIM {
         this->active = true;
         std::thread thread([=]() {
             while (this->active) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(interval));
+                std::this_thread::sleep_for(interval);
                 if (not this->active) {
                     break;
                 }

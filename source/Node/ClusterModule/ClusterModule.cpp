@@ -69,6 +69,7 @@ namespace kakaIM {
             LOG4CXX_INFO(this->logger, typeid(this).name() << __FUNCTION__ << "发送加入集群的请求");
 
             // 5. 启动心跳定时器
+            this->mHeartBeatTimer.setInterval()
             this->startHeartBeat();
 
             // 6. 更新状态

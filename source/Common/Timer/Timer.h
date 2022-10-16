@@ -5,6 +5,7 @@
 #ifndef KAKAIMCLUSTER_TIMER_H
 #define KAKAIMCLUSTER_TIMER_H
 
+#include <chrono>
 #include <mutex>
 #include <atomic>
 #include <thread>
@@ -17,8 +18,10 @@ namespace kakaIM {
         std::thread workThread;
     public:
         ~Timer();
-        void setTimeout(std::function<void()> task, int delay);
-        void setInterval(std::function<void()> task, int interval);
+        template <class Rep, class Period>
+        void setTimeout(std::function<void()> task, const std::chrono::duration<Rep, Period> delay);
+        template <class Rep, class Period>
+        void setInterval(std::function<void()> task, const std::chrono::duration<Rep, Period> interval);
         void stop();
     };
 }
