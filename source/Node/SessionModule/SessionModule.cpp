@@ -3,8 +3,6 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
 #include <sstream>
 #include <uuid/uuid.h>
 #include "../Events/UserLogoutEvent.h"
