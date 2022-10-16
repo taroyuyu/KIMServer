@@ -3,9 +3,9 @@
 //
 
 #include <zconf.h>
-#include "MessageSendServiceModule.h"
-#include "../Log/log.h"
-#include "../../Common/proto/MessageCluster.pb.h"
+#include <Node/MessageSendServiceModule/MessageSendServiceModule.h>
+#include <Node/Log/log.h>
+#include <Common/proto/MessageCluster.pb.h>
 
 namespace kakaIM {
     namespace node {

@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_MESSAGESENDSERVICEMODULE_H
 #define KAKAIMCLUSTER_MESSAGESENDSERVICEMODULE_H
 
-#include "../KIMNodeModule/KIMNodeModule.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
 
 namespace kakaIM {
     namespace node {
