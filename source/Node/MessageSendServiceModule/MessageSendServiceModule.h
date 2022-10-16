@@ -53,7 +53,6 @@ namespace kakaIM {
         private:
             int mEpollInstance;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
-            std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
             int messageEventfd;
             std::mutex mMessageQueueMutex;
             std::queue<std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>>> mMessageQueue;

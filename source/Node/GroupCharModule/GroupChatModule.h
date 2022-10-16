@@ -123,7 +123,6 @@ namespace kakaIM {
                                    const std::string connectionIdentifier);
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
-            std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();

@@ -31,6 +31,7 @@ namespace kakaIM {
             std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
             std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
+            std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
         };
     }
 }
