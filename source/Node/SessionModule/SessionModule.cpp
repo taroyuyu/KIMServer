@@ -17,25 +17,11 @@
 namespace kakaIM {
     namespace node {
         bool SessionModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, ::EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
 
             //创建Epoll实例
             if (-1 == (this->epollInstance = epoll_create1(0))) {
                 return false;
             }
-
-            //向Epoll实例注册messageEventfd事件
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->epollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-
             return true;
         }
 
@@ -190,7 +176,7 @@ namespace kakaIM {
             return ::MD5(currentDate.toString() + connectionUUID_str).toStr();
         }
 
-        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger),epollInstance(-1), messageEventfd(-1){
+        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger),epollInstance(-1){
         }
 
         SessionModule::~SessionModule() {

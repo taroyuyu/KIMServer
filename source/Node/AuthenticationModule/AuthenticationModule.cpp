@@ -12,7 +12,7 @@
 
 namespace kakaIM {
     namespace node {
-        AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger), messageEventfd(-1){
+        AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger){
         }
 
         AuthenticationModule::~AuthenticationModule() {
@@ -24,12 +24,6 @@ namespace kakaIM {
         }
 
         bool AuthenticationModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-
             //创建AMQP信道
             this->mAmqpChannel = AmqpClient::Channel::Create("111.230.5.199", 5672, "kakaIM-node", "kakaIM-node_aixocm",
                                                              "KakaIM");

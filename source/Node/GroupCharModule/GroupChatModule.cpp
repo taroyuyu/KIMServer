@@ -14,7 +14,7 @@
 namespace kakaIM {
     namespace node {
 
-        GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger),mEpollInstance(-1), messageEventfd(-1){
+        GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger),mEpollInstance(-1){
         }
 
         GroupChatModule::~GroupChatModule() {
@@ -24,21 +24,8 @@ namespace kakaIM {
         }
 
         bool GroupChatModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
             //创建Epoll实例
             if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            //向Epill实例注册messageEventfd,clusterMessageEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
                 return false;
             }
 

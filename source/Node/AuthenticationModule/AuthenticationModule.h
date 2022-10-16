@@ -46,9 +46,6 @@ namespace kakaIM {
 
             virtual std::string queryConnectionWithSession(const std::string &sessionID) override;
         private:
-            int messageEventfd;
-            std::mutex messageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
 
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
 

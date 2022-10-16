@@ -28,8 +28,6 @@ namespace kakaIM {
         protected:
             int mEpollInstance;
             int messageEventfd;
-            std::mutex messageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> messageQueue;
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
 
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task);

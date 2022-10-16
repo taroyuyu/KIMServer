@@ -12,7 +12,7 @@
 
 namespace kakaIM {
     namespace node {
-        OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger),mEpollInstance(-1), messageEventfd(-1), persistTaskQueueEventfd(-1){
+        OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger),mEpollInstance(-1), persistTaskQueueEventfd(-1){
         }
 
         OfflineModule::~OfflineModule() {
@@ -28,11 +28,6 @@ namespace kakaIM {
         }
 
         bool OfflineModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
             this->persistTaskQueueEventfd = ::eventfd(0, EFD_SEMAPHORE);
             if (this->persistTaskQueueEventfd < 0) {
                 return false;
@@ -43,13 +38,6 @@ namespace kakaIM {
                 return false;
             }
 
-            //向Epill实例注册messageEventfd,和clusterEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
             struct epoll_event taskQueuefdEvent;
             taskQueuefdEvent.events = EPOLLIN;
             taskQueuefdEvent.data.fd = this->persistTaskQueueEventfd;
