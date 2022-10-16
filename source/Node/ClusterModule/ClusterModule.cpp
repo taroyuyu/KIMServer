@@ -18,11 +18,16 @@
 namespace kakaIM {
     namespace node {
         ClusterModule::ClusterModule(std::string presidentAddr, int presidentPort, std::string serverID,
-                                     std::string invitationCode, std::pair<float, float> lngLatPair,std::string serviceAddr,
-                          uint16_t servicePort) :KIMNodeModule(ClusterModuleLogger),
-                mKakaIMMessageAdapter(nullptr), mPresidentAddr(presidentAddr), mPresidentPort(presidentPort),
-                mServerID(serverID),
-                mInvitationCode(invitationCode), mlngLatPair(lngLatPair),serviceAddr(serviceAddr),servicePort(servicePort), mHeartBeatTimerfd(-1) {
+                                     std::string invitationCode, std::pair<float, float> lngLatPair,
+                                     std::string serviceAddr,
+                                     uint16_t servicePort) : KIMNodeModule(ClusterModuleLogger),
+                                                             mKakaIMMessageAdapter(nullptr),
+                                                             mPresidentAddr(presidentAddr),
+                                                             mPresidentPort(presidentPort),
+                                                             mServerID(serverID),
+                                                             mInvitationCode(invitationCode), mlngLatPair(lngLatPair),
+                                                             serviceAddr(serviceAddr), servicePort(servicePort),
+                                                             mHeartBeatTimerfd(-1) {
             this->mKakaIMMessageAdapter = new common::KakaIMMessageAdapter();
         }
 
@@ -78,7 +83,7 @@ namespace kakaIM {
             while (not this->m_needStop) {
                 if (auto task = this->mMessageQueue.try_pop()) {
                     this->dispatchClusterMessage(*task);
-                }else{
+                } else {
                     std::this_thread::yield();
                 }
             }
@@ -92,7 +97,8 @@ namespace kakaIM {
             }
         }
 
-        void ClusterModule::dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair){
+        void ClusterModule::dispatchClusterMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> &pair) {
             auto messageType = pair.first->GetTypeName();
             if (pair.second == MessageSource::Cluster) {
                 if (messageType ==
@@ -139,14 +145,15 @@ namespace kakaIM {
             }
         }
 
-        void ClusterModule::startHeartBeat(){
-
-        }
-        void ClusterModule::stopHeartBeat(){
+        void ClusterModule::startHeartBeat() {
 
         }
 
-        void ClusterModule::handleHeartBeatEvent(){
+        void ClusterModule::stopHeartBeat() {
+
+        }
+
+        void ClusterModule::handleHeartBeatEvent() {
             //1.获取CPU使用率
             static kaka::CpuUsage cpuUsage_last, cpuUsage_current;
             cpuUsage_last = cpuUsage_current;
@@ -192,23 +199,16 @@ namespace kakaIM {
                 }
             } else {
                 LOG4CXX_WARN(this->logger,
-                             typeid(this).name() << "" << __FUNCTION__ << " 获取CPU利用率失败，无法发送节点负载信息" << errno);
+                             typeid(this).name() << "" << __FUNCTION__ << " 获取CPU利用率失败，无法发送节点负载信息"
+                                                 << errno);
             }
             //5.发送心跳消息
-            u_int64_t expirationCount = 0;
-            if (int state = read(this->mHeartBeatTimerfd, &expirationCount, sizeof(expirationCount))) {
-                //发送心跳消息
-                president::HeartBeatMessage heartBeatMessage;
-                heartBeatMessage.set_serverid(this->mServerID);
-                heartBeatMessage.set_timestamp(kaka::Date::getCurrentDate().toString());
-                LOG4CXX_TRACE(this->logger, __FUNCTION__ << "发送心跳心跳消息");
-                this->mSocketManager.sendMessage(this->mPresidentSocket,
-                                                 *(const ::google::protobuf::Message *) &heartBeatMessage);
-            } else {
-                LOG4CXX_WARN(this->logger,
-                             typeid(this).name() << "" << __FUNCTION__ << " read(mHeartBeatTimerfd)出错,errno="
-                                                 << errno << errno);
-            }
+            president::HeartBeatMessage heartBeatMessage;
+            heartBeatMessage.set_serverid(this->mServerID);
+            heartBeatMessage.set_timestamp(kaka::Date::getCurrentDate().toString());
+            LOG4CXX_TRACE(this->logger, __FUNCTION__ << "发送心跳心跳消息");
+            this->mSocketManager.sendMessage(this->mPresidentSocket,
+                                             *(const ::google::protobuf::Message *) &heartBeatMessage);
         }
 
         void ClusterModule::handleResponseJoinClusterMessage(const president::ResponseJoinClusterMessage &message) {
@@ -216,9 +216,9 @@ namespace kakaIM {
                 case president::ResponseJoinClusterMessage_JoinResult_Success: {
                     LOG4CXX_INFO(this->logger, __FUNCTION__ << "连接集群成功");
                     this->moduleState = ClusterModuleState::ConnectedPresident;
-                    this->mHeartBeatTimer.setInterval([=](){
+                    this->mHeartBeatTimer.setInterval([=]() {
                         this->handleHeartBeatEvent();
-                    },std::chrono::seconds(3));
+                    }, std::chrono::seconds(3));
                 }
                     break;
                 case president::ResponseJoinClusterMessage_JoinResult_Failure: {
@@ -274,31 +274,31 @@ namespace kakaIM {
 
         void
         ClusterModule::handleUpdateUserOnlineStateMessageFromNode(const kakaIM::Node::OnlineStateMessage &message) {
-            LOG4CXX_DEBUG(this->logger,__FUNCTION__);
+            LOG4CXX_DEBUG(this->logger, __FUNCTION__);
             president::UserOnlineStateMessage userOnlineStateMessage;
             userOnlineStateMessage.set_serverid(this->mServerID);
             userOnlineStateMessage.set_useraccount(message.useraccount());
             switch (message.userstate()) {
                 case Node::OnlineStateMessage_OnlineState_Online: {
                     userOnlineStateMessage.set_userstate(president::UserOnlineStateMessage_OnlineState_Online);
-                    LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 用户:"<<message.useraccount()<<"在线");
+                    LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 用户:" << message.useraccount() << "在线");
                 }
                     break;
                 case Node::OnlineStateMessage_OnlineState_Invisible: {
                     userOnlineStateMessage.set_userstate(president::UserOnlineStateMessage_OnlineState_Invisible);
-                    LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 用户:"<<message.useraccount()<<"隐身");
+                    LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 用户:" << message.useraccount() << "隐身");
                 }
                     break;
                 case Node::OnlineStateMessage_OnlineState_Offline: {
                     userOnlineStateMessage.set_userstate(president::UserOnlineStateMessage_OnlineState_Offline);
-                    LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 用户:"<<message.useraccount()<<"离线");
+                    LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 用户:" << message.useraccount() << "离线");
                 }
                     break;
                 default: {
                     return;
                 }
             }
-            LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 推送给集群");
+            LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 推送给集群");
             this->mSocketManager.sendMessage(this->mPresidentSocket, userOnlineStateMessage);
         }
 
@@ -316,7 +316,7 @@ namespace kakaIM {
             }
         }
 
-        void ClusterModule::removeServerMessageListener(ServerMessageListener * listener){
+        void ClusterModule::removeServerMessageListener(ServerMessageListener *listener) {
             std::lock_guard<std::mutex> lock(this->serverMessageListenerSetMutex);
             this->serverMessageListenerSet.erase(listener);
         }
@@ -330,7 +330,7 @@ namespace kakaIM {
             auto messageType = serverMessage.messagetype();
             LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " messageType=" << messageType);
             std::lock_guard<std::mutex> lock(this->serverMessageListenerSetMutex);
-            for (auto listener : this->serverMessageListenerSet) {
+            for (auto listener: this->serverMessageListenerSet) {
                 listener->didReceivedServerMessageFromCluster(serverMessage);
             }
         }
@@ -353,7 +353,7 @@ namespace kakaIM {
                 //2.发布集群脱离视线
                 std::shared_ptr<const ClusterDisengagementEvent> event(new ClusterDisengagementEvent());
                 kakaIM::EventBus::getDefault().Post(event);
-                LOG4CXX_FATAL(this->logger,"脱离集群");
+                LOG4CXX_FATAL(this->logger, "脱离集群");
             }
         }
 
@@ -388,10 +388,12 @@ namespace kakaIM {
                     this->mMessageIDRequestCallback.erase(callBackIt);
                 } else {
                 }
-            } else if(message.GetTypeName() == kakaIM::president::NodeSecessionMessage::default_instance().GetTypeName()){
-                LOG4CXX_DEBUG(this->logger,__FUNCTION__<<" 接收到NodeSecessionMessage");
-                const kakaIM::president::NodeSecessionMessage & nodeSecessionMessage = *static_cast<const kakaIM::president::NodeSecessionMessage*>(&message);
-                std::shared_ptr<const NodeSecessionEvent> nodeSecessionEvent(new NodeSecessionEvent(nodeSecessionMessage.serverid()));
+            } else if (message.GetTypeName() ==
+                       kakaIM::president::NodeSecessionMessage::default_instance().GetTypeName()) {
+                LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 接收到NodeSecessionMessage");
+                const kakaIM::president::NodeSecessionMessage &nodeSecessionMessage = *static_cast<const kakaIM::president::NodeSecessionMessage *>(&message);
+                std::shared_ptr<const NodeSecessionEvent> nodeSecessionEvent(
+                        new NodeSecessionEvent(nodeSecessionMessage.serverid()));
                 kakaIM::EventBus::getDefault().Post(nodeSecessionEvent);
             } else if (message.GetTypeName() ==
                        kakaIM::president::ResponseJoinClusterMessage::default_instance().GetTypeName()) {
