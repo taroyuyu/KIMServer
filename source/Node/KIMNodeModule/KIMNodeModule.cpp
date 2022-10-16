@@ -10,5 +10,9 @@ namespace kakaIM {
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
+
+        void KIMNodeModule::setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) {
+            this->mMessageSendServicePtr = messageSendServicePtr;
+        }
     }
 }

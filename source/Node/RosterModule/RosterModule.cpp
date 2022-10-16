@@ -988,10 +988,6 @@ namespace kakaIM {
             this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
         }
 
-        void RosterModule::setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) {
-            this->mMessageSendServicePtr = messageSendServicePtr;
-        }
-
         std::shared_ptr<pqxx::connection> RosterModule::getDBConnection() {
             if (this->m_dbConnection) {
                 return this->m_dbConnection;
