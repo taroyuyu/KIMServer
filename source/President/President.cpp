@@ -7,15 +7,15 @@
 #include <arpa/inet.h>
 #include <log4cxx/logger.h>
 #include <log4cxx/basicconfigurator.h>
-#include "President.h"
-#include "../Common/KakaIMMessageAdapter.h"
-#include "ClusterManagerModule/ClusterManagerModule.h"
-#include "ServerRelayModule/ServerRelayModule.h"
-#include "UserStateManagerModule/UserStateManagerModule.h"
-#include "MessageIDGenerateModule/MessageIDGenerateModule.h"
-#include "NodeLoadBlanceModule/NodeLoadBlanceModule.h"
-#include "../Common/yaml-cpp/include/yaml.h"
-#include "Log/log.h"
+#include <President/President.h>
+#include <Common/KakaIMMessageAdapter.h>
+#include <President/ClusterManagerModule/ClusterManagerModule.h>
+#include <President/ServerRelayModule/ServerRelayModule.h>
+#include <President/UserStateManagerModule/UserStateManagerModule.h>
+#include <President/MessageIDGenerateModule/MessageIDGenerateModule.h>
+#include <President/NodeLoadBlanceModule/NodeLoadBlanceModule.h>
+#include <Common/yaml-cpp/include/yaml.h>
+#include <President/Log/log.h>
 #include <iostream>
 
 namespace kakaIM {

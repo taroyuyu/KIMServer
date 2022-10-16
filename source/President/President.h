@@ -7,8 +7,8 @@
 
 #include <semaphore.h>
 #include <memory>
-#include "Service/ConnectionOperationService.h"
-#include "../Common/Net/MessageCenterModule/MessageCenterModule.h"
+#include <President//Service/ConnectionOperationService.h>
+#include <Common/Net/MessageCenterModule/MessageCenterModule.h>
 
 namespace kakaIM {
     namespace president {
