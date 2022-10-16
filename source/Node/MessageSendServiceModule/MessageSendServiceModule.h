@@ -11,7 +11,6 @@
 #include <memory>
 #include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include "../Service/MessageSendService.h"
 #include "../Service/MessageIDGenerateService.h"
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/SessionQueryService.h"

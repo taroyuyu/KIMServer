@@ -12,7 +12,6 @@
 #include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../Service/MessageSendService.h"
 #include "../Service/ClusterService.h"
 #include "../Service/MessageIDGenerateService.h"
 #include "../Service/LoginDeviceQueryService.h"

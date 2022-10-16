@@ -10,7 +10,6 @@
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
 #include "../Events/UserLogoutEvent.h"
-#include "../Service/SessionQueryService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 #include <log4cxx/logger.h>

@@ -7,14 +7,18 @@
 
 #include "../../Common/KIMModule.h"
 #include "../Service/ConnectionOperationService.h"
+#include "../Service/MessageSendService.h"
 #include <memory>
+
 namespace kakaIM {
     namespace node {
         class KIMNodeModule : public common::KIMModule {
         public:
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
+            void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
+            std::weak_ptr<MessageSendService> mMessageSendServicePtr;
         };
     }
 }

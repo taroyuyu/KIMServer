@@ -14,7 +14,6 @@
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/SessionQueryService.h"
-#include "../Service/MessageSendService.h"
 #include "../Service/UserRelationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
