@@ -31,7 +31,7 @@ namespace kakaIM {
              * @param presidentPort president监听的端口号
              * @param serverID Node的serverID
              * @param invitationCode 邀请码
-	     * @param lngLatPair 经纬度(经度，纬度)
+	         * @param lngLatPair 经纬度(经度，纬度)
              * @param serviceAddr 本实例提供服务所监听的IP地址
              * @param servicePort 本实例提供服务所监听的端口
              */
