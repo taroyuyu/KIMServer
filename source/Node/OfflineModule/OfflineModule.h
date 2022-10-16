@@ -14,7 +14,6 @@
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/SessionQueryService.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
@@ -27,8 +26,6 @@ namespace kakaIM {
             ~OfflineModule();
 
             virtual bool init() override;
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
@@ -142,7 +139,6 @@ namespace kakaIM {
             void handlePullGroupChatMessage(const kakaIM::Node::PullGroupChatMessage &pullGroupChatMessage,
                                             const std::string connectionIdentifier);
 
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
 	    std::shared_ptr<pqxx::connection> m_dbConnection;
 

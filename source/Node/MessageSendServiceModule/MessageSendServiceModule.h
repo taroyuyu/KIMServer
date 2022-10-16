@@ -16,7 +16,6 @@
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/ClusterService.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
@@ -41,8 +40,6 @@ namespace kakaIM {
 
             virtual void
             sendMessageToSession(const std::string &serverID,const std::string & sessionID, const ::google::protobuf::Message &message)override ;
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
 
             void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
 
@@ -59,7 +56,6 @@ namespace kakaIM {
             std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;

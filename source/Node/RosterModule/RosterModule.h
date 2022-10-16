@@ -17,7 +17,6 @@
 #include "../Service/MessageSendService.h"
 #include "../Service/UserRelationService.h"
 #include "../../Common/KIMDBConfig.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
@@ -37,8 +36,6 @@ namespace kakaIM {
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
 
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
 
@@ -52,7 +49,6 @@ namespace kakaIM {
             std::atomic_bool m_needStop;
         protected:
             int mEpollInstance;
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             int messageEventfd;

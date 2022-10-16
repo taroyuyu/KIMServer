@@ -20,7 +20,6 @@
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/UserRelationService.h"
 #include "../Service/ClusterService.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
@@ -46,8 +45,6 @@ namespace kakaIM {
 
             virtual void onEvent(std::shared_ptr<const Event> event) override;
 
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
             void setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr);
 
             void setClusterService(std::weak_ptr<ClusterService> clusterServicePtr);
@@ -67,7 +64,6 @@ namespace kakaIM {
             std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<UserRelationService> userRelationServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;

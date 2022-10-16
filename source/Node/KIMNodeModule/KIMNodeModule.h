@@ -6,11 +6,15 @@
 #define KAKAIMCLUSTER_KIMNODEMODULE_H
 
 #include "../../Common/KIMModule.h"
-
+#include "../Service/ConnectionOperationService.h"
+#include <memory>
 namespace kakaIM {
     namespace node {
         class KIMNodeModule : public common::KIMModule {
-
+        public:
+            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
+        protected:
+            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
         };
     }
 }

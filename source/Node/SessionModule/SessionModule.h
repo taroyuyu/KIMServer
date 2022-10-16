@@ -11,7 +11,6 @@
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/util/Date.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
-#include "../Service/ConnectionOperationService.h"
 #include <map>
 #include <string>
 #include <queue>
@@ -35,8 +34,6 @@ namespace kakaIM {
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
         protected:
             virtual void execute() override;
@@ -65,8 +62,6 @@ namespace kakaIM {
 
             void
             handleLogoutMessage(const kakaIM::Node::LogoutMessage &message, const std::string connectionIdentifier);
-
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
 	    log4cxx::LoggerPtr logger;
         };
     }

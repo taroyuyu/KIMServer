@@ -11,7 +11,6 @@
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
 #include "../Events/UserLogoutEvent.h"
 #include "../Service/SessionQueryService.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 #include <log4cxx/logger.h>
@@ -42,8 +41,6 @@ namespace kakaIM {
 
             virtual void start() override;
 
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 
@@ -71,8 +68,6 @@ namespace kakaIM {
 
             void
             handleRegisterMessage(const kakaIM::Node::RegisterMessage &message, const std::string connectionIdentifier);
-
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
 
             enum VerifyUserResult {
                 VerifyUserResult_DBConnectionNotExit,//数据库连接不存在

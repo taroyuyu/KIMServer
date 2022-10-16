@@ -18,7 +18,6 @@
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/MessageIDGenerateService.h"
 #include "../Service/LoginDeviceQueryService.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
@@ -31,8 +30,6 @@ namespace kakaIM {
             ~GroupChatModule();
 
             virtual bool init() override;
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
@@ -138,7 +135,6 @@ namespace kakaIM {
             handleGroupChatMessage(const kakaIM::Node::GroupChatMessage &message,
                                    const std::string connectionIdentifier);
 
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;

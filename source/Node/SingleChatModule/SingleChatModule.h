@@ -19,7 +19,6 @@
 #include "../Service/SessionQueryService.h"
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/UserRelationService.h"
-#include "../Service/ConnectionOperationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
@@ -34,8 +33,6 @@ namespace kakaIM {
             virtual bool init() override;
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
 
             void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
 
@@ -148,8 +145,6 @@ namespace kakaIM {
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
 
-
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
