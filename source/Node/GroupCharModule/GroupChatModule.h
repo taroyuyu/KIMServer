@@ -25,8 +25,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
-
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;
