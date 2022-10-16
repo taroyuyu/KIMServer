@@ -21,9 +21,6 @@ namespace kakaIM {
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
         protected:
-            int messageEventfd;
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
-
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task);
 
             void
