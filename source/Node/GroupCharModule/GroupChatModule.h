@@ -12,8 +12,6 @@ namespace kakaIM {
         class GroupChatModule : public KIMNodeModule{
         public:
             GroupChatModule();
-
-            ~GroupChatModule();
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
         private:

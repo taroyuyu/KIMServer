@@ -15,12 +15,6 @@ namespace kakaIM {
         GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger){
         }
 
-        GroupChatModule::~GroupChatModule() {
-            if (this->m_dbConnection && this->m_dbConnection->is_open()) {
-                this->m_dbConnection->disconnect();
-            }
-        }
-
         void GroupChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             if (task.first->GetTypeName() ==
