@@ -61,14 +61,14 @@ namespace kakaIM {
         void ClusterModule::execute() {
             this->moduleState = ConnectingPresident::ConnectingPresident;
 
-            //1.连接President
+            // 1.连接President
             mPresidentSocket.connect(this->mPresidentAddr, this->mPresidentPort);
-            //2.将socket加入socketManager
+            // 2.将socket加入socketManager
             this->mSocketManager.addSocket(mPresidentSocket, this, this->mKakaIMMessageAdapter);
-            //3.启动socketManager
+            // 3.启动socketManager
             this->mSocketManager.start();
 
-            //4.发送加入集群的请求
+            // 4.发送加入集群的请求
             president::RequestJoinClusterMessage *message = new president::RequestJoinClusterMessage();
             message->set_serverid(this->mServerID);
             message->set_invitationcode(this->mInvitationCode);
@@ -77,9 +77,12 @@ namespace kakaIM {
             message->set_serviceaddr(this->serviceAddr);
             message->set_serviceport(this->servicePort);
             this->mSocketManager.sendMessage(mPresidentSocket, *(const ::google::protobuf::Message *) message);
-
             LOG4CXX_INFO(this->logger, typeid(this).name() << __FUNCTION__ << "发送加入集群的请求");
 
+            // 5. 启动心跳定时器
+            this->startHeartBeat();
+
+            // 6. 更新状态
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
                 this->m_status = Status::Started;
@@ -87,18 +90,15 @@ namespace kakaIM {
             }
 
             while (not this->m_needStop) {
-
                 if (auto task = this->mMessageQueue.try_pop()) {
                     this->dispatchClusterMessage(*task);
-                }
-
-                // 检查心跳定时器是否超时
-                std::atomic<bool> heartBeatTimeout{false};
-                if (heartBeatTimeout){
-                    this->handleHeartBeatEvent();
+                }else{
+                    std::this_thread::yield();
                 }
             }
 
+            this->stopHeartBeat();
+            
             this->m_needStop = false;
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
@@ -152,6 +152,13 @@ namespace kakaIM {
                 LOG4CXX_DEBUG(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
             }
+        }
+
+        void ClusterModule::startHeartBeat(){
+
+        }
+        void ClusterModule::stopHeartBeat(){
+
         }
 
         void ClusterModule::handleHeartBeatEvent(){

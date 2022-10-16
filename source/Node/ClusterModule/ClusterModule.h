@@ -99,6 +99,9 @@ namespace kakaIM {
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
             std::list<UserOnlineStateListener *> mUserOnlineStateListenerList;
 
+            void startHeartBeat();
+            void stopHeartBeat();
+
             void dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair);
 
             void handleHeartBeatEvent();
