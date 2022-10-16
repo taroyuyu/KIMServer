@@ -10,7 +10,7 @@
 #include <mutex>
 #include <memory>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../Service/MessageSendService.h"
 #include "../Service/MessageIDGenerateService.h"
 #include "../Service/LoginDeviceQueryService.h"
@@ -22,7 +22,7 @@
 namespace kakaIM {
     namespace node {
         class MessageSendServiceModule
-                : public common::KIMModule, public MessageSendService, public ClusterService::ServerMessageListener {
+                : public KIMNodeModule, public MessageSendService, public ClusterService::ServerMessageListener {
         public:
             MessageSendServiceModule();
 

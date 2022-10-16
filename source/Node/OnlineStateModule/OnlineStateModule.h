@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_ONLINESTATEMODULE_H
 #define KAKAIMCLUSTER_ONLINESTATEMODULE_H
 
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include <google/protobuf/message.h>
 #include <queue>
 #include <map>
@@ -26,7 +26,7 @@
 namespace kakaIM {
     namespace node {
         class OnlineStateModule
-                : public common::KIMModule,
+                : public KIMNodeModule,
                   public EventListener,
                   public LoginDeviceQueryService,
                   public ClusterService::UserOnlineStateListener {

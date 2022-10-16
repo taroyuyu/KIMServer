@@ -14,7 +14,7 @@
 #include <mutex>
 #include <set>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/MessageCluster.pb.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/Net/TCPSocket/TCPClientSocket.h"
@@ -28,7 +28,7 @@
 namespace kakaIM {
     namespace node {
         class ClusterModule
-                : public kakaIM::common::KIMModule,
+                : public KIMNodeModule,
                   public kakaIM::net::TCPSocketManagerConsignor,
                   public ClusterService,
                   public MessageIDGenerateService {

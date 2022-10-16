@@ -11,7 +11,7 @@
 #include <memory>
 #include <log4cxx/logger.h>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/MessageSendService.h"
@@ -23,7 +23,7 @@
 namespace kakaIM {
     namespace node {
         class RosterModule
-                : public common::KIMModule, public UserRelationService {
+                : public KIMNodeModule, public UserRelationService {
         public:
             RosterModule();
 

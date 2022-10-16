@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 #define KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
@@ -28,7 +28,7 @@ namespace kakaIM {
     }
     namespace node {
         class AuthenticationModule
-                : public common::KIMModule,
+                : public KIMNodeModule,
                   public net::MessageFilter,
                   public net::ConnectionDelegate,
                   public QueryUserAccountWithSession,

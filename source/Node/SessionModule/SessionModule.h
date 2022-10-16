@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_SESSIONMODULE_H
 #define KAKAIMCLUSTER_SESSIONMODULE_H
 
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
@@ -23,7 +23,7 @@
 
 namespace kakaIM {
     namespace node {
-        class SessionModule : public common::KIMModule, public net::ConnectionDelegate, public net::MessageFilter {
+        class SessionModule : public KIMNodeModule, public net::ConnectionDelegate, public net::MessageFilter {
         public:
             SessionModule();
 

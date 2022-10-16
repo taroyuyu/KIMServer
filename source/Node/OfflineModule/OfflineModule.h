@@ -10,7 +10,7 @@
 #include <mutex>
 #include <memory>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/SessionQueryService.h"
@@ -20,7 +20,7 @@
 
 namespace kakaIM {
     namespace node {
-        class OfflineModule : public common::KIMModule, public MessagePersistenceService {
+        class OfflineModule : public KIMNodeModule, public MessagePersistenceService {
         public:
             OfflineModule();
 

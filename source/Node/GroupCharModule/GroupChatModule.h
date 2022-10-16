@@ -10,7 +10,7 @@
 #include <mutex>
 #include <memory>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
+#include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/MessageSendService.h"
@@ -24,7 +24,7 @@
 
 namespace kakaIM {
     namespace node {
-        class GroupChatModule : public common::KIMModule{
+        class GroupChatModule : public KIMNodeModule{
         public:
             GroupChatModule();
 
