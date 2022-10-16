@@ -14,8 +14,6 @@ namespace kakaIM {
         public:
             RosterModule();
 
-            ~RosterModule();
-
             virtual bool checkFriendRelation(const std::string userA, const std::string userB) override;
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;

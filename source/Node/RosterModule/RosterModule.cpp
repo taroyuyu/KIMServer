@@ -14,12 +14,6 @@ namespace kakaIM {
         RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger){
         }
 
-        RosterModule::~RosterModule() {
-            if (this->m_dbConnection && this->m_dbConnection->is_open()) {
-                this->m_dbConnection->disconnect();
-            }
-        }
-
         void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task) {
             auto messageType = task.first->GetTypeName();
             if (messageType ==
