@@ -4,11 +4,11 @@
 
 #include <zconf.h>
 #include <memory>
-#include "OnlineStateModule.h"
-#include "../../Common/EventBus/EventBus.h"
-#include "../Events/UserLogoutEvent.h"
-#include "../Log/log.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/OnlineStateModule/OnlineStateModule.h>
+#include <Common/EventBus/EventBus.h>
+#include <Node/Events/UserLogoutEvent.h>
+#include <Node/Log/log.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {

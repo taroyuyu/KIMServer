@@ -5,11 +5,11 @@
 #ifndef KAKAIMCLUSTER_ONLINESTATEMODULE_H
 #define KAKAIMCLUSTER_ONLINESTATEMODULE_H
 
-#include "../KIMNodeModule/KIMNodeModule.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
 #include <map>
-#include "../../Common/EventBus/EventListener.h"
-#include "../Events/UserLogoutEvent.h"
-#include "../Events/NodeSecessionEvent.h"
+#include <Common/EventBus/EventListener.h>
+#include <Node/Events/UserLogoutEvent.h>
+#include <Node/Events/NodeSecessionEvent.h>
 
 namespace kakaIM {
     namespace node {
