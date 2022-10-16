@@ -106,8 +106,6 @@ namespace kakaIM {
             AmqpClient::Channel::ptr_t mAmqpChannel;
 
             void rosterRPCListenerWork();
-
-            std::shared_ptr<pqxx::connection> getDBConnection();
         };
 
     }

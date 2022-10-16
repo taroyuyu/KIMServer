@@ -46,6 +46,7 @@ namespace kakaIM {
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
             log4cxx::LoggerPtr logger;
             std::shared_ptr<pqxx::connection> m_dbConnection;
+            std::shared_ptr<pqxx::connection> getDBConnection();
 
         };
     }

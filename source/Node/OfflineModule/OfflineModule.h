@@ -132,8 +132,6 @@ namespace kakaIM {
 
             void handlePullGroupChatMessage(const kakaIM::Node::PullGroupChatMessage &pullGroupChatMessage,
                                             const std::string connectionIdentifier);
-
-	    std::shared_ptr<pqxx::connection> getDBConnection();
         };
 
     }

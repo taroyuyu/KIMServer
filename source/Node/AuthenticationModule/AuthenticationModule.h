@@ -78,8 +78,6 @@ namespace kakaIM {
             std::mutex mDBConnectionPoolMutex;
             std::queue<std::unique_ptr<pqxx::connection>> mDBConnectionPool;
 
-            std::unique_ptr<pqxx::connection> getDBConnection();
-
             void releaseDBConnection(std::unique_ptr<pqxx::connection> dbConnection);
 
             std::mutex sessionMapMutex;

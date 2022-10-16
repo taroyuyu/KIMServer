@@ -119,8 +119,6 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-
-            std::shared_ptr<pqxx::connection> getDBConnection();
         };
     }
 }
