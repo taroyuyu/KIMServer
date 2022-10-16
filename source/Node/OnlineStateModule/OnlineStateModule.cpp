@@ -4,8 +4,6 @@
 
 #include <zconf.h>
 #include <memory>
-#include <sys/epoll.h>
-#include <sys/eventfd.h>
 #include "OnlineStateModule.h"
 #include "../../Common/EventBus/EventBus.h"
 #include "../Events/UserLogoutEvent.h"
