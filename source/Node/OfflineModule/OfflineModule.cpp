@@ -12,9 +12,8 @@
 
 namespace kakaIM {
     namespace node {
-        OfflineModule::OfflineModule() : mEpollInstance(-1), messageEventfd(-1), persistTaskQueueEventfd(-1),
+        OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger),mEpollInstance(-1), messageEventfd(-1), persistTaskQueueEventfd(-1),
                                          m_dbConnection(nullptr) {
-            this->logger = log4cxx::Logger::getLogger(OfflineModuleLogger);
         }
 
         OfflineModule::~OfflineModule() {

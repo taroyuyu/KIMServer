@@ -6,6 +6,9 @@
 
 namespace kakaIM {
     namespace node {
+        KIMNodeModule::KIMNodeModule(std::string moduleName) : logger(log4cxx::Logger::getLogger(moduleName)) {
+        }
+
         void KIMNodeModule::setConnectionOperationService(
                 std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
             this->connectionOperationServicePtr = connectionOperationServicePtr;

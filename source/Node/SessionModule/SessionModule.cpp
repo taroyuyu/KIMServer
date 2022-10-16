@@ -190,8 +190,7 @@ namespace kakaIM {
             return ::MD5(currentDate.toString() + connectionUUID_str).toStr();
         }
 
-        SessionModule::SessionModule() :epollInstance(-1), messageEventfd(-1){
-            this->logger = log4cxx::Logger::getLogger(SessionModuleLogger);
+        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger),epollInstance(-1), messageEventfd(-1){
         }
 
         SessionModule::~SessionModule() {

@@ -11,9 +11,8 @@
 
 namespace kakaIM {
     namespace node {
-        MessageSendServiceModule::MessageSendServiceModule() : mEpollInstance(-1), messageEventfd(-1),
+        MessageSendServiceModule::MessageSendServiceModule() : KIMNodeModule(MessageSenderServiceModuleLogger),mEpollInstance(-1), messageEventfd(-1),
                                                                serverMessageEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(MessageSenderServiceModuleLogger);
         }
 
         MessageSendServiceModule::~MessageSendServiceModule() {

@@ -22,6 +22,7 @@ namespace kakaIM {
     namespace node {
         class KIMNodeModule : public common::KIMModule {
         public:
+            KIMNodeModule(std::string moduleName);
             virtual void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
             virtual void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
             virtual void setClusterService(std::weak_ptr<ClusterService> service);

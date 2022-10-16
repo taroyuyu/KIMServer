@@ -14,10 +14,9 @@
 
 namespace kakaIM {
     namespace node {
-        OnlineStateModule::OnlineStateModule() : mEpollInstance(-1), messageEventfd(-1), eventQueuefd(-1),
+        OnlineStateModule::OnlineStateModule() : KIMNodeModule(OnlineStateModuleLogger),mEpollInstance(-1), messageEventfd(-1), eventQueuefd(-1),
                                                  userLogoutEventProto(new UserLogoutEvent("", "")),
                                                  nodeSecessionEventProto(new NodeSecessionEvent("")) {
-            this->logger = log4cxx::Logger::getLogger(OnlineStateModuleLogger);
         }
 
         OnlineStateModule::~OnlineStateModule() {

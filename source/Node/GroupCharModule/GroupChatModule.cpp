@@ -14,8 +14,7 @@
 namespace kakaIM {
     namespace node {
 
-        GroupChatModule::GroupChatModule() : mEpollInstance(-1), messageEventfd(-1), m_dbConnection(nullptr) {
-            this->logger = log4cxx::Logger::getLogger(GroupChatModuleLogger);
+        GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger),mEpollInstance(-1), messageEventfd(-1), m_dbConnection(nullptr) {
         }
 
         GroupChatModule::~GroupChatModule() {

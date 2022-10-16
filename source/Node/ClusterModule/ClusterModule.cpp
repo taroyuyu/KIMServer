@@ -21,12 +21,11 @@ namespace kakaIM {
     namespace node {
         ClusterModule::ClusterModule(std::string presidentAddr, int presidentPort, std::string serverID,
                                      std::string invitationCode, std::pair<float, float> lngLatPair,std::string serviceAddr,
-                          uint16_t servicePort) :
+                          uint16_t servicePort) :KIMNodeModule(ClusterModuleLogger),
                 mKakaIMMessageAdapter(nullptr), mPresidentAddr(presidentAddr), mPresidentPort(presidentPort),
                 mServerID(serverID),
                 mInvitationCode(invitationCode), mlngLatPair(lngLatPair),serviceAddr(serviceAddr),servicePort(servicePort), mHeartBeatTimerfd(-1), mMessageEventfd(-1) {
             this->mKakaIMMessageAdapter = new common::KakaIMMessageAdapter();
-            this->logger = log4cxx::Logger::getLogger(ClusterModuleLogger);
         }
 
         std::string ClusterModule::getServerID() const {

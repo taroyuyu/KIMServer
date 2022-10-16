@@ -12,8 +12,8 @@
 
 namespace kakaIM {
     namespace node {
-        AuthenticationModule::AuthenticationModule() : messageEventfd(-1), m_needStop(false) {
-            this->logger = log4cxx::Logger::getLogger(AuthenticationModuleLogger);
+        AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger), messageEventfd(-1),
+                                                       m_needStop(false) {
         }
 
         AuthenticationModule::~AuthenticationModule() {
@@ -73,7 +73,8 @@ namespace kakaIM {
             }
         }
 
-        void AuthenticationModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+        void AuthenticationModule::dispatchMessage(
+                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             auto messageType = task.first->GetTypeName();
             if (messageType == kakaIM::Node::LoginMessage::default_instance().GetTypeName()) {
                 handleLoginMessage(*(kakaIM::Node::LoginMessage *) task.first.get(), task.second);

@@ -12,8 +12,7 @@
 
 namespace kakaIM {
     namespace node {
-        SingleChatModule::SingleChatModule() : mEpollInstance(-1), messageEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(SingleChatModuleLogger);
+        SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger),mEpollInstance(-1), messageEventfd(-1) {
         }
 
         SingleChatModule::~SingleChatModule() {
