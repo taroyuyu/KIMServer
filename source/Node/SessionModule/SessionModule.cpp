@@ -16,6 +16,8 @@
 
 namespace kakaIM {
     namespace node {
+        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger){
+        }
         void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task){
             auto messageType = task.first->GetTypeName();
             if (messageType ==
@@ -143,9 +145,6 @@ namespace kakaIM {
             kaka::Date currentDate = kaka::Date::getCurrentDate();
             //3.拼接uuid和currentDate,取摘要
             return ::MD5(currentDate.toString() + connectionUUID_str).toStr();
-        }
-
-        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger){
         }
     }
 }
