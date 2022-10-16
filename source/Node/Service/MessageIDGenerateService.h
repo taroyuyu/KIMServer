@@ -6,7 +6,7 @@
 #define KAKAIMCLUSTER_MESSAGEIDGENERATESERVICE_H
 
 #include <memory>
-#include "../../Common/util/Date.h"
+#include <Common/util/Date.h>
 
 namespace kakaIM {
     namespace node {

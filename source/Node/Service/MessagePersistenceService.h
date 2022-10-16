@@ -1,7 +1,7 @@
 //
 // Created by Kakawater on 2018/1/25.
 //
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Common/proto/KakaIMMessage.pb.h>
 
 #ifndef KAKAIMCLUSTER_MESSAGEPERSISTENCESERVICE_H
 #define KAKAIMCLUSTER_MESSAGEPERSISTENCESERVICE_H

@@ -7,7 +7,7 @@
 
 #include <set>
 #include <string>
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
