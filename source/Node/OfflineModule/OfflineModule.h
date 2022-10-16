@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_OFFLINEMODULE_H
 #define KAKAIMCLUSTER_OFFLINEMODULE_H
 
-
 #include <queue>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
@@ -97,7 +96,7 @@ namespace kakaIM {
                 const uint64_t _messageID;
 
             };
-            
+
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
             ConcurrentLinkedQueue<std::unique_ptr<PersistTask>> mPersistTaskQueue;
 
