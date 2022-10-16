@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
 #include <queue>
-#include <mutex>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 

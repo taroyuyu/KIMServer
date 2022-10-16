@@ -11,7 +11,6 @@
 #include "../Events/UserLogoutEvent.h"
 #include <map>
 #include <queue>
-#include <mutex>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 
 namespace kakaIM {

@@ -14,7 +14,6 @@
 #include <queue>
 #include <list>
 #include <set>
-#include <mutex>
 
 namespace kakaIM {
     namespace node {

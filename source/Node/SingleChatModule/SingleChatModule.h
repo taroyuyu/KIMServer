@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_SINGLECHATMODULE_H
 
 #include <queue>
-#include <mutex>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
 namespace kakaIM {
