@@ -36,5 +36,9 @@ namespace kakaIM {
         void KIMNodeModule::setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service) {
             this->mQueryConnectionWithSessionServicePtr = service;
         }
+
+        void KIMNodeModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
+            this->mLoginDeviceQueryServicePtr = service;
+        }
     }
 }

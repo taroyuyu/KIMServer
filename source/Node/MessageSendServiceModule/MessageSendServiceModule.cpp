@@ -22,10 +22,6 @@ namespace kakaIM {
             }
         }
 
-        void MessageSendServiceModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
-            this->mLoginDeviceQueryServicePtr = service;
-        }
-
         void MessageSendServiceModule::setClusterService(std::weak_ptr<ClusterService> service) {
             if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->removeServerMessageListener(this);

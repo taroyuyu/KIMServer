@@ -131,10 +131,6 @@ namespace kakaIM {
             this->mMessagePersistenceServicePtr = service;
         }
 
-        void GroupChatModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
-            this->mLoginDeviceQueryServicePtr = service;
-        }
-
         void GroupChatModule::handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,
                                                                   const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);
