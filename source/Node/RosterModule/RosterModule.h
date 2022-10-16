@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_ROSTERMODULE_H
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
-#include "../KIMNodeModule/KIMNodeModule.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
 
 namespace kakaIM {
     namespace node {

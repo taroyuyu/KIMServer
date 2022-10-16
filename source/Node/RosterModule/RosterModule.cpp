@@ -3,11 +3,11 @@
 //
 
 #include <zconf.h>
-#include "RosterModule.h"
-#include "../Log/log.h"
-#include "../../Common/util/Date.h"
-#include "../../Common/proto/KakaIMRPC.pb.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/RosterModule/RosterModule.h>
+#include <Node/Log/log.h>
+#include <Common/util/Date.h>
+#include <Common/proto/KakaIMRPC.pb.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
