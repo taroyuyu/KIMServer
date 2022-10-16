@@ -116,7 +116,7 @@ namespace kakaIM {
 
         void push(ElemType elem) {
             auto data = std::make_shared<ElemType>(std::move(elem));
-            auto node = std::make_unique<Node>();
+            std::unique_ptr<Node> node(new Node());
             {
                 std::lock_guard<std::mutex> tail_lock(tail_mutex);
                 tail->data = data;

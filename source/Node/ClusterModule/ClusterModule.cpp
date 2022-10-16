@@ -309,7 +309,7 @@ namespace kakaIM {
 
         void ClusterModule::handleServerMessageFromCluster(const president::ServerMessage &serverMessage) {
             if (serverMessage.serverid() != this->mServerID) {//如果serverID不匹配,则丢弃
-                LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " serverID不匹配，不对其进行处理")
+                LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " serverID不匹配，不对其进行处理");
                 return;
             }
 
