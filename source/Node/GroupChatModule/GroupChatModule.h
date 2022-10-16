@@ -55,7 +55,7 @@ namespace kakaIM {
             void handleChatGroupJoinResponseMessage(const kakaIM::Node::ChatGroupJoinResponse &message,
                                                     const std::string connectionIdentifier);
 
-            enum GroupJoinApplicationState {
+            enum class GroupJoinApplicationState {
                 GroupJoinApplicationState_Pending,//待处理
                 GroupJoinApplicationState_Allow,//通过
                 GroupJoinApplicationState_Reject,//拒绝

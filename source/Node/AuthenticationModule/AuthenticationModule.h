@@ -44,7 +44,7 @@ namespace kakaIM {
             void
             handleRegisterMessage(const kakaIM::Node::RegisterMessage &message, const std::string connectionIdentifier);
 
-            enum VerifyUserResult {
+            enum class VerifyUserResult {
                 VerifyUserResult_DBConnectionNotExit,//数据库连接不存在
                 VerifyUserResult_InteralError,//内部错误
                 VerifyUserResult_True,//身份真实
