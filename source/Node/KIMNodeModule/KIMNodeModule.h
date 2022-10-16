@@ -13,6 +13,7 @@
 #include "../Service/NodeConnectionQueryService.h"
 #include "../Service/SessionQueryService.h"
 #include "../Service/LoginDeviceQueryService.h"
+#include "../Service/MessagePersistenceService.h"
 #include <memory>
 
 namespace kakaIM {
