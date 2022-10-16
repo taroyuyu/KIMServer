@@ -156,7 +156,7 @@ namespace kakaIM {
             std::string submissionTime;
             auto result = this->saveVideoChatOffer(sponsorAccount, targetAccount, clusterService->getServerID(),
                                                    videoChatRequestMessage.sessionid(), &offerId, &submissionTime);
-            if (result != SaveVideoChatOfferResult::SaveVideoChatOfferResult_Success) {
+            if (result != SaveVideoChatOfferResult::Success) {
                 return;
             }
             videoChatRequestMessage.set_offerid(offerId);
@@ -188,7 +188,7 @@ namespace kakaIM {
             //2.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatRequestCancelMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
@@ -228,7 +228,7 @@ namespace kakaIM {
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatReplyMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
             //2.验证消息发送者
@@ -291,7 +291,7 @@ namespace kakaIM {
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatOfferMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
@@ -349,7 +349,7 @@ namespace kakaIM {
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatAnswerMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
@@ -406,7 +406,7 @@ namespace kakaIM {
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatNegotiationResultMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
@@ -470,7 +470,7 @@ namespace kakaIM {
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatCandidateAddressMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
@@ -537,7 +537,7 @@ namespace kakaIM {
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatByeMessage.offerid(), offerInfo);
-            if (FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success != result) {
+            if (FetchVideoChatOfferResult::Success != result) {
                 return;
             }
 
@@ -586,7 +586,7 @@ namespace kakaIM {
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return SaveVideoChatOfferResult::SaveVideoChatOfferResult_DBConnectionNotExit;;
+                return SaveVideoChatOfferResult::DBConnectionNotExit;;
             }
 
             try {
@@ -609,14 +609,14 @@ namespace kakaIM {
                 *offerId = result[0][0].as<uint64_t>();
                 *submissionTime = result[0][1].as<std::string>();
 
-                return SaveVideoChatOfferResult::SaveVideoChatOfferResult_Success;
+                return SaveVideoChatOfferResult::Success;
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "将通话提议插入数据库失败,"
                                                   << exception.what());
 
-                return SaveVideoChatOfferResult::SaveVideoChatOfferResult_InteralError;
+                return SaveVideoChatOfferResult::InteralError;
             }
 
         }
@@ -628,7 +628,7 @@ namespace kakaIM {
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return FetchVideoChatOfferResult::FetchVideoChatOfferResult_DBConnectionNotExit;
+                return FetchVideoChatOfferResult::DBConnectionNotExit;
             }
 
             try {
@@ -672,19 +672,19 @@ namespace kakaIM {
                         LOG4CXX_ERROR(this->logger, typeid(this).name() << " " << __FUNCTION__ << " 查询视频通话提议，offerId="
                                                                         << offerId << "的信息失败，由于state的类型不能识别，state="
                                                                         << state);
-                        return FetchVideoChatOfferResult::FetchVideoChatOfferResult_InteralError;
+                        return FetchVideoChatOfferResult::InteralError;
                     }
                     offerInfo.submissionTime = result[0][7].as<std::string>();
-                    return FetchVideoChatOfferResult::FetchVideoChatOfferResult_Success;
+                    return FetchVideoChatOfferResult::Success;
                 } else {
-                    return FetchVideoChatOfferResult::FetchVideoChatOfferResult_DBConnectionNotExit;
+                    return FetchVideoChatOfferResult::DBConnectionNotExit;
                 }
 
             } catch (std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << " 查询视频通话提议，offerId" << offerId
                                                   << "的信息失败," << exception.what());
-                return FetchVideoChatOfferResult::FetchVideoChatOfferResult_InteralError;
+                return FetchVideoChatOfferResult::InteralError;
             }
         }
 
@@ -711,7 +711,7 @@ namespace kakaIM {
                 }
                     break;
                 default: {
-                    return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_ParameterErrpr;
+                    return UpdateVideoChatOfferResult::ParameterErrpr;
                 }
             }
 
@@ -722,7 +722,7 @@ namespace kakaIM {
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
                 //异常处理
-                return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_DBConnectionNotExit;;
+                return UpdateVideoChatOfferResult::DBConnectionNotExit;;
             }
 
             try {
@@ -742,13 +742,13 @@ namespace kakaIM {
                 //提交事务
                 dbWork.commit();
 
-                return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_Success;
+                return UpdateVideoChatOfferResult::Success;
 
             } catch (const std::exception &exception) {
                 LOG4CXX_ERROR(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "更新通话提议状态失败," << exception.what());
 
-                return UpdateVideoChatOfferResult::UpdateVideoChatOfferResult_Failed;
+                return UpdateVideoChatOfferResult::Failed;
             }
         }
 

@@ -45,9 +45,9 @@ namespace kakaIM {
                                            const std::string connectionIdentifier);
 
             enum class SaveVideoChatOfferResult {
-                SaveVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
-                SaveVideoChatOfferResult_InteralError,//内部错误
-                SaveVideoChatOfferResult_Success,//查询成功
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                Success,//查询成功
             };
 
             SaveVideoChatOfferResult
@@ -56,10 +56,10 @@ namespace kakaIM {
                                std::string *submissionTime);
 
             enum class UpdateVideoChatOfferResult {
-                UpdateVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
-                UpdateVideoChatOfferResult_Success,//更新成功
-                UpdateVideoChatOfferResult_ParameterErrpr,//参数错误
-                UpdateVideoChatOfferResult_Failed,//更新失败
+                DBConnectionNotExit,//数据库连接不存在
+                Success,//更新成功
+                ParameterErrpr,//参数错误
+                Failed,//更新失败
             };
 
             enum class VideoChatOfferState {
@@ -75,10 +75,10 @@ namespace kakaIM {
                                  const VideoChatOfferState offerState);
 
             enum class FetchVideoChatOfferResult {
-                FetchVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
-                FetchVideoChatOfferResult_InteralError,//内部错误
-                FetchVideoChatOfferResult_RecordNotExist,//记录不存在
-                FetchVideoChatOfferResult_Success//更新成功
+                DBConnectionNotExit,//数据库连接不存在
+                InteralError,//内部错误
+                RecordNotExist,//记录不存在
+                Success//更新成功
             };
 
             struct VideoChatOfferInfo {
