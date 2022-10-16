@@ -14,6 +14,10 @@
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 
 namespace kakaIM {
+    namespace Node{
+        class LoginMessage;
+        class RegisterMessage;
+    }
     namespace rpc {
         class AuthenticationRequest;
     }
