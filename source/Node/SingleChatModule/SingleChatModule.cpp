@@ -18,10 +18,6 @@ namespace kakaIM {
         SingleChatModule::~SingleChatModule() {
         }
 
-        void SingleChatModule::setUserRelationService(std::weak_ptr<UserRelationService> service) {
-            this->mUserRelationServicePtr = service;
-        }
-
         bool SingleChatModule::init() {
             //创建eventfd,并提供信号量语义
             this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);

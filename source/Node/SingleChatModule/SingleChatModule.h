@@ -28,8 +28,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
-            void setUserRelationService(std::weak_ptr<UserRelationService> service);
-
         protected:
             virtual void execute() override;
 
@@ -124,8 +122,6 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-
-            std::weak_ptr<UserRelationService> mUserRelationServicePtr;
 
             std::shared_ptr<pqxx::connection> m_dbConnection;
 
