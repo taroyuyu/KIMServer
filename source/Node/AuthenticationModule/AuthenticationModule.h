@@ -32,8 +32,6 @@ namespace kakaIM {
 
             ~AuthenticationModule();
 
-            virtual void start() override;
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 

@@ -22,16 +22,6 @@ namespace kakaIM {
             }
         }
 
-        void AuthenticationModule::start() {
-            if (false == this->m_isStarted) {
-                this->m_isStarted = true;
-                this->m_workThread = std::move(std::thread([this]() {
-                    this->execute();
-                    this->m_isStarted = false;
-                }));
-            }
-        }
-
         void AuthenticationModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
