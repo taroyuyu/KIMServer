@@ -4,7 +4,7 @@
 
 #ifndef KAKAIMCLUSTER_CLUSTERDISENGAGEMENTEVENT_H
 #define KAKAIMCLUSTER_CLUSTERDISENGAGEMENTEVENT_H
-#include "<Common/EventBus/Event.h>
+#include <Common/EventBus/Event.h>
 namespace kakaIM {
     class ClusterDisengagementEvent : public Event {
     public:

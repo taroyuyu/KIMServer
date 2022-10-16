@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_CHATMESSAGE_H
 #define KAKAIMCLUSTER_CHATMESSAGE_H
 
-#include "../../Common/util/Date.h"
+#include <Common/util/Date.h>
 #include <utility>
 namespace kakaIM {
     namespace client {

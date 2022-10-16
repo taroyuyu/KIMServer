@@ -3,7 +3,7 @@
 //
 
 #include <zconf.h>
-#include <Node/GroupChatModule/GroupChatModule.h>
+#include <Node/GroupCharModule/GroupChatModule.h>
 #include <Common/proto/MessageCluster.pb.h>
 #include <Node/Log/log.h>
 #include <Common/util/Date.h>
