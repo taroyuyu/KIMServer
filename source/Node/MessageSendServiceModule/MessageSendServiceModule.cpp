@@ -11,8 +11,7 @@
 
 namespace kakaIM {
     namespace node {
-        MessageSendServiceModule::MessageSendServiceModule() : KIMNodeModule(MessageSenderServiceModuleLogger),mEpollInstance(-1), messageEventfd(-1),
-                                                               serverMessageEventfd(-1) {
+        MessageSendServiceModule::MessageSendServiceModule() : KIMNodeModule(MessageSenderServiceModuleLogger){
         }
 
         MessageSendServiceModule::~MessageSendServiceModule() {
@@ -29,40 +28,6 @@ namespace kakaIM {
             if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->addServerMessageListener(this);
             }
-        }
-
-        bool MessageSendServiceModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-
-            this->serverMessageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->serverMessageEventfd < 0) {
-                return false;
-            }
-
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            //向Epill实例注册messageEventfd,clusterMessageEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-
-            struct epoll_event serverMessageEvent;
-            serverMessageEvent.events = EPOLLIN;
-            serverMessageEvent.data.fd = this->serverMessageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->serverMessageEventfd, &serverMessageEvent)) {
-                return false;
-            }
-            return true;
         }
 
         void MessageSendServiceModule::execute() {
@@ -97,14 +62,14 @@ namespace kakaIM {
             }
         }
 
-        void MessageSendServiceModule::dispatchMessage(std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>> & task){
-            auto messageType = task.second->GetTypeName();
+        void MessageSendServiceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message,const std::string>> & task){
+            auto messageType = task.first->GetTypeName();
             if (messageType ==
                 kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
                 this->handleSessionMessage(
                         *((kakaIM::president::SessionMessage *) task.second.get()));
             } else {
-                this->handleMessageForSend(task.first, *task.second.get());
+                this->handleMessageForSend(task.second, *task.first.get());
             }
         }
 
@@ -117,32 +82,24 @@ namespace kakaIM {
             std::unique_ptr<::google::protobuf::Message> messageDuplicate(message.New());
             messageDuplicate->CopyFrom(message);
             //添加到队列中
-            this->mTaskQueue.push(std::move(std::make_pair(userAccount,std::move(messageDuplicate))));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(messageDuplicate),userAccount)));
         }
 
         void
         MessageSendServiceModule::sendMessageToSession(const std::string &serverID, const std::string &sessionID,
                                                        const ::google::protobuf::Message &message) {
-            kakaIM::president::SessionMessage *sessionMessage = new kakaIM::president::SessionMessage();
+            auto sessionMessage = std::make_unique<kakaIM::president::SessionMessage>();
             sessionMessage->set_targetserverid(serverID);
             sessionMessage->set_targetsessionid(sessionID);
             sessionMessage->set_messagetype(message.GetTypeName());
             sessionMessage->set_content(message.SerializeAsString());
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->mMessageQueueMutex);
-            this->mMessageQueue.emplace(std::make_pair(serverID, sessionMessage));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(std::make_pair(std::move(sessionMessage),serverID)));
         }
 
         void MessageSendServiceModule::didReceivedServerMessageFromCluster(
                 const kakaIM::president::ServerMessage &serverMessage) {
-            std::lock_guard<std::mutex> lock(this->mServerMessageQueueMutex);
-            this->mServerMessageQueue.emplace(new kakaIM::president::ServerMessage(serverMessage));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->serverMessageEventfd, &count, sizeof(count));
+            this->mServerMessageQueue.push(serverMessage);
         }
 
         void MessageSendServiceModule::handleMessageForSend(const std::string &userAccount,
