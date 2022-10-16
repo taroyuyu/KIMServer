@@ -3,8 +3,6 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
 #include "RosterModule.h"
 #include "../Log/log.h"
 #include "../../Common/util/Date.h"
