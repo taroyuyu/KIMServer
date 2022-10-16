@@ -11,6 +11,7 @@
 #include "../Service/ClusterService.h"
 #include "../Service/MessageIDGenerateService.h"
 #include "../Service/NodeConnectionQueryService.h"
+#include "../Service/SessionQueryService.h"
 #include <memory>
 
 namespace kakaIM {

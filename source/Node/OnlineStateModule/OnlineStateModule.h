@@ -16,7 +16,6 @@
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"
 #include "../Events/NodeSecessionEvent.h"
-#include "../Service/SessionQueryService.h"
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/UserRelationService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"

@@ -13,7 +13,6 @@
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../Service/LoginDeviceQueryService.h"
-#include "../Service/SessionQueryService.h"
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/UserRelationService.h"
 #include "../../Common/KIMDBConfig.h"
