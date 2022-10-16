@@ -440,11 +440,6 @@ namespace kakaIM {
             }
         }
 
-        void OnlineStateModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void OnlineStateModule::setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr) {
             this->userRelationServicePtr = userRelationServicePtr;
         }

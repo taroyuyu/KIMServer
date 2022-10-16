@@ -3,3 +3,12 @@
 //
 
 #include "KIMNodeModule.h"
+
+namespace kakaIM {
+    namespace node {
+        void KIMNodeModule::setConnectionOperationService(
+                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
+            this->connectionOperationServicePtr = connectionOperationServicePtr;
+        }
+    }
+}

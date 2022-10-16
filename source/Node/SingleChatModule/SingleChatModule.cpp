@@ -18,11 +18,6 @@ namespace kakaIM {
         SingleChatModule::~SingleChatModule() {
         }
 
-        void SingleChatModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void SingleChatModule::setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) {
             this->mMessageSendServicePtr = messageSendServicePtr;
         }

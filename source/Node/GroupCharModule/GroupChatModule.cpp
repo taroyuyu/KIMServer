@@ -45,11 +45,6 @@ namespace kakaIM {
             return true;
         }
 
-        void GroupChatModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void GroupChatModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

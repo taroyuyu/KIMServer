@@ -36,11 +36,6 @@ namespace kakaIM {
             return true;
         }
 
-        void AuthenticationModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void AuthenticationModule::start() {
             if (false == this->m_isStarted) {
                 this->m_isStarted = true;

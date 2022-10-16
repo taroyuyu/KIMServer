@@ -120,11 +120,6 @@ namespace kakaIM {
             }
         }
 
-        void SessionModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void SessionModule::handleSessionIDRequestMessage(const kakaIM::Node::RequestSessionIDMessage &message,
                                                           const std::string connectionIdentifier) {
             LOG4CXX_TRACE(this->logger, __FUNCTION__);

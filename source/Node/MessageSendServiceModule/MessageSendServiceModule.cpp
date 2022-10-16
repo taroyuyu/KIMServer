@@ -22,11 +22,6 @@ namespace kakaIM {
             }
         }
 
-        void MessageSendServiceModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void MessageSendServiceModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
             this->mLoginDeviceQueryServicePtr = service;
         }

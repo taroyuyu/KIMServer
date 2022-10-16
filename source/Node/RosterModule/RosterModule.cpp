@@ -983,11 +983,6 @@ namespace kakaIM {
             }
         }
 
-        void RosterModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void RosterModule::setQueryUserAccountWithSessionService(
                 std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
             this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;

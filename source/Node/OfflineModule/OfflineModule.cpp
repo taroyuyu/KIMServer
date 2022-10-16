@@ -127,11 +127,6 @@ namespace kakaIM {
             }
         }
 
-        void OfflineModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         void OfflineModule::setQueryUserAccountWithSessionService(
                 std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
             this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
