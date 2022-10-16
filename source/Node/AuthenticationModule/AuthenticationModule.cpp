@@ -8,6 +8,7 @@
 #include "../../Common/proto/KakaIMRPC.pb.h"
 #include "../../Common/EventBus/EventBus.h"
 #include "../Log/log.h"
+#include "../../Common/proto/KakaIMMessage.pb.h"
 
 namespace kakaIM {
     namespace node {

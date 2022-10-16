@@ -9,6 +9,7 @@
 #include "../../Common/proto/MessageCluster.pb.h"
 #include "../Log/log.h"
 #include "../../Common/util/Date.h"
+#include "../../Common/proto/KakaIMMessage.pb.h"
 
 namespace kakaIM {
     namespace node {

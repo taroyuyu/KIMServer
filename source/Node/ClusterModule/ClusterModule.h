@@ -15,7 +15,6 @@
 #include <set>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/MessageCluster.pb.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/Net/TCPSocket/TCPClientSocket.h"
 #include "../../Common/Net/TCPSocketManager/TCPSocketManager.h"
 #include "../../Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h"

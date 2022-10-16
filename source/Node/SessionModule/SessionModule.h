@@ -8,7 +8,6 @@
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/util/Date.h"
 #include <map>
 #include <string>

@@ -11,7 +11,6 @@
 #include <map>
 #include <memory>
 #include <mutex>
-#include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"
 #include "../Events/NodeSecessionEvent.h"

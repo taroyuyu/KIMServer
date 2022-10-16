@@ -12,6 +12,7 @@
 #include "../../Common/EventBus/EventBus.h"
 #include "../../Common/util/MD5.h"
 #include "../Log/log.h"
+#include "../../Common/proto/KakaIMMessage.pb.h"
 
 namespace kakaIM {
     namespace node {

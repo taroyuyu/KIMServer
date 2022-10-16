@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_AUTHENTICATIONMODULE_H
 
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
 #include "../Events/UserLogoutEvent.h"

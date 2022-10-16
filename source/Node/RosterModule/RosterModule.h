@@ -10,7 +10,6 @@
 #include <memory>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
 
 namespace kakaIM {
     namespace node {
