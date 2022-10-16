@@ -45,11 +45,6 @@ namespace kakaIM {
             virtual std::string queryUserAccountWithSession(const std::string &userAccount) override;
 
             virtual std::string queryConnectionWithSession(const std::string &sessionID) override;
-
-        protected:
-            virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
         private:
             int messageEventfd;
             std::mutex messageQueueMutex;

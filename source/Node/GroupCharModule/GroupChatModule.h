@@ -17,11 +17,6 @@ namespace kakaIM {
             ~GroupChatModule();
 
             virtual bool init() override;
-
-        protected:
-            virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
             int messageEventfd;

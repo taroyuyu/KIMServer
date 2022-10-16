@@ -33,6 +33,10 @@ namespace kakaIM {
             virtual void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
             virtual void setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr);
         protected:
+            virtual void execute() override;
+            virtual void shouldStop() override;
+            std::atomic_bool m_needStop;
+
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;
@@ -46,7 +50,6 @@ namespace kakaIM {
             log4cxx::LoggerPtr logger;
             std::shared_ptr<pqxx::connection> m_dbConnection;
             std::shared_ptr<pqxx::connection> getDBConnection();
-
         };
     }
 }

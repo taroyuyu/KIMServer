@@ -35,10 +35,6 @@ namespace kakaIM {
             didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage &serverMessage) override;
 
             virtual void setClusterService(std::weak_ptr<ClusterService> service) override;
-        protected:
-            virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
             int messageEventfd;

@@ -29,10 +29,6 @@ namespace kakaIM {
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
 
-        protected:
-            virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
         private:
             int epollInstance;
             int messageEventfd;

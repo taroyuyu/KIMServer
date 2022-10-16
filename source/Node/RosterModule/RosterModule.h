@@ -25,13 +25,6 @@ namespace kakaIM {
             virtual bool checkFriendRelation(const std::string userA, const std::string userB) override;
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
-
-        protected:
-            virtual void execute() override;
-
-            virtual void shouldStop() override;
-
-            std::atomic_bool m_needStop;
         protected:
             int mEpollInstance;
             int messageEventfd;

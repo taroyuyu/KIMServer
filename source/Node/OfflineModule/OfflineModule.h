@@ -30,10 +30,6 @@ namespace kakaIM {
             virtual void persistGroupChatMessage(const kakaIM::Node::GroupChatMessage &groupChatMessage,
                                                  const uint64_t messageID) override;
 
-        protected:
-            virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
         private:
             class PersistTask {
             public:

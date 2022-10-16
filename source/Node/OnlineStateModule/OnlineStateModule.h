@@ -43,10 +43,6 @@ namespace kakaIM {
             virtual void didReceivedUserOnlineStateFromCluster(
                     const kakaIM::president::UserOnlineStateMessage &userOnlineStateMessage) override;
 
-        protected:
-            virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
             int messageEventfd;
