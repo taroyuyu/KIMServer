@@ -5,7 +5,6 @@
 #include <zconf.h>
 #include "AuthenticationModule.h"
 #include <sys/eventfd.h>
-#include "../../Common/proto/KakaIMRPC.pb.h"
 #include "../../Common/EventBus/EventBus.h"
 #include "../Log/log.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
@@ -23,22 +22,11 @@ namespace kakaIM {
             }
         }
 
-        bool AuthenticationModule::init() {
-            //创建AMQP信道
-            this->mAmqpChannel = AmqpClient::Channel::Create("111.230.5.199", 5672, "kakaIM-node", "kakaIM-node_aixocm",
-                                                             "KakaIM");
-            return true;
-        }
-
         void AuthenticationModule::start() {
             if (false == this->m_isStarted) {
                 this->m_isStarted = true;
                 this->m_workThread = std::move(std::thread([this]() {
                     this->execute();
-                    this->m_isStarted = false;
-                }));
-                this->mAuthenticationRPCWorkThread = std::move(std::thread([this]() {
-                    this->authenticationRPCListenerWork();
                     this->m_isStarted = false;
                 }));
             }
@@ -73,55 +61,6 @@ namespace kakaIM {
                 handleLoginMessage(*(kakaIM::Node::LoginMessage *) task.first.get(), task.second);
             } else if (messageType == kakaIM::Node::RegisterMessage::default_instance().GetTypeName()) {
                 handleRegisterMessage(*(kakaIM::Node::RegisterMessage *) task.first.get(), task.second);
-            }
-        }
-
-        void AuthenticationModule::authenticationRPCListenerWork() {
-            //配置AMQP信道
-            this->mAmqpChannel->DeclareExchange("KakaIMRPC");
-            this->mAmqpChannel->DeclareQueue("KakaIMUserAuthentication", false, false, false, true);
-            this->mAmqpChannel->BindQueue("KakaIMUserAuthentication", "KakaIMRPC", "KakaIMUserAuthentication");
-            std::string consumer_tag = this->mAmqpChannel->BasicConsume("KakaIMUserAuthentication", "", true, false,
-                                                                        false, 1);
-            while (this->m_isStarted) {
-                AmqpClient::Envelope::ptr_t envelope = this->mAmqpChannel->BasicConsumeMessage(consumer_tag);
-                LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__);
-                rpc::AuthenticationRequest authenticationRequest;
-                authenticationRequest.ParseFromString(envelope->Message()->Body());
-                rpc::AuthenticationResponse authenticationResponse;
-                authenticationResponse.set_useraccount(authenticationRequest.useraccount());
-                if (authenticationRequest.IsInitialized()) {
-                    LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 消息格式正确");
-                    this->mAmqpChannel->BasicAck(envelope);
-                    switch (this->verifyUser(authenticationRequest.useraccount(),
-                                             authenticationRequest.userpassword())) {
-                        case VerifyUserResult_DBConnectionNotExit:
-                        case VerifyUserResult_InteralError: {
-                            authenticationResponse.set_status(kakaIM::rpc::AuthenticationResponse::Failed);
-                            authenticationResponse.set_failureerror(
-                                    kakaIM::rpc::AuthenticationResponse_FailureType_ServerInternalError);
-                        }
-                            break;
-                        case VerifyUserResult_True: {
-                            authenticationResponse.set_status(kakaIM::rpc::AuthenticationResponse::Success);
-                        }
-                            break;
-                        case VerifyUserResult_False: {
-                            authenticationResponse.set_status(kakaIM::rpc::AuthenticationResponse::Failed);
-                            authenticationResponse.set_failureerror(
-                                    kakaIM::rpc::AuthenticationResponse_FailureType_WrongAccountOrPassword);
-                        }
-                            break;
-                    }
-                    AmqpClient::BasicMessage::ptr_t answerMessage = AmqpClient::BasicMessage::Create(
-                            authenticationResponse.SerializeAsString());
-                    answerMessage->ReplyTo(envelope->Message()->ReplyTo());
-                    answerMessage->CorrelationId(envelope->Message()->CorrelationId());
-                    this->mAmqpChannel->BasicPublish("KakaIMRPC", envelope->Message()->ReplyTo(), answerMessage);
-                } else {
-                    LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 消息格式不正确");
-                    this->mAmqpChannel->BasicReject(envelope, false);
-                }
             }
         }
 

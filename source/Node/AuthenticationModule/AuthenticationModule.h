@@ -11,7 +11,6 @@
 #include "../Events/UserLogoutEvent.h"
 #include <map>
 #include <queue>
-#include <SimpleAmqpClient/SimpleAmqpClient.h>
 
 namespace kakaIM {
     namespace Node{
@@ -32,8 +31,6 @@ namespace kakaIM {
             AuthenticationModule();
 
             ~AuthenticationModule();
-
-            virtual bool init() override;
 
             virtual void start() override;
 
@@ -80,11 +77,6 @@ namespace kakaIM {
              * expireSessionMap的Key-Value为sessionID-(userAccount,connectionIdentifier)
              */
             std::map<std::string, std::pair<std::string, std::string>> expireSessionMap;
-
-            std::thread mAuthenticationRPCWorkThread;
-            AmqpClient::Channel::ptr_t mAmqpChannel;
-
-            void authenticationRPCListenerWork();
         };
     }
 }
