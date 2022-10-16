@@ -12,12 +12,6 @@ namespace kakaIM {
         MessageSendServiceModule::MessageSendServiceModule() : KIMNodeModule(MessageSenderServiceModuleLogger){
         }
 
-        MessageSendServiceModule::~MessageSendServiceModule() {
-            if (auto clusterService = this->mClusterServicePtr.lock()) {
-                clusterService->removeServerMessageListener(this);
-            }
-        }
-
         void MessageSendServiceModule::setClusterService(std::weak_ptr<ClusterService> service) {
             if (auto clusterService = this->mClusterServicePtr.lock()) {
                 clusterService->removeServerMessageListener(this);

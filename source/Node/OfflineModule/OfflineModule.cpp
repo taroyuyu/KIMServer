@@ -13,12 +13,6 @@ namespace kakaIM {
         OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger){
         }
 
-        OfflineModule::~OfflineModule() {
-            if (this->m_dbConnection && this->m_dbConnection->is_open()) {
-                this->m_dbConnection->disconnect();
-            }
-        }
-
         void OfflineModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

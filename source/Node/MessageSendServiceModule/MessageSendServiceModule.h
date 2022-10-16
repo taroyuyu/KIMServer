@@ -14,8 +14,6 @@ namespace kakaIM {
         public:
             MessageSendServiceModule();
 
-            ~MessageSendServiceModule();
-
             /**
              * 发送消息给特定的用户
              * @param userAccount 用户账号
