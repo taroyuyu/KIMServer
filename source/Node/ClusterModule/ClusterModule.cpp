@@ -5,8 +5,6 @@
 #include <zconf.h>
 #include <iostream>
 #include <sys/time.h>
-#include <sys/timerfd.h>
-#include <sys/eventfd.h>
 #include <Node/ClusterModule/ClusterModule.h>
 #include <Common/util/Date.h>
 #include <Common/util/cpu_util.h>
@@ -98,7 +96,7 @@ namespace kakaIM {
             }
 
             this->stopHeartBeat();
-            
+
             this->m_needStop = false;
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
