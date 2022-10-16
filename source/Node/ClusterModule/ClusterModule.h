@@ -85,6 +85,7 @@ namespace kakaIM {
             virtual std::shared_ptr<MessageIDGenerateService::Futrue>
             generateMessageIDWithUserAccount(const std::string &userAccount) override;
 
+
         private:
             enum ClusterModuleState {
                 Disconnected,
@@ -97,6 +98,8 @@ namespace kakaIM {
             };
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
             std::list<UserOnlineStateListener *> mUserOnlineStateListenerList;
+
+            void dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair);
 
             void handleResponseJoinClusterMessage(const president::ResponseJoinClusterMessage &message);
 

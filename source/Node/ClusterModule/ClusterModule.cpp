@@ -105,50 +105,7 @@ namespace kakaIM {
                 }
 
                 if (auto task = this->mMessageQueue.try_pop()) {
-                    auto messageType = task.first->GetTypeName();
-                    if (task.second == MessageSource_Cluster) {
-                        if (messageType ==
-                            president::ResponseHeartBeatMessage::default_instance().GetTypeName()) {
-                            this->handleResponseHeartBeatMessage(
-                                    *static_cast<const president::ResponseHeartBeatMessage *>(task.first.get()));
-                        } else if (messageType ==
-                                   president::UserOnlineStateMessage::default_instance().GetTypeName()) {
-                            this->handleUpdateUserOnlineStateMessageFromCluster(
-                                    *static_cast<const president::UserOnlineStateMessage *>(task.first.get()));
-                        } else if (messageType ==
-                                   president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
-                            this->handleUpdateUserOnlineStateMessageFromCluster(
-                                    *static_cast<const president::UpdateUserOnlineStateMessage *>(task.first.get()));
-                        } else if (messageType ==
-                                   president::ServerMessage::default_instance().GetTypeName()) {
-                            this->handleServerMessageFromCluster(
-                                    *static_cast<const president::ServerMessage *>(task.first.get()));
-                        } else if (messageType ==
-                                   president::ResponseJoinClusterMessage::default_instance().GetTypeName()) {
-                            this->handleResponseJoinClusterMessage(
-                                    *static_cast<const president::ResponseJoinClusterMessage *>(task.first.get()));
-                        } else {
-                            LOG4CXX_DEBUG(this->logger,
-                                          typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
-                                                              << ",但是没有处理函数");
-                        }
-                    } else if (task.second == MessageSource_NodeInternal) {
-                        if (messageType == Node::OnlineStateMessage::default_instance().GetTypeName()) {
-                            this->handleUpdateUserOnlineStateMessageFromNode(
-                                    *static_cast<Node::OnlineStateMessage *>(task.first.get()));
-                        } else if (messageType ==
-                                   president::ServerMessage::default_instance().GetTypeName()) {
-                            this->handleServerMessageFromNode(
-                                    *static_cast<const president::ServerMessage *>(task.first.get()));
-                        } else {
-                            LOG4CXX_DEBUG(this->logger,
-                                          typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
-                                                              << ",但是没有处理函数");
-                        }
-                    } else {
-                        LOG4CXX_DEBUG(this->logger,
-                                      typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
-                    }
+                    this->dispatchClusterMessage(*task);
                 }
 
 
@@ -216,6 +173,53 @@ namespace kakaIM {
                                                          << errno << errno);
                     }
                 }
+            }
+        }
+
+        void ClusterModule::dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair){
+            auto messageType = pair.first->GetTypeName();
+            if (pair.second == MessageSource_Cluster) {
+                if (messageType ==
+                    president::ResponseHeartBeatMessage::default_instance().GetTypeName()) {
+                    this->handleResponseHeartBeatMessage(
+                            *static_cast<const president::ResponseHeartBeatMessage *>(pair.first.get()));
+                } else if (messageType ==
+                           president::UserOnlineStateMessage::default_instance().GetTypeName()) {
+                    this->handleUpdateUserOnlineStateMessageFromCluster(
+                            *static_cast<const president::UserOnlineStateMessage *>(pair.first.get()));
+                } else if (messageType ==
+                           president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
+                    this->handleUpdateUserOnlineStateMessageFromCluster(
+                            *static_cast<const president::UpdateUserOnlineStateMessage *>(pair.first.get()));
+                } else if (messageType ==
+                           president::ServerMessage::default_instance().GetTypeName()) {
+                    this->handleServerMessageFromCluster(
+                            *static_cast<const president::ServerMessage *>(pair.first.get()));
+                } else if (messageType ==
+                           president::ResponseJoinClusterMessage::default_instance().GetTypeName()) {
+                    this->handleResponseJoinClusterMessage(
+                            *static_cast<const president::ResponseJoinClusterMessage *>(pair.first.get()));
+                } else {
+                    LOG4CXX_DEBUG(this->logger,
+                                  typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
+                                                      << ",但是没有处理函数");
+                }
+            } else if (pair.second == MessageSource_NodeInternal) {
+                if (messageType == Node::OnlineStateMessage::default_instance().GetTypeName()) {
+                    this->handleUpdateUserOnlineStateMessageFromNode(
+                            *static_cast<Node::OnlineStateMessage *>(pair.first.get()));
+                } else if (messageType ==
+                           president::ServerMessage::default_instance().GetTypeName()) {
+                    this->handleServerMessageFromNode(
+                            *static_cast<const president::ServerMessage *>(pair.first.get()));
+                } else {
+                    LOG4CXX_DEBUG(this->logger,
+                                  typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
+                                                      << ",但是没有处理函数");
+                }
+            } else {
+                LOG4CXX_DEBUG(this->logger,
+                              typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
             }
         }
 
