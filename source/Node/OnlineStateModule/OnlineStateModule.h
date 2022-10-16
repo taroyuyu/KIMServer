@@ -64,7 +64,6 @@ namespace kakaIM {
         private:
             int mEpollInstance;
             std::weak_ptr<UserRelationService> userRelationServicePtr;
-            std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             int messageEventfd;
             std::mutex messageQueueMutex;

@@ -58,7 +58,6 @@ namespace kakaIM {
             std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
-            std::weak_ptr<ClusterService> mClusterServicePtr;
             int messageEventfd;
             std::mutex mMessageQueueMutex;
             std::queue<std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>>> mMessageQueue;

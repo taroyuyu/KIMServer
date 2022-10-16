@@ -20,6 +20,7 @@ namespace kakaIM {
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
+            std::weak_ptr<ClusterService> mClusterServicePtr;
         };
     }
 }

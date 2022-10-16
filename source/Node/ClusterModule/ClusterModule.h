@@ -21,7 +21,6 @@
 #include "../../Common/Net/TCPSocketManager/TCPSocketManager.h"
 #include "../../Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h"
 #include "../../Common/KakaIMMessageAdapter.h"
-#include "../Service/ClusterService.h"
 #include "../Service/MessageIDGenerateService.h"
 #include "../Service/NodeConnectionQueryService.h"
 

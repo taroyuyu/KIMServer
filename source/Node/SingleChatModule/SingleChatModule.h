@@ -140,8 +140,7 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-
-            std::weak_ptr<ClusterService> mClusterServicePtr;
+            
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
