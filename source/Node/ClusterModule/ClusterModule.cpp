@@ -59,7 +59,7 @@ namespace kakaIM {
         }
 
         void ClusterModule::execute() {
-            this->moduleState = ConnectingPresident;
+            this->moduleState = ConnectingPresident::ConnectingPresident;
 
             //1.连接President
             mPresidentSocket.connect(this->mPresidentAddr, this->mPresidentPort);
@@ -109,7 +109,7 @@ namespace kakaIM {
 
         void ClusterModule::dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair){
             auto messageType = pair.first->GetTypeName();
-            if (pair.second == MessageSource_Cluster) {
+            if (pair.second == MessageSource::Cluster) {
                 if (messageType ==
                     president::ResponseHeartBeatMessage::default_instance().GetTypeName()) {
                     this->handleResponseHeartBeatMessage(
@@ -135,7 +135,7 @@ namespace kakaIM {
                                   typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
                                                       << ",但是没有处理函数");
                 }
-            } else if (pair.second == MessageSource_NodeInternal) {
+            } else if (pair.second == MessageSource::NodeInternal) {
                 if (messageType == Node::OnlineStateMessage::default_instance().GetTypeName()) {
                     this->handleUpdateUserOnlineStateMessageFromNode(
                             *static_cast<Node::OnlineStateMessage *>(pair.first.get()));
@@ -223,7 +223,7 @@ namespace kakaIM {
             switch (message.result()) {
                 case president::ResponseJoinClusterMessage_JoinResult_Success: {
                     LOG4CXX_INFO(this->logger, __FUNCTION__ << "连接集群成功");
-                    this->moduleState = ConnectedPresident;
+                    this->moduleState = ClusterModuleState::ConnectedPresident;
                     if (-1 == this->mHeartBeatTimerfd) {//若定时器未启动，则启动定时器
                         this->mHeartBeatTimerfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC);
                         if (-1 == this->mHeartBeatTimerfd) {
@@ -273,7 +273,7 @@ namespace kakaIM {
         void ClusterModule::updateUserOnlineState(const kakaIM::Node::OnlineStateMessage &message) {
             std::unique_ptr<Node::OnlineStateMessage> onlineStateMessage(new Node::OnlineStateMessage());
             onlineStateMessage->CopyFrom(message);
-            this->mMessageQueue.push(std::move(onlineStateMessage), MessageSource_NodeInternal);
+            this->mMessageQueue.push(std::move(onlineStateMessage), MessageSource::NodeInternal);
         }
 
         void ClusterModule::addUserOnlineStateListener(UserOnlineStateListener &userOnlineStateListener) {
@@ -326,7 +326,7 @@ namespace kakaIM {
         void ClusterModule::sendServerMessage(const kakaIM::president::ServerMessage &message) {
             std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage(message));
             serverMessage->set_serverid(this->mServerID);
-            this->mMessageQueue.push(std::move(serverMessage), MessageSource_NodeInternal);
+            this->mMessageQueue.push(std::move(serverMessage), MessageSource::NodeInternal);
         }
 
         void ClusterModule::addServerMessageListener(ServerMessageListener *listener) {
@@ -383,23 +383,23 @@ namespace kakaIM {
                 std::unique_ptr<president::ResponseHeartBeatMessage> responseHeartBeatMessage(
                         new president::ResponseHeartBeatMessage());
                 responseHeartBeatMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(responseHeartBeatMessage), MessageSource_Cluster);
+                this->mMessageQueue.push(std::move(responseHeartBeatMessage), MessageSource::Cluster);
             } else if (messageType == kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::UserOnlineStateMessage> userOnlineStateMessage(
                         new president::UserOnlineStateMessage());
                 userOnlineStateMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(userOnlineStateMessage), MessageSource_Cluster);
+                this->mMessageQueue.push(std::move(userOnlineStateMessage), MessageSource::Cluster);
             } else if (messageType ==
                        kakaIM::president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::UpdateUserOnlineStateMessage> updateUserOnlineStateMessage(
                         new president::UpdateUserOnlineStateMessage());
                 updateUserOnlineStateMessage->CopyFrom(message);
                 this->mMessageQueue.push(
-                        std::move(updateUserOnlineStateMessage), MessageSource_Cluster);
+                        std::move(updateUserOnlineStateMessage), MessageSource::Cluster);
             } else if (messageType == kakaIM::president::ServerMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage());
                 serverMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(serverMessage), MessageSource_Cluster);
+                this->mMessageQueue.push(std::move(serverMessage), MessageSource::Cluster);
             } else if (messageType == kakaIM::president::ResponseMessageIDMessage::default_instance().GetTypeName()) {
                 const president::ResponseMessageIDMessage &responseMessageIDMessage = *((const president::ResponseMessageIDMessage *) &message);
                 auto callBackIt = this->mMessageIDRequestCallback.find(responseMessageIDMessage.requestid());
@@ -419,7 +419,7 @@ namespace kakaIM {
                         new president::ResponseJoinClusterMessage());
                 LOG4CXX_TRACE(this->logger, typeid(this).name() << __FUNCTION__ << " 收到加入集群的响应");
                 responseJoinClusterMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(responseJoinClusterMessage), MessageSource_Cluster);
+                this->mMessageQueue.push(std::move(responseJoinClusterMessage), MessageSource::Cluster);
             } else {
                 LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
             }

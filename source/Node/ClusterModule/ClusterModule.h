@@ -87,13 +87,13 @@ namespace kakaIM {
 
 
         private:
-            enum ClusterModuleState {
+            enum class ClusterModuleState {
                 Disconnected,
                 ConnectingPresident,
                 ConnectedPresident,
             } moduleState;
-            enum MessageSource {
-                MessageSource_NodeInternal,//节点内部
+            enum class MessageSource {
+                NodeInternal,//节点内部
                 MessageSource_Cluster,//集群
             };
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
