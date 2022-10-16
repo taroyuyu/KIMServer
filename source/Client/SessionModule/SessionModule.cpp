@@ -6,9 +6,9 @@
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include <sys/timerfd.h>
-#include "SessionModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../../Common/util/Date.h"
+#include <Client/SessionModule/SessionModule.h>
+#include <Common/proto/KakaIMMessage.pb.h>
+#include <Common/util/Date.h>
 
 namespace kakaIM {
     namespace client {

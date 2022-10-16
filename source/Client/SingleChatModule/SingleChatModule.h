@@ -5,10 +5,10 @@
 #ifndef KAKAIMCLUSTER_SINGLECHATMODULE_H
 #define KAKAIMCLUSTER_SINGLECHATMODULE_H
 
-#include "../ServiceModule/ServiceModule.h"
-#include "SingleChatMessageDB.h"
-#include "SingleChatMessageDelegate.h"
-#include "ChatMessage.h"
+#include <Client/ServiceModule/ServiceModule.h>
+#include <Client/SingleChatModule/SingleChatMessageDB.h>
+#include <Client/SingleChatModule/SingleChatMessageDelegate.h>
+#include <Client/SingleChatModule/ChatMessage.h>
 namespace kakaIM {
     namespace Node{
         class ChatMessage;
