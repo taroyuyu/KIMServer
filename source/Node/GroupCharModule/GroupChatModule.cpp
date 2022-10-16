@@ -3,8 +3,6 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
-#include <sys/epoll.h>
 #include "GroupChatModule.h"
 #include "../../Common/proto/MessageCluster.pb.h"
 #include "../Log/log.h"
