@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_SINGLECHATMODULE_H
 #define KAKAIMCLUSTER_SINGLECHATMODULE_H
 
-#include <pqxx/pqxx>
 #include <queue>
 #include <mutex>
 #include <memory>
@@ -120,8 +119,6 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-
-            std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();
         };

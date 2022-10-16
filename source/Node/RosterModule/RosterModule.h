@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_ROSTERMODULE_H
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
-#include <pqxx/pqxx>
 #include <queue>
 #include <mutex>
 #include <memory>
@@ -107,8 +106,6 @@ namespace kakaIM {
             AmqpClient::Channel::ptr_t mAmqpChannel;
 
             void rosterRPCListenerWork();
-
-            std::shared_ptr<pqxx::connection> m_dbConnection;
 
             std::shared_ptr<pqxx::connection> getDBConnection();
         };

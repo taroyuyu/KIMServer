@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_OFFLINEMODULE_H
 #define KAKAIMCLUSTER_OFFLINEMODULE_H
 
-#include <pqxx/pqxx>
+
 #include <queue>
 #include <mutex>
 #include <memory>
@@ -132,7 +132,6 @@ namespace kakaIM {
 
             void handlePullGroupChatMessage(const kakaIM::Node::PullGroupChatMessage &pullGroupChatMessage,
                                             const std::string connectionIdentifier);
-	    std::shared_ptr<pqxx::connection> m_dbConnection;
 
 	    std::shared_ptr<pqxx::connection> getDBConnection();
         };

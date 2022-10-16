@@ -17,6 +17,7 @@
 #include "../Service/UserRelationService.h"
 #include <memory>
 #include <log4cxx/logger.h>
+#include <pqxx/pqxx>
 
 namespace kakaIM {
     namespace node {
@@ -44,6 +45,8 @@ namespace kakaIM {
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<UserRelationService> mUserRelationServicePtr;
             log4cxx::LoggerPtr logger;
+            std::shared_ptr<pqxx::connection> m_dbConnection;
+
         };
     }
 }

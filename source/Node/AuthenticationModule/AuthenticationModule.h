@@ -12,7 +12,6 @@
 #include "../Events/UserLogoutEvent.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
-#include <pqxx/pqxx>
 #include <map>
 #include <queue>
 #include <mutex>
