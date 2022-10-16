@@ -40,5 +40,9 @@ namespace kakaIM {
         void KIMNodeModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
             this->mLoginDeviceQueryServicePtr = service;
         }
+
+        void KIMNodeModule::setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service) {
+            this->mMessagePersistenceServicePtr = service;
+        }
     }
 }

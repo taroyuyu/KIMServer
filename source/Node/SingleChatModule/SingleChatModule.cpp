@@ -18,10 +18,6 @@ namespace kakaIM {
         SingleChatModule::~SingleChatModule() {
         }
 
-        void SingleChatModule::setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service) {
-            this->mMessagePersistenceServicePtr = service;
-        }
-
         void SingleChatModule::setUserRelationService(std::weak_ptr<UserRelationService> service) {
             this->mUserRelationServicePtr = service;
         }
