@@ -11,7 +11,6 @@
 #include <memory>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../../Common/KIMDBConfig.h"
 
 namespace kakaIM {
     namespace node {

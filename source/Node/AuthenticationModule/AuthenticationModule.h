@@ -10,7 +10,6 @@
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
 #include "../Events/UserLogoutEvent.h"
-#include "../../Common/KIMDBConfig.h"
 #include <map>
 #include <queue>
 #include <mutex>
