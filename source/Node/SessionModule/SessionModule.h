@@ -33,7 +33,6 @@ namespace kakaIM {
             void handleSessionIDRequestMessage(const kakaIM::Node::RequestSessionIDMessage &message,
                                                const std::string connectionIdentifier);
 
-
             std::string generateSessionID(const std::string connectionIdentifier);
 
             void
