@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_MESSAGESENDSERVICEMODULE_H
 #define KAKAIMCLUSTER_MESSAGESENDSERVICEMODULE_H
 
-#include <google/protobuf/message.h>
 #include <queue>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
