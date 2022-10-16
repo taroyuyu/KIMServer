@@ -63,11 +63,11 @@ namespace kakaIM {
             };
 
             enum class VideoChatOfferState {
-                VideoChatOfferState_Pending,//待处理
-                VideoChatOfferState_Cancel,//被取消
-                VideoChatOfferState_Accept,//允许
-                VideoChatOfferState_Reject,//拒绝
-                VideoChatOfferState_NoAnswer,//无响应
+                Pending,//待处理
+                Cancel,//被取消
+                Accept,//允许
+                Reject,//拒绝
+                NoAnswer,//无响应
             };
 
             UpdateVideoChatOfferResult

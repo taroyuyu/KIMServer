@@ -199,12 +199,12 @@ namespace kakaIM {
             }
 
             //4.检查此通话提议的是否已经被受理
-            if (VideoChatOfferState::VideoChatOfferState_Pending != offerInfo.state) {
+            if (VideoChatOfferState::Pending != offerInfo.state) {
                 return;
             }
 
             //5.更改此通话提议的状态
-            this->updateVideoChatOffer(offerInfo.offerId, "", "", VideoChatOfferState::VideoChatOfferState_Cancel);
+            this->updateVideoChatOffer(offerInfo.offerId, "", "", VideoChatOfferState::Cancel);
 
             //6.该此通话取消的消息发送给接收方
             messageSendService->sendMessageToUser(offerInfo.targetAccount, videoChatRequestCancelMessage);
@@ -239,7 +239,7 @@ namespace kakaIM {
                 return;
             }
             //3.检查此通话提议的是否已经被受理
-            if (VideoChatOfferState::VideoChatOfferState_Pending != offerInfo.state) {
+            if (VideoChatOfferState::Pending != offerInfo.state) {
                 return;
             }
 
@@ -247,16 +247,16 @@ namespace kakaIM {
             switch (videoChatReplyMessage.reply()) {
                 case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_Allow: {
                     this->updateVideoChatOffer(videoChatReplyMessage.offerid(), clusterService->getServerID(),
-                                               videoChatReplyMessage.sessionid(), VideoChatOfferState::VideoChatOfferState_Accept);
+                                               videoChatReplyMessage.sessionid(), VideoChatOfferState::Accept);
                 }
                     break;
                 case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_Reject: {
                     this->updateVideoChatOffer(videoChatReplyMessage.offerid(), clusterService->getServerID(),
-                                               videoChatReplyMessage.sessionid(), VideoChatOfferState::VideoChatOfferState_Reject);
+                                               videoChatReplyMessage.sessionid(), VideoChatOfferState::Reject);
                 }
                     break;
                 case kakaIM::Node::VideoChatReplyMessage_VideoChatReply_VideoChatReply_NoAnswer: {
-                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(), "", "", VideoChatOfferState::VideoChatOfferState_NoAnswer);
+                    this->updateVideoChatOffer(videoChatReplyMessage.offerid(), "", "", VideoChatOfferState::NoAnswer);
                 }
                     break;
                 default: {
@@ -296,7 +296,7 @@ namespace kakaIM {
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState::VideoChatOfferState_Accept != offerInfo.state) {
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -354,7 +354,7 @@ namespace kakaIM {
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState::VideoChatOfferState_Accept != offerInfo.state) {
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -411,7 +411,7 @@ namespace kakaIM {
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState::VideoChatOfferState_Accept != offerInfo.state) {
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -475,7 +475,7 @@ namespace kakaIM {
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState::VideoChatOfferState_Accept != offerInfo.state) {
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -542,7 +542,7 @@ namespace kakaIM {
             }
 
             //2.检查此通话提议的状态
-            if (VideoChatOfferState::VideoChatOfferState_Accept != offerInfo.state) {
+            if (VideoChatOfferState::Accept != offerInfo.state) {
                 return;
             }
 
@@ -661,13 +661,13 @@ namespace kakaIM {
                     }
                     std::string state = result[0][6].as<std::string>();
                     if ("Pending" == state) {
-                        offerInfo.state = VideoChatOfferState::VideoChatOfferState_Pending;
+                        offerInfo.state = VideoChatOfferState::Pending;
                     } else if ("Cancel" == state) {
-                        offerInfo.state = VideoChatOfferState::VideoChatOfferState_Cancel;
+                        offerInfo.state = VideoChatOfferState::Cancel;
                     } else if ("Allow" == state) {
-                        offerInfo.state = VideoChatOfferState::VideoChatOfferState_Accept;
+                        offerInfo.state = VideoChatOfferState::Accept;
                     } else if ("Reject" == state) {
-                        offerInfo.state = VideoChatOfferState::VideoChatOfferState_Reject;
+                        offerInfo.state = VideoChatOfferState::Reject;
                     } else {
                         LOG4CXX_ERROR(this->logger, typeid(this).name() << " " << __FUNCTION__ << " 查询视频通话提议，offerId="
                                                                         << offerId << "的信息失败，由于state的类型不能识别，state="
@@ -694,19 +694,19 @@ namespace kakaIM {
 
             std::string state = "Pending";
             switch (offerState) {
-                case VideoChatOfferState::VideoChatOfferState_Pending: {
+                case VideoChatOfferState::Pending: {
                     state = "Pending";
                 }
                     break;
-                case VideoChatOfferState::VideoChatOfferState_Cancel: {
+                case VideoChatOfferState::Cancel: {
                     state = "Cancel";
                 }
                     break;
-                case VideoChatOfferState::VideoChatOfferState_Accept: {
+                case VideoChatOfferState::Accept: {
                     state = "Allow";
                 }
                     break;
-                case VideoChatOfferState::VideoChatOfferState_Reject: {
+                case VideoChatOfferState::Reject: {
                     state = "Reject";
                 }
                     break;
