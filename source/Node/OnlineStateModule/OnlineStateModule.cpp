@@ -14,48 +14,9 @@
 
 namespace kakaIM {
     namespace node {
-        OnlineStateModule::OnlineStateModule() : KIMNodeModule(OnlineStateModuleLogger),mEpollInstance(-1), messageEventfd(-1), eventQueuefd(-1),
+        OnlineStateModule::OnlineStateModule() : KIMNodeModule(OnlineStateModuleLogger),
                                                  userLogoutEventProto(new UserLogoutEvent("", "")),
                                                  nodeSecessionEventProto(new NodeSecessionEvent("")) {
-        }
-
-        OnlineStateModule::~OnlineStateModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
-            while (!this->mEventQueue.empty()) {
-                this->mEventQueue.pop();
-            }
-        }
-
-        bool OnlineStateModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            this->eventQueuefd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->eventQueuefd < 0) {
-                return false;
-            }
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-            //向Epill实例注册messageEventfd,和clusterEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-            struct epoll_event eventQueuefdEvent;
-            eventQueuefdEvent.events = EPOLLIN;
-            eventQueuefdEvent.data.fd = this->eventQueuefd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->eventQueuefd, &eventQueuefdEvent)) {
-                return false;
-            }
-            return true;
         }
 
         void OnlineStateModule::execute() {
@@ -130,11 +91,7 @@ namespace kakaIM {
             std::unique_ptr<kakaIM::president::UserOnlineStateMessage> userOnlineStateMessageFromCluster(
                     new kakaIM::president::UserOnlineStateMessage(userOnlineStateMessage));
             //添加到队列中
-            std::lock_guard<std::mutex> lock(this->messageQueueMutex);
-            this->messageQueue.emplace(std::move(userOnlineStateMessageFromCluster), "");
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->messageEventfd, &count, sizeof(count));
+            this->mTaskQueue.push(std::move(userOnlineStateMessageFromCluster), "");
         }
 
         void OnlineStateModule::handleOnlineMessage(const kakaIM::Node::OnlineStateMessage &onlineStateMessage,
@@ -380,11 +337,7 @@ namespace kakaIM {
 
         void OnlineStateModule::onEvent(std::shared_ptr<const Event> event) {
             LOG4CXX_DEBUG(this->logger, __FUNCTION__ << " 被调用");
-            std::lock_guard<std::mutex> lock(this->eventQueueMutex);
-            this->mEventQueue.emplace(event);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->eventQueuefd, &count, sizeof(count));
+            this->mEventQueue.push(event);
         }
 
         void OnlineStateModule::handleUserLogoutEvent(const UserLogoutEvent &event) {

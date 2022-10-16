@@ -22,10 +22,6 @@ namespace kakaIM {
         public:
             OnlineStateModule();
 
-            ~OnlineStateModule();
-
-            virtual bool init() override;
-
             /**
              * @description 获取用户状态
              * @param userAccount 用户账号
@@ -43,20 +39,16 @@ namespace kakaIM {
             virtual void didReceivedUserOnlineStateFromCluster(
                     const kakaIM::president::UserOnlineStateMessage &userOnlineStateMessage) override;
 
-        private:
-            int mEpollInstance;
-            int messageEventfd;
-            std::mutex messageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string >> messageQueue;
-            int eventQueuefd;
-            std::mutex eventQueueMutex;
-//            std::queue<std::shared_ptr<const Event>> mEventQueue;
+        protected:
+            virtual void execute() override;
 
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
+            void
+            dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) override;
+
+        private:
             ConcurrentLinkedQueue<std::shared_ptr<const Event>> mEventQueue;
 
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
-            void dispatchEvent(const Event & event);
+            void dispatchEvent(const Event &event);
 
 
             void handleOnlineMessage(const kakaIM::Node::OnlineStateMessage &onlineStateMessage,
@@ -64,13 +56,15 @@ namespace kakaIM {
 
             void handleOnlineMessage(const kakaIM::president::UserOnlineStateMessage &onlineStateMessage);
 
-            void handlePullFriendOnlineStateMessage(const kakaIM::Node::PullFriendOnlineStateMessage & pullFriendOnlineStateMessage,const std::string connectionIdentifier);
+            void handlePullFriendOnlineStateMessage(
+                    const kakaIM::Node::PullFriendOnlineStateMessage &pullFriendOnlineStateMessage,
+                    const std::string connectionIdentifier);
 
             void updateUserOnlineStateInThisNode(const std::string userAccount);
 
             void handleUserLogoutEvent(const UserLogoutEvent &event);
 
-            void handleNodeSecessionEvent(const NodeSecessionEvent & event);
+            void handleNodeSecessionEvent(const NodeSecessionEvent &event);
 
 
             /**
