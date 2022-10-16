@@ -224,7 +224,6 @@ namespace kakaIM {
                 return;
             }
 
-
             //1.获取此通话提议的信息
             VideoChatOfferInfo offerInfo;
             auto result = this->fetchVideoChatOffer(videoChatReplyMessage.offerid(), offerInfo);
@@ -559,7 +558,6 @@ namespace kakaIM {
                 return;
             }
 
-
             //4.将此消息发送给对方
             if (opponentServerId == clusterService->getServerID()) {
                 const std::string deviceConnectionIdentifier = queryConnectionWithSessionService->queryConnectionWithSession(
@@ -601,7 +599,6 @@ namespace kakaIM {
 
                 pqxx::result result = saveVideoChatOfferStatementInvocation(spnsorAccount)(
                         targetAccount)(sponsorServer)(sponsorSessionId).exec();
-
 
                 //提交事务
                 dbWork.commit();
@@ -714,7 +711,6 @@ namespace kakaIM {
                     return UpdateVideoChatOfferResult::ParameterErrpr;
                 }
             }
-
 
             static const std::string UpdateVideoChatOfferStatement = "UpdateVideoChatOffer";
             static const std::string updateVideoChatOfferSQL = "UPDATE video_chat_offer_record SET state = $2,recipient_server = $3,recipient_session = $4 WHERE offerid = $1;";
