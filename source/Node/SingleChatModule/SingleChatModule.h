@@ -33,8 +33,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
-            void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
-
             void setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service);
 
             void setClusterService(std::weak_ptr<ClusterService> service);
@@ -143,7 +141,7 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-            
+
             std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;

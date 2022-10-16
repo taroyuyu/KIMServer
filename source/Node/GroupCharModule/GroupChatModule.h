@@ -33,8 +33,6 @@ namespace kakaIM {
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
 
-            void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
-
             void setClusterService(std::weak_ptr<ClusterService> service);
 
             void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
