@@ -6,7 +6,6 @@
 #define KAKAIMCLUSTER_CLUSTERMODULE_H
 
 #include <semaphore.h>
-#include <queue>
 #include <map>
 #include <time.h>
 #include <functional>
