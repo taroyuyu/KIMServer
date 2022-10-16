@@ -12,7 +12,6 @@
 #include <log4cxx/logger.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 #include "../../Common/proto/KakaIMMessage.pb.h"
-#include "../Service/UserRelationService.h"
 #include "../../Common/KIMDBConfig.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
