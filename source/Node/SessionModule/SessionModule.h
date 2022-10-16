@@ -10,9 +10,6 @@
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/util/Date.h"
 #include <map>
-#include <queue>
-#include <list>
-#include <set>
 
 namespace kakaIM {
     namespace node {
