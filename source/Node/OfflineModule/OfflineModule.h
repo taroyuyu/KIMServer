@@ -17,8 +17,6 @@ namespace kakaIM {
 
             ~OfflineModule();
 
-            virtual bool init() override;
-
             /**
              * 将消息持久化
              * @param message 待持久化的消息
@@ -30,6 +28,9 @@ namespace kakaIM {
             virtual void persistGroupChatMessage(const kakaIM::Node::GroupChatMessage &groupChatMessage,
                                                  const uint64_t messageID) override;
 
+        protected:
+            virtual void execute() override;
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task)override;
         private:
             class PersistTask {
             public:
@@ -111,9 +112,7 @@ namespace kakaIM {
             void handletGroupChatMessagePersis(const std::string groupId, const kakaIM::Node::GroupChatMessage &message,
                                                const uint64_t messageID);
 
-            int persistTaskQueueEventfd;
-            std::mutex persistTaskQueueMutex;
-            std::queue<std::unique_ptr<PersistTask>> persistTaskQueue;
+            ConcurrentLinkedQueue<std::unique_ptr<PersistTask>> mPersistTaskQueue;
 
             void
             handlePullChatMessage(const kakaIM::Node::PullChatMessage &pullOfflineMessage,

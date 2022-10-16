@@ -12,40 +12,13 @@
 
 namespace kakaIM {
     namespace node {
-        OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger),mEpollInstance(-1), persistTaskQueueEventfd(-1){
+        OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger){
         }
 
         OfflineModule::~OfflineModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
-            while (!this->persistTaskQueue.empty()) {
-                this->persistTaskQueue.pop();
-            }
             if (this->m_dbConnection && this->m_dbConnection->is_open()) {
                 this->m_dbConnection->disconnect();
             }
-        }
-
-        bool OfflineModule::init() {
-            this->persistTaskQueueEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->persistTaskQueueEventfd < 0) {
-                return false;
-            }
-
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            struct epoll_event taskQueuefdEvent;
-            taskQueuefdEvent.events = EPOLLIN;
-            taskQueuefdEvent.data.fd = this->persistTaskQueueEventfd;
-            if (-1 ==
-                epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->persistTaskQueueEventfd, &taskQueuefdEvent)) {
-                return false;
-            }
-            return true;
         }
 
         void OfflineModule::execute() {
@@ -113,11 +86,7 @@ namespace kakaIM {
         void OfflineModule::persistChatMessage(std::string userAccount, const kakaIM::Node::ChatMessage &message,
                                                const uint64_t messageID) {
             std::unique_ptr<ChatMessagePersistTask> task(new ChatMessagePersistTask(userAccount, message, messageID));
-            std::lock_guard<std::mutex> lock(this->persistTaskQueueMutex);
-            this->persistTaskQueue.emplace(std::move(task));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->persistTaskQueueEventfd, &count, sizeof(count));
+            this->mPersistTaskQueue.push(std::move(task));
         }
 
         void OfflineModule::persistGroupChatMessage(const kakaIM::Node::GroupChatMessage &groupChatMessage,
@@ -126,11 +95,7 @@ namespace kakaIM {
             LOG4CXX_TRACE(this->logger, __FUNCTION__ << " messageCount=" << ++messageCount);
             std::unique_ptr<GroupChatMessagePersistTask> task(
                     new GroupChatMessagePersistTask(groupChatMessage.groupid(), groupChatMessage, messageID));
-            std::lock_guard<std::mutex> lock(this->persistTaskQueueMutex);
-            this->persistTaskQueue.emplace(std::move(task));
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->persistTaskQueueEventfd, &count, sizeof(count));
+            this->mPersistTaskQueue.push(std::move(task));
         }
 
         void OfflineModule::handleChatMessagePersist(std::string userAccount, const kakaIM::Node::ChatMessage &message,
