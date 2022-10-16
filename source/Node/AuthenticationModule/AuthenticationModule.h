@@ -17,9 +17,6 @@ namespace kakaIM {
         class LoginMessage;
         class RegisterMessage;
     }
-    namespace rpc {
-        class AuthenticationRequest;
-    }
     namespace node {
         class AuthenticationModule
                 : public KIMNodeModule,
