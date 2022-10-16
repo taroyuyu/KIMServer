@@ -3,10 +3,10 @@
 //
 
 #include <zconf.h>
-#include "OfflineModule.h"
-#include "../../Common/util/Date.h"
-#include "../Log/log.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/OfflineModule/OfflineModule.h>
+#include <Common/util/Date.h>
+#include <Node/Log/log.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {

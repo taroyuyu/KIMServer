@@ -6,7 +6,7 @@
 #define KAKAIMCLUSTER_OFFLINEMODULE_H
 
 #include <queue>
-#include "../KIMNodeModule/KIMNodeModule.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
 
 namespace kakaIM {
     namespace node {
