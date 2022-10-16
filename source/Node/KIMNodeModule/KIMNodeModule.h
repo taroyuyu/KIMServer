@@ -15,9 +15,9 @@ namespace kakaIM {
     namespace node {
         class KIMNodeModule : public common::KIMModule {
         public:
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-            void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
-            void setClusterService(std::weak_ptr<ClusterService> service);
+            virtual void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) override;
+            virtual void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr) override;
+            virtaul void setClusterService(std::weak_ptr<ClusterService> service) override;
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;

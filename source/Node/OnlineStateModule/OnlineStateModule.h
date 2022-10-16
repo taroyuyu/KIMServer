@@ -46,7 +46,7 @@ namespace kakaIM {
 
             void setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr);
 
-            void setClusterService(std::weak_ptr<ClusterService> clusterServicePtr);
+            virtual void setClusterService(std::weak_ptr<ClusterService> clusterServicePtr) override;
 
             void setQueryUserAccountWithSessionService(
                     std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
