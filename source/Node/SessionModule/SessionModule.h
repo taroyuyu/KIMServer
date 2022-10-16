@@ -10,7 +10,6 @@
 #include "../../Common/Net/MessageCenterModule/MessageFilter.h"
 #include "../../Common/util/Date.h"
 #include <map>
-#include <string>
 #include <queue>
 #include <list>
 #include <set>
