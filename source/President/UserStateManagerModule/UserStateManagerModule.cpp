@@ -8,8 +8,8 @@
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include <typeinfo>
-#include "UserStateManagerModule.h"
-#include "../Log/log.h"
+#include <President/UserStateManagerModule/UserStateManagerModule.h>
+#include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
