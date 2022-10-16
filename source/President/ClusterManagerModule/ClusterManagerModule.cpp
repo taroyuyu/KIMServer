@@ -6,12 +6,12 @@
 #include <iostream>
 #include <fcntl.h>
 #include <typeinfo>
-#include "ClusterManagerModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../../Common/proto/KakaIMClientPresident.pb.h"
-#include "../President.h"
-#include "../../Common/util/Date.h"
-#include "../Log/log.h"
+#include <President/ClusterManagerModule/ClusterManagerModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <Common/proto/KakaIMClientPresident.pb.h>
+#include <President/President.h>
+#include <Common/util/Date.h>
+#include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
