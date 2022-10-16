@@ -98,10 +98,6 @@ namespace kakaIM {
             }
         }
 
-        void MessageSendServiceModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void MessageSendServiceModule::dispatchMessage(std::pair<const std::string, std::unique_ptr<::google::protobuf::Message>> & task){
             auto messageType = task.second->GetTypeName();
             if (messageType ==

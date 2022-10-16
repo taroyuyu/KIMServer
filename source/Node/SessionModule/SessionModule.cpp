@@ -60,9 +60,7 @@ namespace kakaIM {
                 this->m_statusCV.notify_all();
             }
         }
-        void SessionModule::shouldStop(){
-            this->m_needStop = true;
-        }
+
         void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task){
             auto messageType = task.first->GetTypeName();
             if (messageType ==

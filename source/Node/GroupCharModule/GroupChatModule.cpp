@@ -69,10 +69,6 @@ namespace kakaIM {
             }
         }
 
-        void GroupChatModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void GroupChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             if (task.first->GetTypeName() ==

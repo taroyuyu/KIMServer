@@ -64,10 +64,6 @@ namespace kakaIM {
             }
         }
 
-        void SingleChatModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void SingleChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             auto messageType = task.first->GetTypeName();

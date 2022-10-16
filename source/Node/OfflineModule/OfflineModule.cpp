@@ -94,10 +94,6 @@ namespace kakaIM {
             }
         }
 
-        void OfflineModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void OfflineModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
             auto messageType = task.first->GetTypeName();
             if (messageType ==

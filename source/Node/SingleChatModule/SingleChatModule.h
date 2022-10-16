@@ -19,7 +19,7 @@ namespace kakaIM {
             virtual bool init() override;
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
-            
+
         protected:
             int mEpollInstance;
             int messageEventfd;

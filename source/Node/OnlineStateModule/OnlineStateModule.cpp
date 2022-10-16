@@ -100,10 +100,6 @@ namespace kakaIM {
             }
         }
 
-        void OnlineStateModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void OnlineStateModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             auto messageType = task.first->GetTypeName();

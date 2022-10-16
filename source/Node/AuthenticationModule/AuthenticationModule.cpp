@@ -73,10 +73,6 @@ namespace kakaIM {
             }
         }
 
-        void AuthenticationModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void AuthenticationModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
             auto messageType = task.first->GetTypeName();
             if (messageType == kakaIM::Node::LoginMessage::default_instance().GetTypeName()) {

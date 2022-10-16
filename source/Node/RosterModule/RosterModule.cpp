@@ -87,10 +87,6 @@ namespace kakaIM {
             }
         }
 
-        void RosterModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task) {
             auto messageType = task.first->GetTypeName();
             if (messageType ==
