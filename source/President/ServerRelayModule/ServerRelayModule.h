@@ -8,13 +8,13 @@
 #include <queue>
 #include <mutex>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../ClusterManagerModule/ClusterEvent.h"
-#include "../Service/ConnectionOperationService.h"
-#include "../Service/UserStateManagerService.h"
-#include "../Service/ServerManageService.h"
-#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
+#include <Common/KIMModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <President/ClusterManagerModule/ClusterEvent.h>
+#include <President/Service/ConnectionOperationService.h>
+#include <President/Service/UserStateManagerService.h>
+#include <President/Service/ServerManageService.h>
+#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
 
 namespace kakaIM {
     namespace president {

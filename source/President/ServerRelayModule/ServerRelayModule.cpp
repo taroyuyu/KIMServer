@@ -7,8 +7,8 @@
 #include <sys/eventfd.h>
 #include <zconf.h>
 #include <typeinfo>
-#include "ServerRelayModule.h"
-#include "../Log/log.h"
+#include <President/ServerRelayModule/ServerRelayModule.h>
+#include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
