@@ -37,12 +37,9 @@ namespace kakaIM {
             virtual std::string queryUserAccountWithSession(const std::string &userAccount) override;
 
             virtual std::string queryConnectionWithSession(const std::string &sessionID) override;
-        private:
-
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
-
+        protected:
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
-
+        private:
             void
             handleLoginMessage(const kakaIM::Node::LoginMessage &loginMessage, const std::string connectionIdentifier);
 
