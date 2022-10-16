@@ -12,19 +12,10 @@
 
 namespace kakaIM {
     namespace node {
-        SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger),mEpollInstance(-1){
+        SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger){
         }
 
         SingleChatModule::~SingleChatModule() {
-        }
-
-        bool SingleChatModule::init() {
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
-            return true;
         }
 
         void SingleChatModule::execute() {

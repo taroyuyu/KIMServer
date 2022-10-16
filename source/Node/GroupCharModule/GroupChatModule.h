@@ -18,7 +18,6 @@ namespace kakaIM {
 
             virtual bool init() override;
         private:
-            int mEpollInstance;
 
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
 

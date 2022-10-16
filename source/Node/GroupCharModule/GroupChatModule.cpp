@@ -14,7 +14,7 @@
 namespace kakaIM {
     namespace node {
 
-        GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger),mEpollInstance(-1){
+        GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger){
         }
 
         GroupChatModule::~GroupChatModule() {
@@ -24,11 +24,6 @@ namespace kakaIM {
         }
 
         bool GroupChatModule::init() {
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-
             return true;
         }
 

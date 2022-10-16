@@ -13,7 +13,7 @@
 
 namespace kakaIM {
     namespace node {
-        RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger),mEpollInstance(-1){
+        RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger){
         }
 
         RosterModule::~RosterModule() {
@@ -23,10 +23,6 @@ namespace kakaIM {
         }
 
         bool RosterModule::init() {
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
 
             //创建AMQP信道
             this->mAmqpChannel = AmqpClient::Channel::Create("111.230.5.199", 5672, "kakaIM-node", "kakaIM-node_aixocm",

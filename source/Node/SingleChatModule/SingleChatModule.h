@@ -21,7 +21,6 @@ namespace kakaIM {
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
         protected:
-            int mEpollInstance;
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
 
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task);
