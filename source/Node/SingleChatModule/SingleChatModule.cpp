@@ -801,33 +801,7 @@ namespace kakaIM {
                 return UpdateVideoChatOfferResult_Failed;
             }
         }
-
-        std::shared_ptr<pqxx::connection> SingleChatModule::getDBConnection() {
-            if (this->m_dbConnection) {
-                return this->m_dbConnection;
-            }
-
-            const std::string postgrelConnectionUrl =
-                    "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
-                    this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                    std::to_string(this->dbConfig.getPort());
-
-            try {
-
-                this->m_dbConnection = std::make_shared<pqxx::connection>(postgrelConnectionUrl);
-
-                if (!this->m_dbConnection->is_open()) {
-                    LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
-                }
-
-
-            } catch (const std::exception &exception) {
-                LOG4CXX_ERROR(this->logger,
-                              typeid(this).name() << "" << __FUNCTION__ << "连接数据库出错," << exception.what());
-            }
-
-            return this->m_dbConnection;
-        }
+        
     }
 }
 

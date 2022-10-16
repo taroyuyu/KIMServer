@@ -1232,32 +1232,6 @@ namespace kakaIM {
 
         }
 
-        std::shared_ptr<pqxx::connection> GroupChatModule::getDBConnection() {
-            if (this->m_dbConnection) {
-                return this->m_dbConnection;
-            }
-
-            const std::string postgrelConnectionUrl =
-                    "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() + " password=" +
-                    this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                    std::to_string(this->dbConfig.getPort());
-
-            try {
-
-                this->m_dbConnection = std::make_shared<pqxx::connection>(postgrelConnectionUrl);
-
-                if (!this->m_dbConnection->is_open()) {
-                    LOG4CXX_FATAL(this->logger, typeid(this).name() << "::" << __FUNCTION__ << "打开数据库失败");
-                }
-
-
-            } catch (const std::exception &exception) {
-                LOG4CXX_FATAL(this->logger,
-                              typeid(this).name() << "::" << __FUNCTION__ << "连接数据库异常," << exception.what());
-            }
-
-            return this->m_dbConnection;
-        }
     }
 }
 
