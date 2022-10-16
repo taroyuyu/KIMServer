@@ -7,15 +7,15 @@
 #include <sys/time.h>
 #include <sys/timerfd.h>
 #include <sys/eventfd.h>
-#include "ClusterModule.h"
-#include "../../Common/util/Date.h"
-#include "../../Common/util/cpu_util.h"
-#include "../../Common/util/mem_util.h"
-#include "../../Common/EventBus/EventBus.h"
-#include "../Events/NodeSecessionEvent.h"
-#include "../Events/ClusterDisengagementEvent.h"
-#include "../Log/log.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/ClusterModule/ClusterModule.h>
+#include <Common/util/Date.h>
+#include <Common/util/cpu_util.h>
+#include <Common/util/mem_util.h>
+#include <Common/EventBus/EventBus.h>
+#include <Node/Events/NodeSecessionEvent.h>
+#include <Node/Events/ClusterDisengagementEvent.h>
+#include <Node/Log/log.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {

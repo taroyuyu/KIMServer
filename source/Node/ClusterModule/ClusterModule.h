@@ -10,12 +10,12 @@
 #include <time.h>
 #include <functional>
 #include <set>
-#include "../KIMNodeModule/KIMNodeModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../../Common/Net/TCPSocket/TCPClientSocket.h"
-#include "../../Common/Net/TCPSocketManager/TCPSocketManager.h"
-#include "../../Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h"
-#include "../../Common/KakaIMMessageAdapter.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <Common/Net/TCPSocket/TCPClientSocket.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManager.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h>
+#include <Common/KakaIMMessageAdapter.h>
 
 namespace kakaIM {
     namespace node {
