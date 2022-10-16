@@ -110,68 +110,7 @@ namespace kakaIM {
 
 
                 if (FD_ISSET(this->mHeartBeatTimerfd, &listeningFdSet)) {
-                    //1.获取CPU使用率
-                    static kaka::CpuUsage cpuUsage_last, cpuUsage_current;
-                    cpuUsage_last = cpuUsage_current;
-                    auto pair = kaka::CpuUsage::getCurrentCPUUsage();
-                    if (pair.first) {
-                        cpuUsage_last = cpuUsage_current;
-                        cpuUsage_current = pair.second;
-                        float cpuUsage = 0;
-                        if (cpuUsage_current.total - cpuUsage_last.total) {
-                            cpuUsage = (cpuUsage_current.work - cpuUsage_last.work) /
-                                       float(cpuUsage_current.total - cpuUsage_last.total);
-                        }
-                        //2.获取当前连接数目
-                        if (auto nodeConnectionQueryService = this->nodeConnectionQueryServicePtr.lock()) {
-                            uint64_t nodeCurrentConnectionCount = nodeConnectionQueryService->queryCurrentNodeConnectionCount();
-                            //3.获取内存使用率
-                            auto pair = kaka::MemoryUsage::getCurrentMemoryUsage();
-                            if (pair.first) {
-                                float memUsage = (pair.second.total - pair.second.free - pair.second.cached -
-                                                  pair.second.buffers) / (float) pair.second.total;
-                                LOG4CXX_TRACE(this->logger,
-                                              __FUNCTION__ << " 内存状态: total=" << pair.second.total << " free="
-                                                           << pair.second.free << " cached=" << pair.second.cached
-                                                           << " buffes=" << pair.second.buffers);
-                                //4.发送节点负载信息
-                                president::NodeLoadInfoMessage nodeLoadInfoMessage;
-                                nodeLoadInfoMessage.set_cpuusage(cpuUsage);
-                                nodeLoadInfoMessage.set_memusage(memUsage);
-                                nodeLoadInfoMessage.set_connectioncount(nodeCurrentConnectionCount);
-                                LOG4CXX_TRACE(this->logger,
-                                              __FUNCTION__ << "发送节点负载信息,cpu使用率为:" << cpuUsage << " 内存使用率为:"
-                                                           << memUsage);
-                                this->mSocketManager.sendMessage(this->mPresidentSocket, nodeLoadInfoMessage);
-                            } else {
-                                LOG4CXX_WARN(this->logger,
-                                             typeid(this).name() << "" << __FUNCTION__ << " 获取内存使用率失败，无法发送节点负载信息"
-                                                                 << errno);
-                            }
-                        } else {
-                            LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__
-                                                                            << " nodeConnectionQueryService不存在，无法发送节点负载信息"
-                                                                            << errno);
-                        }
-                    } else {
-                        LOG4CXX_WARN(this->logger,
-                                     typeid(this).name() << "" << __FUNCTION__ << " 获取CPU利用率失败，无法发送节点负载信息" << errno);
-                    }
-                    //5.发送心跳消息
-                    u_int64_t expirationCount = 0;
-                    if (int state = read(this->mHeartBeatTimerfd, &expirationCount, sizeof(expirationCount))) {
-                        //发送心跳消息
-                        president::HeartBeatMessage heartBeatMessage;
-                        heartBeatMessage.set_serverid(this->mServerID);
-                        heartBeatMessage.set_timestamp(kaka::Date::getCurrentDate().toString());
-                        LOG4CXX_TRACE(this->logger, __FUNCTION__ << "发送心跳心跳消息");
-                        this->mSocketManager.sendMessage(this->mPresidentSocket,
-                                                         *(const ::google::protobuf::Message *) &heartBeatMessage);
-                    } else {
-                        LOG4CXX_WARN(this->logger,
-                                     typeid(this).name() << "" << __FUNCTION__ << " read(mHeartBeatTimerfd)出错,errno="
-                                                         << errno << errno);
-                    }
+                    this->handleHeartBeatEvent();
                 }
             }
         }
@@ -220,6 +159,71 @@ namespace kakaIM {
             } else {
                 LOG4CXX_DEBUG(this->logger,
                               typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
+            }
+        }
+
+        void ClusterModule::handleHeartBeatEvent(){
+            //1.获取CPU使用率
+            static kaka::CpuUsage cpuUsage_last, cpuUsage_current;
+            cpuUsage_last = cpuUsage_current;
+            auto pair = kaka::CpuUsage::getCurrentCPUUsage();
+            if (pair.first) {
+                cpuUsage_last = cpuUsage_current;
+                cpuUsage_current = pair.second;
+                float cpuUsage = 0;
+                if (cpuUsage_current.total - cpuUsage_last.total) {
+                    cpuUsage = (cpuUsage_current.work - cpuUsage_last.work) /
+                               float(cpuUsage_current.total - cpuUsage_last.total);
+                }
+                //2.获取当前连接数目
+                if (auto nodeConnectionQueryService = this->nodeConnectionQueryServicePtr.lock()) {
+                    uint64_t nodeCurrentConnectionCount = nodeConnectionQueryService->queryCurrentNodeConnectionCount();
+                    //3.获取内存使用率
+                    auto pair = kaka::MemoryUsage::getCurrentMemoryUsage();
+                    if (pair.first) {
+                        float memUsage = (pair.second.total - pair.second.free - pair.second.cached -
+                                          pair.second.buffers) / (float) pair.second.total;
+                        LOG4CXX_TRACE(this->logger,
+                                      __FUNCTION__ << " 内存状态: total=" << pair.second.total << " free="
+                                                   << pair.second.free << " cached=" << pair.second.cached
+                                                   << " buffes=" << pair.second.buffers);
+                        //4.发送节点负载信息
+                        president::NodeLoadInfoMessage nodeLoadInfoMessage;
+                        nodeLoadInfoMessage.set_cpuusage(cpuUsage);
+                        nodeLoadInfoMessage.set_memusage(memUsage);
+                        nodeLoadInfoMessage.set_connectioncount(nodeCurrentConnectionCount);
+                        LOG4CXX_TRACE(this->logger,
+                                      __FUNCTION__ << "发送节点负载信息,cpu使用率为:" << cpuUsage << " 内存使用率为:"
+                                                   << memUsage);
+                        this->mSocketManager.sendMessage(this->mPresidentSocket, nodeLoadInfoMessage);
+                    } else {
+                        LOG4CXX_WARN(this->logger,
+                                     typeid(this).name() << "" << __FUNCTION__ << " 获取内存使用率失败，无法发送节点负载信息"
+                                                         << errno);
+                    }
+                } else {
+                    LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__
+                                                                    << " nodeConnectionQueryService不存在，无法发送节点负载信息"
+                                                                    << errno);
+                }
+            } else {
+                LOG4CXX_WARN(this->logger,
+                             typeid(this).name() << "" << __FUNCTION__ << " 获取CPU利用率失败，无法发送节点负载信息" << errno);
+            }
+            //5.发送心跳消息
+            u_int64_t expirationCount = 0;
+            if (int state = read(this->mHeartBeatTimerfd, &expirationCount, sizeof(expirationCount))) {
+                //发送心跳消息
+                president::HeartBeatMessage heartBeatMessage;
+                heartBeatMessage.set_serverid(this->mServerID);
+                heartBeatMessage.set_timestamp(kaka::Date::getCurrentDate().toString());
+                LOG4CXX_TRACE(this->logger, __FUNCTION__ << "发送心跳心跳消息");
+                this->mSocketManager.sendMessage(this->mPresidentSocket,
+                                                 *(const ::google::protobuf::Message *) &heartBeatMessage);
+            } else {
+                LOG4CXX_WARN(this->logger,
+                             typeid(this).name() << "" << __FUNCTION__ << " read(mHeartBeatTimerfd)出错,errno="
+                                                 << errno << errno);
             }
         }
 

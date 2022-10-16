@@ -101,6 +101,8 @@ namespace kakaIM {
 
             void dispatchClusterMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> & pair);
 
+            void handleHeartBeatEvent();
+
             void handleResponseJoinClusterMessage(const president::ResponseJoinClusterMessage &message);
 
             void handleResponseHeartBeatMessage(const president::ResponseHeartBeatMessage &message);
