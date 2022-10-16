@@ -100,7 +100,6 @@ namespace kakaIM {
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
             ConcurrentLinkedQueue<std::unique_ptr<PersistTask>> mPersistTaskQueue;
 
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
             void dispatchPersistTask(const PersistTask & task);
 
             void handleChatMessagePersist(std::string userAccount, const kakaIM::Node::ChatMessage &message,
