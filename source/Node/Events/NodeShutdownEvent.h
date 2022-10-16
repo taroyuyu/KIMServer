@@ -4,7 +4,7 @@
 
 #ifndef KAKAIMCLUSTER_NODESHUTDOWNEVENT_H
 #define KAKAIMCLUSTER_NODESHUTDOWNEVENT_H
-#include "../../Common/EventBus/Event.h"
+#include <Common/EventBus/Event.h>
 namespace kakaIM {
     class NodeShutdownEvent : public Event {
     public:
