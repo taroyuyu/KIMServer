@@ -10,6 +10,7 @@
 #include "../Service/MessageSendService.h"
 #include "../Service/ClusterService.h"
 #include "../Service/MessageIDGenerateService.h"
+#include "../Service/NodeConnectionQueryService.h"
 #include <memory>
 
 namespace kakaIM {
@@ -20,11 +21,13 @@ namespace kakaIM {
             virtual void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
             virtual void setClusterService(std::weak_ptr<ClusterService> service);
             virtual void setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service);;
+            virtual void setNodeConnectionQueryService(std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr);
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
+            std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr;
         };
     }
 }

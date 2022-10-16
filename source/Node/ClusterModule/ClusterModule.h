@@ -21,7 +21,6 @@
 #include "../../Common/Net/TCPSocketManager/TCPSocketManager.h"
 #include "../../Common/Net/TCPSocketManager/TCPSocketManagerConsignor.h"
 #include "../../Common/KakaIMMessageAdapter.h"
-#include "../Service/NodeConnectionQueryService.h"
 
 namespace kakaIM {
     namespace node {
@@ -48,8 +47,6 @@ namespace kakaIM {
             ~ClusterModule();
 
             virtual bool init() override;
-
-            void setNodeConnectionQueryService(std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr);
 
             virtual void stop() override;
 
@@ -137,8 +134,6 @@ namespace kakaIM {
             int mMessageEventfd;//消息事件
             std::map<std::string, std::function<void(
                     kakaIM::president::ResponseMessageIDMessage response)>> mMessageIDRequestCallback;
-
-            std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr;
 
             std::mutex serverMessageListenerSetMutex;
             std::set<ServerMessageListener*> serverMessageListenerSet;

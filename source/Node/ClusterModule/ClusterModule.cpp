@@ -67,11 +67,6 @@ namespace kakaIM {
             return true;
         }
 
-        void ClusterModule::setNodeConnectionQueryService(
-                std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr) {
-            this->nodeConnectionQueryServicePtr = nodeConnectionQueryServicePtr;
-        }
-
         void ClusterModule::execute() {
             this->moduleState = ConnectingPresident;
 

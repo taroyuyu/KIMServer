@@ -22,5 +22,10 @@ namespace kakaIM {
         void KIMNodeModule::setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service) {
             this->mMessageIDGenerateServicePtr = service;
         }
+
+        void KIMNodeModule::setNodeConnectionQueryService(
+                std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr) {
+            this->nodeConnectionQueryServicePtr = nodeConnectionQueryServicePtr;
+        }
     }
 }
