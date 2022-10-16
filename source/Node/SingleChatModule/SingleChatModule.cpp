@@ -15,29 +15,6 @@ namespace kakaIM {
         SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger){
         }
 
-        void SingleChatModule::execute() {
-            {
-                std::lock_guard<std::mutex> lock(this->m_statusMutex);
-                this->m_status = Status::Started;
-                this->m_statusCV.notify_all();
-            }
-
-            while (not this->m_needStop) {
-                if (auto task = this->mTaskQueue.try_pop()) {
-                    this->dispatchMessage(*task);
-                } else {
-                    std::this_thread::yield();
-                }
-            }
-
-            this->m_needStop = false;
-            {
-                std::lock_guard<std::mutex> lock(this->m_statusMutex);
-                this->m_status = Status::Stopped;
-                this->m_statusCV.notify_all();
-            }
-        }
-
         void SingleChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             auto messageType = task.first->GetTypeName();
