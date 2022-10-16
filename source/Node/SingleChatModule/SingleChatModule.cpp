@@ -15,9 +15,6 @@ namespace kakaIM {
         SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger){
         }
 
-        SingleChatModule::~SingleChatModule() {
-        }
-
         void SingleChatModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

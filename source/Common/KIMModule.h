@@ -22,7 +22,7 @@ namespace kakaIM {
             KIMModule() : m_status(Status::Stopped) {
             }
 
-            virtual bool init() = 0;
+            virtual bool init();
 
             virtual void start();
 

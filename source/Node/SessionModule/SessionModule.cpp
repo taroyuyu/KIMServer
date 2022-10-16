@@ -16,15 +16,6 @@
 
 namespace kakaIM {
     namespace node {
-        bool SessionModule::init() {
-
-            //创建Epoll实例
-            if (-1 == (this->epollInstance = epoll_create1(0))) {
-                return false;
-            }
-            return true;
-        }
-
         void SessionModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
@@ -176,10 +167,7 @@ namespace kakaIM {
             return ::MD5(currentDate.toString() + connectionUUID_str).toStr();
         }
 
-        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger),epollInstance(-1){
-        }
-
-        SessionModule::~SessionModule() {
+        SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger){
         }
     }
 }

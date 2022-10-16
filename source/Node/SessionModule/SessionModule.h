@@ -20,17 +20,12 @@ namespace kakaIM {
         public:
             SessionModule();
 
-            ~SessionModule();
-
-            virtual bool init() override;
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
 
         private:
-            int epollInstance;
             int messageEventfd;
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
 

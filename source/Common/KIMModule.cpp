@@ -6,6 +6,9 @@
 
 namespace kakaIM {
     namespace common {
+        bool KIMModule::init(){
+            return true;
+        }
         void KIMModule::start() {
             std::unique_lock<std::mutex> lock(this->m_statusMutex);
             if (Status::Stopped != this->m_status) {
