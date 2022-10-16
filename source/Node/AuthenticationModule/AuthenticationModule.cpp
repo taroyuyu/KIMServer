@@ -13,14 +13,6 @@ namespace kakaIM {
         AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger){
         }
 
-        AuthenticationModule::~AuthenticationModule() {
-            while (this->mDBConnectionPool.size()) {
-                auto dbConnection = std::move(this->mDBConnectionPool.front());
-                this->mDBConnectionPool.pop();
-                dbConnection->disconnect();
-            }
-        }
-
         void AuthenticationModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             auto messageType = task.first->GetTypeName();
@@ -272,48 +264,6 @@ namespace kakaIM {
                 }
             } else {
                 return pairIt->second.second;
-            }
-        }
-
-        std::unique_ptr<pqxx::connection> AuthenticationModule::getDBConnection() {
-
-            std::lock_guard<std::mutex> lock(this->mDBConnectionPoolMutex);
-            if (!this->mDBConnectionPool.size()) {
-                const std::string postgrelConnectionUrl =
-                        "dbname=" + this->dbConfig.getDBName() + " user=" + this->dbConfig.getUserAccount() +
-                        " password=" +
-                        this->dbConfig.getUserPassword() + " hostaddr=" + this->dbConfig.getHostAddr() + " port=" +
-                        std::to_string(this->dbConfig.getPort());
-
-                std::unique_ptr<pqxx::connection> dbConnection;
-                try {
-
-                    dbConnection.reset(new pqxx::connection(postgrelConnectionUrl));
-
-                    if (!dbConnection->is_open()) {
-                        LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
-                    }
-
-                } catch (const std::exception &exception) {
-                    LOG4CXX_FATAL(this->logger,
-                                  typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败," << exception.what());
-                }
-
-                return std::move(dbConnection);
-            } else {
-                auto dbConnection = std::move(this->mDBConnectionPool.front());
-                this->mDBConnectionPool.pop();
-                if (!dbConnection->is_open()) {
-                    LOG4CXX_FATAL(this->logger, typeid(this).name() << "" << __FUNCTION__ << "打开数据库失败");
-                }
-                return dbConnection;
-            }
-        }
-
-        void AuthenticationModule::releaseDBConnection(std::unique_ptr<pqxx::connection> dbConnection) {
-            if (dbConnection) {
-                std::lock_guard<std::mutex> lock(this->mDBConnectionPoolMutex);
-                this->mDBConnectionPool.push(std::move(dbConnection));
             }
         }
     }

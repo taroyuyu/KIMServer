@@ -27,8 +27,6 @@ namespace kakaIM {
         public:
             AuthenticationModule();
 
-            ~AuthenticationModule();
-
             virtual bool
             doFilter(const ::google::protobuf::Message &message, const std::string connectionIdentifier) override;
 
@@ -54,11 +52,6 @@ namespace kakaIM {
             };
 
             VerifyUserResult verifyUser(const std::string userAccount, const std::string userPassword);
-
-            std::mutex mDBConnectionPoolMutex;
-            std::queue<std::unique_ptr<pqxx::connection>> mDBConnectionPool;
-
-            void releaseDBConnection(std::unique_ptr<pqxx::connection> dbConnection);
 
             std::mutex sessionMapMutex;
             /**
