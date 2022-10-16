@@ -4,15 +4,15 @@
 
 #ifndef KAKAIMCLUSTER_LOG_H
 #define KAKAIMCLUSTER_LOG_H
-#define NodeLogger "Node"
-#define SingleChatModuleLogger "Node.SingleChatModule"
-#define SessionModuleLogger "Node.SessionModule"
-#define RosterModuleLogger "Node.RosterModule"
-#define OnlineStateModuleLogger "Node.OnlineStateModule"
-#define OfflineModuleLogger "Node.OfflineModule"
-#define MessageSenderServiceModuleLogger "Node.MessageSendServiceModule"
-#define GroupChatModuleLogger "Node.GroupChatModule"
-#define ClusterModuleLogger "Node.ClusterModule"
-#define AuthenticationModuleLogger "Node.AuthenticationModule"
+const char * const NodeLogger = "Node";
+const char * const SingleChatModuleLogger = "Node.SingleChatModule";
+const char * const SessionModuleLogger = "Node.SessionModule";
+const char * const RosterModuleLogger = "Node.RosterModule";
+const char * const OnlineStateModuleLogger = "Node.OnlineStateModule";
+const char * const OfflineModuleLogger = "Node.OfflineModule";
+const char * const MessageSenderServiceModuleLogger = "Node.MessageSendServiceModule";
+const char * const GroupChatModuleLogger = "Node.GroupChatModule";
+const char * const ClusterModuleLogger = "Node.ClusterModule";
+const char * const AuthenticationModuleLogger = "Node.AuthenticationModule";
 #endif //KAKAIMCLUSTER_LOG_H
 
