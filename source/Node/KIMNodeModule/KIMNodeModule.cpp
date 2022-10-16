@@ -44,5 +44,9 @@ namespace kakaIM {
         void KIMNodeModule::setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service) {
             this->mMessagePersistenceServicePtr = service;
         }
+
+        void KIMNodeModule::setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr) {
+            this->mUserRelationServicePtr = userRelationServicePtr;
+        }
     }
 }

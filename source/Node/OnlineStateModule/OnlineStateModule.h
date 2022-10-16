@@ -16,7 +16,6 @@
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"
 #include "../Events/NodeSecessionEvent.h"
-#include "../Service/UserRelationService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {
@@ -42,8 +41,6 @@ namespace kakaIM {
 
             virtual void onEvent(std::shared_ptr<const Event> event) override;
 
-            void setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr);
-
             virtual void setClusterService(std::weak_ptr<ClusterService> clusterServicePtr) override;
 
             virtual std::pair<std::set<std::pair<std::pair<LoginDeviceQueryService::IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::const_iterator, std::set<std::pair<std::pair<LoginDeviceQueryService::IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::const_iterator>
@@ -58,7 +55,6 @@ namespace kakaIM {
             std::atomic_bool m_needStop;
         private:
             int mEpollInstance;
-            std::weak_ptr<UserRelationService> userRelationServicePtr;
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string >> messageQueue;

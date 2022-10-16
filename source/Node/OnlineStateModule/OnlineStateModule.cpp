@@ -313,7 +313,7 @@ namespace kakaIM {
             }
 
             //2.查询用户的好友列表
-            auto userRelationService = this->userRelationServicePtr.lock();
+            auto userRelationService = this->mUserRelationServicePtr.lock();
 
             if (!userRelationService) {
                 return;
@@ -438,10 +438,6 @@ namespace kakaIM {
                 std::set<std::pair<std::pair<LoginDeviceQueryService::IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::const_iterator endIt;
                 return std::make_pair(endIt, endIt);
             }
-        }
-
-        void OnlineStateModule::setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr) {
-            this->userRelationServicePtr = userRelationServicePtr;
         }
 
         void OnlineStateModule::setClusterService(std::weak_ptr<ClusterService> clusterServicePtr) {

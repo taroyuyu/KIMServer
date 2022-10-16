@@ -14,6 +14,7 @@
 #include "../Service/SessionQueryService.h"
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/MessagePersistenceService.h"
+#include "../Service/UserRelationService.h"
 #include <memory>
 
 namespace kakaIM {
@@ -27,8 +28,9 @@ namespace kakaIM {
             virtual void setNodeConnectionQueryService(std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr);
             virtual void setQueryUserAccountWithSessionService(std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
             virtual void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
-            void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
-            void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
+            virtual void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
+            virtual void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
+            virtual void setUserRelationService(std::weak_ptr<UserRelationService> userRelationServicePtr);
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
@@ -39,6 +41,7 @@ namespace kakaIM {
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
+            std::weak_ptr<UserRelationService> mUserRelationServicePtr;
         };
     }
 }
