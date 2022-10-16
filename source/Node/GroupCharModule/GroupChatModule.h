@@ -7,7 +7,6 @@
 
 #include <queue>
 #include <mutex>
-#include <memory>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
 namespace kakaIM {

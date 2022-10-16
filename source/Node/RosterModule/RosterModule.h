@@ -7,7 +7,6 @@
 
 #include <queue>
 #include <mutex>
-#include <memory>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 #include "../KIMNodeModule/KIMNodeModule.h"
 

@@ -8,7 +8,6 @@
 #include <google/protobuf/message.h>
 #include <queue>
 #include <mutex>
-#include <memory>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
 namespace kakaIM {

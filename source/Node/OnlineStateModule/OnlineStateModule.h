@@ -9,7 +9,6 @@
 #include <google/protobuf/message.h>
 #include <queue>
 #include <map>
-#include <memory>
 #include <mutex>
 #include "../../Common/EventBus/EventListener.h"
 #include "../Events/UserLogoutEvent.h"

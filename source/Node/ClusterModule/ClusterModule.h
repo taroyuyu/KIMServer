@@ -10,7 +10,6 @@
 #include <map>
 #include <time.h>
 #include <functional>
-#include <memory>
 #include <mutex>
 #include <set>
 #include "../KIMNodeModule/KIMNodeModule.h"

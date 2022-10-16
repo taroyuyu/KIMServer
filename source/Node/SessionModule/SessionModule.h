@@ -15,7 +15,6 @@
 #include <list>
 #include <set>
 #include <mutex>
-#include <memory>
 
 namespace kakaIM {
     namespace node {

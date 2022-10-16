@@ -15,7 +15,6 @@
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/MessagePersistenceService.h"
 #include "../Service/UserRelationService.h"
-#include <memory>
 #include <log4cxx/logger.h>
 #include <pqxx/pqxx>
 

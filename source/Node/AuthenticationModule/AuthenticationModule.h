@@ -12,7 +12,6 @@
 #include <map>
 #include <queue>
 #include <mutex>
-#include <memory>
 #include <SimpleAmqpClient/SimpleAmqpClient.h>
 
 namespace kakaIM {
