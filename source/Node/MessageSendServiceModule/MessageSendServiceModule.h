@@ -37,8 +37,6 @@ namespace kakaIM {
             virtual void
             sendMessageToSession(const std::string &serverID,const std::string & sessionID, const ::google::protobuf::Message &message)override ;
 
-            void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
-
             virtual void
             didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage &serverMessage) override;
 

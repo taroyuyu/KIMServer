@@ -26,6 +26,7 @@ namespace kakaIM {
             virtual void setNodeConnectionQueryService(std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr);
             virtual void setQueryUserAccountWithSessionService(std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
             virtual void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
+            void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;

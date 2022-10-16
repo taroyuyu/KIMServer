@@ -28,8 +28,6 @@ namespace kakaIM {
 
             void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
 
-            void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
-
         protected:
             virtual void execute() override;
             virtual void shouldStop() override;

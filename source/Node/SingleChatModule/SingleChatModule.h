@@ -29,8 +29,6 @@ namespace kakaIM {
 
             virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
 
-            void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
-
             void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
 
             void setUserRelationService(std::weak_ptr<UserRelationService> service);
