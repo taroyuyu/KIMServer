@@ -44,8 +44,6 @@ namespace kakaIM {
 
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
 
-            void setClusterService(std::weak_ptr<ClusterService> service);
-
             virtual void
             didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage &serverMessage) override;
 

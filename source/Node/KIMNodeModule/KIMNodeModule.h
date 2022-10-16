@@ -17,6 +17,7 @@ namespace kakaIM {
         public:
             void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
             void setMessageSendService(std::weak_ptr<MessageSendService> messageSendServicePtr);
+            void setClusterService(std::weak_ptr<ClusterService> service);
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;

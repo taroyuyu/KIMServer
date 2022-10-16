@@ -34,8 +34,6 @@ namespace kakaIM {
 
             void setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service);
 
-            void setClusterService(std::weak_ptr<ClusterService> service);
-
             void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
 
             void setQueryUserAccountWithSessionService(std::weak_ptr<QueryUserAccountWithSession> service);
@@ -140,7 +138,7 @@ namespace kakaIM {
             };
 
             FetchVideoChatOfferResult fetchVideoChatOffer(const uint64_t offerId, VideoChatOfferInfo &offerInfo);
-            
+
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;
