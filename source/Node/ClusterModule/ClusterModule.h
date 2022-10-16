@@ -94,7 +94,7 @@ namespace kakaIM {
             } moduleState;
             enum class MessageSource {
                 NodeInternal,//节点内部
-                MessageSource_Cluster,//集群
+                Cluster,//集群
             };
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
             std::list<UserOnlineStateListener *> mUserOnlineStateListenerList;

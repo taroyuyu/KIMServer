@@ -30,13 +30,13 @@ namespace kakaIM {
             auto dbConnection = std::move(this->getDBConnection());
             if (!dbConnection) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__ << "获取数据库连接失败");
-                return VerifyUserResult_DBConnectionNotExit;
+                return VerifyUserResult::DBConnectionNotExit;
             }
 
             const std::string CheckUserSQLStatement = "CheckUserSQL";
             const std::string checkUserSQL = "SELECT account FROM \"user\" WHERE account = $1 AND password = $2 ;";
 
-            VerifyUserResult verifyResult = VerifyUserResult_InteralError;
+            VerifyUserResult verifyResult = VerifyUserResult::InteralError;
             try {
                 //开启事务
                 pqxx::work dbWork(*dbConnection);
@@ -55,15 +55,15 @@ namespace kakaIM {
                 dbWork.commit();
 
                 if (1 != result.size()) {//登录失败
-                    verifyResult = VerifyUserResult_False;
+                    verifyResult = VerifyUserResult::False;
                 } else {//登录成功
-                    verifyResult = VerifyUserResult_True;
+                    verifyResult = VerifyUserResult::True;
                 }
 
 
             } catch (const std::exception &e) {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__ << " " << e.what());
-                verifyResult = VerifyUserResult_InteralError;
+                verifyResult = VerifyUserResult::InteralError;
             }
 
             this->releaseDBConnection(std::move(dbConnection));
@@ -78,14 +78,14 @@ namespace kakaIM {
             responseLoginMessage.set_sessionid(loginMessage.sessionid());
 
             switch (this->verifyUser(loginMessage.useraccount(), loginMessage.userpassword())) {
-                case VerifyUserResult_DBConnectionNotExit:
-                case VerifyUserResult_InteralError: {
+                case VerifyUserResult::DBConnectionNotExit:
+                case VerifyUserResult::InteralError: {
                     responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Failed);
                     responseLoginMessage.set_failureerror(
                             kakaIM::Node::ResponseLoginMessage_FailureError_ServerInternalError);
                 }
                     break;
-                case VerifyUserResult_True: {
+                case VerifyUserResult::True: {
                     responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Success);
                     std::lock_guard<std::mutex> lock(this->sessionMapMutex);
                     auto expireRecordIt = this->expireSessionMap.find(loginMessage.sessionid());
@@ -98,7 +98,7 @@ namespace kakaIM {
                                                             connectionIdentifier));
                 }
                     break;
-                case VerifyUserResult_False: {
+                case VerifyUserResult::False: {
                     responseLoginMessage.set_loginstate(kakaIM::Node::ResponseLoginMessage::Failed);
                     responseLoginMessage.set_failureerror(
                             kakaIM::Node::ResponseLoginMessage_FailureError_WrongAccountOrPassword);
