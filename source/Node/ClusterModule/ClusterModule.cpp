@@ -24,7 +24,7 @@ namespace kakaIM {
                           uint16_t servicePort) :KIMNodeModule(ClusterModuleLogger),
                 mKakaIMMessageAdapter(nullptr), mPresidentAddr(presidentAddr), mPresidentPort(presidentPort),
                 mServerID(serverID),
-                mInvitationCode(invitationCode), mlngLatPair(lngLatPair),serviceAddr(serviceAddr),servicePort(servicePort), mHeartBeatTimerfd(-1), mMessageEventfd(-1) {
+                mInvitationCode(invitationCode), mlngLatPair(lngLatPair),serviceAddr(serviceAddr),servicePort(servicePort), mHeartBeatTimerfd(-1) {
             this->mKakaIMMessageAdapter = new common::KakaIMMessageAdapter();
         }
 
@@ -33,7 +33,6 @@ namespace kakaIM {
         }
 
         ClusterModule::~ClusterModule() {
-            ::close(this->mMessageEventfd);
             ::close(this->mHeartBeatTimerfd);
             if (this->mKakaIMMessageAdapter) {
                 delete this->mKakaIMMessageAdapter;
@@ -57,14 +56,6 @@ namespace kakaIM {
             }
 
             this->mSocketManager.stop();
-        }
-
-        bool ClusterModule::init() {
-            this->mMessageEventfd = eventfd(0, EFD_SEMAPHORE);
-            if (this->mMessageEventfd < 0) {
-                return false;
-            }
-            return true;
         }
 
         void ClusterModule::execute() {
@@ -92,7 +83,6 @@ namespace kakaIM {
 
                 fd_set listeningFdSet;
                 FD_ZERO(&listeningFdSet);
-                FD_SET(this->mMessageEventfd, &listeningFdSet);
 
 
                 if (this->mHeartBeatTimerfd > 0) {//心跳定时器已经创建，则监听
@@ -103,7 +93,7 @@ namespace kakaIM {
                 timeout.tv_sec = 1;
                 timeout.tv_usec = 1;
 
-                int readyCount = select((mHeartBeatTimerfd < mMessageEventfd ? mMessageEventfd : mHeartBeatTimerfd) + 1,
+                int readyCount = select(mHeartBeatTimerfd + 1,
                                         &listeningFdSet,
                                         nullptr, nullptr, &timeout);
 
@@ -113,68 +103,54 @@ namespace kakaIM {
                 } else if (0 == readyCount) {//如果没有任何事件准备好
                     continue;
                 }
-                if (FD_ISSET(this->mMessageEventfd, &listeningFdSet)) {
-                    u_int64_t messageCount = 0;
-                    if (ssize_t state = read(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                        while (messageCount--) {
-                            if (!this->mMessageQueue.empty()) {
-                                this->mMessageQueueMutex.lock();
-                                auto pairIt = std::move(this->mMessageQueue.front());
-                                this->mMessageQueue.pop();
-                                this->mMessageQueueMutex.unlock();
 
-                                auto messageType = pairIt.first->GetTypeName();
-                                if (pairIt.second == MessageSource_Cluster) {
-                                    if (messageType ==
-                                        president::ResponseHeartBeatMessage::default_instance().GetTypeName()) {
-                                        this->handleResponseHeartBeatMessage(
-                                                *static_cast<const president::ResponseHeartBeatMessage *>(pairIt.first.get()));
-                                    } else if (messageType ==
-                                               president::UserOnlineStateMessage::default_instance().GetTypeName()) {
-                                        this->handleUpdateUserOnlineStateMessageFromCluster(
-                                                *static_cast<const president::UserOnlineStateMessage *>(pairIt.first.get()));
-                                    } else if (messageType ==
-                                               president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
-                                        this->handleUpdateUserOnlineStateMessageFromCluster(
-                                                *static_cast<const president::UpdateUserOnlineStateMessage *>(pairIt.first.get()));
-                                    } else if (messageType ==
-                                               president::ServerMessage::default_instance().GetTypeName()) {
-                                        this->handleServerMessageFromCluster(
-                                                *static_cast<const president::ServerMessage *>(pairIt.first.get()));
-                                    } else if (messageType ==
-                                               president::ResponseJoinClusterMessage::default_instance().GetTypeName()) {
-                                        this->handleResponseJoinClusterMessage(
-                                                *static_cast<const president::ResponseJoinClusterMessage *>(pairIt.first.get()));
-                                    } else {
-                                        LOG4CXX_DEBUG(this->logger,
-                                                      typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
-                                                                          << ",但是没有处理函数");
-                                    }
-                                } else if (pairIt.second == MessageSource_NodeInternal) {
-                                    if (messageType == Node::OnlineStateMessage::default_instance().GetTypeName()) {
-                                        this->handleUpdateUserOnlineStateMessageFromNode(
-                                                *static_cast<Node::OnlineStateMessage *>(pairIt.first.get()));
-                                    } else if (messageType ==
-                                               president::ServerMessage::default_instance().GetTypeName()) {
-                                        this->handleServerMessageFromNode(
-                                                *static_cast<const president::ServerMessage *>(pairIt.first.get()));
-                                    } else {
-                                        LOG4CXX_DEBUG(this->logger,
-                                                      typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
-                                                                          << ",但是没有处理函数");
-                                    }
-                                } else {
-                                    LOG4CXX_DEBUG(this->logger,
-                                                  typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
-                                }
-                            }
+                if (auto task = this->mMessageQueue.try_pop()) {
+                    auto messageType = task.first->GetTypeName();
+                    if (task.second == MessageSource_Cluster) {
+                        if (messageType ==
+                            president::ResponseHeartBeatMessage::default_instance().GetTypeName()) {
+                            this->handleResponseHeartBeatMessage(
+                                    *static_cast<const president::ResponseHeartBeatMessage *>(task.first.get()));
+                        } else if (messageType ==
+                                   president::UserOnlineStateMessage::default_instance().GetTypeName()) {
+                            this->handleUpdateUserOnlineStateMessageFromCluster(
+                                    *static_cast<const president::UserOnlineStateMessage *>(task.first.get()));
+                        } else if (messageType ==
+                                   president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
+                            this->handleUpdateUserOnlineStateMessageFromCluster(
+                                    *static_cast<const president::UpdateUserOnlineStateMessage *>(task.first.get()));
+                        } else if (messageType ==
+                                   president::ServerMessage::default_instance().GetTypeName()) {
+                            this->handleServerMessageFromCluster(
+                                    *static_cast<const president::ServerMessage *>(task.first.get()));
+                        } else if (messageType ==
+                                   president::ResponseJoinClusterMessage::default_instance().GetTypeName()) {
+                            this->handleResponseJoinClusterMessage(
+                                    *static_cast<const president::ResponseJoinClusterMessage *>(task.first.get()));
+                        } else {
+                            LOG4CXX_DEBUG(this->logger,
+                                          typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
+                                                              << ",但是没有处理函数");
+                        }
+                    } else if (task.second == MessageSource_NodeInternal) {
+                        if (messageType == Node::OnlineStateMessage::default_instance().GetTypeName()) {
+                            this->handleUpdateUserOnlineStateMessageFromNode(
+                                    *static_cast<Node::OnlineStateMessage *>(task.first.get()));
+                        } else if (messageType ==
+                                   president::ServerMessage::default_instance().GetTypeName()) {
+                            this->handleServerMessageFromNode(
+                                    *static_cast<const president::ServerMessage *>(task.first.get()));
+                        } else {
+                            LOG4CXX_DEBUG(this->logger,
+                                          typeid(this).name() << "" << __FUNCTION__ << "收到一条" << messageType
+                                                              << ",但是没有处理函数");
                         }
                     } else {
-                        LOG4CXX_WARN(this->logger,
-                                     typeid(this).name() << "" << __FUNCTION__ << " read(mMessageEventfd)出错，返回值,errno="
-                                                         << errno);
+                        LOG4CXX_DEBUG(this->logger,
+                                      typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
                     }
                 }
+
 
                 if (FD_ISSET(this->mHeartBeatTimerfd, &listeningFdSet)) {
                     //1.获取CPU使用率
@@ -297,11 +273,7 @@ namespace kakaIM {
         void ClusterModule::updateUserOnlineState(const kakaIM::Node::OnlineStateMessage &message) {
             std::unique_ptr<Node::OnlineStateMessage> onlineStateMessage(new Node::OnlineStateMessage());
             onlineStateMessage->CopyFrom(message);
-            this->mMessageQueue.emplace(std::move(onlineStateMessage), MessageSource_NodeInternal);
-            u_int64_t messageCount = 1;
-            if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                LOG4CXX_WARN(this->logger, typeid(this).name() << "" << __FUNCTION__ << " 发送messageEvent失败" << errno);
-            }
+            this->mMessageQueue.push(std::move(onlineStateMessage), MessageSource_NodeInternal);
         }
 
         void ClusterModule::addUserOnlineStateListener(UserOnlineStateListener &userOnlineStateListener) {
@@ -354,11 +326,7 @@ namespace kakaIM {
         void ClusterModule::sendServerMessage(const kakaIM::president::ServerMessage &message) {
             std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage(message));
             serverMessage->set_serverid(this->mServerID);
-            this->mMessageQueue.emplace(std::move(serverMessage), MessageSource_NodeInternal);
-            u_int64_t messageCount = 1;
-            if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                LOG4CXX_WARN(this->logger, __FUNCTION__ << " 发送messageEvent失败" << errno);
-            }
+            this->mMessageQueue.push(std::move(serverMessage), MessageSource_NodeInternal);
         }
 
         void ClusterModule::addServerMessageListener(ServerMessageListener *listener) {
@@ -415,43 +383,23 @@ namespace kakaIM {
                 std::unique_ptr<president::ResponseHeartBeatMessage> responseHeartBeatMessage(
                         new president::ResponseHeartBeatMessage());
                 responseHeartBeatMessage->CopyFrom(message);
-                this->mMessageQueue.emplace(std::move(responseHeartBeatMessage), MessageSource_Cluster);
-                u_int64_t messageCount = 1;
-                if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 发送messageEvent失败" << errno);
-                }
+                this->mMessageQueue.push(std::move(responseHeartBeatMessage), MessageSource_Cluster);
             } else if (messageType == kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::UserOnlineStateMessage> userOnlineStateMessage(
                         new president::UserOnlineStateMessage());
                 userOnlineStateMessage->CopyFrom(message);
-                this->mMessageQueue.emplace(std::move(userOnlineStateMessage), MessageSource_Cluster);
-                u_int64_t messageCount = 1;
-                if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 发送messageEvent失败" << errno);
-                }
+                this->mMessageQueue.push(std::move(userOnlineStateMessage), MessageSource_Cluster);
             } else if (messageType ==
                        kakaIM::president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::UpdateUserOnlineStateMessage> updateUserOnlineStateMessage(
                         new president::UpdateUserOnlineStateMessage());
                 updateUserOnlineStateMessage->CopyFrom(message);
-                this->mMessageQueue.emplace(
+                this->mMessageQueue.push(
                         std::move(updateUserOnlineStateMessage), MessageSource_Cluster);
-                u_int64_t messageCount = 1;
-                if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 发送messageEvent失败" << errno);
-                }
             } else if (messageType == kakaIM::president::ServerMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage());
                 serverMessage->CopyFrom(message);
-                this->mMessageQueue.emplace(std::move(serverMessage), MessageSource_Cluster);
-                u_int64_t messageCount = 1;
-                if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 发送messageEvent失败" << errno);
-                }
+                this->mMessageQueue.push(std::move(serverMessage), MessageSource_Cluster);
             } else if (messageType == kakaIM::president::ResponseMessageIDMessage::default_instance().GetTypeName()) {
                 const president::ResponseMessageIDMessage &responseMessageIDMessage = *((const president::ResponseMessageIDMessage *) &message);
                 auto callBackIt = this->mMessageIDRequestCallback.find(responseMessageIDMessage.requestid());
@@ -471,12 +419,7 @@ namespace kakaIM {
                         new president::ResponseJoinClusterMessage());
                 LOG4CXX_TRACE(this->logger, typeid(this).name() << __FUNCTION__ << " 收到加入集群的响应");
                 responseJoinClusterMessage->CopyFrom(message);
-                this->mMessageQueue.emplace(std::move(responseJoinClusterMessage), MessageSource_Cluster);
-                u_int64_t messageCount = 1;
-                if (sizeof(messageCount) != write(this->mMessageEventfd, &messageCount, sizeof(messageCount))) {
-                    LOG4CXX_WARN(this->logger,
-                                 typeid(this).name() << "" << __FUNCTION__ << " 发送messageEvent失败" << errno);
-                }
+                this->mMessageQueue.push(std::move(responseJoinClusterMessage), MessageSource_Cluster);
             } else {
                 LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
             }

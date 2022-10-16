@@ -42,8 +42,6 @@ namespace kakaIM {
 
             ~ClusterModule();
 
-            virtual bool init() override;
-
             virtual void stop() override;
 
             virtual void execute() override;
@@ -98,8 +96,7 @@ namespace kakaIM {
                 MessageSource_NodeInternal,//节点内部
                 MessageSource_Cluster,//集群
             };
-            std::mutex mMessageQueueMutex;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
+            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource>> mMessageQueue;
             std::list<UserOnlineStateListener *> mUserOnlineStateListenerList;
 
             void handleResponseJoinClusterMessage(const president::ResponseJoinClusterMessage &message);
@@ -127,7 +124,6 @@ namespace kakaIM {
             std::string serviceAddr;
             uint16_t servicePort;
             int mHeartBeatTimerfd;//心跳定时器
-            int mMessageEventfd;//消息事件
             std::map<std::string, std::function<void(
                     kakaIM::president::ResponseMessageIDMessage response)>> mMessageIDRequestCallback;
 
