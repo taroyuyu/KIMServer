@@ -56,9 +56,9 @@ namespace kakaIM {
                                                     const std::string connectionIdentifier);
 
             enum class GroupJoinApplicationState {
-                GroupJoinApplicationState_Pending,//待处理
-                GroupJoinApplicationState_Allow,//通过
-                GroupJoinApplicationState_Reject,//拒绝
+                Pending,//待处理
+                Allow,//通过
+                Reject,//拒绝
             };
             struct GroupJoinApplication {
                 uint64_t applicant_id;

@@ -577,11 +577,11 @@ namespace kakaIM {
                     application.group_id = row[row.column_number("group_id")].as<uint64_t>();
                     const std::string applicationState = row[row.column_number("state")].as<std::string>();
                     if (applicationState == "Pending") {
-                        application.state = GroupJoinApplicationState_Pending;
+                        application.state = Pending;
                     } else if (applicationState == "Allow") {
-                        application.state = GroupJoinApplicationState_Allow;
+                        application.state = Allow;
                     } else if (applicationState == "Reject") {
-                        application.state = GroupJoinApplicationState_Reject;
+                        application.state = Reject;
                     }
                     flag = true;
                 }
@@ -603,15 +603,15 @@ namespace kakaIM {
             std::string applicationState;
 
             switch (state) {
-                case GroupJoinApplicationState_Pending: {
+                case Pending: {
                     applicationState = "Pending";
                 }
                     break;
-                case GroupJoinApplicationState_Allow: {
+                case Allow: {
                     applicationState = "Allow";
                 }
                     break;
-                case GroupJoinApplicationState_Reject: {
+                case Reject: {
                     applicationState = "Reject";
                 }
                     break;
@@ -692,7 +692,7 @@ namespace kakaIM {
                 return;;
             }
 
-            if (recordPair.second.state != GroupJoinApplicationState_Pending) {//此申请记录已经受理
+            if (recordPair.second.state != Pending) {//此申请记录已经受理
                 return;
             }
 
@@ -701,12 +701,12 @@ namespace kakaIM {
                 //将用户加入聊天群
                 if (this->addUserToCharGroup(applicant, groupId)) {
                     //更新此申请记录的状态
-                    this->updateGroupJoinApplicationState(applicant_id, GroupJoinApplicationState_Allow);
+                    this->updateGroupJoinApplicationState(applicant_id, Allow);
                 }
             } else if (message.result() ==
                        Node::ChatGroupJoinResponse_ChatGroupJoinResponseResult_Reject) {//拒绝将此用户加入聊天群
                 //更新此申请记录的状态
-                this->updateGroupJoinApplicationState(applicant_id, GroupJoinApplicationState_Reject);
+                this->updateGroupJoinApplicationState(applicant_id, Reject);
             }
 
             //5.通知申请者
