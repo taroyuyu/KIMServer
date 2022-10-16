@@ -5,10 +5,10 @@
 #ifndef KAKAIMCLUSTER_SESSIONMODULE_H
 #define KAKAIMCLUSTER_SESSIONMODULE_H
 
-#include "../KIMNodeModule/KIMNodeModule.h"
-#include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
-#include "../../Common/Net/MessageCenterModule/MessageFilter.h"
-#include "../../Common/util/Date.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <Common/Net/MessageCenterModule/ConnectionDelegate.h>
+#include <Common/Net/MessageCenterModule/MessageFilter.h>
+#include <Common/util/Date.h>
 #include <map>
 
 namespace kakaIM {

@@ -5,12 +5,12 @@
 #include <zconf.h>
 #include <sstream>
 #include <uuid/uuid.h>
-#include "../Events/UserLogoutEvent.h"
-#include "SessionModule.h"
-#include "../../Common/EventBus/EventBus.h"
-#include "../../Common/util/MD5.h"
-#include "../Log/log.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/Events/UserLogoutEvent.h>
+#include <Node/SessionModule/SessionModule.h>
+#include <Common/EventBus/EventBus.h>
+#include <Common/util/MD5.h>
+#include <Node/Log/log.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {

@@ -7,10 +7,7 @@ project(KakaIMCluster)
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(./Common)
-include_directories(./Node)
-include_directories(./President)
-include_directories(./Client)
+include_directories(./)
 
 find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})

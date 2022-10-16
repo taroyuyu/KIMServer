@@ -8,9 +8,9 @@
 #include <semaphore.h>
 #include <memory>
 #include <string>
-#include "Service/ConnectionOperationService.h"
-#include "Service/NodeConnectionQueryService.h"
-#include "../Common/Net/MessageCenterModule/MessageCenterModule.h"
+#include <Node/Service/ConnectionOperationService.h>
+#include <Node/Service/NodeConnectionQueryService.h>
+#include <Common/Net/MessageCenterModule/MessageCenterModule.h>
 
 namespace kakaIM {
 

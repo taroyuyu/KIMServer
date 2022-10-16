@@ -9,20 +9,20 @@
 #include <arpa/inet.h>
 #include <log4cxx/logger.h>
 #include <log4cxx/basicconfigurator.h>
-#include "Node.h"
-#include "../Common/proto/KakaIMMessage.pb.h"
-#include "ClusterModule/ClusterModule.h"
-#include "../Common/KakaIMMessageAdapter.h"
-#include "SessionModule/SessionModule.h"
-#include "AuthenticationModule/AuthenticationModule.h"
-#include "OnlineStateModule/OnlineStateModule.h"
-#include "MessageSendServiceModule/MessageSendServiceModule.h"
-#include "RosterModule/RosterModule.h"
-#include "OfflineModule/OfflineModule.h"
-#include "SingleChatModule/SingleChatModule.h"
-#include "GroupCharModule/GroupChatModule.h"
-#include "../Common/yaml-cpp/include/yaml.h"
-#include "Log/log.h"
+#include <Node/Node.h>
+#include <Common/proto/KakaIMMessage.pb.h>
+#include <Node/ClusterModule/ClusterModule.h>
+#include <Common/KakaIMMessageAdapter.h>
+#include <Node/SessionModule/SessionModule.h>
+#include <Node/AuthenticationModule/AuthenticationModule.h>
+#include <Node/OnlineStateModule/OnlineStateModule.h>
+#include <Node/MessageSendServiceModule/MessageSendServiceModule.h>
+#include <Node/RosterModule/RosterModule.h>
+#include <Node/OfflineModule/OfflineModule.h>
+#include <Node/SingleChatModule/SingleChatModule.h>
+#include <Node/GroupCharModule/GroupChatModule.h>
+#include <Common/yaml-cpp/include/yaml.h>
+#include <Node/Log/log.h>
 
 namespace kakaIM {
     namespace node {
