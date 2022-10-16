@@ -20,7 +20,7 @@
 #include <Node/RosterModule/RosterModule.h>
 #include <Node/OfflineModule/OfflineModule.h>
 #include <Node/SingleChatModule/SingleChatModule.h>
-#include <Node/GroupCharModule/GroupChatModule.h>
+#include <Node/GroupChatModule/GroupChatModule.h>
 #include <Common/yaml-cpp/include/yaml.h>
 #include <Node/Log/log.h>
 
