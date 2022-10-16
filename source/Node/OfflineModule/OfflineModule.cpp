@@ -127,11 +127,6 @@ namespace kakaIM {
             }
         }
 
-        void OfflineModule::setQueryUserAccountWithSessionService(
-                std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
-            this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
-        }
-
         void OfflineModule::persistChatMessage(std::string userAccount, const kakaIM::Node::ChatMessage &message,
                                                const uint64_t messageID) {
             std::unique_ptr<ChatMessagePersistTask> task(new ChatMessagePersistTask(userAccount, message, messageID));

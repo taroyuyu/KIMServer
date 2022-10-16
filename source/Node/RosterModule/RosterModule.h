@@ -34,9 +34,6 @@ namespace kakaIM {
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
 
-            void setQueryUserAccountWithSessionService(
-                    std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
-
         protected:
             virtual void execute() override;
 
@@ -45,7 +42,6 @@ namespace kakaIM {
             std::atomic_bool m_needStop;
         protected:
             int mEpollInstance;
-            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> messageQueue;

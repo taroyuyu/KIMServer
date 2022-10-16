@@ -23,12 +23,14 @@ namespace kakaIM {
             virtual void setClusterService(std::weak_ptr<ClusterService> service);
             virtual void setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service);;
             virtual void setNodeConnectionQueryService(std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr);
+            virtual void setQueryUserAccountWithSessionService(std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
         protected:
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             std::weak_ptr<ClusterService> mClusterServicePtr;
             std::weak_ptr<MessageIDGenerateService> mMessageIDGenerateServicePtr;
             std::weak_ptr<NodeConnectionQueryService> nodeConnectionQueryServicePtr;
+            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
         };
     }
 }

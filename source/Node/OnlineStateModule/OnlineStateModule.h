@@ -47,9 +47,6 @@ namespace kakaIM {
 
             virtual void setClusterService(std::weak_ptr<ClusterService> clusterServicePtr) override;
 
-            void setQueryUserAccountWithSessionService(
-                    std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
-
             virtual std::pair<std::set<std::pair<std::pair<LoginDeviceQueryService::IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::const_iterator, std::set<std::pair<std::pair<LoginDeviceQueryService::IDType, std::string>, kakaIM::Node::OnlineStateMessage_OnlineState>>::const_iterator>
             queryLoginDeviceSetWithUserAccount(const std::string &userAccount) const override;
 
@@ -63,7 +60,6 @@ namespace kakaIM {
         private:
             int mEpollInstance;
             std::weak_ptr<UserRelationService> userRelationServicePtr;
-            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string >> messageQueue;

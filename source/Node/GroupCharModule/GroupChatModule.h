@@ -27,9 +27,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            void setQueryUserAccountWithSessionService(
-                    std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
-
             void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
 
             void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
@@ -124,8 +121,6 @@ namespace kakaIM {
             void
             handleGroupChatMessage(const kakaIM::Node::GroupChatMessage &message,
                                    const std::string connectionIdentifier);
-
-            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
             std::weak_ptr<MessagePersistenceService> mMessagePersistenceServicePtr;
             std::weak_ptr<LoginDeviceQueryService> mLoginDeviceQueryServicePtr;
             std::weak_ptr<QueryConnectionWithSession> mQueryConnectionWithSessionServicePtr;

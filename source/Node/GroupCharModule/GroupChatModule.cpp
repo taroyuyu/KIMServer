@@ -127,11 +127,6 @@ namespace kakaIM {
             }
         }
 
-        void GroupChatModule::setQueryUserAccountWithSessionService(
-                std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
-            this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
-        }
-
         void GroupChatModule::setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service) {
             this->mMessagePersistenceServicePtr = service;
         }

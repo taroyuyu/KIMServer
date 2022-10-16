@@ -26,9 +26,6 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            void setQueryUserAccountWithSessionService(
-                    std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr);
-
             /**
              * 将消息持久化
              * @param message 待持久化的消息
@@ -137,8 +134,6 @@ namespace kakaIM {
 
             void handlePullGroupChatMessage(const kakaIM::Node::PullGroupChatMessage &pullGroupChatMessage,
                                             const std::string connectionIdentifier);
-
-            std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
 	    std::shared_ptr<pqxx::connection> m_dbConnection;
 
 	    std::shared_ptr<pqxx::connection> getDBConnection();

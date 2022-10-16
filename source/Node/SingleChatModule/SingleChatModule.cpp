@@ -22,11 +22,6 @@ namespace kakaIM {
             this->mLoginDeviceQueryServicePtr = service;
         }
 
-        void
-        SingleChatModule::setQueryUserAccountWithSessionService(std::weak_ptr<QueryUserAccountWithSession> service) {
-            this->mQueryUserAccountWithSessionServicePtr = service;
-        }
-
         void SingleChatModule::setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service) {
             this->mQueryConnectionWithSessionServicePtr = service;
         }

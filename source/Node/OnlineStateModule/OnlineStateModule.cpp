@@ -453,10 +453,5 @@ namespace kakaIM {
                 clusterServicePtr->addUserOnlineStateListener(*this);
             }
         }
-
-        void OnlineStateModule::setQueryUserAccountWithSessionService(
-                std::weak_ptr<QueryUserAccountWithSession> queryUserAccountWithSessionServicePtr) {
-            this->mQueryUserAccountWithSessionServicePtr = queryUserAccountWithSessionServicePtr;
-        }
     }
 }
