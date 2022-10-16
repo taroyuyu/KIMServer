@@ -37,6 +37,7 @@ namespace kakaIM {
             virtual void execute() override;
             virtual void shouldStop() override;
             std::atomic_bool m_needStop;
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) = 0;
 
             std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
             std::weak_ptr<MessageSendService> mMessageSendServicePtr;
