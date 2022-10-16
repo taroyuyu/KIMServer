@@ -68,11 +68,7 @@ namespace kakaIM {
             this->mSocketManager.sendMessage(mPresidentSocket, *(const ::google::protobuf::Message *) message);
             LOG4CXX_INFO(this->logger, typeid(this).name() << __FUNCTION__ << "发送加入集群的请求");
 
-            // 5. 启动心跳定时器
-            this->mHeartBeatTimer.setInterval()
-            this->startHeartBeat();
-
-            // 6. 更新状态
+            // 5. 更新状态
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
                 this->m_status = Status::Started;
@@ -87,8 +83,7 @@ namespace kakaIM {
                 }
             }
 
-            this->stopHeartBeat();
-
+            this->mHeartBeatTimer.stop();
             this->m_needStop = false;
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
