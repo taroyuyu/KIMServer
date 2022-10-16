@@ -18,5 +18,9 @@ namespace kakaIM {
         void KIMNodeModule::setClusterService(std::weak_ptr<ClusterService> service) {
             this->mClusterServicePtr = service;
         }
+
+        void KIMNodeModule::setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service) {
+            this->mMessageIDGenerateServicePtr = service;
+        }
     }
 }

@@ -136,10 +136,6 @@ namespace kakaIM {
             this->mMessagePersistenceServicePtr = service;
         }
 
-        void GroupChatModule::setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service) {
-            this->mMessageIDGenerateServicePtr = service;
-        }
-
         void GroupChatModule::setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service) {
             this->mLoginDeviceQueryServicePtr = service;
         }
