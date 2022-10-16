@@ -14,15 +14,15 @@
 #include <mutex>
 #include <memory>
 #include <log4cxx/logger.h>
-#include "../../Common/KIMModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../../Common/Net/MessageCenterModule/MessageFilter.h"
-#include "ClusterEvent.h"
-#include "../../Common/Net/MessageCenterModule/ConnectionDelegate.h"
-#include "../President.h"
-#include "../Service/ServerManageService.h"
-#include "../Service/ConnectionOperationService.h"
-#include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
+#include <Common/KIMModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <Common/Net/MessageCenterModule/MessageFilter.h>
+#include <President/ClusterManagerModule/ClusterEvent.h>
+#include <Common/Net/MessageCenterModule/ConnectionDelegate.h>
+#include <President/President.h>
+#include <President/Service/ServerManageService.h>
+#include <President/Service/ConnectionOperationService.h>
+#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
 namespace kakaIM {
     namespace president {
         class ClusterManagerModule
