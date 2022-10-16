@@ -3,11 +3,11 @@
 //
 
 #include <zconf.h>
-#include "GroupChatModule.h"
-#include "../../Common/proto/MessageCluster.pb.h"
-#include "../Log/log.h"
-#include "../../Common/util/Date.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Node/GroupChatModule/GroupChatModule.h>
+#include <Common/proto/MessageCluster.pb.h>
+#include <Node/Log/log.h>
+#include <Common/util/Date.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace node {
