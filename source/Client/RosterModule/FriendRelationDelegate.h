@@ -6,7 +6,7 @@
 #define KAKAIMCLUSTER_FRIENDRELATIONDELEGATE_H
 
 #include <Client/RosterModule/FriendRequest.h>
-#include "User.h"
+#include <Client/RosterModule/User.h>
 namespace kakaIM {
     namespace client {
         class FriendRelationDelegate{

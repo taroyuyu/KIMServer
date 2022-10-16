@@ -5,7 +5,7 @@
 #ifndef KAKAIMCLUSTER_ROSTERDB_H
 #define KAKAIMCLUSTER_ROSTERDB_H
 
-#include "User.h"
+#include <Client/RosterModule/User.h>
 namespace kakaIM {
     namespace client {
         class RosterDB{

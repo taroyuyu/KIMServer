@@ -5,12 +5,12 @@
 #ifndef KAKAIMCLUSTER_ROSTERMODULE_H
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
-#include "../ServiceModule/ServiceModule.h"
-#include "User.h"
-#include "RosterDB.h"
-#include "FriendRequest.h"
-#include "FriendRelationDelegate.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
+#include <Client/ServiceModule/ServiceModule.h>
+#include <Client/RosterModule/User.h>
+#include <Client/RosterModule/RosterDB.h>
+#include <Client/RosterModule/FriendRequest.h>
+#include <Client/RosterModule/FriendRelationDelegate.h>
+#include <Common/proto/KakaIMMessage.pb.h>
 #include <memory>
 #include <list>
 
