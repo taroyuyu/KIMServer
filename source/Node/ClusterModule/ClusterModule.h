@@ -126,7 +126,6 @@ namespace kakaIM {
             std::pair<float, float> mlngLatPair;
             std::string serviceAddr;
             uint16_t servicePort;
-            int mHeartBeatTimerfd;//心跳定时器
             Timer mHeartBeatTimer;// 心跳定时器
             std::map<std::string, std::function<void(
                     kakaIM::president::ResponseMessageIDMessage response)>> mMessageIDRequestCallback;

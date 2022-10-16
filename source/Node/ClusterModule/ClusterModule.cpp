@@ -26,8 +26,7 @@ namespace kakaIM {
                                                              mPresidentPort(presidentPort),
                                                              mServerID(serverID),
                                                              mInvitationCode(invitationCode), mlngLatPair(lngLatPair),
-                                                             serviceAddr(serviceAddr), servicePort(servicePort),
-                                                             mHeartBeatTimerfd(-1) {
+                                                             serviceAddr(serviceAddr), servicePort(servicePort){
             this->mKakaIMMessageAdapter = new common::KakaIMMessageAdapter();
         }
 
@@ -329,14 +328,7 @@ namespace kakaIM {
         void ClusterModule::didConnectionClosed(net::TCPClientSocket clientSocket) {
             if (clientSocket == this->mPresidentSocket) {//与集群断开连接
                 //1.停止定时器
-                if (-1 != this->mHeartBeatTimerfd) {
-                    struct itimerspec timerConfig;
-                    timerConfig.it_value.tv_sec = 0;
-                    timerConfig.it_value.tv_nsec = 0;
-                    timerConfig.it_interval.tv_sec = 0;
-                    timerConfig.it_interval.tv_nsec = 0;
-                    timerfd_settime(this->mHeartBeatTimerfd, 0, &timerConfig, nullptr);
-                }
+                this->mHeartBeatTimer.stop();
                 //2.发布集群脱离视线
                 std::shared_ptr<const ClusterDisengagementEvent> event(new ClusterDisengagementEvent());
                 kakaIM::EventBus::getDefault().Post(event);
