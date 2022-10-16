@@ -44,7 +44,7 @@ namespace kakaIM {
             void handleVideoChatByeMessage(kakaIM::Node::VideoChatByeMessage &videoChatByeMessage,
                                            const std::string connectionIdentifier);
 
-            enum SaveVideoChatOfferResult {
+            enum class SaveVideoChatOfferResult {
                 SaveVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
                 SaveVideoChatOfferResult_InteralError,//内部错误
                 SaveVideoChatOfferResult_Success,//查询成功
@@ -55,14 +55,14 @@ namespace kakaIM {
                                const std::string sponsorServer, const std::string sponsorSessionId, uint64_t *offerId,
                                std::string *submissionTime);
 
-            enum UpdateVideoChatOfferResult {
+            enum class UpdateVideoChatOfferResult {
                 UpdateVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
                 UpdateVideoChatOfferResult_Success,//更新成功
                 UpdateVideoChatOfferResult_ParameterErrpr,//参数错误
                 UpdateVideoChatOfferResult_Failed,//更新失败
             };
 
-            enum VideoChatOfferState {
+            enum class VideoChatOfferState {
                 VideoChatOfferState_Pending,//待处理
                 VideoChatOfferState_Cancel,//被取消
                 VideoChatOfferState_Accept,//允许
@@ -74,7 +74,7 @@ namespace kakaIM {
             updateVideoChatOffer(const uint64_t offerId, std::string recipientServerId, std::string recipientSessionId,
                                  const VideoChatOfferState offerState);
 
-            enum FetchVideoChatOfferResult {
+            enum class FetchVideoChatOfferResult {
                 FetchVideoChatOfferResult_DBConnectionNotExit,//数据库连接不存在
                 FetchVideoChatOfferResult_InteralError,//内部错误
                 FetchVideoChatOfferResult_RecordNotExist,//记录不存在
