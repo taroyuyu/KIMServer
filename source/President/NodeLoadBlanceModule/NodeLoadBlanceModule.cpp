@@ -9,8 +9,8 @@
 #include <sys/eventfd.h>
 #include <typeinfo>
 #include <typeinfo>
-#include "NodeLoadBlanceModule.h"
-#include "../Log/log.h"
+#include <President/NodeLoadBlanceModule/NodeLoadBlanceModule.h>
+#include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
