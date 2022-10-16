@@ -33,8 +33,6 @@ namespace kakaIM {
 
             void setMessagePersistenceService(std::weak_ptr<MessagePersistenceService> service);
 
-            void setMessageIDGenerateService(std::weak_ptr<MessageIDGenerateService> service);
-
             void setLoginDeviceQueryService(std::weak_ptr<LoginDeviceQueryService> service);
 
             void setQueryConnectionWithSessionService(std::weak_ptr<QueryConnectionWithSession> service);
