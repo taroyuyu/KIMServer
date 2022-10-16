@@ -25,16 +25,13 @@ namespace kakaIM {
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
 
+        protected:
+            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task);
         private:
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
-
-
             /**
              * key-Value形式为 sessionID-connectionIdentifier
              */
             std::map<std::string, std::string> sessionMap;
-
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task);
 
             void handleSessionIDRequestMessage(const kakaIM::Node::RequestSessionIDMessage &message,
                                                const std::string connectionIdentifier);
