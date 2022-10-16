@@ -14,10 +14,8 @@ namespace kakaIM {
         public:
             SingleChatModule();
         protected:
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
-
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task);
-
+        private:
             void handleChatMessage(kakaIM::Node::ChatMessage &chatMessage, const std::string connectionIdentifier);
 
             void handleVideoChatRequestMessage(kakaIM::Node::VideoChatRequestMessage &videoChatRequestMessage,
