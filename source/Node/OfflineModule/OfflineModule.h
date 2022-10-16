@@ -109,8 +109,6 @@ namespace kakaIM {
             void handletGroupChatMessagePersis(const std::string groupId, const kakaIM::Node::GroupChatMessage &message,
                                                const uint64_t messageID);
 
-            ConcurrentLinkedQueue<std::unique_ptr<PersistTask>> mPersistTaskQueue;
-
             void
             handlePullChatMessage(const kakaIM::Node::PullChatMessage &pullOfflineMessage,
                                   const std::string connectionIdentifier);
