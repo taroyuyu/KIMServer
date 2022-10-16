@@ -26,7 +26,6 @@ namespace kakaIM {
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
 
         private:
-            int messageEventfd;
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> mTaskQueue;
 
 
