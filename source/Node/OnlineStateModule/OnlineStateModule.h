@@ -19,7 +19,6 @@
 #include "../Service/SessionQueryService.h"
 #include "../Service/LoginDeviceQueryService.h"
 #include "../Service/UserRelationService.h"
-#include "../Service/ClusterService.h"
 #include "../../Common/ConcurrentQueue/ConcurrentLinkedQueue.h"
 
 namespace kakaIM {

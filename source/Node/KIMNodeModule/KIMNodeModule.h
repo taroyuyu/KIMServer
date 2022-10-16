@@ -1,5 +1,5 @@
 //
-// Created by 凌宇 on 2022/10/15.
+// Created by Kakawater on 2022/10/15.
 //
 
 #ifndef KAKAIMCLUSTER_KIMNODEMODULE_H
@@ -8,6 +8,7 @@
 #include "../../Common/KIMModule.h"
 #include "../Service/ConnectionOperationService.h"
 #include "../Service/MessageSendService.h"
+#include "../Service/ClusterService.h"
 #include <memory>
 
 namespace kakaIM {
