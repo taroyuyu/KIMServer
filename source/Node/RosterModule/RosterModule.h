@@ -49,7 +49,6 @@ namespace kakaIM {
         protected:
             int mEpollInstance;
             std::weak_ptr<QueryUserAccountWithSession> mQueryUserAccountWithSessionServicePtr;
-            std::weak_ptr<MessageSendService> mMessageSendServicePtr;
             int messageEventfd;
             std::mutex messageQueueMutex;
             std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, std::string>> messageQueue;
