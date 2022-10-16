@@ -2,7 +2,7 @@
 // Created by 凌宇 on 2022/10/15.
 //
 
-#include "KIMNodeModule.h"
+#include <Node/KIMNodeModule/KIMNodeModule.h>
 
 namespace kakaIM {
     namespace node {

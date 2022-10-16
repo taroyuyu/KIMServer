@@ -5,16 +5,16 @@
 #ifndef KAKAIMCLUSTER_KIMNODEMODULE_H
 #define KAKAIMCLUSTER_KIMNODEMODULE_H
 
-#include "../../Common/KIMModule.h"
-#include "../Service/ConnectionOperationService.h"
-#include "../Service/MessageSendService.h"
-#include "../Service/ClusterService.h"
-#include "../Service/MessageIDGenerateService.h"
-#include "../Service/NodeConnectionQueryService.h"
-#include "../Service/SessionQueryService.h"
-#include "../Service/LoginDeviceQueryService.h"
-#include "../Service/MessagePersistenceService.h"
-#include "../Service/UserRelationService.h"
+#include <Common/KIMModule.h>
+#include <Common/Service/ConnectionOperationService.h>
+#include <Common/Service/MessageSendService.h>
+#include <Common/Service/ClusterService.h>
+#include <Common/Service/MessageIDGenerateService.h>
+#include <Common/Service/NodeConnectionQueryService.h>
+#include <Common/Service/SessionQueryService.h>
+#include <Common/Service/LoginDeviceQueryService.h>
+#include <Common/Service/MessagePersistenceService.h>
+#include <Common/Service/UserRelationService.h>
 #include <log4cxx/logger.h>
 #include <pqxx/pqxx>
 
