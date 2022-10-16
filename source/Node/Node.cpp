@@ -520,7 +520,7 @@ namespace kakaIM {
                     kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName(),
                     [this](std::unique_ptr<::google::protobuf::Message> message,
                            const std::string connectionIdentifier) {
-                        this->mSingleChatModulePtr->addMessage(message), connectionIdentifier);
+                        this->mSingleChatModulePtr->addMessage(std::move(message), connectionIdentifier);
                     });
 
 
