@@ -3,8 +3,6 @@
 //
 
 #include <zconf.h>
-#include <sys/epoll.h>
-#include <sys/eventfd.h>
 #include "OfflineModule.h"
 #include "../../Common/util/Date.h"
 #include "../Log/log.h"
