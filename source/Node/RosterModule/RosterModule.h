@@ -36,7 +36,6 @@ namespace kakaIM {
             UpdateFriendListVersionResult
             updateFriendListVersion(const std::string userAccount, uint64_t &currentVersion);
 
-
             enum class FetchFriendListVersionResult {
                 DBConnectionNotExit,//数据库连接不存在
                 InteralError,//内部错误

@@ -517,7 +517,6 @@ namespace kakaIM {
             const std::string destoryRelationShipSQL = "DELETE FROM user_relationship WHERE sponsor =  (SELECT sponsor FROM user_relationship WHERE (sponsor= $1 AND target= $2 ) OR (sponsor = $2  AND target= $1 ));";
 
             try {
-
                 auto dbConnection = this->getDBConnection();
                 if (!dbConnection) {
                     LOG4CXX_ERROR(this->logger, typeid(this).name() << "" << __FUNCTION__ << "获取数据库连接出错");
@@ -647,7 +646,6 @@ namespace kakaIM {
                                 friendItem->set_friendaccount(friendAccount);
                             }
                         }
-
                     }
                 }
                 case FetchFriendListVersionResult::RecordNotExist: {
