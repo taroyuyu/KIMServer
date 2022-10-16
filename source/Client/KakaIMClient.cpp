@@ -2,9 +2,9 @@
 // Created by Kakawater on 2018/1/31.
 //
 
-#include "KakaIMClient.h"
+#include <Client/KakaIMClient.h>
 #include <iostream>
-#include "../Common/proto/KakaIMMessage.pb.h"
+#include <Common/proto/KakaIMMessage.pb.h>
 
 namespace kakaIM {
     namespace client {

@@ -6,14 +6,14 @@
 #define KAKAIMCLUSTER_KAKAIMCLIENT_H
 
 #include <string>
-#include "KakaIMConfigs.h"
-#include "SessionModule/SessionModule.h"
-#include "AuthenticationModule/AuthenticationModule.h"
-#include "OnlineStateModule/OnlineStateModule.h"
-#include "ServiceModule/ServiceModule.h"
-#include "RosterModule/RosterModule.h"
-#include "SingleChatModule/SingleChatModule.h"
-#include "GroupChatModule/GroupChatModule.h"
+#include <Client/KakaIMConfigs.h>
+#include <Client/SessionModule/SessionModule.h>
+#include <Client/AuthenticationModule/AuthenticationModule.h>
+#include <Client/OnlineStateModule/OnlineStateModule.h>
+#include <Client/ServiceModule/ServiceModule.h>
+#include <Client/RosterModule/RosterModule.h>
+#include <Client/SingleChatModule/SingleChatModule.h>
+#include <Client/GroupChatModule/GroupChatModule.h>
 
 namespace kakaIM {
     namespace client {

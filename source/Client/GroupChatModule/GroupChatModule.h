@@ -5,13 +5,13 @@
 #ifndef KAKAIMCLUSTER_GROUPCHATMODULE_H
 #define KAKAIMCLUSTER_GROUPCHATMODULE_H
 
-#include "../ServiceModule/ServiceModule.h"
-#include "../../Common/proto/KakaIMMessage.pb.h"
-#include "GroupChatModule.h"
-#include "GroupChatMessage.h"
-#include "ChatGroup.h"
-#include "../RosterModule/User.h"
-#include "GroupChatMessageDelegate.h"
+#include <Client/ServiceModule/ServiceModule.h>
+#include <Common/proto/KakaIMMessage.pb.h>
+#include <Client/GroupChatModule/GroupChatModule.h>
+#include <Client/GroupChatModule/GroupChatMessage.h>
+#include <Client/GroupChatModule/ChatGroup.h>
+#include <Client/RosterModule/User.h>
+#include <Client/GroupChatModule/GroupChatMessageDelegate.h>
 namespace kakaIM {
     namespace client {
         class GroupChatModule : public ServiceModule {

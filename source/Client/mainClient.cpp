@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <zconf.h>
 #include <arpa/inet.h>
-#include "KakaIMClient.h"
-#include "RosterModule/FriendRelationDelegate.h"
+#include <Client/KakaIMClient.h>
+#include <Client/RosterModule/FriendRelationDelegate.h>
 
 kakaIM::client::KakaIMClient * kakaIMClient;
 class FriendRelationDelegate : public kakaIM::client::FriendRelationDelegate{
