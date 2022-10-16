@@ -17,8 +17,6 @@ namespace kakaIM {
             ~GroupChatModule();
         private:
 
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
-
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
 
             void handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,
