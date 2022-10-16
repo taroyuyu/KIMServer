@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_GROUPCHATMODULE_H
 #define KAKAIMCLUSTER_GROUPCHATMODULE_H
 
-#include <queue>
 #include "../KIMNodeModule/KIMNodeModule.h"
 
 namespace kakaIM {
