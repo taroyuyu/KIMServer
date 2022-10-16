@@ -13,9 +13,6 @@ namespace kakaIM {
         class SingleChatModule : public KIMNodeModule {
         public:
             SingleChatModule();
-
-            virtual void addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier)override;
-
         protected:
             ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
 
