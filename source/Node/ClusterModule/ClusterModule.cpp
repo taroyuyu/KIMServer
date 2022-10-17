@@ -242,7 +242,7 @@ namespace kakaIM {
         void ClusterModule::updateUserOnlineState(const kakaIM::Node::OnlineStateMessage &message) {
             std::unique_ptr<Node::OnlineStateMessage> onlineStateMessage(new Node::OnlineStateMessage());
             onlineStateMessage->CopyFrom(message);
-            this->mMessageQueue.push(std::move(onlineStateMessage), MessageSource::NodeInternal);
+            this->mMessageQueue.push(std::move(std::make_pair(std::move(onlineStateMessage), MessageSource::NodeInternal)));
         }
 
         void ClusterModule::addUserOnlineStateListener(UserOnlineStateListener &userOnlineStateListener) {
@@ -295,7 +295,7 @@ namespace kakaIM {
         void ClusterModule::sendServerMessage(const kakaIM::president::ServerMessage &message) {
             std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage(message));
             serverMessage->set_serverid(this->mServerID);
-            this->mMessageQueue.push(std::move(serverMessage), MessageSource::NodeInternal);
+            this->mMessageQueue.push(std::move(std::make_pair(std::move(serverMessage), MessageSource::NodeInternal)));
         }
 
         void ClusterModule::addServerMessageListener(ServerMessageListener *listener) {
