@@ -350,14 +350,13 @@ namespace kakaIM {
                 std::unique_ptr<president::UserOnlineStateMessage> userOnlineStateMessage(
                         new president::UserOnlineStateMessage());
                 userOnlineStateMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(userOnlineStateMessage), MessageSource::Cluster);
+                this->mMessageQueue.push(std::make_pair(std::move(userOnlineStateMessage), MessageSource::Cluster));
             } else if (messageType ==
                        kakaIM::president::UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::UpdateUserOnlineStateMessage> updateUserOnlineStateMessage(
                         new president::UpdateUserOnlineStateMessage());
                 updateUserOnlineStateMessage->CopyFrom(message);
-                this->mMessageQueue.push(
-                        std::move(updateUserOnlineStateMessage), MessageSource::Cluster);
+                this->mMessageQueue.push(std::make_pair(std::move(updateUserOnlineStateMessage), MessageSource::Cluster));
             } else if (messageType == kakaIM::president::ServerMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage());
                 serverMessage->CopyFrom(message);

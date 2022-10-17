@@ -65,8 +65,6 @@ namespace kakaIM {
                 LOG4CXX_ERROR(this->logger, __FUNCTION__ << " " << e.what());
                 verifyResult = VerifyUserResult::InteralError;
             }
-
-            this->releaseDBConnection(std::move(dbConnection));
             return verifyResult;
         }
 
