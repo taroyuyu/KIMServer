@@ -345,7 +345,7 @@ namespace kakaIM {
                 std::unique_ptr<president::ResponseHeartBeatMessage> responseHeartBeatMessage(
                         new president::ResponseHeartBeatMessage());
                 responseHeartBeatMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(responseHeartBeatMessage), MessageSource::Cluster);
+                this->mMessageQueue.push(std::make_pair(std::move(responseHeartBeatMessage), MessageSource::Cluster));
             } else if (messageType == kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::UserOnlineStateMessage> userOnlineStateMessage(
                         new president::UserOnlineStateMessage());
