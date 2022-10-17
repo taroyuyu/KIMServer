@@ -37,7 +37,7 @@ namespace kakaIM {
                 }
 
                 if (auto message = this->mServerMessageQueue.try_pop()){
-                    this->dispatchServerMessage(**message);
+                    this->dispatchServerMessage(*message);
                     needSleep = false;
                 }
 
@@ -54,12 +54,12 @@ namespace kakaIM {
             }
         }
 
-        void MessageSendServiceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message,const std::string>> & task){
+        void MessageSendServiceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> & task){
             auto messageType = task.first->GetTypeName();
             if (messageType ==
                 kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
                 this->handleSessionMessage(
-                        *((kakaIM::president::SessionMessage *) task.second.get()));
+                        *((kakaIM::president::SessionMessage *) task.first.get()));
             } else {
                 this->handleMessageForSend(task.second, *task.first.get());
             }

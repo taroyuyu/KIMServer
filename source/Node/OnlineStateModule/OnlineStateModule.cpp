@@ -89,7 +89,7 @@ namespace kakaIM {
             std::unique_ptr<kakaIM::president::UserOnlineStateMessage> userOnlineStateMessageFromCluster(
                     new kakaIM::president::UserOnlineStateMessage(userOnlineStateMessage));
             //添加到队列中
-            this->mTaskQueue.push(std::move(userOnlineStateMessageFromCluster), "");
+            this->mTaskQueue.push(std::make_pair(std::move(userOnlineStateMessageFromCluster), ""));
         }
 
         void OnlineStateModule::handleOnlineMessage(const kakaIM::Node::OnlineStateMessage &onlineStateMessage,

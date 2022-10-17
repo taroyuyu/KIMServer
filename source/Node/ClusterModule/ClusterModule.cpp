@@ -382,7 +382,7 @@ namespace kakaIM {
                         new president::ResponseJoinClusterMessage());
                 LOG4CXX_TRACE(this->logger, typeid(this).name() << __FUNCTION__ << " 收到加入集群的响应");
                 responseJoinClusterMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(responseJoinClusterMessage), MessageSource::Cluster);
+                this->mMessageQueue.push(std::make_pair(std::move(responseJoinClusterMessage), MessageSource::Cluster));
             } else {
                 LOG4CXX_DEBUG(this->logger, typeid(this).name() << "" << __FUNCTION__ << "收到一条未知来源的消息");
             }
