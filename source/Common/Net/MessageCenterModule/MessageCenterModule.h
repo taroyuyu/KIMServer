@@ -52,6 +52,7 @@ namespace kakaIM {
             virtual void execute() override;
         protected:
             bool m_isStarted;
+            virtual void shouldStop() override;
         private:
             std::shared_ptr<MessageCenterAdapter> mAdapater;
             std::list<MessageFilter *> messageFilterList;

@@ -189,6 +189,10 @@ namespace kakaIM {
             }
         }
 
+        void MessageCenterModule::shouldStop(){
+
+        }
+
         std::string MessageCenterModule::generateConnectionIdentifier(int socketfd) {
             timeval tv;
             gettimeofday(&tv, 0);
