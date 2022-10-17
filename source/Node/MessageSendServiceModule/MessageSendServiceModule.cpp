@@ -80,7 +80,7 @@ namespace kakaIM {
         void
         MessageSendServiceModule::sendMessageToSession(const std::string &serverID, const std::string &sessionID,
                                                        const ::google::protobuf::Message &message) {
-            auto sessionMessage = std::make_unique<kakaIM::president::SessionMessage>();
+            std::unique_ptr<kakaIM::president::SessionMessage> sessionMessage{new kakaIM::president::SessionMessage};
             sessionMessage->set_targetserverid(serverID);
             sessionMessage->set_targetsessionid(sessionID);
             sessionMessage->set_messagetype(message.GetTypeName());
