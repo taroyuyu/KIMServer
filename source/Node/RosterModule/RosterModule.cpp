@@ -14,7 +14,7 @@ namespace kakaIM {
         RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger){
         }
 
-        void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task) {
+        void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> &task) {
             auto messageType = task.first->GetTypeName();
             if (messageType ==
                 kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName()) {

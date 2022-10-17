@@ -18,7 +18,7 @@ namespace kakaIM {
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
         protected:
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> &task);
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) override;
         private:
             void
             handleBuildingRelationshipRequestMessage(const kakaIM::Node::BuildingRelationshipRequestMessage &message,
