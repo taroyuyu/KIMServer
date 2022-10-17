@@ -62,16 +62,16 @@ namespace kakaIM {
 
         void OfflineModule::dispatchPersistTask(const PersistTask & task){
             if (0 == strcmp(typeid(task).name(), (typeid(ChatMessagePersistTask).name()))) {
-                auto chatMessagePersistTask = static_cast<ChatMessagePersistTask &>(task);
-                this->handleChatMessagePersist(chatMessagePersistTask->getUserAccount(),
-                                               chatMessagePersistTask->getMessage(),
-                                               chatMessagePersistTask->getMessageID());
+                auto chatMessagePersistTask = dynamic_cast<const ChatMessagePersistTask &>(task);
+                this->handleChatMessagePersist(chatMessagePersistTask.getUserAccount(),
+                                               chatMessagePersistTask.getMessage(),
+                                               chatMessagePersistTask.getMessageID());
             } else if (0 == strcmp(typeid(task).name(),
                                    typeid(GroupChatMessagePersistTask).name())) {
-                auto groupChatMessagePersistTask = static_cast<GroupChatMessagePersistTask &>(task);
-                this->handletGroupChatMessagePersis(groupChatMessagePersistTask->getGroupId(),
-                                                    groupChatMessagePersistTask->getMessage(),
-                                                    groupChatMessagePersistTask->getMessageID());
+                auto groupChatMessagePersistTask = dynamic_cast<const GroupChatMessagePersistTask &>(task);
+                this->handletGroupChatMessagePersis(groupChatMessagePersistTask.getGroupId(),
+                                                    groupChatMessagePersistTask.getMessage(),
+                                                    groupChatMessagePersistTask.getMessageID());
             }
         }
 
