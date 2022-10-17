@@ -16,7 +16,7 @@ namespace kakaIM {
     namespace node {
         SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger){
         }
-        void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, std::string> & task){
+        void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> & task){
             auto messageType = task.first->GetTypeName();
             if (messageType ==
                 kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
