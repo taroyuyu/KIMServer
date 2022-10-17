@@ -101,5 +101,9 @@ namespace kakaIM {
                 this->m_statusCV.notify_all();
             }
         }
+
+        void KIMNodeModule::shouldStop(){
+            this->m_needStop = true;
+        }
     }
 }
