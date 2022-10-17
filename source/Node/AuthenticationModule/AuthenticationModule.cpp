@@ -128,7 +128,6 @@ namespace kakaIM {
                 } else {
                     LOG4CXX_ERROR(this->logger, __FUNCTION__ << " connectionOperationService不存在");
                 }
-                this->releaseDBConnection(std::move(dbConnection));
                 return;;
             }
 
@@ -174,8 +173,6 @@ namespace kakaIM {
                         kakaIM::Node::ResponseRegisterMessage_FailureError_ServerInternalError);
             }
             //发送Response消息
-
-            this->releaseDBConnection(std::move(dbConnection));
 
             if (auto connectionOperationService = this->connectionOperationServicePtr.lock()) {
                 connectionOperationService->sendMessageThroughConnection(connectionIdentifier, responseRegisterMessage);

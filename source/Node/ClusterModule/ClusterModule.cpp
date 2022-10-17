@@ -360,7 +360,7 @@ namespace kakaIM {
             } else if (messageType == kakaIM::president::ServerMessage::default_instance().GetTypeName()) {
                 std::unique_ptr<president::ServerMessage> serverMessage(new president::ServerMessage());
                 serverMessage->CopyFrom(message);
-                this->mMessageQueue.push(std::move(serverMessage), MessageSource::Cluster);
+                this->mMessageQueue.push(std::make_pair(std::move(serverMessage), MessageSource::Cluster));
             } else if (messageType == kakaIM::president::ResponseMessageIDMessage::default_instance().GetTypeName()) {
                 const president::ResponseMessageIDMessage &responseMessageIDMessage = *((const president::ResponseMessageIDMessage *) &message);
                 auto callBackIt = this->mMessageIDRequestCallback.find(responseMessageIDMessage.requestid());
