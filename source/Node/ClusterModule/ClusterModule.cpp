@@ -43,7 +43,7 @@ namespace kakaIM {
         }
 
         void ClusterModule::execute() {
-            this->moduleState = ConnectingPresident::ConnectingPresident;
+            this->moduleState = ClusterModuleState::ConnectingPresident;
 
             // 1.连接President
             mPresidentSocket.connect(this->mPresidentAddr, this->mPresidentPort);
