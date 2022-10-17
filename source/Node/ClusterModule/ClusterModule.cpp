@@ -91,6 +91,9 @@ namespace kakaIM {
             }
         }
 
+        void ClusterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+
+        }
         void ClusterModule::dispatchClusterMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, MessageSource> &pair) {
             auto messageType = pair.first->GetTypeName();

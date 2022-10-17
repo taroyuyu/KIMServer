@@ -85,6 +85,8 @@ namespace kakaIM {
             generateMessageIDWithUserAccount(const std::string &userAccount) override;
 
 
+        protected:
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
         private:
             enum class ClusterModuleState {
                 Disconnected,
