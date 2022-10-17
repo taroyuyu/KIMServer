@@ -76,6 +76,21 @@ namespace kakaIM {
             return true;
         }
 
+        void MessageCenterModule::start(){
+            if (false == this->m_isStarted){
+                this->m_isStarted = true;
+                this->m_workThread = std::move(std::thread([this](){
+                    this->execute();
+                    this->m_isStarted = false;
+                }));
+            }
+        }
+        void MessageCenterModule::stop(){
+            if (true == this->m_isStarted){
+                this->m_isStarted = false;
+            }
+        }
+
         void MessageCenterModule::execute() {
             this->m_serverSocket.listen(50);
 
