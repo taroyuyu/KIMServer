@@ -640,7 +640,7 @@ namespace kakaIM {
                 case FetchFriendListVersionResult::Success: {
                     if (currentVersion > clientFriendListVersion) {
                         std::set<std::string> friendList;
-                        if (FetchFriendListVersionResult::Success == this->fetchFriendList(userAccount, friendList)) {
+                        if (FetchFriendListResult::Success == this->fetchFriendList(userAccount, friendList)) {
                             for (std::string friendAccount: friendList) {
                                 auto friendItem = responseMessage.add_friend_();
                                 friendItem->set_friendaccount(friendAccount);
