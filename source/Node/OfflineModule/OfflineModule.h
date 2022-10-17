@@ -14,8 +14,6 @@ namespace kakaIM {
         public:
             OfflineModule();
 
-            ~OfflineModule();
-
             /**
              * 将消息持久化
              * @param message 待持久化的消息
