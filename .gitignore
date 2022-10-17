@@ -2,4 +2,5 @@
 .DS_Store
 cmake-build-debug
 cmake-build-debug-remote-host
+.clion.source.upload.marker
 
