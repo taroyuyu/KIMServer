@@ -26,7 +26,7 @@ namespace kakaIM {
             //向EventBus注册监听消息
             EventBus::getDefault().registerEvent(userLogoutEventProto->getEventType(), this);
             EventBus::getDefault().registerEvent(nodeSecessionEventProto->getEventType(), this);
-            while (this->m_needStop) {
+            while (not this->m_needStop) {
                 bool needSleep = true;
                 if (auto task = this->mTaskQueue.try_pop()) {
                     this->dispatchMessage(*task);
