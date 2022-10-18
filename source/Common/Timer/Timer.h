@@ -15,7 +15,7 @@ namespace kakaIM {
     class Timer {
     private:
         std::mutex mutex;
-        std::atomic<bool> active{true};
+        std::atomic<bool> active{false};
         std::thread workThread;
     public:
         ~Timer();
