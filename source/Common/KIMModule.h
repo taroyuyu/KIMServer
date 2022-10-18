@@ -12,8 +12,8 @@
 #include <condition_variable>
 #include <atomic>
 #include <google/protobuf/message.h>
-#include "ConcurrentQueue/ConcurrentLinkedQueue.h"
-#include "KIMDBConfig.h"
+#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
+#include <Common/KIMDBConfig.h>
 
 namespace kakaIM {
     namespace common {

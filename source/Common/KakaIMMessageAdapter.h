@@ -5,8 +5,8 @@
 #ifndef KAKAIMCLUSTER_KAKAIMMESSAGEADAPTER_H
 #define KAKAIMCLUSTER_KAKAIMMESSAGEADAPTER_H
 
-#include "Net/MessageCenterModule/MessageCenterAdapter.h"
-#include "Net/TCPSocketManager/TCPSocketManaerAdapter.h"
+#include <Common/Net/MessageCenterModule/MessageCenterAdapter.h>
+#include <Common/Net/TCPSocketManager/TCPSocketManaerAdapter.h>
 namespace kakaIM {
     namespace common {
         class KakaIMMessageAdapter: public net::MessageCenterAdapter, public net::TCPSocketManaerAdapter {

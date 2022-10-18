@@ -1,10 +1,7 @@
 //
 // Created by Kakawater on 2018/1/1.
 //
-#include <sys/eventfd.h>
 #include <functional>
-#include <iostream>
-#include <fcntl.h>
 #include <typeinfo>
 #include <President/ClusterManagerModule/ClusterManagerModule.h>
 #include <Common/proto/MessageCluster.pb.h>
@@ -15,51 +12,14 @@
 
 namespace kakaIM {
     namespace president {
-
-        bool ClusterManagerModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            return true;
-        }
-
-        void ClusterManagerModule::execute() {
-            {
-                std::lock_guard<std::mutex> lock(this->m_statusMutex);
-                this->m_status = Status::Started;
-                this->m_statusCV.notify_all();
-            }
-            while (not this->m_needStop) {
-                if (auto task = this->mTaskQueue.try_pop()) {
-                    this->dispatchMessage(*task);
-                } else {
-                    std::this_thread::yield();
-                }
-            }
-
-            this->m_needStop = false;
-            {
-                std::lock_guard<std::mutex> lock(this->m_statusMutex);
-                this->m_status = Status::Stopped;
-                this->m_statusCV.notify_all();
-            }
-        }
-
-        void ClusterManagerModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
-        void ClusterManagerModule::dispatchMessage(
-                std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
+        void ClusterManagerModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
             if (task.first->GetTypeName() ==
                 president::RequestJoinClusterMessage::default_instance().GetTypeName()) {
                 this->handleRequestJoinClusterMessage(
                         *(president::RequestJoinClusterMessage *) task.first.get(), task.second);
             } else if (task.first->GetTypeName() ==
                        president::HeartBeatMessage::default_instance().GetTypeName()) {
-                this->handleHeartBeatMessage(*(president::HeartBeatMessage *) pairIt.first.get(),
+                this->handleHeartBeatMessage(*(president::HeartBeatMessage *) task.first.get(),
                                              task.second);
             }
         }
@@ -125,7 +85,7 @@ namespace kakaIM {
             }
             LOG4CXX_INFO(this->logger, __FUNCTION__ << " 服务器" << serverId << "加入集群");
             //4.通知其余组件，有新的服务器加入集群
-            triggerEvent(ClusterEvent(serverId, ClusterEvent::NewNodeJoinedCluster));
+            triggerEvent(ClusterEvent(serverId, ClusterEvent::ClusterEventType::NewNodeJoinedCluster));
         }
 
         void ClusterManagerModule::handleHeartBeatMessage(const HeartBeatMessage &message,
@@ -175,11 +135,6 @@ namespace kakaIM {
             return true;
         }
 
-        void ClusterManagerModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
         std::set<Node> ClusterManagerModule::getAllNodes() {
             std::set<Node> nodeSet;
             for (auto itemIt = this->nodeConnection.begin(); itemIt != this->nodeConnection.end(); ++itemIt) {
@@ -222,7 +177,7 @@ namespace kakaIM {
                 std::string serverID = it->first;
                 this->nodeConnection.erase(it);
                 //触发相关关闭事件
-                ClusterEvent event(serverID, ClusterEvent::NodeRemovedCluster);
+                ClusterEvent event(serverID, ClusterEvent::ClusterEventType::NodeRemovedCluster);
                 triggerEvent(event);
                 //向集群中的其余节点推送此节点脱离信息
                 LOG4CXX_DEBUG(this->logger, __FUNCTION__ << "正在向集群其余节点推送此节点脱离信息")
@@ -253,15 +208,11 @@ namespace kakaIM {
             }
         }
 
-        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : invitation_code(
-                invitation_code), messageEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(ClusterManagerModuleLogger);
+        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : KIMPresidentModule(ClusterManagerModuleLogger),invitation_code(
+                invitation_code) {
         }
 
         ClusterManagerModule::~ClusterManagerModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
         }
     }
 }

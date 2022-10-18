@@ -194,12 +194,12 @@ namespace kakaIM {
                                                              });
 
 //            //分发事件
-            this->mClusterManagerModulePtr->addEventListener(ClusterEvent::NewNodeJoinedCluster,
+            this->mClusterManagerModulePtr->addEventListener(ClusterEvent::ClusterEventType::NewNodeJoinedCluster,
                                                              [this](ClusterEvent event) {
                                                                  this->mUserStateManagerModulePtr->addEvent(event);
                                                              });
 
-            this->mClusterManagerModulePtr->addEventListener(ClusterEvent::NodeRemovedCluster,
+            this->mClusterManagerModulePtr->addEventListener(ClusterEvent::ClusterEventType::NodeRemovedCluster,
                                                              [this](ClusterEvent event) {
                                                                  this->mUserStateManagerModulePtr->addEvent(event);
                                                              });

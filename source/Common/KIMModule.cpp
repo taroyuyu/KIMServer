@@ -2,7 +2,7 @@
 // Created by Kakawater on 2018/1/2.
 //
 
-#include "KIMModule.h"
+#include <Common/KIMModule.h>
 
 namespace kakaIM {
     namespace common {

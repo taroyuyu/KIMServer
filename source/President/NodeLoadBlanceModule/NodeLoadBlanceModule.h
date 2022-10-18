@@ -5,70 +5,36 @@
 #ifndef KAKAIMCLUSTER_NODELOADBLANCEMODULE_H
 #define KAKAIMCLUSTER_NODELOADBLANCEMODULE_H
 
-#include <memory>
-#include <mutex>
-#include <queue>
-#include <log4cxx/logger.h>
-#include <Common/KIMModule.h>
+#include <President/KIMPresidentModule/KIMPresidentModule.h>
 #include <Common/proto/MessageCluster.pb.h>
 #include <Common/proto/KakaIMClientPresident.pb.h>
-#include <President/Service/ConnectionOperationService.h>
-#include <President/Service/ServerManageService.h>
-#include <President/Service/UserStateManagerService.h>
 #include <President/ClusterManagerModule/ClusterEvent.h>
-#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
 
 namespace kakaIM {
     namespace president {
-        class NodeLoadBlanceModule : public kakaIM::common::KIMModule {
+        class NodeLoadBlanceModule : public KIMPresidentModule {
         public:
             NodeLoadBlanceModule();
 
             ~NodeLoadBlanceModule();
 
-            virtual bool init() override;
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
-            void setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr);
-
-            void setUserStateManagerService(std::weak_ptr<UserStateManagerService> userStateManagerServicePtr);
-
             void addEvent(ClusterEvent event);
 
         protected:
             virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task)override;
         private:
-            int mEpollInstance;
-
-            std::mutex messageQueueMutex;
-            int messageEventfd;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
-
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
             ConcurrentLinkedQueue<ClusterEvent> mEventQueue;
 
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
             void dispatchClusterEvent(ClusterEvent & event);
 
             void handleRequestNodeMessage(const RequestNodeMessage &message, const std::string connectionIdentifier);
 
             void handleNodeLoadInfoMessage(const NodeLoadInfoMessage &message, const std::string connectionIdentifier);
 
-            std::weak_ptr<ConnectionOperationService> mConnectionOperationServicePtr;
-            std::weak_ptr<UserStateManagerService> mUserStateManagerServicePtr;
-
-            int clusterEventfd;
-            std::mutex eventQueueMutex;
-//            std::queue<ClusterEvent> mEventQueue;
-
             void handleNewNodeJoinedClusterEvent(const ClusterEvent &event);
 
             void handleNodeRemovedClusterEvent(const ClusterEvent &event);
-
-            std::weak_ptr<ServerManageService> mServerManageServicePtr;
 
             class NodeLoadInfo {
             public:
@@ -96,8 +62,6 @@ namespace kakaIM {
                  * @return
                  */
             int calculateDistance(std::pair<float, float> point_1, std::pair<float, float> point_2);
-
-            log4cxx::LoggerPtr logger;
         };
     }
 }

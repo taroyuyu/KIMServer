@@ -38,7 +38,7 @@ namespace kakaIM {
         std::unique_lock<std::mutex> wait_for_data() {
             std::unique_lock<std::mutex> lock(head_mutex);
             cond_vb.wait(lock, [&] {
-                return head != get_tail();
+                return head.get() != get_tail();
             });
             return std::move(lock);
         }

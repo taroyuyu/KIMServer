@@ -3,7 +3,6 @@
 //
 
 #include <zconf.h>
-#include <sys/eventfd.h>
 #include <sys/time.h>
 #include <cstdlib>
 #include <bitset>
@@ -19,63 +18,18 @@ namespace kakaIM {
 
         uint64_t waitNextMs(uint64_t lastStamp);
 
-        MessageIDGenerateModule::MessageIDGenerateModule() : messageEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(MessageIDGenerateModuleLogger);
+        MessageIDGenerateModule::MessageIDGenerateModule() : KIMPresidentModule(MessageIDGenerateModuleLogger){
         }
 
         MessageIDGenerateModule::~MessageIDGenerateModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
-
             this->messageIDMutexSet.clear();
 
         }
 
-        bool MessageIDGenerateModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
+        void MessageIDGenerateModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+            if (task.first->GetTypeName() == RequestMessageIDMessage::default_instance().GetTypeName()){
+                this->handleRequestMessageIDMessage(dynamic_cast<RequestMessageIDMessage &>(*(task.first)), task.second);
             }
-            return true;
-        }
-
-        void MessageIDGenerateModule::execute() {
-            {
-                std::lock_guard<std::mutex> lock(this->m_statusMutex);
-                this->m_status = Status::Started;
-                this->m_statusCV.notify_all();
-            }
-
-            while (not this->m_needStop) {
-                if (auto task = this->mTaskQueue.try_pop()) {
-                    this->dispatchMessage(*task);
-                } else {
-                    std::this_thread::yield();
-                }
-            }
-
-            this->m_needStop = false;
-            {
-                std::lock_guard<std::mutex> lock(this->m_statusMutex);
-                this->m_status = Status::Stopped;
-                this->m_statusCV.notify_all();
-            }
-        }
-
-        void MessageIDGenerateModule::dispatchMessage(
-                std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string> &task) {
-            this->handleRequestMessageIDMessage(*(task.first.get()), task.second);
-        }
-
-        void MessageIDGenerateModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
-        void MessageIDGenerateModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
         }
 
         void MessageIDGenerateModule::handleRequestMessageIDMessage(const RequestMessageIDMessage &message,

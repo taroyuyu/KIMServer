@@ -5,34 +5,20 @@
 #ifndef KAKAIMCLUSTER_USERSTATEMANAGERMODULE_H
 #define KAKAIMCLUSTER_USERSTATEMANAGERMODULE_H
 
-#include <queue>
+#include <President/KIMPresidentModule/KIMPresidentModule.h>
 #include <zconf.h>
-#include <memory>
-#include <mutex>
-#include <log4cxx/logger.h>
-#include <Common/KIMModule.h>
 #include <Common/proto/MessageCluster.pb.h>
 #include <President/ClusterManagerModule/ClusterEvent.h>
-#include <President/Service/ServerManageService.h>
-#include <President/Service/ConnectionOperationService.h>
-#include <President/Service/UserStateManagerService.h>
-#include <Common/ConcurrentQueue/ConcurrentLinkedQueue.h>
 
 namespace kakaIM {
     namespace president {
-        class UserStateManagerModule : public kakaIM::common::KIMModule, public UserStateManagerService {
+        class UserStateManagerModule : public KIMPresidentModule, public UserStateManagerService {
         public:
             UserStateManagerModule();
 
             ~UserStateManagerModule();
 
-            virtual bool init() override;
-
-            void setConnectionOperationService(std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr);
-
             void addEvent(ClusterEvent event);
-
-            void setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr);
 
             /**
              * 查询指定用户在哪些服务器上进行登陆
@@ -42,31 +28,15 @@ namespace kakaIM {
             std::list<std::string> queryUserLoginServer(std::string userAccount);
         protected:
             virtual void execute() override;
-            virtual void shouldStop() override;
-            std::atomic_bool m_needStop;
+            virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task)override;
         private:
-            int mEpollInstance;
-
-            std::mutex messageQueueMutex;
-            int messageEventfd;
-            std::queue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> messageQueue;
-
-            ConcurrentLinkedQueue<std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string>> mTaskQueue;
             ConcurrentLinkedQueue<ClusterEvent> mEventQueue;
-
-            void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
             void dispatchClusterEvent(ClusterEvent & event);
 
             void handleUpdateUserOnlineStateMessage(const UpdateUserOnlineStateMessage &,
                                                     const std::string connectionIdentifier);
 
             void handleUserOnlineStateMessage(const UserOnlineStateMessage &, const std::string connectionIdentifier);
-
-            std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr;
-
-            int clusterEventfd;
-            std::mutex eventQueueMutex;
-//            std::queue<ClusterEvent> mEventQueue;
 
             void handleNewNodeJoinedClusterEvent(const ClusterEvent &event);
 
@@ -91,10 +61,6 @@ namespace kakaIM {
              * @param serverID
              */
             void removeServer(const std::string serverID);
-
-            std::weak_ptr<ServerManageService> mServerManageServicePtr;
-
-            log4cxx::LoggerPtr logger;
         };
     }
 }

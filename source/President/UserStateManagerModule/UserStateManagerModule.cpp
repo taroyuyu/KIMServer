@@ -2,46 +2,12 @@
 // Created by Kakawater on 2018/1/1.
 //
 
-
-#include <fcntl.h>
-#include <sys/epoll.h>
-#include <sys/epoll.h>
-#include <sys/eventfd.h>
 #include <typeinfo>
 #include <President/UserStateManagerModule/UserStateManagerModule.h>
 #include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
-        bool UserStateManagerModule::init() {
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            this->clusterEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->clusterEventfd < 0) {
-                return false;
-            }
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-            //向Epill实例注册messageEventfd,和clusterEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-            struct epoll_event clusterEventfdEvent;
-            clusterEventfdEvent.events = EPOLLIN;
-            clusterEventfdEvent.data.fd = this->clusterEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->clusterEventfd, &clusterEventfdEvent)) {
-                return false;
-            }
-            return true;
-        }
-
         void UserStateManagerModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
@@ -73,10 +39,6 @@ namespace kakaIM {
             }
         }
 
-        void UserStateManagerModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void UserStateManagerModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
             std::string messageType = task.first->GetTypeName();
@@ -95,11 +57,11 @@ namespace kakaIM {
 
         void UserStateManagerModule::dispatchClusterEvent(ClusterEvent &event) {
             switch (event.getEventType()) {
-                case ClusterEvent::NewNodeJoinedCluster: {
+                case ClusterEvent::ClusterEventType::NewNodeJoinedCluster: {
                     this->handleNewNodeJoinedClusterEvent(event);
                 }
                     break;
-                case ClusterEvent::NodeRemovedCluster: {
+                case ClusterEvent::ClusterEventType::NodeRemovedCluster: {
                     this->handleNodeRemovedClusterEvent(event);
                 }
                     break;
@@ -192,32 +154,8 @@ namespace kakaIM {
             this->removeServer(event.getTargetServerID());
         }
 
-        void UserStateManagerModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void UserStateManagerModule::addMessage(std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
-            if (!message) {
-                return;
-            }
-            //添加到队列中
-            if (UserOnlineStateMessage::default_instance().GetTypeName() == message->GetTypeName()){
-                //添加到队列中
-                this->mTaskQueue.push(std::move(std::make_pair(std::move(message), connectionIdentifier)));
-            }
-        }
-
         void UserStateManagerModule::addEvent(ClusterEvent event) {
-            std::lock_guard<std::mutex> lock(this->eventQueueMutex);
-            this->mEventQueue.emplace(event);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->clusterEventfd, &count, sizeof(count));
-        }
-
-        void UserStateManagerModule::setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr) {
-            this->mServerManageServicePtr = serverManageServicePtr;
+            this->mEventQueue.push(event);
         }
 
         std::list<std::string> UserStateManagerModule::queryUserLoginServer(std::string userAccount) {
@@ -278,14 +216,10 @@ namespace kakaIM {
             }
         }
 
-        UserStateManagerModule::UserStateManagerModule() : mEpollInstance(-1), messageEventfd(-1), clusterEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(UserStateManagerModuleLogger);
+        UserStateManagerModule::UserStateManagerModule() : KIMPresidentModule(UserStateManagerModuleLogger) {
         }
 
         UserStateManagerModule::~UserStateManagerModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
         }
     }
 }

@@ -5,71 +5,20 @@
 
 #include <zconf.h>
 #include <math.h>
-#include <sys/epoll.h>
-#include <sys/eventfd.h>
-#include <typeinfo>
 #include <typeinfo>
 #include <President/NodeLoadBlanceModule/NodeLoadBlanceModule.h>
 #include <President/Log/log.h>
 
 namespace kakaIM {
     namespace president {
-        NodeLoadBlanceModule::NodeLoadBlanceModule() : mEpollInstance(-1), messageEventfd(-1), clusterEventfd(-1) {
-            this->logger = log4cxx::Logger::getLogger(NodeLoadBlanceModuleLogger);
+        NodeLoadBlanceModule::NodeLoadBlanceModule() : KIMPresidentModule(NodeLoadBlanceModuleLogger){
         }
 
         NodeLoadBlanceModule::~NodeLoadBlanceModule() {
         }
 
-        bool NodeLoadBlanceModule::init() {
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            this->clusterEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->clusterEventfd < 0) {
-                return false;
-            }
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-            //向Epill实例注册messageEventfd,和clusterEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-            struct epoll_event clusterEventfdEvent;
-            clusterEventfdEvent.events = EPOLLIN;
-            clusterEventfdEvent.data.fd = this->clusterEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->clusterEventfd, &clusterEventfdEvent)) {
-                return false;
-            }
-            return true;
-        }
-
-        void NodeLoadBlanceModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->mConnectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void NodeLoadBlanceModule::setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr) {
-            this->mServerManageServicePtr = serverManageServicePtr;
-        }
-
-        void NodeLoadBlanceModule::setUserStateManagerService(
-                std::weak_ptr<UserStateManagerService> userStateManagerServicePtr) {
-            this->mUserStateManagerServicePtr = userStateManagerServicePtr;
-        }
-
         void NodeLoadBlanceModule::addEvent(ClusterEvent event) {
-            std::lock_guard<std::mutex> lock(this->eventQueueMutex);
-            this->mEventQueue.emplace(event);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->clusterEventfd, &count, sizeof(count));
+            this->mEventQueue.push(event);
         }
 
         void NodeLoadBlanceModule::execute() {
@@ -103,10 +52,6 @@ namespace kakaIM {
             }
         }
 
-        void NodeLoadBlanceModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
         void NodeLoadBlanceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
             std::string messageType = task.first->GetTypeName();
             if (messageType == NodeLoadInfoMessage::default_instance().GetTypeName()) {
@@ -120,11 +65,11 @@ namespace kakaIM {
 
         void NodeLoadBlanceModule::dispatchClusterEvent(ClusterEvent & event){
             switch (event.getEventType()) {
-                case ClusterEvent::NewNodeJoinedCluster: {
+                case ClusterEvent::ClusterEventType::NewNodeJoinedCluster: {
                     this->handleNewNodeJoinedClusterEvent(event);
                 }
                     break;
-                case ClusterEvent::NodeRemovedCluster: {
+                case ClusterEvent::ClusterEventType::NodeRemovedCluster: {
                     this->handleNodeRemovedClusterEvent(event);
                 }
                     break;
@@ -177,7 +122,7 @@ namespace kakaIM {
 
         void NodeLoadBlanceModule::handleRequestNodeMessage(const RequestNodeMessage &message,
                                                             const std::string connectionIdentifier) {
-            auto connectionOperationService = this->mConnectionOperationServicePtr.lock();
+            auto connectionOperationService = this->connectionOperationServicePtr.lock();
             if (!connectionOperationService) {
                 return;
             }
@@ -230,16 +175,20 @@ namespace kakaIM {
                 }
                 auto nodeSet = serverManageService->getAllNodes();
                 //2、根据服务器的负载情况,筛选出正常的服务器
+                std::vector<decltype(nodeSet.begin())> needEraseIterators;
                 for (auto nodeIt = nodeSet.begin(); nodeIt != nodeSet.end(); ++nodeIt) {
                     std::cout << "nodeIt->getServiceIpAddress()=" << nodeIt->getServiceIpAddress() << std::endl;
                     auto nodeLoadInfoIt = this->nodeLoadInfoSet.find(*nodeIt);
                     if (nodeLoadInfoIt == this->nodeLoadInfoSet.end()) {
-                        nodeSet.erase(nodeIt);
+                        needEraseIterators.push_back(nodeIt);
                     } else {
                         if (nodeLoadInfoIt->second.cpuUsage > 0.9 || nodeLoadInfoIt->second.memUsage > 0.9) {
-                            nodeSet.erase(nodeIt);
+                            needEraseIterators.push_back(nodeIt);
                         }
                     }
+                }
+                for(auto nodeIt : needEraseIterators){
+                    nodeSet.erase(nodeIt);
                 }
                 //4、根据服务器与客户端的距离，挑选出离客户端最近的节点
                 std::list<std::pair<Node, int >> nodeList;

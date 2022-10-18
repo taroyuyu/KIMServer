@@ -2,7 +2,7 @@
 // Created by Kakawater on 2018/1/18.
 //
 
-#include "KakaIMMessageAdapter.h"
+#include <Common/KakaIMMessageAdapter.h>
 #include <arpa/inet.h>
 namespace kakaIM {
     namespace common {

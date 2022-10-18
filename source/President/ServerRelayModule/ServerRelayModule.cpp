@@ -2,9 +2,6 @@
 // Created by Kakawater on 2018/1/11.
 //
 
-#include <fcntl.h>
-#include <sys/epoll.h>
-#include <sys/eventfd.h>
 #include <zconf.h>
 #include <typeinfo>
 #include <President/ServerRelayModule/ServerRelayModule.h>
@@ -12,36 +9,6 @@
 
 namespace kakaIM {
     namespace president {
-        bool ServerRelayModule::init() {
-            //创建eventfd,并提供信号量语义
-            this->messageEventfd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->messageEventfd < 0) {
-                return false;
-            }
-            this->eventQueuefd = ::eventfd(0, EFD_SEMAPHORE);
-            if (this->eventQueuefd < 0) {
-                return false;
-            }
-            //创建Epoll实例
-            if (-1 == (this->mEpollInstance = epoll_create1(0))) {
-                return false;
-            }
-            //向Epill实例注册messageEventfd,和clusterEventfd
-            struct epoll_event messageEventfdEvent;
-            messageEventfdEvent.events = EPOLLIN;
-            messageEventfdEvent.data.fd = this->messageEventfd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->messageEventfd, &messageEventfdEvent)) {
-                return false;
-            }
-            struct epoll_event eventQueuefdEvent;
-            eventQueuefdEvent.events = EPOLLIN;
-            eventQueuefdEvent.data.fd = this->eventQueuefd;
-            if (-1 == epoll_ctl(this->mEpollInstance, EPOLL_CTL_ADD, this->eventQueuefd, &eventQueuefdEvent)) {
-                return false;
-            }
-            return true;
-        }
-
         void ServerRelayModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
@@ -74,21 +41,17 @@ namespace kakaIM {
             }
         }
 
-        void ServerRelayModule::shouldStop() {
-            this->m_needStop = true;
-        }
-
-        void ServerRelayModule::dispatchMessage(std::pair<std::unique_ptr<ServerMessage>, const std::string> & task){
-            this->handleServerMessage(*(task.first.get()), task.second);
+        void ServerRelayModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
+            this->handleServerMessage(dynamic_cast<ServerMessage&>(*task.first), task.second);
         }
 
         void ServerRelayModule::dispatchClusterEvent(ClusterEvent & event){
             switch (event.getEventType()) {
-                case ClusterEvent::NewNodeJoinedCluster: {
+                case ClusterEvent::ClusterEventType::NewNodeJoinedCluster: {
                     this->handleNewNodeJoinedClusterEvent(event);
                 }
                     break;
-                case ClusterEvent::NodeRemovedCluster: {
+                case ClusterEvent::ClusterEventType::NodeRemovedCluster: {
                     this->handleNodeRemovedClusterEvent(event);
                 }
                     break;
@@ -157,36 +120,14 @@ namespace kakaIM {
 
         }
 
-        void ServerRelayModule::setConnectionOperationService(
-                std::weak_ptr<ConnectionOperationService> connectionOperationServicePtr) {
-            this->connectionOperationServicePtr = connectionOperationServicePtr;
-        }
-
-        void ServerRelayModule::setUserStateManagerService(
-                std::weak_ptr<UserStateManagerService> userStateManagerServicePtr) {
-            this->mUserStateManagerServicePtr = userStateManagerServicePtr;
-        }
-
-        void ServerRelayModule::setServerManageService(std::weak_ptr<ServerManageService> serverManageServicePtr) {
-            this->mServerManageServicePtr = serverManageServicePtr;
-        }
-
         void ServerRelayModule::addEvent(ClusterEvent event) {
-            std::lock_guard<std::mutex> lock(this->eventQueueMutex);
-            this->mEventQueue.emplace(event);
-            uint64_t count = 1;
-            //增加信号量
-            ::write(this->eventQueuefd, &count, sizeof(count));
+            this->mEventQueue.push(event);
         }
 
-        ServerRelayModule::ServerRelayModule() : mEpollInstance(-1), messageEventfd(-1), eventQueuefd(-1) {
-            this->logger = log4cxx::Logger::getLogger(ServerRelayModuleLogger);
+        ServerRelayModule::ServerRelayModule() : KIMPresidentModule(ServerRelayModuleLogger) {
         }
 
         ServerRelayModule::~ServerRelayModule() {
-            while (false == this->messageQueue.empty()) {
-                this->messageQueue.pop();
-            }
         }
 
 
