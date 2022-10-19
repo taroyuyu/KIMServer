@@ -136,8 +136,8 @@ namespace kakaIM {
             const std::string registeAccountSQL = "INSERT INTO \"user\" "
                                                   "(account,password,created_at) "
                                                   "VALUES ($1,$2,now());";
-            const std::string updateUserVCardSQL = "INSERT INTO user_vcard (account, nickname)"
-                                                   " VALUES($1,$2);";
+            const std::string updateUserVCardSQL = "INSERT INTO user_vcard (account, nickname,mtime)"
+                                                   " VALUES($1,$2,now());";
             try {
                 //开启事务
                 pqxx::work dbWork(*dbConnection);
