@@ -12,6 +12,8 @@
 namespace kakaIM {
     namespace president {
         NodeLoadBlanceModule::NodeLoadBlanceModule() : KIMPresidentModule(NodeLoadBlanceModuleLogger){
+            this->mMessageTypeSet.insert(NodeLoadInfoMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(RequestNodeMessage::default_instance().GetTypeName());
         }
 
         NodeLoadBlanceModule::~NodeLoadBlanceModule() {
@@ -21,6 +23,9 @@ namespace kakaIM {
             this->mEventQueue.push(event);
         }
 
+        const std::unordered_set<std::string> & NodeLoadBlanceModule::messageTypes(){
+            return this->mMessageTypeSet;
+        }
         void NodeLoadBlanceModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

@@ -11,6 +11,12 @@
 namespace kakaIM {
     namespace node {
         AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger){
+            this->mMessageTypeSet.insert(kakaIM::Node::LoginMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::RegisterMessage::default_instance().GetTypeName());
+        }
+
+        const std::unordered_set<std::string> & AuthenticationModule::messageTypes(){
+            return this->mMessageTypeSet;
         }
 
         void AuthenticationModule::dispatchMessage(

@@ -12,6 +12,17 @@
 
 namespace kakaIM {
     namespace president {
+        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : KIMPresidentModule(ClusterManagerModuleLogger),invitation_code(
+                invitation_code) {
+            this->mMessageTypeSet.insert(president::RequestJoinClusterMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(president::HeartBeatMessage::default_instance().GetTypeName());
+        }
+
+        ClusterManagerModule::~ClusterManagerModule() {
+        }
+        const std::unordered_set<std::string> & ClusterManagerModule::messageTypes(){
+            return this->mMessageTypeSet;
+        }
         void ClusterManagerModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
             if (task.first->GetTypeName() ==
                 president::RequestJoinClusterMessage::default_instance().GetTypeName()) {
@@ -206,13 +217,6 @@ namespace kakaIM {
                 it->second(event);
                 it++;
             }
-        }
-
-        ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : KIMPresidentModule(ClusterManagerModuleLogger),invitation_code(
-                invitation_code) {
-        }
-
-        ClusterManagerModule::~ClusterManagerModule() {
         }
     }
 }

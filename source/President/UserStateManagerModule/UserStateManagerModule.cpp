@@ -8,6 +8,16 @@
 
 namespace kakaIM {
     namespace president {
+        UserStateManagerModule::UserStateManagerModule() : KIMPresidentModule(UserStateManagerModuleLogger) {
+            this->mMessageTypeSet.insert(UpdateUserOnlineStateMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(UserOnlineStateMessage::default_instance().GetTypeName());
+        }
+
+        UserStateManagerModule::~UserStateManagerModule() {
+        }
+        const std::unordered_set<std::string> & UserStateManagerModule::messageTypes(){
+            return this->mMessageTypeSet;
+        }
         void UserStateManagerModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
@@ -214,12 +224,6 @@ namespace kakaIM {
                 this->mUserOnlineStateDB.emplace(userAccount, userLoginSet);
 
             }
-        }
-
-        UserStateManagerModule::UserStateManagerModule() : KIMPresidentModule(UserStateManagerModuleLogger) {
-        }
-
-        UserStateManagerModule::~UserStateManagerModule() {
         }
     }
 }

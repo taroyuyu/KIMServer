@@ -9,6 +9,15 @@
 
 namespace kakaIM {
     namespace president {
+        ServerRelayModule::ServerRelayModule() : KIMPresidentModule(ServerRelayModuleLogger) {
+            this->mMessageTypeSet.insert(ServerMessage::default_instance().GetTypeName());
+        }
+
+        ServerRelayModule::~ServerRelayModule() {
+        }
+        const std::unordered_set<std::string> & ServerRelayModule::messageTypes(){
+            return this->mMessageTypeSet;
+        }
         void ServerRelayModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);
@@ -123,14 +132,6 @@ namespace kakaIM {
         void ServerRelayModule::addEvent(ClusterEvent event) {
             this->mEventQueue.push(event);
         }
-
-        ServerRelayModule::ServerRelayModule() : KIMPresidentModule(ServerRelayModuleLogger) {
-        }
-
-        ServerRelayModule::~ServerRelayModule() {
-        }
-
-
     }
 }
 

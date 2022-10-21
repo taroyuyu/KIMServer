@@ -17,8 +17,10 @@ namespace kakaIM {
             MessageIDGenerateModule();
 
             ~MessageIDGenerateModule();
+            virtual const std::unordered_set<std::string> & messageTypes() override;
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
+            std::unordered_set<std::string> mMessageTypeSet;
         private:
 
             ConcurrentLinkedQueue<std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string>> mTaskQueue;

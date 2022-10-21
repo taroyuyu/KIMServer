@@ -15,8 +15,14 @@ namespace kakaIM {
         OnlineStateModule::OnlineStateModule() : KIMNodeModule(OnlineStateModuleLogger),
                                                  userLogoutEventProto(new UserLogoutEvent("", "")),
                                                  nodeSecessionEventProto(new NodeSecessionEvent("")) {
+            this->mMessageTypeSet.insert(kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName());
         }
 
+        const std::unordered_set<std::string> & OnlineStateModule::messageTypes(){
+            return this->mMessageTypeSet;
+        }
         void OnlineStateModule::execute() {
             {
                 std::lock_guard<std::mutex> lock(this->m_statusMutex);

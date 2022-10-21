@@ -32,9 +32,7 @@ namespace kakaIM {
 
             virtual bool init() override;
 
-            void setMessageHandler(const std::string &messageType,
-                                   std::function<void(std::unique_ptr<::google::protobuf::Message>,
-                                                      const std::string)> messageHandler);
+            void registerMessages(std::shared_ptr<common::KIMModule> module);
 
             void addMessageFilster(MessageFilter *filter);
 

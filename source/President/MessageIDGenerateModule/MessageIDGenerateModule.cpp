@@ -19,11 +19,16 @@ namespace kakaIM {
         uint64_t waitNextMs(uint64_t lastStamp);
 
         MessageIDGenerateModule::MessageIDGenerateModule() : KIMPresidentModule(MessageIDGenerateModuleLogger){
+            this->mMessageTypeSet.insert(RequestMessageIDMessage::default_instance().GetTypeName());
         }
 
         MessageIDGenerateModule::~MessageIDGenerateModule() {
             this->messageIDMutexSet.clear();
 
+        }
+
+        const std::unordered_set<std::string> & MessageIDGenerateModule::messageTypes(){
+            return this->mMessageTypeSet;
         }
 
         void MessageIDGenerateModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){

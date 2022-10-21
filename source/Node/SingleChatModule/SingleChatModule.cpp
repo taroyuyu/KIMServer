@@ -11,6 +11,19 @@
 namespace kakaIM {
     namespace node {
         SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger){
+            this->mMessageTypeSet.insert(kakaIM::Node::ChatMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName());
+        }
+
+        const std::unordered_set<std::string> & SingleChatModule::messageTypes(){
+            return this->mMessageTypeSet;
         }
 
         void SingleChatModule::dispatchMessage(

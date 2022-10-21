@@ -12,8 +12,10 @@ namespace kakaIM {
         class SingleChatModule : public KIMNodeModule {
         public:
             SingleChatModule();
+            virtual const std::unordered_set<std::string> & messageTypes() override;
         protected:
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task);
+            std::unordered_set<std::string> mMessageTypeSet;
         private:
             void handleChatMessage(kakaIM::Node::ChatMessage &chatMessage, const std::string connectionIdentifier);
 

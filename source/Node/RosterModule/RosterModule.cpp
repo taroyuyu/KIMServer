@@ -12,8 +12,17 @@
 namespace kakaIM {
     namespace node {
         RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger){
+            this->mMessageTypeSet.insert(kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName());
         }
 
+        const std::unordered_set<std::string> & RosterModule::messageTypes(){
+            return this->mMessageTypeSet;
+        }
         void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> &task) {
             auto messageType = task.first->GetTypeName();
             if (messageType ==

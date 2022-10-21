@@ -31,9 +31,11 @@ namespace kakaIM {
             didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage &serverMessage) override;
 
             virtual void setClusterService(std::weak_ptr<ClusterService> service) override;
+            virtual const std::unordered_set<std::string> & messageTypes() override;
         protected:
             virtual void execute() override;
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> &task) override;
+            std::unordered_set<std::string> mMessageTypeSet;
         private:
             ConcurrentLinkedQueue<kakaIM::president::ServerMessage> mServerMessageQueue;
 

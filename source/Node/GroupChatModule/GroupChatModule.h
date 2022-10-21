@@ -12,8 +12,10 @@ namespace kakaIM {
         class GroupChatModule : public KIMNodeModule{
         public:
             GroupChatModule();
+            virtual const std::unordered_set<std::string> & messageTypes() override;
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
+            std::unordered_set<std::string> mMessageTypeSet;
         private:
 
             void handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,

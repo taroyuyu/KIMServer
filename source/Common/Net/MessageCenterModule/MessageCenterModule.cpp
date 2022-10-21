@@ -404,10 +404,17 @@ namespace kakaIM {
             }
         }
 
-        void MessageCenterModule::setMessageHandler(const std::string &messageType,
-                                                    std::function<void(std::unique_ptr<::google::protobuf::Message>,
-                                                                       std::string)> messageHandler) {
-            this->messageHandler[messageType] = messageHandler;
+        void MessageCenterModule::registerMessages(std::shared_ptr<common::KIMModule> module){
+            std::weak_ptr<common::KIMModule> modulePtr = module;
+            for(const auto & messageType : module->messageTypes()){
+                this->messageHandler[messageType] = [modulePtr](std::unique_ptr<::google::protobuf::Message> message,std::string connectionIdentifier){
+                    auto module = modulePtr.lock();
+                    if (not module){
+                        return;
+                    }
+                    module->addMessage(std::move(message),connectionIdentifier);
+                };
+            }
         }
 
         void MessageCenterModule::addMessageFilster(MessageFilter *filter) {

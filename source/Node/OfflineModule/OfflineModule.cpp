@@ -11,6 +11,12 @@
 namespace kakaIM {
     namespace node {
         OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger){
+            this->mMessageTypeSet.insert(kakaIM::Node::PullChatMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName());
+        }
+
+        const std::unordered_set<std::string> & OfflineModule::messageTypes(){
+            return this->mMessageTypeSet;
         }
 
         void OfflineModule::execute() {

@@ -13,6 +13,20 @@ namespace kakaIM {
     namespace node {
 
         GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger){
+            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert(kakaIM::Node::GroupChatMessage::default_instance().GetTypeName());
+        }
+
+        const std::unordered_set<std::string> & GroupChatModule::messageTypes(){
+            return this->mMessageTypeSet;
         }
 
         void GroupChatModule::dispatchMessage(

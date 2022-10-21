@@ -10,6 +10,12 @@
 namespace kakaIM {
     namespace node {
         MessageSendServiceModule::MessageSendServiceModule() : KIMNodeModule(MessageSenderServiceModuleLogger){
+            this->mMessageTypeSet.insert(kakaIM::president::SessionMessage::default_instance().GetTypeName());
+            this->mMessageTypeSet.insert("*");
+        }
+
+        const std::unordered_set<std::string> & MessageSendServiceModule::messageTypes(){
+            return this->mMessageTypeSet;
         }
 
         void MessageSendServiceModule::setClusterService(std::weak_ptr<ClusterService> service) {

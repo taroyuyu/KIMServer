@@ -147,51 +147,11 @@ namespace kakaIM {
             this->mServerRelayModulePtr->setServerManageService(this->mClusterManagerModulePtr);
 
             //处理消息
-            this->mMessageCenterModulePtr->setMessageHandler(
-                    RequestJoinClusterMessage::default_instance().GetTypeName(),
-                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
-			this->mClusterManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
-                    });
-            this->mMessageCenterModulePtr->setMessageHandler(HeartBeatMessage::default_instance().GetTypeName(),
-                                                             [this](std::unique_ptr<::google::protobuf::Message> message,
-                                                                    const std::string connectionIdentifier) {
-								    this->mClusterManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
-                                                             });
-            this->mMessageCenterModulePtr->setMessageHandler(UserOnlineStateMessage::default_instance().GetTypeName(),
-                                                             [this](std::unique_ptr<::google::protobuf::Message> message,
-                                                                    const std::string connectionIdentifier) {
-								    this->mUserStateManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
-                                                             });
-
-            this->mMessageCenterModulePtr->setMessageHandler(
-                    UpdateUserOnlineStateMessage::default_instance().GetTypeName(),
-                    [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier) {
-			this->mUserStateManagerModulePtr->addMessage(std::move(message),connectionIdentifier);
-                    });
-
-            this->mMessageCenterModulePtr->setMessageHandler(RequestMessageIDMessage::default_instance().GetTypeName(),
-                                                             [this](std::unique_ptr<::google::protobuf::Message> message,
-                                                                    const std::string connectionIdentifier) {
-								    this->mMessageIDGenerateModulePtr->addMessage(std::move(message),connectionIdentifier);
-                                                             });
-
-            this->mMessageCenterModulePtr->setMessageHandler(ServerMessage::default_instance().GetTypeName(),
-                                                             [this](std::unique_ptr<::google::protobuf::Message> message,
-                                                                    const std::string connectionIdentifier) {
-								    this->mServerRelayModulePtr->addMessage(std::move(message),connectionIdentifier);
-                                                             });
-
-            this->mMessageCenterModulePtr->setMessageHandler(NodeLoadInfoMessage::default_instance().GetTypeName(),
-                                                             [this](std::unique_ptr<::google::protobuf::Message> message,
-                                                                    const std::string connectionIdentifier) {
-							            this->mNodeLoadBlanceModulePtr->addMessage(std::move(message),connectionIdentifier);
-                                                             });
-
-            this->mMessageCenterModulePtr->setMessageHandler(RequestNodeMessage::default_instance().GetTypeName(),
-                                                             [this](std::unique_ptr<::google::protobuf::Message> message,
-                                                                    const std::string connectionIdentifier) {
-								    this->mNodeLoadBlanceModulePtr->addMessage(std::move(message),connectionIdentifier);
-                                                             });
+            this->mMessageCenterModulePtr->registerMessages(this->mClusterManagerModulePtr);
+            this->mMessageCenterModulePtr->registerMessages(this->mMessageIDGenerateModulePtr);
+            this->mMessageCenterModulePtr->registerMessages(this->mNodeLoadBlanceModulePtr);
+            this->mMessageCenterModulePtr->registerMessages(this->mServerRelayModulePtr);
+            this->mMessageCenterModulePtr->registerMessages(this->mUserStateManagerModulePtr);
 
 //            //分发事件
             this->mClusterManagerModulePtr->addEventListener(ClusterEvent::ClusterEventType::NewNodeJoinedCluster,
