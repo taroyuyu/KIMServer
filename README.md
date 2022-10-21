@@ -9,3 +9,5 @@ Feature List:
 - Support session initiation protocol and video calling technology. A set of session initiation protocol  needed for video calling is designed and implemented by reference SIP protocol.
 
 See the [wiki](https://github.com/taroyuyu/KIMServer/wiki) for a deployment tutorial for the project
+
+The design of the project can refer to https://juejin.cn/post/7156134985504653349/#heading-45
