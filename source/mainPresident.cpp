@@ -3,7 +3,7 @@
 int main(int argc,char * argv[]) {
     kakaIM::president::President president;
     if(president.init(argc,argv)){
-        return president.start();
+        return president.run();
     }else{
         return -1;
     }

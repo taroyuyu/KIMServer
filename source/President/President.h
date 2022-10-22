@@ -13,58 +13,78 @@
 namespace kakaIM {
     namespace president {
         class ClusterManagerModule;
+
         class ServerRelayModule;
+
         class UserStateManagerModule;
-	class MessageIDGenerateModule;
-	class NodeLoadBlanceModule;
 
-	class MessageCenterModule : public net::MessageCenterModule,public ConnectionOperationService{
+        class MessageIDGenerateModule;
+
+        class NodeLoadBlanceModule;
+
+        class MessageCenterModule : public net::MessageCenterModule, public ConnectionOperationService {
         public:
-            MessageCenterModule(std::string listenIP, u_int16_t listenPort,std::shared_ptr<net::MessageCenterAdapter> adapter,
-                                size_t timeout = 0):net::MessageCenterModule(listenIP,listenPort,adapter,timeout){
+            MessageCenterModule(std::string listenIP, u_int16_t listenPort,
+                                std::shared_ptr<net::MessageCenterAdapter> adapter,
+                                size_t timeout = 0) : net::MessageCenterModule(listenIP, listenPort, adapter, timeout) {
 
             }
+
             virtual bool sendMessageThroughConnection(const std::string connectionIdentifier,
-                                                      const ::google::protobuf::Message &message)override {
-                return this->sendMessage(connectionIdentifier,message);
+                                                      const ::google::protobuf::Message &message) override {
+                return this->sendMessage(connectionIdentifier, message);
             }
 
-	    virtual std::pair<bool,std::pair<std::string,uint16_t>> queryConnectionAddress(const std::string connectionIdentifier)override {
+            virtual std::pair<bool, std::pair<std::string, uint16_t>>
+            queryConnectionAddress(const std::string connectionIdentifier) override {
                 return this->net::MessageCenterModule::queryConnectionAddress(connectionIdentifier);
             }
         };
 
-        class President  {
+        class President {
         public:
             President();
+
             ~President();
-	    bool init(int argc,char * argv[]);
-            int start();
-            std::shared_ptr<net::MessageCenterModule> getMessageCenterModule()
-            {
+
+            bool init(int argc, char *argv[]);
+
+            int run();
+            int stop();
+
+            std::shared_ptr<net::MessageCenterModule> getMessageCenterModule() {
                 return this->mMessageCenterModulePtr;
             }
 
-            std::shared_ptr<ClusterManagerModule> getClusterManagerModule()
-            {
+            std::shared_ptr<ClusterManagerModule> getClusterManagerModule() {
                 return this->mClusterManagerModulePtr;
             }
 
-            std::shared_ptr<UserStateManagerModule> getUserStateManagerModule()
-            {
+            std::shared_ptr<UserStateManagerModule> getUserStateManagerModule() {
                 return this->mUserStateManagerModulePtr;
             }
-	    std::shared_ptr<MessageIDGenerateModule> getMessageIDGenerateModule(){
+
+            std::shared_ptr<MessageIDGenerateModule> getMessageIDGenerateModule() {
                 return this->mMessageIDGenerateModulePtr;
             }
+
         private:
-            sem_t *m_task_semaphore;
             std::shared_ptr<MessageCenterModule> mMessageCenterModulePtr;
             std::shared_ptr<ClusterManagerModule> mClusterManagerModulePtr;
             std::shared_ptr<ServerRelayModule> mServerRelayModulePtr;
             std::shared_ptr<UserStateManagerModule> mUserStateManagerModulePtr;
-	    std::shared_ptr<MessageIDGenerateModule> mMessageIDGenerateModulePtr;
-	    std::shared_ptr<NodeLoadBlanceModule> mNodeLoadBlanceModulePtr;
+            std::shared_ptr<MessageIDGenerateModule> mMessageIDGenerateModulePtr;
+            std::shared_ptr<NodeLoadBlanceModule> mNodeLoadBlanceModulePtr;
+
+            enum class Status : int {
+                Stopped,
+                Starting,
+                Started,
+                Stopping,
+            };
+            std::atomic<Status> m_status;
+            std::mutex m_statusMutex;
+            std::condition_variable m_statusCV;
         };
     }
 }

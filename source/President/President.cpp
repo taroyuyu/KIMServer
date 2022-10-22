@@ -2,7 +2,6 @@
 // Created by Kakawater on 2018/1/1.
 //
 
-#include <fcntl.h>
 #include <getopt.h>
 #include <arpa/inet.h>
 #include <log4cxx/logger.h>
@@ -15,18 +14,13 @@
 #include <President/MessageIDGenerateModule/MessageIDGenerateModule.h>
 #include <President/NodeLoadBlanceModule/NodeLoadBlanceModule.h>
 #include <Common/yaml-cpp/include/yaml.h>
-#include <President/Log/log.h>
-#include <iostream>
 
 namespace kakaIM {
     namespace president {
-        President::President() :
-                m_task_semaphore(nullptr) {
-            this->m_task_semaphore = sem_open("/kimPresidentSemaphore", O_CREAT, 0644, 0);
+        President::President() {
         }
 
         President::~President() {
-            sem_close(this->m_task_semaphore);
         }
 
         bool President::init(int argc, char *argv[]) {
@@ -90,19 +84,19 @@ namespace kakaIM {
                 }
             }
 
-            if (!config["cluster"].IsDefined()){
+            if (!config["cluster"].IsDefined()) {
                 std::cerr << "There is no cluster setup in the configuration file." << std::endl;
                 return false;
             }
-            
-            if(!config["cluster"].IsMap()){
+
+            if (!config["cluster"].IsMap()) {
                 std::cerr << "The format of cluster was incorrect." << std::endl;
                 return false;
-            }else{
-                if(!config["cluster"]["invitation_code"].IsDefined()){
+            } else {
+                if (!config["cluster"]["invitation_code"].IsDefined()) {
                     std::cerr << "The invitation_code was not specific in the configuration." << std::endl;
                     return false;
-                }else{
+                } else {
                     try {
                         invitationCode = config["cluster"]["invitation_code"].as<std::string>();
                     } catch (std::exception &exception) {
@@ -118,7 +112,8 @@ namespace kakaIM {
 
             //初始化组件
             this->mMessageCenterModulePtr = std::make_shared<MessageCenterModule>(listen_address, listen_port,
-                                                                                  std::make_shared<common::KakaIMMessageAdapter>(),0);
+                                                                                  std::make_shared<common::KakaIMMessageAdapter>(),
+                                                                                  0);
             this->mClusterManagerModulePtr = std::make_shared<ClusterManagerModule>(invitationCode);
             this->mUserStateManagerModulePtr = std::make_shared<UserStateManagerModule>();
             this->mMessageIDGenerateModulePtr = std::make_shared<MessageIDGenerateModule>();
@@ -192,14 +187,49 @@ namespace kakaIM {
         }
 
 
-        int President::start() {
+        int President::run() {
+            {
+                std::unique_lock<std::mutex> lock(this->m_statusMutex);
+                if (Status::Stopped != this->m_status) {
+                    return -1;
+                }
+                this->m_status = Status::Starting;
+            }
+
             this->mMessageCenterModulePtr->start();
             this->mClusterManagerModulePtr->start();
             this->mServerRelayModulePtr->start();
             this->mUserStateManagerModulePtr->start();
             this->mMessageIDGenerateModulePtr->start();
             this->mNodeLoadBlanceModulePtr->start();
-            sem_wait(this->m_task_semaphore);
+
+            std::unique_lock<std::mutex> lock(this->m_statusMutex);
+            this->m_status = Status::Started;
+            this->m_statusCV.wait(lock, [this]() {
+                return Status::Stopped != this->m_status;
+            });
+            return 0;
+        }
+
+        int President::stop() {
+            {
+                std::unique_lock<std::mutex> lock(this->m_statusMutex);
+                if (Status::Started != this->m_status) {
+                    return -1;
+                }
+                this->m_status = Status::Stopping;
+            }
+
+            this->mMessageCenterModulePtr->stop();
+            this->mClusterManagerModulePtr->stop();
+            this->mServerRelayModulePtr->stop();
+            this->mUserStateManagerModulePtr->stop();
+            this->mMessageIDGenerateModulePtr->stop();
+            this->mNodeLoadBlanceModulePtr->stop();
+
+            std::unique_lock<std::mutex> lock(this->m_statusMutex);
+            this->m_status = Status::Stopped;
+            this->m_statusCV.notify_all();
             return 0;
         }
     }
