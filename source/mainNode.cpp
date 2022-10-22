@@ -6,7 +6,7 @@ int main(int argc,char * argv[])
 {
     kakaIM::node::Node node;
     if(node.init(argc,argv)){
-        return node.start();
+        return node.run();
     }else{
         return -1;
     }

@@ -435,7 +435,15 @@ namespace kakaIM {
         }
 
 
-        int Node::start() {
+        int Node::run() {
+            {
+                std::unique_lock<std::mutex> lock(this->m_statusMutex);
+                if (Status::Stopped != this->m_status) {
+                    return -1;
+                }
+                this->m_status = Status::Starting;
+            }
+
             this->mClusterModulePtr->start();
             this->mSessionModulePtr->start();
             this->mAuthenticationModulePtr->start();
@@ -446,12 +454,40 @@ namespace kakaIM {
             this->mSingleChatModulePtr->start();
             this->mGroupChatModulePtr->start();
             this->mMessageCenterModulePtr->start();
-            sem_wait(this->m_task_semaphore);
+
+            std::unique_lock<std::mutex> lock(this->m_statusMutex);
+            this->m_status = Status::Started;
+            this->m_statusCV.wait(lock, [this]() {
+                return Status::Stopped != this->m_status;
+            });
             return 0;
         }
 
-        void Node::stop() {
+        int Node::stop() {
+            {
+                std::unique_lock<std::mutex> lock(this->m_statusMutex);
+                if (Status::Started != this->m_status) {
+                    return -1;
+                }
+                this->m_status = Status::Stopping;
+            }
 
+            this->mClusterModulePtr->stop();
+            this->mSessionModulePtr->stop();
+            this->mAuthenticationModulePtr->stop();
+            this->mOnlineStateModulePtr->stop();
+            this->mMessageSendServiceModulePtr->stop();
+            this->mOfflineModulePtr->stop();
+            this->mRosterModulePtr->stop();
+            this->mSingleChatModulePtr->stop();
+            this->mGroupChatModulePtr->stop();
+            this->mMessageCenterModulePtr->stop();
+
+
+            std::unique_lock<std::mutex> lock(this->m_statusMutex);
+            this->m_status = Status::Stopped;
+            this->m_statusCV.notify_all();
+            return 0;
         }
     }
 }

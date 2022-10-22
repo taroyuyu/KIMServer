@@ -60,9 +60,9 @@ namespace kakaIM {
 
             ~Node();
 
-            int start();
+            int run();
 
-            void stop();
+            int stop();
 
             bool init(int argc, char *argv[]);
 
@@ -112,6 +112,16 @@ namespace kakaIM {
              */
             std::shared_ptr<GroupChatModule> mGroupChatModulePtr;
             sem_t *m_task_semaphore;
+
+            enum class Status : int {
+                Stopped,
+                Starting,
+                Started,
+                Stopping,
+            };
+            std::atomic<Status> m_status;
+            std::mutex m_statusMutex;
+            std::condition_variable m_statusCV;
         };
     }
 }
