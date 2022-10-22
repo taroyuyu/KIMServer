@@ -3,14 +3,11 @@
 //
 
 #include <iostream>
-#include <fcntl.h>
-#include <unistd.h>
 #include <getopt.h>
 #include <arpa/inet.h>
 #include <log4cxx/logger.h>
 #include <log4cxx/basicconfigurator.h>
 #include <Node/Node.h>
-#include <Common/proto/KakaIMMessage.pb.h>
 #include <Node/ClusterModule/ClusterModule.h>
 #include <Common/KakaIMMessageAdapter.h>
 #include <Node/SessionModule/SessionModule.h>
@@ -26,8 +23,7 @@
 
 namespace kakaIM {
     namespace node {
-        Node::Node() :
-                m_task_semaphore(nullptr) {
+        Node::Node(){
         }
 
         bool Node::init(int argc, char *argv[]) {
@@ -314,7 +310,6 @@ namespace kakaIM {
             this->mOfflineModulePtr = std::make_shared<OfflineModule>();
             this->mSingleChatModulePtr = std::make_shared<SingleChatModule>();
             this->mGroupChatModulePtr = std::make_shared<GroupChatModule>();
-            this->m_task_semaphore = sem_open("kimNodeSemaphore", O_CREAT, 0644, 0);
 
             this->mAuthenticationModulePtr->setDBConfig(dbConfig);
 
@@ -431,7 +426,6 @@ namespace kakaIM {
         }
 
         Node::~Node() {
-            sem_close(this->m_task_semaphore);
         }
 
 

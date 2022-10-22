@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_NODE_H
 #define KAKAIMCLUSTER_NODE_H
 
-#include <semaphore.h>
 #include <memory>
 #include <string>
 #include <Node/Service/ConnectionOperationService.h>
@@ -111,7 +110,6 @@ namespace kakaIM {
              * 群聊模块
              */
             std::shared_ptr<GroupChatModule> mGroupChatModulePtr;
-            sem_t *m_task_semaphore;
 
             enum class Status : int {
                 Stopped,
