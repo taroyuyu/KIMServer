@@ -23,6 +23,16 @@
 
 namespace kakaIM {
     namespace node {
+
+        void terminateHandler(){
+            Node::sharedNode()->stop();
+        }
+
+        std::shared_ptr<Node> Node::sharedNode(){
+            static std::shared_ptr<Node> globalNode = std::shared_ptr<Node>(new Node());
+            return globalNode;
+        }
+
         Node::Node(){
         }
 
@@ -422,6 +432,9 @@ namespace kakaIM {
                 std::cout << "Node::" << __FUNCTION__ << "消息中心模块初始化失败" << std::endl;
                 return false;
             }
+
+            std::set_terminate(terminateHandler);
+
             return true;
         }
 

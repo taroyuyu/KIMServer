@@ -55,7 +55,7 @@ namespace kakaIM {
 
         class Node {
         public:
-            Node();
+            static std::shared_ptr<Node> sharedNode();
 
             ~Node();
 
@@ -70,6 +70,7 @@ namespace kakaIM {
             }
 
         private:
+            Node();
             /**
              * 集群模块
              */

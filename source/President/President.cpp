@@ -17,6 +17,15 @@
 
 namespace kakaIM {
     namespace president {
+
+        void terminateHandler(){
+            President::sharedPresident()->stop();
+        }
+
+        std::shared_ptr<President> President::sharedPresident(){
+            static std::shared_ptr<President> globalPresident = std::shared_ptr<President>(new President());
+            return globalPresident;
+        }
         President::President() {
         }
 
@@ -183,6 +192,9 @@ namespace kakaIM {
                 std::cerr << "President::" << __FUNCTION__ << "消息中心模块初始化失败" << std::endl;
                 return false;
             }
+
+            std::set_terminate(terminateHandler);
+
             return true;
         }
 

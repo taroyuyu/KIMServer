@@ -5,7 +5,6 @@
 #ifndef KAKAIMCLUSTER_PRESIDENT_H
 #define KAKAIMCLUSTER_PRESIDENT_H
 
-#include <semaphore.h>
 #include <memory>
 #include <President//Service/ConnectionOperationService.h>
 #include <Common/Net/MessageCenterModule/MessageCenterModule.h>
@@ -43,8 +42,7 @@ namespace kakaIM {
 
         class President {
         public:
-            President();
-
+            static std::shared_ptr<President> sharedPresident();
             ~President();
 
             bool init(int argc, char *argv[]);
@@ -69,6 +67,7 @@ namespace kakaIM {
             }
 
         private:
+            President();
             std::shared_ptr<MessageCenterModule> mMessageCenterModulePtr;
             std::shared_ptr<ClusterManagerModule> mClusterManagerModulePtr;
             std::shared_ptr<ServerRelayModule> mServerRelayModulePtr;

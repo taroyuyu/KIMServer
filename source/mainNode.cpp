@@ -4,9 +4,9 @@
 #include <Node/Node.h>
 int main(int argc,char * argv[])
 {
-    kakaIM::node::Node node;
-    if(node.init(argc,argv)){
-        return node.run();
+    auto node = kakaIM::node::Node::sharedNode();
+    if(node->init(argc,argv)){
+        return node->run();
     }else{
         return -1;
     }
