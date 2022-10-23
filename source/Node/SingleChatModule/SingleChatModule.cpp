@@ -11,67 +11,51 @@
 namespace kakaIM {
     namespace node {
         SingleChatModule::SingleChatModule() : KIMNodeModule(SingleChatModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::Node::ChatMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::ChatMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleChatMessage(*(kakaIM::Node::ChatMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatRequestMessage(*(kakaIM::Node::VideoChatRequestMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatRequestCancelMessage(*(kakaIM::Node::VideoChatRequestCancelMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatReplyMessage(*(kakaIM::Node::VideoChatReplyMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatOfferMessage(*(kakaIM::Node::VideoChatOfferMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatAnswerMessage(*(kakaIM::Node::VideoChatAnswerMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatNegotiationResultMessage(*(kakaIM::Node::VideoChatNegotiationResultMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatCandidateAddressMessage(*(kakaIM::Node::VideoChatCandidateAddressMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleVideoChatByeMessage(
+                        *(kakaIM::Node::VideoChatByeMessage *) message.get(),
+                        connectionIdentifier);
+            };
         }
 
-        const std::unordered_set<std::string> & SingleChatModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> SingleChatModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
 
         void SingleChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
-            auto messageType = task.first->GetTypeName();
-            if (messageType == kakaIM::Node::ChatMessage::default_instance().GetTypeName()) {
-                handleChatMessage(*(kakaIM::Node::ChatMessage *) task.first.get(),
-                                  task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatRequestMessage::default_instance().GetTypeName()) {
-                handleVideoChatRequestMessage(
-                        *(kakaIM::Node::VideoChatRequestMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatRequestCancelMessage::default_instance().GetTypeName()) {
-                handleVideoChatRequestCancelMessage(
-                        *(kakaIM::Node::VideoChatRequestCancelMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatReplyMessage::default_instance().GetTypeName()) {
-                handleVideoChatReplyMessage(
-                        *(kakaIM::Node::VideoChatReplyMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatOfferMessage::default_instance().GetTypeName()) {
-                handleVideoChatOfferMessage(
-                        *(kakaIM::Node::VideoChatOfferMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatAnswerMessage::default_instance().GetTypeName()) {
-                handleVideoChatAnswerMessage(
-                        *(kakaIM::Node::VideoChatAnswerMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatNegotiationResultMessage::default_instance().GetTypeName()) {
-                handleVideoChatNegotiationResultMessage(
-                        *(kakaIM::Node::VideoChatNegotiationResultMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatCandidateAddressMessage::default_instance().GetTypeName()) {
-                handleVideoChatCandidateAddressMessage(
-                        *(kakaIM::Node::VideoChatCandidateAddressMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::VideoChatByeMessage::default_instance().GetTypeName()) {
-                handleVideoChatByeMessage(
-                        *(kakaIM::Node::VideoChatByeMessage *) task.first.get(),
-                        task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

@@ -11,12 +11,20 @@
 namespace kakaIM {
     namespace node {
         OfflineModule::OfflineModule() : KIMNodeModule(OfflineModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::Node::PullChatMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::PullChatMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handlePullChatMessage(*(kakaIM::Node::PullChatMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handlePullGroupChatMessage(*(kakaIM::Node::PullGroupChatMessage *) message.get(),connectionIdentifier);
+            };
         }
 
-        const std::unordered_set<std::string> & OfflineModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> OfflineModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
 
         void OfflineModule::execute() {
@@ -52,17 +60,10 @@ namespace kakaIM {
         }
 
         void OfflineModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
-            auto messageType = task.first->GetTypeName();
-            if (messageType ==
-                kakaIM::Node::PullChatMessage::default_instance().GetTypeName()) {
-                this->handlePullChatMessage(
-                        *(kakaIM::Node::PullChatMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::PullGroupChatMessage::default_instance().GetTypeName()) {
-                this->handlePullGroupChatMessage(
-                        *(kakaIM::Node::PullGroupChatMessage *) task.first.get(),
-                        task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

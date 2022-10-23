@@ -39,7 +39,7 @@ namespace kakaIM {
 
             virtual void setDBConfig(const KIMDBConfig &dbConfig);
 
-            virtual const std::unordered_set<std::string> & messageTypes();
+            virtual const std::unordered_set<std::string> messageTypes();
         protected:
             virtual void execute() = 0;
 

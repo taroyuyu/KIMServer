@@ -10,13 +10,19 @@
 namespace kakaIM {
     namespace president {
         ServerRelayModule::ServerRelayModule() : KIMPresidentModule(ServerRelayModuleLogger) {
-            this->mMessageTypeSet.insert(ServerMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[ServerMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleServerMessage(dynamic_cast<ServerMessage&>(*message), connectionIdentifier);
+            };
         }
 
         ServerRelayModule::~ServerRelayModule() {
         }
-        const std::unordered_set<std::string> & ServerRelayModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> ServerRelayModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void ServerRelayModule::execute() {
             {
@@ -51,7 +57,11 @@ namespace kakaIM {
         }
 
         void ServerRelayModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
-            this->handleServerMessage(dynamic_cast<ServerMessage&>(*task.first), task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
+            }
         }
 
         void ServerRelayModule::dispatchClusterEvent(ClusterEvent & event){

@@ -11,6 +11,7 @@
 #include <Node/Events/UserLogoutEvent.h>
 #include <map>
 #include <queue>
+#include <functional>
 
 namespace kakaIM {
     namespace Node{
@@ -35,10 +36,10 @@ namespace kakaIM {
             virtual std::string queryUserAccountWithSession(const std::string &userAccount) override;
 
             virtual std::string queryConnectionWithSession(const std::string &sessionID) override;
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task);
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             void
             handleLoginMessage(const kakaIM::Node::LoginMessage &loginMessage, const std::string connectionIdentifier);

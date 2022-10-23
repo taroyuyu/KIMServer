@@ -6,6 +6,7 @@
 #define KAKAIMCLUSTER_ROSTERMODULE_H
 
 #include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <functional>
 
 namespace kakaIM {
     namespace node {
@@ -17,10 +18,10 @@ namespace kakaIM {
             virtual bool checkFriendRelation(const std::string userA, const std::string userB) override;
 
             virtual std::list<std::string> retriveUserFriendList(const std::string userAccount) override;
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             void
             handleBuildingRelationshipRequestMessage(const kakaIM::Node::BuildingRelationshipRequestMessage &message,

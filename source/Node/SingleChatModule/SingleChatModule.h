@@ -6,16 +6,17 @@
 #define KAKAIMCLUSTER_SINGLECHATMODULE_H
 
 #include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <functional>
 
 namespace kakaIM {
     namespace node {
         class SingleChatModule : public KIMNodeModule {
         public:
             SingleChatModule();
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task);
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             void handleChatMessage(kakaIM::Node::ChatMessage &chatMessage, const std::string connectionIdentifier);
 

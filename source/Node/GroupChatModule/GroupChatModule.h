@@ -6,16 +6,17 @@
 #define KAKAIMCLUSTER_GROUPCHATMODULE_H
 
 #include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <functional>
 
 namespace kakaIM {
     namespace node {
         class GroupChatModule : public KIMNodeModule{
         public:
             GroupChatModule();
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
 
             void handleChatGroupCreateRequestMessage(const kakaIM::Node::ChatGroupCreateRequest &message,

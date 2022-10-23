@@ -48,7 +48,7 @@ namespace kakaIM {
             this->dbConfig = dbConfig;
         }
 
-        const std::unordered_set<std::string> & KIMModule::messageTypes(){
+        const std::unordered_set<std::string> KIMModule::messageTypes(){
             return {};
         }
     }

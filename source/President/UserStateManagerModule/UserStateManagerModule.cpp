@@ -9,14 +9,22 @@
 namespace kakaIM {
     namespace president {
         UserStateManagerModule::UserStateManagerModule() : KIMPresidentModule(UserStateManagerModuleLogger) {
-            this->mMessageTypeSet.insert(UpdateUserOnlineStateMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(UserOnlineStateMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[UpdateUserOnlineStateMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleUpdateUserOnlineStateMessage(*(const UpdateUserOnlineStateMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[UserOnlineStateMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleUserOnlineStateMessage(*(const UserOnlineStateMessage *) message.get(), connectionIdentifier);
+            };
         }
 
         UserStateManagerModule::~UserStateManagerModule() {
         }
-        const std::unordered_set<std::string> & UserStateManagerModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> UserStateManagerModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void UserStateManagerModule::execute() {
             {
@@ -51,17 +59,10 @@ namespace kakaIM {
 
         void UserStateManagerModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
-            std::string messageType = task.first->GetTypeName();
-            if (messageType == UpdateUserOnlineStateMessage::default_instance().GetTypeName()) {
-                this->handleUpdateUserOnlineStateMessage(
-                        *(const UpdateUserOnlineStateMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       UserOnlineStateMessage::default_instance().GetTypeName()) {
-                this->handleUserOnlineStateMessage(
-                        *(const UserOnlineStateMessage *) task.first.get(), task.second);
-            } else {
-
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

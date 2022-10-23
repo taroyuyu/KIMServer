@@ -10,12 +10,20 @@
 namespace kakaIM {
     namespace node {
         MessageSendServiceModule::MessageSendServiceModule() : KIMNodeModule(MessageSenderServiceModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::president::SessionMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert("*");
+            this->mMessageHandlerSet[kakaIM::president::SessionMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleSessionMessage(*((kakaIM::president::SessionMessage *) message.get()));
+            };
+            this->mMessageHandlerSet["*"] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleMessageForSend(connectionIdentifier, *message.get());
+            };
         }
 
-        const std::unordered_set<std::string> & MessageSendServiceModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> MessageSendServiceModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
 
         void MessageSendServiceModule::setClusterService(std::weak_ptr<ClusterService> service) {
@@ -61,13 +69,15 @@ namespace kakaIM {
         }
 
         void MessageSendServiceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> & task){
-            auto messageType = task.first->GetTypeName();
-            if (messageType ==
-                kakaIM::president::SessionMessage::default_instance().GetTypeName()) {
-                this->handleSessionMessage(
-                        *((kakaIM::president::SessionMessage *) task.first.get()));
-            } else {
-                this->handleMessageForSend(task.second, *task.first.get());
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
+            }else{
+                it = this->mMessageHandlerSet.find("*");
+                if (it != this->mMessageHandlerSet.end()){
+                    it->second(std::move(task.first),task.second);
+                }
             }
         }
 

@@ -14,24 +14,29 @@ namespace kakaIM {
     namespace president {
         ClusterManagerModule::ClusterManagerModule(const std::string invitation_code) : KIMPresidentModule(ClusterManagerModuleLogger),invitation_code(
                 invitation_code) {
-            this->mMessageTypeSet.insert(president::RequestJoinClusterMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(president::HeartBeatMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[president::RequestJoinClusterMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleRequestJoinClusterMessage(
+                        *(president::RequestJoinClusterMessage *) message.get(), connectionIdentifier);
+            };
+            this->mMessageHandlerSet[president::HeartBeatMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleHeartBeatMessage(*(president::HeartBeatMessage *) message.get(),connectionIdentifier);
+            };
         }
 
         ClusterManagerModule::~ClusterManagerModule() {
         }
-        const std::unordered_set<std::string> & ClusterManagerModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> ClusterManagerModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void ClusterManagerModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
-            if (task.first->GetTypeName() ==
-                president::RequestJoinClusterMessage::default_instance().GetTypeName()) {
-                this->handleRequestJoinClusterMessage(
-                        *(president::RequestJoinClusterMessage *) task.first.get(), task.second);
-            } else if (task.first->GetTypeName() ==
-                       president::HeartBeatMessage::default_instance().GetTypeName()) {
-                this->handleHeartBeatMessage(*(president::HeartBeatMessage *) task.first.get(),
-                                             task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

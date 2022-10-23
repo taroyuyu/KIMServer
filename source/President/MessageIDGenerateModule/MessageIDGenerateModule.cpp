@@ -19,7 +19,9 @@ namespace kakaIM {
         uint64_t waitNextMs(uint64_t lastStamp);
 
         MessageIDGenerateModule::MessageIDGenerateModule() : KIMPresidentModule(MessageIDGenerateModuleLogger){
-            this->mMessageTypeSet.insert(RequestMessageIDMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[RequestMessageIDMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleRequestMessageIDMessage(dynamic_cast<RequestMessageIDMessage &>(*(message)), connectionIdentifier);
+            };
         }
 
         MessageIDGenerateModule::~MessageIDGenerateModule() {
@@ -27,13 +29,19 @@ namespace kakaIM {
 
         }
 
-        const std::unordered_set<std::string> & MessageIDGenerateModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> MessageIDGenerateModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
 
         void MessageIDGenerateModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
-            if (task.first->GetTypeName() == RequestMessageIDMessage::default_instance().GetTypeName()){
-                this->handleRequestMessageIDMessage(dynamic_cast<RequestMessageIDMessage &>(*(task.first)), task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

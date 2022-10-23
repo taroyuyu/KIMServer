@@ -13,6 +13,7 @@
 #include <President/ClusterManagerModule/ClusterEvent.h>
 #include <Common/Net/MessageCenterModule/ConnectionDelegate.h>
 #include <President/President.h>
+#include <functional>
 
 namespace kakaIM {
     namespace president {
@@ -38,10 +39,10 @@ namespace kakaIM {
             void addEventListener(ClusterEvent::ClusterEventType eventType, std::function<void(ClusterEvent)> callback);
 
             virtual void didCloseConnection(const std::string connectionIdentifier) override;
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             const std::string invitation_code;
 

@@ -15,13 +15,24 @@ namespace kakaIM {
         OnlineStateModule::OnlineStateModule() : KIMNodeModule(OnlineStateModuleLogger),
                                                  userLogoutEventProto(new UserLogoutEvent("", "")),
                                                  nodeSecessionEventProto(new NodeSecessionEvent("")) {
-            this->mMessageTypeSet.insert(kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleOnlineMessage(*(kakaIM::Node::OnlineStateMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleOnlineMessage(*(kakaIM::president::UserOnlineStateMessage *) message.get());
+            };
+            this->mMessageHandlerSet[kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handlePullFriendOnlineStateMessage(*(kakaIM::Node::PullFriendOnlineStateMessage *) message.get(),
+                                                   connectionIdentifier);
+            };
         }
 
-        const std::unordered_set<std::string> & OnlineStateModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> OnlineStateModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void OnlineStateModule::execute() {
             {
@@ -66,18 +77,10 @@ namespace kakaIM {
 
         void OnlineStateModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
-            auto messageType = task.first->GetTypeName();
-            if (messageType ==
-                kakaIM::Node::OnlineStateMessage::default_instance().GetTypeName()) {
-                handleOnlineMessage(*(kakaIM::Node::OnlineStateMessage *) task.first.get(),
-                                    task.second);
-            } else if (messageType ==
-                       kakaIM::president::UserOnlineStateMessage::default_instance().GetTypeName()) {
-                handleOnlineMessage(
-                        *(kakaIM::president::UserOnlineStateMessage *) task.first.get());
-            } else if (messageType == kakaIM::Node::PullFriendOnlineStateMessage::default_instance().GetTypeName()) {
-                handlePullFriendOnlineStateMessage(*(kakaIM::Node::PullFriendOnlineStateMessage *) task.first.get(),
-                                                   task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

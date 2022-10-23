@@ -6,6 +6,7 @@
 #define KAKAIMCLUSTER_MESSAGESENDSERVICEMODULE_H
 
 #include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <functional>
 
 namespace kakaIM {
     namespace node {
@@ -31,11 +32,11 @@ namespace kakaIM {
             didReceivedServerMessageFromCluster(const kakaIM::president::ServerMessage &serverMessage) override;
 
             virtual void setClusterService(std::weak_ptr<ClusterService> service) override;
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void execute() override;
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> &task) override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             ConcurrentLinkedQueue<kakaIM::president::ServerMessage> mServerMessageQueue;
 

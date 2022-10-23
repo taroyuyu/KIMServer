@@ -11,21 +11,29 @@
 namespace kakaIM {
     namespace node {
         AuthenticationModule::AuthenticationModule() : KIMNodeModule(AuthenticationModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::Node::LoginMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::RegisterMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::LoginMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleLoginMessage(*(kakaIM::Node::LoginMessage *) message.get(), connectionIdentifier);
+            };
+
+            this->mMessageHandlerSet[kakaIM::Node::RegisterMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleRegisterMessage(*(kakaIM::Node::RegisterMessage *) message.get(), connectionIdentifier);
+            };
         }
 
-        const std::unordered_set<std::string> & AuthenticationModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> AuthenticationModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
 
         void AuthenticationModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
-            auto messageType = task.first->GetTypeName();
-            if (messageType == kakaIM::Node::LoginMessage::default_instance().GetTypeName()) {
-                handleLoginMessage(*(kakaIM::Node::LoginMessage *) task.first.get(), task.second);
-            } else if (messageType == kakaIM::Node::RegisterMessage::default_instance().GetTypeName()) {
-                handleRegisterMessage(*(kakaIM::Node::RegisterMessage *) task.first.get(), task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

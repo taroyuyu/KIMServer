@@ -15,23 +15,25 @@
 namespace kakaIM {
     namespace node {
         SessionModule::SessionModule() :KIMNodeModule(SessionModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::LogoutMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleSessionIDRequestMessage(*(kakaIM::Node::RequestSessionIDMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::LogoutMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleLogoutMessage(*(kakaIM::Node::LogoutMessage *) message.get(),connectionIdentifier);
+            };
         }
-        const std::unordered_set<std::string> & SessionModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> SessionModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void SessionModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> & task){
-            auto messageType = task.first->GetTypeName();
-            if (messageType ==
-                kakaIM::Node::RequestSessionIDMessage::default_instance().GetTypeName()) {
-                handleSessionIDRequestMessage(
-                        *(kakaIM::Node::RequestSessionIDMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::LogoutMessage::default_instance().GetTypeName()) {
-                handleLogoutMessage(*(kakaIM::Node::LogoutMessage *) task.first.get(),
-                                    task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
         bool SessionModule::doFilter(const ::google::protobuf::Message &message,

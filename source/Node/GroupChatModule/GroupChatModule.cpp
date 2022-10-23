@@ -13,74 +13,52 @@ namespace kakaIM {
     namespace node {
 
         GroupChatModule::GroupChatModule() : KIMNodeModule(GroupChatModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::GroupChatMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleChatGroupCreateRequestMessage(*(kakaIM::Node::ChatGroupCreateRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleChatGroupDisbandRequestMessage(*(kakaIM::Node::ChatGroupDisbandRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleChatGroupJoinRequestMessage(*(kakaIM::Node::ChatGroupJoinRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleChatGroupJoinResponseMessage(*(kakaIM::Node::ChatGroupJoinResponse *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleChatGroupQuitRequestMessage(*(kakaIM::Node::ChatGroupQuitRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleUpdateChatGroupInfoRequestMessage(*(kakaIM::Node::UpdateChatGroupInfoRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleFetchChatGroupInfoRequestMessage(*(kakaIM::Node::FetchChatGroupInfoRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleFetchChatGroupMemberListRequestMessage(*(kakaIM::Node::FetchChatGroupMemberListRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleFetchChatGroupListRequestMessage(*(kakaIM::Node::FetchChatGroupListRequest *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::GroupChatMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleGroupChatMessage(*(kakaIM::Node::GroupChatMessage *) message.get(),connectionIdentifier);
+            };
         }
 
-        const std::unordered_set<std::string> & GroupChatModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> GroupChatModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
 
         void GroupChatModule::dispatchMessage(
                 std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) {
-            if (task.first->GetTypeName() ==
-                kakaIM::Node::ChatGroupCreateRequest::default_instance().GetTypeName()) {
-                this->handleChatGroupCreateRequestMessage(
-                        *(kakaIM::Node::ChatGroupCreateRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::ChatGroupDisbandRequest::default_instance().GetTypeName()) {
-                this->handleChatGroupDisbandRequestMessage(
-                        *(kakaIM::Node::ChatGroupDisbandRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::ChatGroupJoinRequest::default_instance().GetTypeName()) {
-                this->handleChatGroupJoinRequestMessage(
-                        *(kakaIM::Node::ChatGroupJoinRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::ChatGroupJoinResponse::default_instance().GetTypeName()) {
-                this->handleChatGroupJoinResponseMessage(
-                        *(kakaIM::Node::ChatGroupJoinResponse *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::ChatGroupQuitRequest::default_instance().GetTypeName()) {
-                this->handleChatGroupQuitRequestMessage(
-                        *(kakaIM::Node::ChatGroupQuitRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::UpdateChatGroupInfoRequest::default_instance().GetTypeName()) {
-                this->handleUpdateChatGroupInfoRequestMessage(
-                        *(kakaIM::Node::UpdateChatGroupInfoRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::FetchChatGroupInfoRequest::default_instance().GetTypeName()) {
-                this->handleFetchChatGroupInfoRequestMessage(
-                        *(kakaIM::Node::FetchChatGroupInfoRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::FetchChatGroupMemberListRequest::default_instance().GetTypeName()) {
-                this->handleFetchChatGroupMemberListRequestMessage(
-                        *(kakaIM::Node::FetchChatGroupMemberListRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::FetchChatGroupListRequest::default_instance().GetTypeName()) {
-                this->handleFetchChatGroupListRequestMessage(
-                        *(kakaIM::Node::FetchChatGroupListRequest *) task.first.get(),
-                        task.second);
-            } else if (task.first->GetTypeName() ==
-                       kakaIM::Node::GroupChatMessage::default_instance().GetTypeName()) {
-                this->handleGroupChatMessage(
-                        *(kakaIM::Node::GroupChatMessage *) task.first.get(),
-                        task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

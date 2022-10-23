@@ -9,6 +9,7 @@
 #include <map>
 #include <Common/util/Date.h>
 #include <Common/proto/MessageCluster.pb.h>
+#include <functional>
 
 namespace kakaIM {
     namespace president {
@@ -17,10 +18,10 @@ namespace kakaIM {
             MessageIDGenerateModule();
 
             ~MessageIDGenerateModule();
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task) override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
 
             ConcurrentLinkedQueue<std::pair<std::shared_ptr<const RequestMessageIDMessage>, const std::string>> mTaskQueue;

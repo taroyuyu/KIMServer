@@ -7,6 +7,7 @@
 
 #include <queue>
 #include <Node/KIMNodeModule/KIMNodeModule.h>
+#include <functional>
 
 namespace kakaIM {
     namespace node {
@@ -25,11 +26,11 @@ namespace kakaIM {
             virtual void persistGroupChatMessage(const kakaIM::Node::GroupChatMessage &groupChatMessage,
                                                  const uint64_t messageID) override;
 
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void execute() override;
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task)override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             class PersistTask {
             public:

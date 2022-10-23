@@ -9,6 +9,7 @@
 #include <zconf.h>
 #include <Common/proto/MessageCluster.pb.h>
 #include <President/ClusterManagerModule/ClusterEvent.h>
+#include <functional>
 
 namespace kakaIM {
     namespace president {
@@ -26,11 +27,11 @@ namespace kakaIM {
              * @return 服务器ID列表
              */
             std::list<std::string> queryUserLoginServer(std::string userAccount);
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void execute() override;
             virtual void dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task)override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             ConcurrentLinkedQueue<ClusterEvent> mEventQueue;
             void dispatchClusterEvent(ClusterEvent & event);

@@ -10,6 +10,7 @@
 #include <Common/EventBus/EventListener.h>
 #include <Node/Events/UserLogoutEvent.h>
 #include <Node/Events/NodeSecessionEvent.h>
+#include <functional>
 
 namespace kakaIM {
     namespace node {
@@ -38,13 +39,13 @@ namespace kakaIM {
             virtual void didReceivedUserOnlineStateFromCluster(
                     const kakaIM::president::UserOnlineStateMessage &userOnlineStateMessage) override;
 
-            virtual const std::unordered_set<std::string> & messageTypes() override;
+            virtual const std::unordered_set<std::string> messageTypes() override;
         protected:
             virtual void execute() override;
 
             void
             dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> &task) override;
-            std::unordered_set<std::string> mMessageTypeSet;
+            std::unordered_map<std::string,std::function<void(std::unique_ptr<::google::protobuf::Message>, const std::string)>> mMessageHandlerSet;
         private:
             ConcurrentLinkedQueue<std::shared_ptr<const Event>> mEventQueue;
 

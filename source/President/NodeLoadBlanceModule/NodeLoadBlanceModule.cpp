@@ -12,8 +12,14 @@
 namespace kakaIM {
     namespace president {
         NodeLoadBlanceModule::NodeLoadBlanceModule() : KIMPresidentModule(NodeLoadBlanceModuleLogger){
-            this->mMessageTypeSet.insert(NodeLoadInfoMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(RequestNodeMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[NodeLoadInfoMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleNodeLoadInfoMessage(
+                        *(const NodeLoadInfoMessage *) message.get(), connectionIdentifier);
+            };
+            this->mMessageHandlerSet[RequestNodeMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleRequestNodeMessage(*(const RequestNodeMessage *) message.get(),
+                                               connectionIdentifier);
+            };
         }
 
         NodeLoadBlanceModule::~NodeLoadBlanceModule() {
@@ -23,8 +29,12 @@ namespace kakaIM {
             this->mEventQueue.push(event);
         }
 
-        const std::unordered_set<std::string> & NodeLoadBlanceModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> NodeLoadBlanceModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void NodeLoadBlanceModule::execute() {
             {
@@ -58,13 +68,10 @@ namespace kakaIM {
         }
 
         void NodeLoadBlanceModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>, const std::string> & task){
-            std::string messageType = task.first->GetTypeName();
-            if (messageType == NodeLoadInfoMessage::default_instance().GetTypeName()) {
-                this->handleNodeLoadInfoMessage(
-                        *(const NodeLoadInfoMessage *) task.first.get(), task.second);
-            } else if (messageType == RequestNodeMessage::default_instance().GetTypeName()) {
-                this->handleRequestNodeMessage(*(const RequestNodeMessage *) task.first.get(),
-                                               task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 

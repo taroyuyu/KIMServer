@@ -12,47 +12,38 @@
 namespace kakaIM {
     namespace node {
         RosterModule::RosterModule() : KIMNodeModule(RosterModuleLogger){
-            this->mMessageTypeSet.insert(kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName());
-            this->mMessageTypeSet.insert(kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName());
+            this->mMessageHandlerSet[kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleBuildingRelationshipRequestMessage(*(kakaIM::Node::BuildingRelationshipRequestMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleBuildingRelationshipAnswerMessage(*(kakaIM::Node::BuildingRelationshipAnswerMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleDestroyingRelationshipRequestMessage(*(kakaIM::Node::DestroyingRelationshipRequestMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleFriendListRequestMessage(*(kakaIM::Node::FriendListRequestMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleFetchUserVCardMessage(*(kakaIM::Node::FetchUserVCardMessage *) message.get(),connectionIdentifier);
+            };
+            this->mMessageHandlerSet[kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName()] = [this](std::unique_ptr<::google::protobuf::Message> message, const std::string connectionIdentifier){
+                this->handleUpdateUserVCardMessage(*(kakaIM::Node::UpdateUserVCardMessage *) message.get(),connectionIdentifier);
+            };
         }
 
-        const std::unordered_set<std::string> & RosterModule::messageTypes(){
-            return this->mMessageTypeSet;
+        const std::unordered_set<std::string> RosterModule::messageTypes(){
+            std::unordered_set<std::string> messageTypeSet;
+            for(auto & record : this->mMessageHandlerSet){
+                messageTypeSet.insert(record.first);
+            }
+            return messageTypeSet;
         }
         void RosterModule::dispatchMessage(std::pair<std::unique_ptr<::google::protobuf::Message>,const std::string> &task) {
-            auto messageType = task.first->GetTypeName();
-            if (messageType ==
-                kakaIM::Node::BuildingRelationshipRequestMessage::default_instance().GetTypeName()) {
-                handleBuildingRelationshipRequestMessage(
-                        *(kakaIM::Node::BuildingRelationshipRequestMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::BuildingRelationshipAnswerMessage::default_instance().GetTypeName()) {
-                handleBuildingRelationshipAnswerMessage(
-                        *(kakaIM::Node::BuildingRelationshipAnswerMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::DestroyingRelationshipRequestMessage::default_instance().GetTypeName()) {
-                handleDestroyingRelationshipRequestMessage(
-                        *(kakaIM::Node::DestroyingRelationshipRequestMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::FriendListRequestMessage::default_instance().GetTypeName()) {
-                handleFriendListRequestMessage(
-                        *(kakaIM::Node::FriendListRequestMessage *) task.first.get(),
-                        task.second);
-            } else if (messageType ==
-                       kakaIM::Node::FetchUserVCardMessage::default_instance().GetTypeName()) {
-                handleFetchUserVCardMessage(*(kakaIM::Node::FetchUserVCardMessage *) task.first.get(),
-                                            task.second);
-            } else if (messageType ==
-                       kakaIM::Node::UpdateUserVCardMessage::default_instance().GetTypeName()) {
-                handleUpdateUserVCardMessage(*(kakaIM::Node::UpdateUserVCardMessage *) task.first.get(),
-                                             task.second);
+            const auto messageType = task.first->GetTypeName();
+            auto it = this->mMessageHandlerSet.find(messageType);
+            if (it != this->mMessageHandlerSet.end()){
+                it->second(std::move(task.first),task.second);
             }
         }
 
