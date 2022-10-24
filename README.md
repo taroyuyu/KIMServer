@@ -1,7 +1,5 @@
 # KIMServer
-This is a IM Server written By C++
-
-See the [wiki](https://github.com/taroyuyu/KIMServer/wiki) for a deployment tutorial for the project
+KIMServer is an open-source, robust, scalable and extensible Instant Message platform written By C++.
 
 The design of the project can refer to https://juejin.cn/post/7156134985504653349/#heading-45
 
@@ -13,13 +11,9 @@ See [wiki/Database-Schema](https://github.com/taroyuyu/KIMServer/wiki/Database-S
 
 See [wiki/Configuration](https://github.com/taroyuyu/KIMServer/wiki/Configuration) to configure KIMServer instance.
 
-
-
 ## Getting support
 
 * For bugs and feature requests [open an issue](https://github.com/taroyuyu/KIMServer/issues/new/choose).
-
-
 
 ## Helping out
 
@@ -72,3 +66,7 @@ Words 'chat' and 'instant messaging' in Chinese, Russian, Persian and a few othe
 * चैट त्वरित संदेश
 * پیام رسان فوری
 * تراسل فوري
+
+## License
+
+KIMServer is released under MIT License.
