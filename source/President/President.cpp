@@ -218,7 +218,7 @@ namespace kakaIM {
             std::unique_lock<std::mutex> lock(this->m_statusMutex);
             this->m_status = Status::Started;
             this->m_statusCV.wait(lock, [this]() {
-                return Status::Stopped != this->m_status;
+                return Status::Stopped == this->m_status;
             });
             return 0;
         }
