@@ -1,5 +1,5 @@
 # KIMServer
-<img src="docs/logo.svg" height=320>
+<img src="docs/logo.svg" height=320 style="margin: 0 auto">
 
 KIMServer is an open-source, robust, scalable and extensible Instant Message platform written By C++.
 
